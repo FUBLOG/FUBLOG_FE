@@ -1,3 +1,4 @@
+//Bộ set, get của cookie
 import _ from "lodash";
 import { getCookie, setCookie } from "cookies-next";
 import Cookies from "js-cookie";

@@ -1,6 +1,7 @@
-'use client';
+"use client";
 
-import * as S from './styles';
+import { Image } from "antd";
+import * as S from "./styles";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -10,9 +11,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>
-        <S.Container>
-       
-        </S.Container>
+        <S.Container></S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
     </S.LayoutWrapper>

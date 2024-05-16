@@ -6,7 +6,7 @@ import ProviderComponents from "./provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Goal Finder",
+  title: "HaS - Healing and Sharing",
 };
 
 export default function RootLayout({

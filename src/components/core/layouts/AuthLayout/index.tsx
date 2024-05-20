@@ -1,7 +1,9 @@
 "use client";
 
-import Button from "../../common/Button";
 import Image from "next/image";
+
+import Button from "../../common/Button";
+
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";

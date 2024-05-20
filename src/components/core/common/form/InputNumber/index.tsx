@@ -1,9 +1,9 @@
 import { InputNumberProps } from "antd";
 
 import themeColors from "@/style/themes/default/colors";
+import Typography from "../../Typography";
 
 import * as S from "./input-number.styles";
-import Typography from "../../Typography";
 
 interface InputProps extends InputNumberProps {
   label?: string;

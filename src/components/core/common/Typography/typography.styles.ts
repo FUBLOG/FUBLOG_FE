@@ -9,6 +9,7 @@ export const H1 = styled.h1<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -17,18 +18,17 @@ export const H1 = styled.h1<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;
 
 export const H2 = styled.h2<{
@@ -40,6 +40,7 @@ export const H2 = styled.h2<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -48,18 +49,17 @@ export const H2 = styled.h2<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;
 
 export const H3 = styled.h3<{
@@ -71,6 +71,7 @@ export const H3 = styled.h3<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -79,18 +80,17 @@ export const H3 = styled.h3<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;
 
 export const H4 = styled.h4<{
@@ -102,6 +102,7 @@ export const H4 = styled.h4<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -110,18 +111,17 @@ export const H4 = styled.h4<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;
 
 export const H5 = styled.h5<{
@@ -133,6 +133,7 @@ export const H5 = styled.h5<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -141,18 +142,17 @@ export const H5 = styled.h5<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;
 
 export const P = styled.p<{
@@ -164,6 +164,7 @@ export const P = styled.p<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $fontSize?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -172,16 +173,15 @@ export const P = styled.p<{
   font-family: ${(props) => props.$fontFamily};
   font-style: ${(props) => props.$style};
   text-decoration: ${(props) => props.$textDecoration};
-
+  font-size: ${(props) => props.$fontSize};
   ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-
   ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
-    `}
+    `};
 `;

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Flex } from "antd";
 
 import Button from "../../common/Button";
 
@@ -18,8 +19,10 @@ function AuthLayout({ children }: AuthLayoutProps) {
       <S.Header>
         <S.Container>
           <Image src={logo} alt="logo header" />
-          <Button type="default" children={"  Đăng nhập"} />
-          <Button color="red" type="primary" children={"Đăng ký"} />
+          <Flex gap={10}>
+            <Button type="default" children={"Đăng nhập"} />
+            <Button color="red" type="primary" children={"Đăng ký"} />
+          </Flex>
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>

@@ -27,6 +27,7 @@ interface TypographyProps {
   align?: "left" | "right" | "center";
   style?: "normal" | "italic" | "oblique";
   textDecoration?: "none" | "underline";
+  fontSize?: "none" | string;
 }
 
 export default function Typography({
@@ -40,6 +41,7 @@ export default function Typography({
   align = "left",
   style = "normal",
   textDecoration = "none",
+  fontSize = "none",
 }: Readonly<TypographyProps>) {
   let Component;
   switch (variant) {
@@ -79,6 +81,7 @@ export default function Typography({
       $align={align}
       $style={style}
       $textDecoration={textDecoration}
+      $fontSize={fontSize}
     >
       {children}
     </Component>

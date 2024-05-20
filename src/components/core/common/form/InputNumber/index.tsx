@@ -14,7 +14,7 @@ interface InputProps extends InputNumberProps {
 export default function InputNumber({
   label,
   isRequired = false,
-  colorLabel = themeColors.newtral,
+  colorLabel = themeColors.newtralLighter,
   ...rest
 }: InputProps) {
   return (

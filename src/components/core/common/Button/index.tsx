@@ -17,6 +17,9 @@ export interface ButtonPropsInterface extends ButtonProps {
   $isCancel?: boolean;
   $full?: boolean;
   children: React.ReactNode;
+  $darkmode?: boolean;
+  $hoverColor?: string;
+  $hoverBackgroundColor?: string;
 }
 
 const Button = ({ children, ...props }: ButtonPropsInterface) => {

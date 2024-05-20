@@ -60,7 +60,8 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
   &.ant-btn-primary {
     border: none;
     box-shadow: none;
-    color: ${(props) => props?.theme?.colors?.primaryLighter} !important;
+    color: ${(props) =>
+      props.$color || props?.theme?.colors?.primaryLighter} !important;
     background: ${(props) =>
       props.$backgroundColor || props.theme?.colors?.primary} !important;
     border: 1px solid ${(props) => props?.theme?.colors?.primaryLight} !important;
@@ -68,6 +69,7 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
 
   &.ant-btn-primary:hover {
     background-color: ${(props) =>
+      props.$hoverBackgroundColor ||
       props?.theme?.colors?.primaryDark} !important;
   }
 
@@ -95,23 +97,21 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    color: ${({ theme }) => theme?.colors?.primary} !important;
+    color: ${(props) =>
+      props.$color || props?.theme?.colors?.primary} !important;
     font-size: ${(props) => props?.theme?.fontSize?.md};
     font-weight: ${(props) => props?.theme?.fontWeight?.semiBold};
   }
 
-  &.ant-btn-text:hover {
-    /* opacity: 0.7; */
-  }
-
   &.ant-btn-default {
-    color: ${(props) => props?.theme?.colors?.primary};
+    color: ${(props) => props.$color || props?.theme?.colors?.primary};
     border-color: ${(props) => props?.theme?.colors?.primary};
 
     &.ant-btn-background-ghost {
       background-color: ${(props) =>
         props?.theme?.colors?.newtralDark} !important;
-      color: ${(props) => props?.theme?.colors?.newtralLightest} !important;
+      color: ${(props) =>
+        props.$color || props?.theme?.colors?.newtralLightest} !important;
       border: none;
     }
 
@@ -121,23 +121,23 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
     &.ant-btn-background-ghost.hover {
       color: ${(props) => props?.theme?.colors?.newtralLightest} !important;
       box-shadow: none;
-      /* opacity: 0.8; */
     }
   }
 
   &.ant-btn-default:hover {
-    /* opacity: 0.8; */
     box-shadow: none;
-    color: ${(props) => props?.theme?.colors?.primaryDark} !important;
-    border-color: ${(props) => props?.theme?.colors?.primaryDark} !important;
-
+    color: ${(props) =>
+      props.$hoverColor || props?.theme?.colors?.primaryLighter} !important;
+    border-color: ${(props) => props?.theme?.colors?.primaryLighter} !important;
+    background-color: ${(props) =>
+      props.$hoverBackgroundColor || props?.theme?.colors?.primary} !important;
     ${(props) => props?.$isCancel && css``}
   }
 
   &.ant-btn-default:disabled {
-    color: ${({ theme }) => theme?.colors?.secondary} !important;
+    color: ${({ theme }) => theme?.colors?.secondaryLighter} !important;
 
-    border-radius: ${(props) => props?.$borderRadius || "0px"} !important;
-    border-color: ${({ theme }) => theme?.colors?.secondary} !important;
+    border-radius: ${(props) => props?.$borderRadius || "8px"} !important;
+    border-color: ${({ theme }) => theme?.colors?.secondaryLighter} !important;
   }
 `;

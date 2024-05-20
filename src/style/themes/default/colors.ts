@@ -16,9 +16,9 @@ const themeColors = {
    * nearby , so that the work is not monotonous ,
    * this color comes next to the primary color .
    */
-  secondary: "#F5F7FA",
+  secondary: "#FAF0E6",
   secondaryDark: "#D7D7D7",
-  secondaryDarker: "#601E06",
+  secondaryDarker: "#352F44",
   secondaryLight: "#F9B79F",
   secondaryLighter: "#FEEDE7",
 
@@ -42,7 +42,7 @@ const themeColors = {
   newtral: "#352F44",
   newtralLight: "#FAF0E6",
   newtralLighter: "#B9B4C7",
-  newtralLightest: "#fff",
+  newtralLightest: "#FAF0E6",
 
   /**
    * Is asssociated with but not limited to danger conditions
@@ -60,6 +60,11 @@ const themeColors = {
 
   backgroundWhite: "#FAF0E6",
   backgroundGray: "#352F44",
+
+  //darkmode
+
+  darkmodeColor: "#352F44",
+  lightmodeColor: "#FAF0E6",
 };
 
 export default themeColors;

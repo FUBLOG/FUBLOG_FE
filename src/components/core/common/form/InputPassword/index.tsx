@@ -1,7 +1,6 @@
 import { InputProps as InputPropsFromAntd } from "antd";
 
 import themeColors from "@/style/themes/default/colors";
-
 import Typography from "@/components/core/common/Typography";
 
 import * as S from "./input.styles";

@@ -4,11 +4,11 @@ const themeColors = {
    * All interactive elements , such as buttons , link , from elements etc .
    * Use  primary color palette.
    */
-  primaryDarker: '#0F6C19',
-  primaryDark: '#2B8F36',
-  primary: '#4DAA57',
-  primaryLight: '#65C76F',
-  primaryLighter: '#8CE495',
+  primaryDarker: "#1D1D1B",
+  primary: "#5C5470",
+  primaryDark: "#352F44",
+  primaryLight: "#FAF0E6",
+  primaryLighter: "#B9B4C7",
 
   /**
    * The secondary color is as important as the main color ,
@@ -16,52 +16,55 @@ const themeColors = {
    * nearby , so that the work is not monotonous ,
    * this color comes next to the primary color .
    */
-  secondary: '#F5F7FA',
-  secondaryDark: '#D7D7D7',
-  secondaryDarker: '#601E06',
-  secondaryLight: '#F9B79F',
-  secondaryLighter: '#FEEDE7',
+  secondary: "#FAF0E6",
+  secondaryDark: "#D7D7D7",
+  secondaryDarker: "#352F44",
+  secondaryLight: "#F9B79F",
+  secondaryLighter: "#FEEDE7",
 
   /**
    * The tertiary color is as important as the main color ,
    * some parts of the product have several button, icons, link or important actions nearby ,
    * so that the work is not monotonous , this color comes next to the primary color .
    */
-  tertiary: '#6C6C6C',
-  tertiaryDarker: '#1000C9',
-  tertiaryDark: '#58320E',
-  tertiaryLight: '#E3974F',
-  tertiaryLighter: '#F1CBA7',
-  tertiaryLightest: '#FBF2E9',
+  tertiary: "#352F44",
+  tertiaryDarker: "#1D1D1B",
+  tertiaryDark: "#5C5470",
+  tertiaryLight: "#FAF0E6",
+  tertiaryLighter: "#B9B4C7",
+  tertiaryLightest: "#ff4d4f",
 
   /**
    * Neutral colors palette used for body, texts, boxes, etc.
    */
-  newtralDarker: '#131A20',
-  newtralDark: '#394D60',
-  newtral: '#1D1D1B',
-  newtralLight: '#646464',
-  newtralLighter: '#D7D7D7',
-  newtralLightest: '#FFFFFF',
+  newtralDarker: "#1D1D1B",
+  newtralDark: "#5C5470",
+  newtral: "#352F44",
+  newtralLight: "#FAF0E6",
+  newtralLighter: "#B9B4C7",
+  newtralLightest: "#FAF0E6",
 
   /**
    * Is asssociated with but not limited to danger conditions
    */
-  errorDarker: '#a52c2d',
-  errorDark: '#cc3a3c',
-  error: '#ff4d4f',
+  errorDarker: "#a52c2d",
+  errorDark: "#cc3a3c",
+  error: "#ff4d4f",
 
   /**
    * Is asssociated with but not limited to danger conditions
    */
-  successDarker: '#337214',
-  successDark: '#429a17',
-  success: '#52c41a',
+  successDarker: "#337214",
+  successDark: "#429a17",
+  success: "#52c41a",
 
+  backgroundWhite: "#FAF0E6",
+  backgroundGray: "#352F44",
 
-  backgroundWhite: '#fff',
-  backgroundGray: '#F9F9FA',
+  //darkmode
 
+  darkmodeColor: "#352F44",
+  lightmodeColor: "#FAF0E6",
 };
 
 export default themeColors;

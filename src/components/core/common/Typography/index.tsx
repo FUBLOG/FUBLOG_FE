@@ -40,187 +40,47 @@ export default function Typography({
   align = "left",
   style = "normal",
   textDecoration = "none",
-}: TypographyProps) {
+}: Readonly<TypographyProps>) {
+  let Component;
   switch (variant) {
     case "h1":
-      return (
-        <S.H1
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          className={className}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.H1>
-      );
+      Component = S.H1;
+      break;
     case "h2":
-      return (
-        <S.H2
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          className={className}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.H2>
-      );
+      Component = S.H2;
+      break;
     case "h3":
-      return (
-        <S.H3
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          className={className}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.H3>
-      );
+      Component = S.H3;
+      break;
     case "h4":
-      return (
-        <S.H4
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          className={className}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.H4>
-      );
+      Component = S.H4;
+      break;
     case "h5":
-      return (
-        <S.H5
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          className={className}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.H5>
-      );
+      Component = S.H5;
+      break;
     case "body-text-bold":
-      return (
-        <S.P
-          className={`body-text-bold ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
     case "body-text-normal":
-      return (
-        <S.P
-          className={`body-text-normal ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
     case "body-text-small-bold":
-      return (
-        <S.P
-          className={`body-text-small-bold ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
     case "body-text-small-normal":
-      return (
-        <S.P
-          className={`body-text-small-normal ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
     case "caption-normal":
-      return (
-        <S.P
-          className={`caption-normal ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
     case "caption-small":
-      return (
-        <S.P
-          className={`caption-small ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
+      Component = S.P;
+      break;
     default:
-      return (
-        <S.P
-          className={`body-text-normal ${className}`}
-          $color={color}
-          $margin={margin}
-          $padding={padding}
-          $transform={transform}
-          $align={align}
-          $style={style}
-          $textDecoration={textDecoration}
-        >
-          {children}
-        </S.P>
-      );
+      Component = S.P;
   }
+  return (
+    <Component
+      className={className}
+      $color={color}
+      $margin={margin}
+      $padding={padding}
+      $transform={transform}
+      $align={align}
+      $style={style}
+      $textDecoration={textDecoration}
+    >
+      {children}
+    </Component>
+  );
 }

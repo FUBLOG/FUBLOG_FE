@@ -1,9 +1,10 @@
 "use client";
 
 import Button from "../../common/Button";
-import logo from "/public/logo.png";
-import * as S from "./styles";
 import Image from "next/image";
+import logo from "@/public/logo.png";
+
+import * as S from "./styles";
 
 interface AuthLayoutProps {
   children: React.ReactNode;

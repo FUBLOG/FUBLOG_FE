@@ -1,22 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { constants } from '@/settings';
+import { constants } from "@/settings";
 
 const axiosInstance = axios.create({
   baseURL: constants.API_SERVER,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   timeout: 600000,
 });
 
 axiosInstance.interceptors.request.use(
-  function (config) {
+  function (config: any) {
     return config;
   },
-  function (error) {
+  function (error: any) {
     return Promise.reject(error);
-  },
+  }
 );
 
 axiosInstance.interceptors.response.use(
@@ -24,9 +24,9 @@ axiosInstance.interceptors.response.use(
     return response?.data;
   },
   (error: any) => {
-    //implement logic if recieve error
+    //implement logic if receive error
     return Promise.reject(error);
-  },
+  }
 );
 
 export default axiosInstance;

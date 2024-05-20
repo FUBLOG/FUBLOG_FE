@@ -17,7 +17,7 @@ export default function Input({
   isRequired = false,
   colorLabel = themeColors.newtralLighter,
   ...rest
-}: InputProps) {
+}: Readonly<InputProps>) {
   return (
     <S.WrapInput>
       {label && (

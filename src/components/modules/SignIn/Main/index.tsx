@@ -2,8 +2,9 @@
 
 import Title from "antd/es/typography/Title";
 
-import * as S from "./styles";
 import Form from "../Form";
+
+import * as S from "./styles";
 
 function SignIn() {
   return (

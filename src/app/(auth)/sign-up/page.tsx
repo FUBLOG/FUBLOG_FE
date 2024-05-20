@@ -1,11 +1,7 @@
 import SignIn from "@/components/modules/SignIn/Main";
 
 function Page() {
-  return (
-    <>
-      <h1>Đăng Ký</h1>
-    </>
-  );
+  return <SignIn />;
 }
 
 export default Page;

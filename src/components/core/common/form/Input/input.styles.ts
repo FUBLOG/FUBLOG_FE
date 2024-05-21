@@ -10,7 +10,7 @@ export const Input = styled(InputAntd)`
   box-shadow: none !important;
   border-color: none !important;
 
-  border: 1px solid ${(props) => props.theme.colors.primaryDarker};
+  border: 1px solid ${(props) => props.theme.colors.primaryLighter};
 
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   font-size: ${({ theme }) => theme.fontSize.base};
@@ -18,27 +18,30 @@ export const Input = styled(InputAntd)`
   color: ${(props) => props.theme.colors.primaryDarker};
 
   &.ant-input-affix-wrapper-focused {
-    border: 1px solid ${(props) => props.theme.colors.primary} !important;
+    border: 1px solid ${(props) => props.theme.colors.primaryLighter} !important;
   }
 
   &.ant-input-affix-wrapper {
     padding: 12px 16px;
+
+    background-color: #352f44 !important;
 
     span {
       margin-right: 8px;
     }
 
     .ant-input {
+      background-color: #352f44;
       font-weight: ${({ theme }) => theme.fontWeight.regular};
       font-size: ${({ theme }) => theme.fontSize.base};
       line-height: 24px;
-      color: ${(props) => props.theme.colors.primaryDark};
+      color: ${(props) => props.theme.colors.primaryLighter};
 
       &::placeholder {
         font-weight: ${({ theme }) => theme.fontWeight.regular};
         font-size: ${({ theme }) => theme.fontSize.base};
         line-height: 24px;
-        color: ${(props) => props.theme.colors.secondaryDark};
+        color: ${(props) => props.theme.colors.newtralLighter};
       }
 
       &:disabled {
@@ -47,17 +50,17 @@ export const Input = styled(InputAntd)`
         font-weight: ${({ theme }) => theme.fontWeight.regular};
         font-size: ${({ theme }) => theme.fontSize.base};
         line-height: 24px;
-        color: ${(props) => props.theme.colors.newtralLight};
+        color: ${(props) => props.theme.colors.newtral};
       }
     }
   }
 
   &:not(:disabled):hover {
-    border: 1px solid ${(props) => props.theme.colors.primary};
+    border: 1px solid ${(props) => props.theme.colors.primaryLighter};
   }
 
   &:focus {
-    border: 1px solid ${(props) => props.theme.colors.primary} !important;
+    border: 1px solid ${(props) => props.theme.colors.primaryLighter} !important;
   }
 
   &:disabled {

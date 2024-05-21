@@ -19,7 +19,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
       <S.Header>
         <S.Container>
           <Image src={logo} alt="logo header" />
-          <Flex gap={10}>
+          <Flex gap={15} style={{ marginRight: "20px" }}>
             <Button type="default" children={"Đăng nhập"} />
             <Button color="red" type="primary" children={"Đăng ký"} />
           </Flex>

@@ -22,8 +22,6 @@ export const Input = styled(InputAntd)`
   }
 
   &.ant-input-affix-wrapper {
-    border-radius: 8px;
-
     padding: 12px 16px;
 
     span {

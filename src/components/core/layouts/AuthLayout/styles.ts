@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LayoutWrapper = styled.main`
   background-color: ${(props) => props?.theme?.colors?.backgroundGray};
@@ -19,7 +19,6 @@ export const Header = styled.header`
 export const Container = styled.div`
   max-width: 1440px;
 
-  padding: 16px 20px;
   margin: 0 auto;
 
   display: flex;

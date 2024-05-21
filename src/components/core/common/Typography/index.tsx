@@ -27,7 +27,7 @@ interface TypographyProps {
   align?: "left" | "right" | "center";
   style?: "normal" | "italic" | "oblique";
   textDecoration?: "none" | "underline";
-  fontSize?: "none" | string;
+  fontSize?: string;
 }
 
 export default function Typography({

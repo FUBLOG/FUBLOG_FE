@@ -1,15 +1,16 @@
 "use client";
 
-import Title from "antd/es/typography/Title";
-import { PhoneOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Form } from "antd";
+import FormItem from "antd/es/form/FormItem";
 
-import * as S from "./styles";
 import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-import { Form } from "antd";
-import FormItem from "antd/es/form/FormItem";
+
+import * as S from "./styles";
+
 function FormSignIn() {
   return (
     <S.HomeWrapper>

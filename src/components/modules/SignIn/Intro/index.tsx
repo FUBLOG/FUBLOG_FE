@@ -1,10 +1,9 @@
 "use client";
+import Image from "next/image";
 
-import Title from "antd/es/typography/Title";
 import introAu from "@/public/introAu.png";
 
 import * as S from "./styles";
-import Image from "next/image";
 
 function Intro() {
   return (

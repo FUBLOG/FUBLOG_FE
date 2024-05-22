@@ -6,4 +6,7 @@ export const HomeWrapper = styled(Flex)`
 
   flex-direction: column;
   gap: 10px;
+  .ant-btn > span {
+    color: #352f44 !important;
+  }
 `;

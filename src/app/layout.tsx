@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lora } from "next/font/google";
 
 import ProviderComponents from "./provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const lora = Lora({ subsets: ["vietnamese"] });
 
 export const metadata: Metadata = {
   title: "HaS - Healing and Sharing",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={lora.className}>
         <ProviderComponents>{children}</ProviderComponents>
       </body>
     </html>

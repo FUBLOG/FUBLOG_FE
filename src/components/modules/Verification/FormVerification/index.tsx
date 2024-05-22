@@ -1,14 +1,14 @@
 "use client";
 
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 import Input from "@/components/core/common/form/Input";
-import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
+import arrow from "@/public/arrow.png";
 
 import * as S from "./styles";
 import Image from "next/image";
@@ -53,6 +53,24 @@ function FormVerification() {
             label="Gmail"
           />
         </FormItem>
+        <a href="/sign-in">
+          <S.Typography
+            style={{
+              justifyContent: "left",
+              margin: "0px 0px 10px 0px",
+              color: "#B9B4C7",
+            }}
+          >
+            <Button
+              className="ButtonWrapper"
+              type="default"
+              $backgroundColor="#B9B4C7"
+            >
+              <ArrowLeftOutlined style={{ fontSize: "10px" }} />
+            </Button>
+            Quay lại đăng nhập
+          </S.Typography>
+        </a>
         <FormItem
           style={{
             display: "flex",

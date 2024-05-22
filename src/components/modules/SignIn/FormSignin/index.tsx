@@ -31,7 +31,7 @@ function FormSignIn() {
         autoComplete="off"
       >
         <FormItem
-          name="userName"
+          name="mail"
           rules={[{ required: true, message: "Vui lòng nhập gmail" }]}
         >
           <Input
@@ -62,8 +62,6 @@ function FormSignIn() {
           Quên mật khẩu?
         </Typography>
         <FormItem
-          name="email"
-          rules={[{ required: true, message: "Hãy nhập số điện thoại!" }]}
           style={{
             display: "flex",
             alignItems: "center",
@@ -75,6 +73,7 @@ function FormSignIn() {
             type="default"
             $backgroundColor="#FAF0E6"
             $margin="30px 0 0 0"
+            $width={"100px"}
           >
             ĐĂNG NHẬP
           </Button>
@@ -85,7 +84,7 @@ function FormSignIn() {
           fontSize="xx-small"
           align="right"
         >
-          Chưa có tài khoản? <a href="">Đăng ký</a>
+          Chưa có tài khoản? <a href="/sign-up">Đăng ký</a>
         </Typography>
       </Form>
     </S.HomeWrapper>

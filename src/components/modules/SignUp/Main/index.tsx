@@ -1,13 +1,15 @@
 "use client";
 
-import Title from "antd/es/typography/Title";
+import Intro from "../../SignIn/Intro";
+import FormSignUp from "../FormSignup";
 
 import * as S from "./styles";
 
 function SignUp() {
   return (
     <S.HomeWrapper>
-      <Title level={2}>Đăng nhập</Title>
+      <Intro />
+      <FormSignUp />
     </S.HomeWrapper>
   );
 }

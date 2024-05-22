@@ -57,3 +57,7 @@ export const HomeWrapper = styled(Flex)`
     color: #352f44 !important;
   }
 `;
+export const Typography = styled(Flex)`
+  gap: 5px;
+  justify-content: center;
+`;

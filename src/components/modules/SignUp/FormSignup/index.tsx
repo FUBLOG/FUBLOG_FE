@@ -106,8 +106,17 @@ function FormSignUp() {
             fontSize="xx-small"
           >
             Tôi đồng ý với các điều khoản của HaS?{" "}
-            <a href="/sign-up">Điều khoản</a>
           </Typography>
+          <a href="/sign-up">
+            <Typography
+              variant="caption-small"
+              color="#B9B4C7"
+              fontSize="xx-small"
+              textDecoration="underline"
+            >
+              Điều khoản
+            </Typography>
+          </a>
         </Checkbox>
 
         <FormItem
@@ -129,14 +138,26 @@ function FormSignUp() {
             ĐĂNG KÝ
           </Button>
         </FormItem>
-        <Typography
-          variant="body-text-small-normal"
-          color="#B9B4C7"
-          fontSize="xx-small"
-          align="center"
-        >
-          Đã có tài khoản? <a href="/sign-in">Đăng nhập</a>
-        </Typography>
+
+        <S.Typography>
+          <Typography
+            variant="body-text-small-normal"
+            color="#B9B4C7"
+            fontSize="xx-small"
+          >
+            Đã có tài khoản?
+          </Typography>
+          <a href="/sign-in">
+            <Typography
+              variant="caption-small"
+              color="#B9B4C7"
+              fontSize="xx-small"
+              textDecoration="underline"
+            >
+              Đăng nhập
+            </Typography>
+          </a>
+        </S.Typography>
       </Form>
     </S.HomeWrapper>
   );

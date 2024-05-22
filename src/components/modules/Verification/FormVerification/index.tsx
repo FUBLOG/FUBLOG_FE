@@ -8,10 +8,12 @@ import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
+import verImg from "@/public/verified.png";
 
 import * as S from "./styles";
+import Image from "next/image";
 
-function FormSignIn() {
+function FormVerification() {
   return (
     <S.HomeWrapper>
       <Typography
@@ -19,14 +21,24 @@ function FormSignIn() {
         color="#B9B4C7"
         fontSize="x-large"
         align="center"
-        margin="0 0  50px 0"
       >
-        ĐĂNG NHẬP
+        QUÊN MẬT KHẨU
       </Typography>
-
+      <S.Infor>
+        <Image src={verImg} alt="logo verification" />
+        <Typography
+          style="italic"
+          variant="body-text-small-normal"
+          color="#B9B4C7"
+          fontSize="xx-small"
+        >
+          Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một mail
+          để bạn xác thực người dùng.
+        </Typography>
+      </S.Infor>
       <Form
-        name="basic"
         style={{ width: "100%" }}
+        name="basic"
         initialValues={{ remember: true }}
         autoComplete="off"
       >
@@ -42,28 +54,6 @@ function FormSignIn() {
           />
         </FormItem>
         <FormItem
-          name="password"
-          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
-        >
-          <InputPassword
-            placeholder="Nhập mật khẩu"
-            prefix={<LockOutlined />}
-            isRequired
-            label="Mật khẩu"
-          />
-        </FormItem>
-        <a href="/verification">
-          <Typography
-            variant="caption-small"
-            color="#B9B4C7"
-            fontSize="xx-small"
-            align="right"
-            textDecoration="underline"
-          >
-            Quên mật khẩu?
-          </Typography>
-        </a>
-        <FormItem
           style={{
             display: "flex",
             alignItems: "center",
@@ -74,10 +64,9 @@ function FormSignIn() {
             className="ButtonWrapper"
             type="default"
             $backgroundColor="#FAF0E6"
-            $margin="30px 0 0 0"
             $width={"100px"}
           >
-            ĐĂNG NHẬP
+            XÁC THỰC
           </Button>
         </FormItem>
         <S.Typography>
@@ -85,16 +74,14 @@ function FormSignIn() {
             variant="body-text-small-normal"
             color="#B9B4C7"
             fontSize="xx-small"
-            align="right"
           >
-            Chưa có tài khoản?
+            Tạo tài khoản mới?
           </Typography>
           <a href="/sign-up">
             <Typography
               variant="caption-small"
               color="#B9B4C7"
               fontSize="xx-small"
-              align="right"
               textDecoration="underline"
             >
               Đăng ký
@@ -106,4 +93,4 @@ function FormSignIn() {
   );
 }
 
-export default FormSignIn;
+export default FormVerification;

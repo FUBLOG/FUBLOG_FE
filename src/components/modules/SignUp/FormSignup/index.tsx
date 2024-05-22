@@ -76,8 +76,7 @@ function FormSignUp() {
             variant="caption-small"
             color="#B9B4C7"
           >
-            Nhập ngày tháng năm sinh
-            <span style={{ color: "red" }}> *</span>
+            Nhập ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
           </Typography>
 
           <DatePicker
@@ -136,8 +135,7 @@ function FormSignUp() {
           fontSize="xx-small"
           align="center"
         >
-          Đã có tài khoản?
-          <a href="/sign-in"> Đăng nhập</a>
+          Đã có tài khoản? <a href="/sign-in">Đăng nhập</a>
         </Typography>
       </Form>
     </S.HomeWrapper>

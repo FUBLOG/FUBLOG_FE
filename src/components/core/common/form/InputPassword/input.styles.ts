@@ -22,7 +22,7 @@ export const Input = styled(InputAntd.Password)`
   }
 
   &.ant-input-affix-wrapper {
-    padding: 12px 16px;
+    padding: 12px 0px 12px 16px;
 
     background-color: ${(props) =>
       props.theme.colors.secondaryDarker} !important;

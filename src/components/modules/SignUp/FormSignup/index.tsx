@@ -36,7 +36,7 @@ function FormSignUp() {
     <>
       <Modal
         wrapClassName="modalWrap"
-        width={"70%"}
+        width={"60%"}
         open={modalState.visible}
         onCancel={modalState.closeModal}
         footer={null}
@@ -106,20 +106,19 @@ function FormSignUp() {
               label="Email"
             />
           </FormItem>
+          <Typography
+            padding="0 0 8px 0"
+            variant="caption-small"
+            color="#b9b4c7"
+          >
+            Ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
+          </Typography>
           <FormItem
             name="birthday"
             rules={[
               { required: true, message: "Vui lòng nhập ngày tháng năm sinh" },
             ]}
           >
-            <Typography
-              padding="0 0 8px 0"
-              variant="caption-small"
-              color="#B9B4C7"
-            >
-              Nhập ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
-            </Typography>
-
             <DatePicker format="YYYY-MM-DD" placeholder="Nhập ngày" />
           </FormItem>
           <FormItem

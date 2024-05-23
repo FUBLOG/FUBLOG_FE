@@ -9,6 +9,9 @@ export const HomeWrapper = styled(Flex)`
   .ant-btn > span {
     color: #352f44 !important;
   }
+  .ant-btn:hover > span {
+    color: #faf0e6 !important;
+  }
 `;
 
 export const Typography = styled(Flex)`

@@ -19,8 +19,7 @@ export const Header = styled.header`
 export const Container = styled.div`
   max-width: 1440px;
 
-  margin: 0 auto;
-  margin-bottom: 10px;
+  margin: 4px 18px;
 
   display: flex;
   justify-content: space-between;

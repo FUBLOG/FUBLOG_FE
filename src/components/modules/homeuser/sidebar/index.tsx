@@ -5,11 +5,11 @@ import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 
 function Sidebar() {
   const friends = [
-    { name: "Vinh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phuong", image: "/thuphuong.png" },
-    { name: "Van Manh", image: "/vanmanh.png" },
-    { name: "Thanh Thuy", image: "/thanhthuy.png" },
-    { name: "Minh Quan", image: "/minhquan.png" },
+    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
+    { name: "Thu Phương", image: "/thuphuong.png" },
+    { name: "Văn Mạnh", image: "/vanmanh.png" },
+    { name: "Thanh Thủy", image: "/thanhthuy.png" },
+    { name: "Minh Quân", image: "/minhquan.png" },
   ];
 
   return (

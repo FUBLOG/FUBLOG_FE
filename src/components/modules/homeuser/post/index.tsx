@@ -37,17 +37,18 @@ function Post({ user, avatar, content, images, tags, reportHandler }: PostProps)
         )}
         <S.PostFooter>
           
-          <S.Actions>
-            <HeartOutlined />
-            <CommentOutlined />
-          </S.Actions>
-          <S.TagWrapper>
-            {tags.map((tag, index) => (
-              <S.Tag key={index}>
-                <TagOutlined /> {tag}
-              </S.Tag>
-            ))}
-          </S.TagWrapper>
+        <S.Actions style={{ fontSize: '24px' }}>
+       <HeartOutlined />
+      <CommentOutlined />
+      </S.Actions>
+      <S.TagWrapper>
+      {tags.map((tag, index) => (
+     <S.Tag key={index}>
+      <TagOutlined style={{ fontSize: '24px' }} /> {tag}
+    </S.Tag>
+  ))}
+</S.TagWrapper>
+
         </S.PostFooter>
       </Card>
     </S.PostWrapper>

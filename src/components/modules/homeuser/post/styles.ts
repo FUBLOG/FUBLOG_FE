@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PostWrapper = styled.div`
   margin: 20px 0;
-  padding: 20px;
+  padding: 0px;
   background-color: transparent;
   border: 1px solid #ccc;
   border-radius: 8px;

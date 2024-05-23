@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const SidebarWrapper = styled.div`
-  width: 400px;
+  width: 260px;
   background-color: transparent;
   height: 100%;
-  margin-right: 240px;
+  margin-right: 100px;
   margin-left:0px;
  
 `;

@@ -35,8 +35,8 @@ function Main() {
          <Post 
       user="Thanh Thuy" 
       avatar="/thanhthuy.png" 
-      content="Nấu ăn, gặp con gián ..."
-      images={[]}  // Mảng trống nếu không có hình ảnh
+      content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
+      images={[]}  
       tags={["Cuộc sống"]}
       reportHandler={() => console.log('Report post')}
 />

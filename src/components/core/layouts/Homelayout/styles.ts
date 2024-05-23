@@ -27,7 +27,7 @@ export const LogoContainer = styled.div`
 export const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 220px;
+  gap: 160px;
   font-size: 20px;
   color: ${(props) => props?.theme?.colors?.primary};
 `;

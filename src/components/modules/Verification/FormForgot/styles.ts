@@ -20,8 +20,7 @@ export const Typography = styled(Flex)`
 export const Infor = styled(Flex)`
   flex-direction: column;
   align-items: center;
-  gap: 10px;
 
-  max-width: 360px;
+  max-width: 300px;
   line-height: 1.5;
 `;

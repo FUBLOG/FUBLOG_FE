@@ -20,6 +20,7 @@ export const Container = styled.div`
   max-width: 1440px;
 
   margin: 0 auto;
+  margin-bottom: 10px;
 
   display: flex;
   justify-content: space-between;

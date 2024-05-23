@@ -1,19 +1,29 @@
 "use client";
 
-import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
-import { Form } from "antd";
-import FormItem from "antd/es/form/FormItem";
+import { Dispatch, SetStateAction, useState } from "react";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { CountdownProps, Form, Statistic } from "antd";
 
-import Input from "@/components/core/common/form/Input";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
-import arrow from "@/public/arrow.png";
 
 import * as S from "./styles";
 import Image from "next/image";
 
+const { Countdown } = Statistic;
+
 function FormVerification() {
+  const [targetTime, setTargetTime] = useState<number>(Date.now() + 5 * 1000);
+
+  const [finish, setFinish] = useState<boolean>(false);
+  const onFinish = () => {
+    setFinish(true);
+  };
+  const resend = () => {
+    setFinish(false);
+    setTargetTime(Date.now() + 5 * 1000);
+  };
   return (
     <S.HomeWrapper>
       <Typography
@@ -32,81 +42,65 @@ function FormVerification() {
           color="#B9B4C7"
           fontSize="xx-small"
         >
-          Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một mail
-          để bạn xác thực người dùng.
+          Một email xác nhận đã được gửi tới email ****274@gmail.com, vui lòng
+          nhấn kiểm tra hộp thư đến và xác nhận theo hướng dẫn.
         </Typography>
       </S.Infor>
-      <Form
-        style={{ width: "100%" }}
-        name="basic"
-        initialValues={{ remember: true }}
-        autoComplete="off"
+      <Typography
+        style="italic"
+        variant="body-text-small-normal"
+        color="#B9B4C7"
+        fontSize="xx-small"
+        margin="30px 0px 0px 0px"
       >
-        <FormItem
-          name="mail"
-          rules={[{ required: true, message: "Vui lòng nhập gmail" }]}
-        >
-          <Input
-            placeholder="Nhập gmail"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Gmail"
-          />
-        </FormItem>
-        <a href="/sign-in">
-          <S.Typography
-            style={{
-              justifyContent: "left",
-              margin: "0px 0px 10px 0px",
-              color: "#B9B4C7",
-            }}
-          >
-            <Button
-              className="ButtonWrapper"
-              type="default"
-              $backgroundColor="#B9B4C7"
-            >
-              <ArrowLeftOutlined style={{ fontSize: "10px" }} />
-            </Button>
-            Quay lại đăng nhập
-          </S.Typography>
-        </a>
-        <FormItem
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        Không nhận được mail xác nhận?{" "}
+        {finish === true ? <></> : <a className="resend">Gửi lại sau</a>}
+      </Typography>
+      {finish === true ? (
+        <a className="resend" onClick={resend}>
           <Button
             className="ButtonWrapper"
             type="default"
             $backgroundColor="#FAF0E6"
             $width={"100px"}
+            $margin="10px 0px"
           >
-            XÁC THỰC
+            GỬI LẠI
           </Button>
-        </FormItem>
-        <S.Typography>
+        </a>
+      ) : (
+        <Countdown
+          onFinish={onFinish}
+          className="countdown-item"
+          format="mm:ss"
+          value={targetTime}
+        />
+      )}
+      <a href="/verification">
+        <S.Typography
+          style={{
+            justifyContent: "center",
+            margin: "0px 0px 10px 0px",
+            color: "#B9B4C7",
+          }}
+        >
+          <Button
+            className="ButtonWrapper"
+            type="default"
+            $backgroundColor="#B9B4C7"
+          >
+            <ArrowLeftOutlined style={{ fontSize: "10px" }} />
+          </Button>
           <Typography
-            variant="body-text-small-normal"
+            style="italic"
+            variant="body-text-normal"
             color="#B9B4C7"
             fontSize="xx-small"
           >
-            Tạo tài khoản mới?
+            Nhập lại email
           </Typography>
-          <a href="/sign-up">
-            <Typography
-              variant="caption-small"
-              color="#B9B4C7"
-              fontSize="xx-small"
-              textDecoration="underline"
-            >
-              Đăng ký
-            </Typography>
-          </a>
         </S.Typography>
-      </Form>
+      </a>
     </S.HomeWrapper>
   );
 }

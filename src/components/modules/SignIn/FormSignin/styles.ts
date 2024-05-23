@@ -13,5 +13,5 @@ export const HomeWrapper = styled(Flex)`
 
 export const Typography = styled(Flex)`
   gap: 5px;
-  justify-content: flex-end;
+  justify-content: center;
 `;

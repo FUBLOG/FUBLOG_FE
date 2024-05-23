@@ -11,7 +11,7 @@ import Button from "@/components/core/common/Button";
 
 import * as S from "./styles";
 
-function FormSignUp() {
+function FormReset() {
   const onChange: CheckboxProps["onChange"] = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -162,4 +162,4 @@ function FormSignUp() {
   );
 }
 
-export default FormSignUp;
+export default FormReset;

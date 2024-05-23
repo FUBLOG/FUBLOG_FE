@@ -61,3 +61,8 @@ export const Typography = styled(Flex)`
   gap: 5px;
   justify-content: center;
 `;
+export const Modal = styled(Flex)`
+  gap: 30px;
+  justify-content: center;
+  flex-direction: column;
+`;

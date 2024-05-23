@@ -15,8 +15,8 @@ import verImg from "@/public/verified.png";
 import * as S from "./styles";
 
 interface PageProps {
-  status: string;
-  setStatus: Dispatch<SetStateAction<string>>;
+  readonly status: string;
+  readonly setStatus: Dispatch<SetStateAction<string>>;
 }
 
 function FormForgot({ status, setStatus }: PageProps) {

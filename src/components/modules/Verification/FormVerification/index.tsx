@@ -1,8 +1,8 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { CountdownProps, Form, Statistic } from "antd";
+import { Statistic } from "antd";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
@@ -53,8 +53,7 @@ function FormVerification() {
         fontSize="xx-small"
         margin="30px 0px 0px 0px"
       >
-        Không nhận được mail xác nhận?{" "}
-        {finish === true ? <></> : <a className="resend">Gửi lại sau</a>}
+        Không nhận được mail xác nhận? {finish === true ? "" : "Gửi lại sau"}
       </Typography>
       {finish === true ? (
         <a className="resend" onClick={resend}>

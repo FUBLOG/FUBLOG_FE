@@ -2,10 +2,14 @@ import styled from "styled-components";
 
 export const PostWrapper = styled.div`
   margin: 20px 0;
+ 
   padding: 0px;
   background-color: transparent;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  border-radius: 30px;
+  max-width: 700px; /
+  width: 100%; 
+  box-sizing: border-box; 
 `;
 
 export const PostHeader = styled.div`

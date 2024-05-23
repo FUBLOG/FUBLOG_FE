@@ -14,7 +14,7 @@ import Image from "next/image";
 const { Countdown } = Statistic;
 
 function FormVerification() {
-  const [targetTime, setTargetTime] = useState<number>(Date.now() + 5 * 1000);
+  const [targetTime, setTargetTime] = useState<number>(Date.now() + 60 * 1000);
 
   const [finish, setFinish] = useState<boolean>(false);
   const onFinish = () => {
@@ -22,7 +22,7 @@ function FormVerification() {
   };
   const resend = () => {
     setFinish(false);
-    setTargetTime(Date.now() + 5 * 1000);
+    setTargetTime(Date.now() + 60 * 1000);
   };
   return (
     <S.HomeWrapper>
@@ -56,17 +56,16 @@ function FormVerification() {
         Không nhận được mail xác nhận? {finish === true ? "" : "Gửi lại sau"}
       </Typography>
       {finish === true ? (
-        <a className="resend" onClick={resend}>
-          <Button
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
-            $width={"100px"}
-            $margin="10px 0px"
-          >
-            GỬI LẠI
-          </Button>
-        </a>
+        <Button
+          className="ButtonWrapper"
+          type="default"
+          $backgroundColor="#FAF0E6"
+          $width={"100px"}
+          $margin="10px 0px"
+          onClick={resend}
+        >
+          GỬI LẠI
+        </Button>
       ) : (
         <Countdown
           onFinish={onFinish}

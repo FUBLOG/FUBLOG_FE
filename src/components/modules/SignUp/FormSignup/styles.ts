@@ -28,7 +28,7 @@ export const HomeWrapper = styled(Flex)`
 
     background-color: #352f44 !important;
     color: #b9b4c7 !important;
-    border: 1px solid #faf0e6 !important;
+    border: 1px solid #faf0e6;
   }
 
   .ant-picker {

@@ -141,9 +141,10 @@ function FormSignUp() {
             >
               Tôi đồng ý với các điều khoản của HaS?
             </Typography>
-            <a
+            <Button
+              type="link"
               onClick={() => {
-                modalState.openModal();
+                return modalState.openModal();
               }}
             >
               <Typography
@@ -154,7 +155,7 @@ function FormSignUp() {
               >
                 Điều khoản
               </Typography>
-            </a>
+            </Button>
           </Checkbox>
 
           <FormItem

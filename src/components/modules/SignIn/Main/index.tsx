@@ -8,7 +8,7 @@ import * as S from "./styles";
 function SignIn() {
   return (
     <S.HomeWrapper>
-      <Intro />
+   
       <FormSignIn />
     </S.HomeWrapper>
   );

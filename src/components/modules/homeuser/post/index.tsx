@@ -1,0 +1,57 @@
+"use client";
+
+import { Card } from "antd";
+import { HeartOutlined, CommentOutlined, ExclamationCircleOutlined, TagOutlined } from "@ant-design/icons";
+import * as S from "./styles";
+
+interface PostProps {
+  user: string;
+  avatar: string;
+  content: string;
+  images: string[];
+  tags: string[];
+  reportHandler: () => void;
+}
+
+function Post({ user, avatar, content, images, tags, reportHandler }: PostProps) {
+  return (
+    <S.PostWrapper>
+      <Card
+        title={
+          <S.PostHeader>
+            <S.Avatar src={avatar} alt={`${user}'s avatar`} />
+            <S.UserName>{user}</S.UserName>
+          </S.PostHeader>
+        }
+        extra={<ExclamationCircleOutlined onClick={reportHandler} style={{ color: '#fff' }} />}
+        bordered={false}
+        style={{ backgroundColor: "transparent" }}
+      >
+        <S.Content>{content}</S.Content>
+        {images.length > 0 && (
+          <S.ImagesWrapper>
+            {images.map((src, index) => (
+              <img key={index} src={src} alt={`Post Image ${index + 1}`} />
+            ))}
+          </S.ImagesWrapper>
+        )}
+        <S.PostFooter>
+          
+          <S.Actions>
+            <HeartOutlined />
+            <CommentOutlined />
+          </S.Actions>
+          <S.TagWrapper>
+            {tags.map((tag, index) => (
+              <S.Tag key={index}>
+                <TagOutlined /> {tag}
+              </S.Tag>
+            ))}
+          </S.TagWrapper>
+        </S.PostFooter>
+      </Card>
+    </S.PostWrapper>
+  );
+}
+
+export default Post;

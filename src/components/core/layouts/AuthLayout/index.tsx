@@ -5,8 +5,7 @@ import { Flex } from "antd";
 
 import Button from "../../common/Button";
 
-import logo from "@/public/logo.png";
-
+// import logo from "@/public/logo.png"
 import * as S from "./styles";
 
 interface AuthLayoutProps {
@@ -18,7 +17,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
     <S.LayoutWrapper>
       <S.Header>
         <S.Container>
-          <Image src={logo} alt="logo header" />
+          {/* <Image src={logo} alt="logo header" /> */}
           <Flex gap={15} style={{ marginRight: "20px" }}>
             <Button type="default" children={"Đăng nhập"} />
             <Button color="red" type="primary" children={"Đăng ký"} />

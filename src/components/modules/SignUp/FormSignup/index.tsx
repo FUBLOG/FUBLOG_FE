@@ -146,6 +146,7 @@ function FormSignUp() {
               onClick={() => {
                 return modalState.openModal();
               }}
+              $padding="0px !important"
             >
               <Typography
                 variant="caption-small"

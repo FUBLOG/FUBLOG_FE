@@ -23,7 +23,7 @@ function FormReset() {
         fontSize="x-large"
         align="center"
       >
-        ĐĂNG KÝ
+        THAY ĐỔI MẬT KHẨU
       </Typography>
 
       <Form
@@ -33,92 +33,38 @@ function FormReset() {
         autoComplete="off"
       >
         <FormItem
-          name="surname"
-          rules={[{ required: true, message: "Không để trống ô này" }]}
-        >
-          <Input
-            placeholder="Nhập họ"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Họ"
-          />
-        </FormItem>
-        <FormItem
-          name="name"
-          rules={[{ required: true, message: "Không để trống ô này" }]}
-        >
-          <Input
-            placeholder="Nhập tên"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Tên"
-          />
-        </FormItem>
-        <FormItem
-          name="mail"
-          rules={[{ required: true, message: "Vui lòng nhập email" }]}
-        >
-          <Input
-            placeholder="Nhập email"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Email"
-          />
-        </FormItem>
-        <FormItem
-          name="birthday"
-          rules={[
-            { required: true, message: "Vui lòng nhập ngày tháng năm sinh" },
-          ]}
-        >
-          <Typography
-            padding="0 0 8px 0"
-            variant="caption-small"
-            color="#B9B4C7"
-          >
-            Nhập ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
-          </Typography>
-
-          <DatePicker
-            format={{
-              format: "YYYY-MM-DD",
-              type: "mask",
-            }}
-            placeholder="Nhập ngày"
-          />
-        </FormItem>
-        <FormItem
-          name="password"
+          name="old-password"
           rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
         >
           <InputPassword
             placeholder="Nhập mật khẩu"
             prefix={<LockOutlined />}
             isRequired
-            label="Mật khẩu"
+            label="Mật khẩu cũ"
           />
         </FormItem>
-        <Checkbox onChange={onChange}>
-          {" "}
-          <Typography
-            variant="body-text-small-normal"
-            color="#B9B4C7"
-            fontSize="xx-small"
-          >
-            Tôi đồng ý với các điều khoản của HaS?{" "}
-          </Typography>
-          <a href="/sign-up">
-            <Typography
-              variant="caption-small"
-              color="#B9B4C7"
-              fontSize="xx-small"
-              textDecoration="underline"
-            >
-              Điều khoản
-            </Typography>
-          </a>
-        </Checkbox>
-
+        <FormItem
+          name="new-password"
+          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+        >
+          <InputPassword
+            placeholder="Nhập mật khẩu"
+            prefix={<LockOutlined />}
+            isRequired
+            label="Nhập mật khẩu mới"
+          />
+        </FormItem>{" "}
+        <FormItem
+          name="confirm-password"
+          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+        >
+          <InputPassword
+            placeholder="Nhập lại mật khẩu"
+            prefix={<LockOutlined />}
+            isRequired
+            label="Nhập lại mật khẩu mới"
+          />
+        </FormItem>
         <FormItem
           style={{
             display: "flex",
@@ -134,29 +80,9 @@ function FormReset() {
             $margin="30px 0 0 0"
             $width={"100px"}
           >
-            ĐĂNG KÝ
+            LƯU
           </Button>
         </FormItem>
-
-        <S.Typography>
-          <Typography
-            variant="body-text-small-normal"
-            color="#B9B4C7"
-            fontSize="xx-small"
-          >
-            Đã có tài khoản?
-          </Typography>
-          <a href="/sign-in">
-            <Typography
-              variant="caption-small"
-              color="#B9B4C7"
-              fontSize="xx-small"
-              textDecoration="underline"
-            >
-              Đăng nhập
-            </Typography>
-          </a>
-        </S.Typography>
       </Form>
     </S.HomeWrapper>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import HomeGuest from "@/components/core/layouts/Home2Layout";
+import Homelayout from "@/components/core/layouts/Homelayout";
 import Post from "../post";
 import * as S from "./styles";
 
@@ -10,7 +10,7 @@ function MainGuest() {
   };
 
   return (
-    <HomeGuest>
+    <Homelayout>
       <S.MainWrapper>
         <S.PostContainer>
           <S.TagsContainer>
@@ -40,7 +40,7 @@ function MainGuest() {
           />
         </S.PostContainer>
       </S.MainWrapper>
-    </HomeGuest>
+    </Homelayout>
   );
 }
 

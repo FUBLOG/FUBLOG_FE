@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const LayoutWrapper = styled.main`
   background-color: ${(props) => props?.theme?.colors?.backgroundGray};
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const Header = styled.header`
@@ -34,4 +37,13 @@ export const IconContainer = styled.div`
 
 export const Body = styled.div`
   padding-top: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+`;
+export const GuestActions = styled.div`
+  display: flex;
+  gap: 15px;
+  margin-right: 20px;
 `;

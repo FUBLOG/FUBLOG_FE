@@ -15,9 +15,9 @@ function Sidebar() {
   return (
     <S.SidebarWrapper>
       <S.SidebarTitle>Bạn bè</S.SidebarTitle>
-      <div style={{ background: 'transparent'}}>
-        {friends.map((friend, index) => (
-          <S.Friend key={index}>
+      <div style={{ background: 'transparent' }}>
+        {friends.map((friend) => (
+          <S.Friend key={friend.name}>
             <S.FriendImage src={friend.image} alt={friend.name} />
             <S.FriendInfo>
               <S.FriendName>{friend.name}</S.FriendName>

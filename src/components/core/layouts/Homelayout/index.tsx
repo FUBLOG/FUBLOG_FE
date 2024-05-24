@@ -1,21 +1,16 @@
-"use client";
-
 import { ReactNode } from "react";
 import Image from "next/image";
-
-import Button from "../../common/Button";
-
-import { Flex } from "antd";
-import logo from "@/public/logo.png"
 import { HomeOutlined, SearchOutlined, EditOutlined, MessageOutlined, BellOutlined, UserOutlined } from "@ant-design/icons";
 import * as S from "./styles";
+import Button from "../../common/Button";
+import logo from "@/public/logo.png";
 
-interface HomelayoutProps {
+interface LayoutProps {
   children: ReactNode;
-  isGuestPage?: boolean; 
+  isGuestPage?: boolean;
 }
 
-function Homelayout({ children, isGuestPage = true }: HomelayoutProps) {
+function Layout({ children, isGuestPage = true }: Readonly<LayoutProps>) {
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -27,13 +22,10 @@ function Homelayout({ children, isGuestPage = true }: HomelayoutProps) {
           <SearchOutlined />
           <EditOutlined />
           <MessageOutlined />
-          {isGuestPage && ( 
+          {isGuestPage && (
             <S.GuestActions>
-               <Flex gap={15} style={{ marginRight: "20px" }}>
-            <Button type="default" children={"Đăng nhập"} />
-            <Button color="red" type="primary" children={"Đăng ký"} />
-          </Flex>
-              
+              <Button type="default" children={"Đăng nhập"} />
+              <Button color="red" type="primary" children={"Đăng ký"} />
             </S.GuestActions>
           )}
           {!isGuestPage && (
@@ -49,4 +41,4 @@ function Homelayout({ children, isGuestPage = true }: HomelayoutProps) {
   );
 }
 
-export default Homelayout;
+export default Layout;

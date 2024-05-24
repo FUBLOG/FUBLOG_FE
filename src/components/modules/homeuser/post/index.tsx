@@ -13,7 +13,7 @@ interface PostProps {
   reportHandler: () => void;
 }
 
-function Post({ user, avatar, content, images, tags, reportHandler }: PostProps) {
+function Post({ user, avatar, content, images, tags, reportHandler }: Readonly<PostProps>) {
   return (
     <S.PostWrapper>
       <Card
@@ -30,27 +30,25 @@ function Post({ user, avatar, content, images, tags, reportHandler }: PostProps)
         <S.Content>{content}</S.Content>
         {images.length > 0 && (
           <S.ImagesWrapper>
-            {images.map((src, index) => (
-              <img key={index} src={src} alt={`Post Image ${index + 1}`} />
+            {images.map((src) => (
+              <img key={src} src={src} alt={`Post Image`} />
             ))}
           </S.ImagesWrapper>
         )}
         <S.PostFooter>
-          
-        <S.Actions style={{ fontSize: '24px' }}>
-       <HeartOutlined />
-      <CommentOutlined />
-      </S.Actions>
-      <S.TagWrapper>
-      {tags.map((tag, index) => (
-     <S.Tag key={index}>
-      <TagOutlined style={{ fontSize: '24px' }} /> {tag}
-    </S.Tag>
-  ))}
-</S.TagWrapper>
-
+          <S.Actions style={{ fontSize: '24px' }}>
+            <HeartOutlined />
+            <CommentOutlined />
+          </S.Actions>
+          <S.TagWrapper>
+            {tags.map((tag) => (
+              <S.Tag key={tag}>
+                <TagOutlined style={{ fontSize: '24px' }} /> {tag}
+              </S.Tag>
+            ))}
+          </S.TagWrapper>
         </S.PostFooter>
-      </Card>a
+      </Card>
     </S.PostWrapper>
   );
 }

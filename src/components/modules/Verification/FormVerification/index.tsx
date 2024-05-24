@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Statistic } from "antd";
+import Image from "next/image";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
 
 import * as S from "./styles";
-import Image from "next/image";
 
 const { Countdown } = Statistic;
 

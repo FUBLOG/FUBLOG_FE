@@ -5,12 +5,12 @@ import { Checkbox, CheckboxProps, DatePicker, Form, List } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";
 
+import useModal from "@/hooks/useModal";
+
 import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-
-import useModal from "@/hooks/useModal";
 
 import * as S from "./styles";
 

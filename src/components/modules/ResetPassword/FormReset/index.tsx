@@ -1,10 +1,9 @@
 "use client";
 
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, CheckboxProps, DatePicker, Form } from "antd";
+import { LockOutlined } from "@ant-design/icons";
+import { CheckboxProps, Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
-import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
@@ -12,9 +11,6 @@ import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 
 function FormReset() {
-  const onChange: CheckboxProps["onChange"] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
   return (
     <S.HomeWrapper>
       <Typography

@@ -10,7 +10,7 @@ import logo from "@/public/logo.png";
 import * as S from "./styles";
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 function AuthLayout({ children }: AuthLayoutProps) {

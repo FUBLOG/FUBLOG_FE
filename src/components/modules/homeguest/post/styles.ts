@@ -27,7 +27,7 @@ export const Avatar = styled.img`
 
 export const UserName = styled.span`
   font-weight: bold;
-  color: #B9B4C7; /* Đổi màu chữ */
+  color: #B9B4C7; 
 `;
 
 export const Content = styled.p`
@@ -67,7 +67,7 @@ export const Tag = styled.span`
   border: 1px solid #B9B4C7; 
   border-radius: 4px;
   padding: 2px 8px;
-  color: #B9B4C7; 
+  color: #B9B4C7; /* Text color */
   cursor: pointer;
   display: flex;
   align-items: center;

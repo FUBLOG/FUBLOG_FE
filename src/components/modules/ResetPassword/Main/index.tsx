@@ -1,17 +1,17 @@
 "use client";
 
 import Intro from "../../SignIn/Intro";
-import FormSignUp from "../FormSignup";
+import FormReset from "../FormReset";
 
 import * as S from "./styles";
 
-function SignUp() {
+function ResetPassword() {
   return (
     <S.HomeWrapper>
       <Intro />
-      <FormSignUp />
+      <FormReset />
     </S.HomeWrapper>
   );
 }
 
-export default SignUp;
+export default ResetPassword;

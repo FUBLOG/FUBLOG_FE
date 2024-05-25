@@ -1,7 +1,7 @@
-import SignIn from "@/components/modules/SignIn/Main";
+import SignUp from "@/components/modules/SignUp/Main";
 
 function Page() {
-  return <SignIn />;
+  return <SignUp />;
 }
 
 export default Page;

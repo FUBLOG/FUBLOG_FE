@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Form } from "antd";
+import { Checkbox, CheckboxProps, Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 import Input from "@/components/core/common/form/Input";
@@ -12,6 +12,9 @@ import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 
 function FormSignIn() {
+  const onChange: CheckboxProps["onChange"] = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
   return (
     <S.HomeWrapper>
       <Typography
@@ -52,17 +55,31 @@ function FormSignIn() {
             label="Mật khẩu"
           />
         </FormItem>
-        <a href="/verification">
-          <Typography
-            variant="caption-small"
-            color="#B9B4C7"
-            fontSize="xx-small"
-            align="right"
-            textDecoration="underline"
-          >
-            Quên mật khẩu?
-          </Typography>
-        </a>
+        <S.Label>
+          <FormItem style={{ margin: "0px" }}>
+            <Checkbox onChange={onChange}>
+              <Typography
+                variant="body-text-small-normal"
+                color="#B9B4C7"
+                fontSize="xx-small"
+              >
+                Nhớ mật khẩu
+              </Typography>
+            </Checkbox>
+          </FormItem>
+
+          <a href="/verification">
+            <Typography
+              variant="caption-small"
+              color="#B9B4C7"
+              fontSize="xx-small"
+              align="right"
+              textDecoration="underline"
+            >
+              Quên mật khẩu?
+            </Typography>
+          </a>
+        </S.Label>
         <FormItem
           style={{
             display: "flex",

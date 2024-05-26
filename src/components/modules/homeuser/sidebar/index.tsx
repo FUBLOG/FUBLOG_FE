@@ -1,7 +1,6 @@
 "use client";
-
-import * as S from "./styles";
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
+import * as S from "./styles";
 
 function Sidebar() {
   const friends = [
@@ -18,7 +17,9 @@ function Sidebar() {
       <div style={{ background: 'transparent' }}>
         {friends.map((friend) => (
           <S.Friend key={friend.name}>
-            <S.FriendImage src={friend.image} alt={friend.name} />
+            <S.FriendImageContainer>
+              <S.FriendImage src={friend.image} alt={friend.name} />
+            </S.FriendImageContainer>
             <S.FriendInfo>
               <S.FriendName>{friend.name}</S.FriendName>
               <S.FriendStatus>101 bạn bè</S.FriendStatus>

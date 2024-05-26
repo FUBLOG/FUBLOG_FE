@@ -1,7 +1,7 @@
 "use client";
 
-import Homelayout from "@/components/core/layouts/Homelayout";
-import Post from "../post";
+import Homelayout from "@/components/core/layouts/MainLayout";
+import Post from "../Post";
 import * as S from "./styles";
 
 function MainGuest() {

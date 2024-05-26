@@ -25,25 +25,41 @@ export const Header = styled.header`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center; 
+  max-width: 180px; 
+  max-height: 60px;
 `;
 
 export const IconContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 160px;
-  font-size: 20px;
-  color: ${(props) => props?.theme?.colors?.primary};
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin: 0 120px;  
+  gap: 60px;
+`;
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; 
+`;
+
+export const UserIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;  
+`;
+
+export const GuestActions = styled.div`
+  display: flex;
+  gap: 15px;
 `;
 
 export const Body = styled.div`
-  padding-top: 80px;
+  padding-top: 80px; 
   width: 100%;
   display: flex;
   justify-content: center;
   flex: 1;
-`;
-export const GuestActions = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-right: 20px;
 `;

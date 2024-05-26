@@ -43,7 +43,7 @@ function Post({ user, avatar, content, images, tags, reportHandler }: Readonly<P
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-                <TagOutlined style={{ fontSize: '24px' }} /> {tag}
+                <TagOutlined style={{ fontSize: '22px' }} /> {tag}
               </S.Tag>
             ))}
           </S.TagWrapper>

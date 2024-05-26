@@ -2,15 +2,13 @@ import styled from "styled-components";
 
 export const PostWrapper = styled.div`
   margin: 20px 0;
- 
   padding: 0px;
   background-color: transparent;
   border: 1.5px solid #ccc;
   border-radius: 30px;
-  max-width: 700px; /
+  max-width: 700px;
   width: 100%; 
   box-sizing: border-box; 
-  
 `;
 
 export const PostHeader = styled.div`
@@ -32,15 +30,17 @@ export const UserName = styled.span`
 
 export const Content = styled.p`
   color: #B9B4C7; 
-  font-size:18px
+  font-size: 18px;
 `;
 
 export const ImagesWrapper = styled.div`
   display: flex;
+  justify-content: center; 
   gap: 10px;
   img {
     max-width: 100%;
     height: auto;
+    margin: 0 auto;
   }
 `;
 
@@ -64,8 +64,6 @@ export const Actions = styled.div`
 
 export const Tag = styled.span`
   background-color: transparent; 
-  border: 1px solid #B9B4C7; 
-  border-radius: 4px;
   padding: 2px 8px;
   color: #B9B4C7; 
   cursor: pointer;

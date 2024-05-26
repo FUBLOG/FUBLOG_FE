@@ -1,9 +1,10 @@
 "use client";
 
-import Homelayout from "@/components/core/layouts/Homelayout";
-import Sidebar from "../sidebar";
-import Post from "../post";
-import * as S from "./styles";
+import Homelayout from "@/components/core/layouts/MainLayout";
+import Sidebar from "../Sidebar";
+import Post from "../Post";
+import Button from "@/components/core/common/Button";
+import * as S from "./styles"
 
 function Main() {
   const reportHandler = () => {
@@ -16,13 +17,14 @@ function Main() {
         <Sidebar />
         <S.PostContainer>
           <S.TagsContainer>
-            <S.Tag>Tất cả</S.Tag>
-            <S.Tag>Gia đình</S.Tag>
-            <S.Tag>Bạn bè</S.Tag>
-            <S.Tag>Học tập</S.Tag>
-            <S.Tag>Công việc</S.Tag>
-            <S.Tag>Tình cảm</S.Tag>
-            <S.Tag>Khác</S.Tag>
+         
+          <Button type="default" children={"Gia đình"} />
+          <Button type="default" children={"Bạn bè"} />
+          <Button type="default" children={"Học tập"} />
+          <Button type="default" children={"Công việc"} />
+          <Button type="default" children={"Tình cảm"} />
+          <Button type="default" children={"Khác"} />
+          
           </S.TagsContainer>
           <Post
             user="Thanh Thủy"
@@ -32,15 +34,14 @@ function Main() {
             tags={["Học tập"]}
             reportHandler={reportHandler}
           />
-         <Post 
-      user="Thanh Thuy" 
-      avatar="/thanhthuy.png" 
-      content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
-      images={[]}  
-      tags={["Cuộc sống"]}
-      reportHandler={() => console.log('Report post')}
-/>
-
+          <Post 
+            user="Thanh Thuy" 
+            avatar="/thanhthuy.png" 
+            content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
+            images={[]}  
+            tags={["Cuộc sống"]}
+            reportHandler={() => console.log('Report post')}
+          />
         </S.PostContainer>
       </S.MainWrapper>
     </Homelayout>

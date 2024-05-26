@@ -2,7 +2,7 @@
 
 import { Card } from "antd";
 import { HeartOutlined, CommentOutlined, ExclamationCircleOutlined, TagOutlined } from "@ant-design/icons";
-import * as S from "./styles";
+import * as S from "./styles"
 
 interface PostProps {
   user: string;

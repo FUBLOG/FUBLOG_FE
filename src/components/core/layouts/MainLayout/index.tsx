@@ -7,7 +7,7 @@ import {
   MessageOutlined,
   BellOutlined,
   UserOutlined,
-  CaretDownOutlined  // Sử dụng CaretDownOutlined thay vì DownOutlined
+  CaretDownOutlined  
 } from "@ant-design/icons";
 import * as S from "./styles";
 import Button from "../../common/Button";
@@ -18,7 +18,7 @@ interface LayoutProps {
   isGuestPage?: boolean;
 }
 
-function Layout({ children, isGuestPage = true }: LayoutProps) {
+function Layout({ children, isGuestPage = false }: LayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -41,7 +41,7 @@ function Layout({ children, isGuestPage = true }: LayoutProps) {
           ) : (
             <S.UserIconContainer>
               <UserOutlined style={{ fontSize: "28px" }} />
-              <CaretDownOutlined style={{ fontSize: "18px", marginLeft: "4px" }} />  {/* Thay thế bằng CaretDownOutlined */}
+              <CaretDownOutlined style={{ fontSize: "18px", marginLeft: "4px" }} />  {}
             </S.UserIconContainer>
           )}
         </S.ActionsContainer>

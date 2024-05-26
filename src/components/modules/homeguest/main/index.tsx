@@ -2,6 +2,7 @@
 
 import Homelayout from "@/components/core/layouts/MainLayout";
 import Post from "../Post";
+import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 
 function MainGuest() {
@@ -14,13 +15,12 @@ function MainGuest() {
       <S.MainWrapper>
         <S.PostContainer>
           <S.TagsContainer>
-            <S.Tag>Tất cả</S.Tag>
-            <S.Tag>Gia đình</S.Tag>
-            <S.Tag>Bạn bè</S.Tag>
-            <S.Tag>Học tập</S.Tag>
-            <S.Tag>Công việc</S.Tag>
-            <S.Tag>Tình cảm</S.Tag>
-            <S.Tag>Khác</S.Tag>
+          <Button type="default" children={"Gia đình"} />
+          <Button type="default" children={"Bạn bè"} />
+          <Button type="default" children={"Học tập"} />
+          <Button type="default" children={"Công việc"} />
+          <Button type="default" children={"Tình cảm"} />
+          <Button type="default" children={"Khác"} />
           </S.TagsContainer>
           <Post
             user="Thanh Thủy"

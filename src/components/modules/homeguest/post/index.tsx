@@ -2,7 +2,7 @@
 
 import { Card } from "antd";
 import { HeartOutlined, CommentOutlined, ExclamationCircleOutlined, TagOutlined } from "@ant-design/icons";
-import * as S from "./styles"
+import * as S from "./styles";
 
 interface PostProps {
   user: string;
@@ -43,7 +43,7 @@ function Post({ user, avatar, content, images, tags, reportHandler }: Readonly<P
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-                <TagOutlined style={{ fontSize: '24px' }} /> {tag}
+                <TagOutlined style={{ fontSize: '22px' }} /> {tag}
               </S.Tag>
             ))}
           </S.TagWrapper>

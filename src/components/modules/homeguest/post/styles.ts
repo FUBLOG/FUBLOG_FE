@@ -35,12 +35,12 @@ export const Content = styled.p`
 
 export const ImagesWrapper = styled.div`
   display: flex;
-  justify-content: center; /* Căn giữa các hình ảnh */
+  justify-content: center; 
   gap: 10px;
   img {
     max-width: 100%;
     height: auto;
-    margin: 0 auto; /* Căn giữa hình ảnh */
+    margin: 0 auto;
   }
 `;
 

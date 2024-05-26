@@ -18,7 +18,7 @@ interface LayoutProps {
   isGuestPage?: boolean;
 }
 
-function Layout({ children, isGuestPage = false }: LayoutProps) {
+function Layout({ children, isGuestPage = true }: LayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>

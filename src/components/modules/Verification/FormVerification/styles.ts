@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const HomeWrapper = styled(Flex)`
   padding-bottom: 50px;
+  align-items: center;
 
   flex-direction: column;
   gap: 10px;
@@ -19,7 +20,11 @@ export const Typography = styled(Flex)`
   justify-content: center;
   align-items: center;
 `;
-export const Label = styled(Flex)`
-  justify-content: space-between;
+export const Infor = styled(Flex)`
+  flex-direction: column;
   align-items: center;
+  gap: 10px;
+
+  max-width: 360px;
+  line-height: 1.5;
 `;

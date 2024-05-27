@@ -5,7 +5,7 @@ export const HomeWrapper = styled(Flex)`
   padding-bottom: 50px;
 
   flex-direction: column;
-  gap: 10px;
+  gap: 50px;
 
   .date {
     background-color: #352f44;
@@ -28,7 +28,7 @@ export const HomeWrapper = styled(Flex)`
 
     background-color: #352f44 !important;
     color: #b9b4c7 !important;
-    border: 1px solid #faf0e6;
+    border: 1px solid #faf0e6 !important;
   }
 
   .ant-picker {
@@ -63,9 +63,4 @@ export const HomeWrapper = styled(Flex)`
 export const Typography = styled(Flex)`
   gap: 5px;
   justify-content: center;
-`;
-export const Modal = styled(Flex)`
-  gap: 30px;
-  justify-content: center;
-  flex-direction: column;
 `;

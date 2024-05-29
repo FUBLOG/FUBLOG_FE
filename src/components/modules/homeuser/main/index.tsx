@@ -13,9 +13,7 @@ const ImportantButton = styled(Button)`
 `;
 
 function Main() {
-  const reportHandler = () => {
-    alert("Report clicked");
-  };
+ 
 
   return (
     <Homelayout>

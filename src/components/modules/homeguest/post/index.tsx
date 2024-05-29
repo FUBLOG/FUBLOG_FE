@@ -6,8 +6,8 @@ import {
   ExclamationCircleOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-import { Modal, Button } from "antd";
-import styled from "styled-components";
+import { Modal, Button } from 'antd';
+import styled from 'styled-components';
 import * as S from "./styles";
 
 interface PostProps {
@@ -39,6 +39,7 @@ const CustomModal = styled(Modal)`
     background: #352f44;
   }
 `;
+
 function Post({
   user,
   avatar,
@@ -82,7 +83,7 @@ function Post({
           </S.UserInfo>
           <ExclamationCircleOutlined
             onClick={handleReportClick}
-            style={{ color: "#FAF0E6;", cursor: "pointer" }}
+            style={{ color: "#FAF0E6", cursor: "pointer" }}
           />
         </S.PostHeader>
 
@@ -91,8 +92,8 @@ function Post({
         </S.ContentWrapper>
         {images.length > 0 && (
           <S.ImagesWrapper>
-            {images.map((src, index) => (
-              <img key={index} src={src} alt="Post Image" />
+            {images.map((src) => (
+              <img key={src} src={src} alt="Post Image" />
             ))}
           </S.ImagesWrapper>
         )}
@@ -124,7 +125,7 @@ function Post({
         </S.PostFooter>
       </S.CustomCard>
 
-      {/* Confirmation Modal */}
+   
       <CustomModal
         title="Báo cáo bài viết"
         visible={showConfirmModal}
@@ -139,13 +140,10 @@ function Post({
           </Button>,
         ]}
       >
-        <p>
-          Bài viết này vi phạm quy chuẩn cộng đồng, bạn muốn báo cáo lên Quản
-          trị viên?
-        </p>
+        <p>Bài viết này vi phạm quy chuẩn cộng đồng, bạn muốn báo cáo lên Quản trị viên?</p>
       </CustomModal>
 
-      {/* Success Modal */}
+    
       <CustomModal
         title="Báo cáo thành công"
         visible={showSuccessModal}

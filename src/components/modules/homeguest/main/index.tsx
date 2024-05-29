@@ -11,9 +11,7 @@ const ImportantButton = styled(Button)`
 `;
 
 function MainGuest() {
-  const reportHandler = () => {
-    alert("Report clicked");
-  };
+  
 
   return (
     <Homelayout>

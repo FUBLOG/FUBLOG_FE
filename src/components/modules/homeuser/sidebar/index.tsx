@@ -9,6 +9,7 @@ function Sidebar() {
     { name: "Văn Mạnh", image: "/vanmanh.png" },
     { name: "Thanh Thủy", image: "/thanhthuy.png" },
     { name: "Minh Quân", image: "/minhquan.png" },
+    
   ];
 
   return (

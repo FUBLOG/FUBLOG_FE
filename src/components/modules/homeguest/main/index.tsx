@@ -1,26 +1,29 @@
 "use client";
-
+import styled from "styled-components";
 import Homelayout from "@/components/core/layouts/MainLayout";
-import Post from "../Post";
 import Button from "@/components/core/common/Button";
+import Post from "../Post";
 import * as S from "./styles";
 
+const ImportantButton = styled(Button)`
+  background-color: #352f44 !important;
+  color: #faf0e6 !important;
+`;
+
 function MainGuest() {
-  const reportHandler = () => {
-    alert("Report clicked");
-  };
+  
 
   return (
     <Homelayout>
       <S.MainWrapper>
         <S.PostContainer>
           <S.TagsContainer>
-          <Button type="default" children={"Gia đình"} />
-          <Button type="default" children={"Bạn bè"} />
-          <Button type="default" children={"Học tập"} />
-          <Button type="default" children={"Công việc"} />
-          <Button type="default" children={"Tình cảm"} />
-          <Button type="default" children={"Khác"} />
+            <ImportantButton type="default">Gia đình</ImportantButton>
+            <ImportantButton type="default">Bạn bè</ImportantButton>
+            <ImportantButton type="default">Học tập</ImportantButton>
+            <ImportantButton type="default">Công việc</ImportantButton>
+            <ImportantButton type="default">Tình cảm</ImportantButton>
+            <ImportantButton type="default">Khác</ImportantButton>
           </S.TagsContainer>
           <Post
             user="Thanh Thủy"
@@ -28,15 +31,19 @@ function MainGuest() {
             content="Hôm nay tôi học bài nè ..."
             images={["post.png", "post.png"]}
             tags={["Học tập"]}
-            reportHandler={reportHandler}
+           
+            initialLikes={10}
+            initialComments={2}
           />
-          <Post 
-            user="Thanh Thuy" 
-            avatar="/thanhthuy.png" 
+          <Post
+            user="Thanh Thuy"
+            avatar="/thanhthuy.png"
             content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
-            images={[]}  
+            images={[]}
             tags={["Cuộc sống"]}
-            reportHandler={() => console.log('Report post')}
+        
+            initialLikes={10}
+            initialComments={2}
           />
         </S.PostContainer>
       </S.MainWrapper>

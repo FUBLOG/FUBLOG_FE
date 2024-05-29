@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.main`
@@ -11,15 +12,12 @@ export const LayoutWrapper = styled.main`
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
+
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
 `;
 
 export const LogoContainer = styled.div`
@@ -40,9 +38,9 @@ export const IconContainer = styled.div`
 `;
 
 export const ActionsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0; 
+
+
+  
 `;
 
 export const UserIconContainer = styled.div`
@@ -57,9 +55,16 @@ export const GuestActions = styled.div`
 `;
 
 export const Body = styled.div`
-  padding-top: 80px; 
+  padding-top: 30px; 
   width: 100%;
   display: flex;
-  justify-content: center;
+justify-content: center;
   flex: 1;
+`;
+export const Container = styled.div`
+  margin: 4px 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

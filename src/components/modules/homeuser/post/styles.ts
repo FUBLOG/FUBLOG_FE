@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 export const PostWrapper = styled.div`
   margin: 20px 0;
@@ -73,6 +74,7 @@ export const Actions = styled.div`
   gap: 10px;
   color: #B9B4C7;
   font-size: 16px;
+   display: flex;
   align-items: center;  
   padding-left: 40px;  
 `;

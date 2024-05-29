@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import Homelayout from "@/components/core/layouts/MainLayout";
 import Sidebar from "../Sidebar";
-import Post from "../Post";
 import Button from "@/components/core/common/Button";
+import Post from "../Post";
 import * as S from "./styles";
 
 const ImportantButton = styled(Button)`
@@ -37,7 +37,7 @@ function Main() {
               content="Hôm nay tôi học bài nè ..."
               images={["post.png", "post.png"]}
               tags={["Học tập"]}
-              reportHandler={reportHandler}
+           
               initialLikes={10}
               initialComments={2}
             />
@@ -47,7 +47,6 @@ function Main() {
               content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
               images={[]}
               tags={["Cuộc sống"]}
-              reportHandler={() => console.log("Report post")}
               initialLikes={10}
               initialComments={2}
             />

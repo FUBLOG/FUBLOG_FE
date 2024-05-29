@@ -1,14 +1,16 @@
 "use client";
 
-import * as S from "./styles";
 import Banner from "../Banner";
 import Post from "../Post";
 import ListFriend from "../ListFriend";
+
+import * as S from "./styles";
+
 function Profile() {
   return (
     <S.HomeWrapper>
+      <Banner />
       <S.Container>
-        <Banner />
         <S.Main>
           <ListFriend />
           <Post />

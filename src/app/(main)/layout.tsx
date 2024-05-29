@@ -1,7 +1,9 @@
+import AuthLayout from "@/components/core/layouts/AuthLayout";
+
 export default async function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <AuthLayout>{children}</AuthLayout>;
 }

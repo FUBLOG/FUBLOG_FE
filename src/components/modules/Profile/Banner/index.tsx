@@ -1,8 +1,7 @@
-import Image from "next/image";
-import avt from "@/public/profile/bia.jpg";
-import * as S from "./styles";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
+
+import * as S from "./styles";
 
 export default function Banner() {
   return (
@@ -32,13 +31,16 @@ export default function Banner() {
             children={"Bạn bè"}
             $width="100px"
             $backgroundColor="#FAF0E6"
+            color="#352f44"
+            $hoverColor="#faf0e6"
           />
           <Button
             type="default"
             children={"Nhắn tin"}
             $backgroundColor="#FAF0E6"
             $width="100px"
-            $hoverColor="#FAF0E6 !important"
+            color="#352f44"
+            $hoverColor="#faf0e6"
           />
         </S.ButtonUser>
       </S.BannerUser>

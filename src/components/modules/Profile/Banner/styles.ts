@@ -13,7 +13,7 @@ export const HeaderMain = styled(Flex)`
   justify-content: center;
 `;
 export const Wrapper = styled.div`
-  position: absolute;
+  position: relative;
   top: 10px;
 
   width: 74%;
@@ -78,12 +78,4 @@ export const Typography = styled(Flex)`
 export const ButtonUser = styled(Flex)`
   align-items: flex-end;
   gap: 10px;
-  span {
-    color: #352f44 !important;
-  }
-  .ant-btn-default:hover {
-    span {
-      color: #faf0e6 !important;
-    }
-  }
 `;

@@ -2,20 +2,16 @@ import styled from "styled-components";
 
 export const MainWrapper = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 10px;
+  padding-left: 0px;
   justify-content: center;
   margin-top: 20px;
- 
-  
 `;
 
 export const PostContainer = styled.div`
   flex: 1;
   max-width: 800px;
-  align-items: center;
-  width: 100%; 
-  max-width: 800px; 
-  margin: 0 auto; 
+   justify-content: center;'
 `;
 
 export const TagsContainer = styled.div`

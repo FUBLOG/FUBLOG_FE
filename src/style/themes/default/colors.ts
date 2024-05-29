@@ -9,6 +9,7 @@ const themeColors = {
   primaryDark: "#352F44",
   primaryLight: "#FAF0E6",
   primaryLighter: "#B9B4C7",
+  themeForMenu: "#FAF0E6",
 
   /**
    * The secondary color is as important as the main color ,

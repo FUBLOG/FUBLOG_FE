@@ -1,4 +1,4 @@
-import MainGuest from "@/components/modules/homeguest/main";
+import MainGuest from "@/components/modules/homeguest/Main";
 
 function Page() {
   return <MainGuest />;

@@ -1,16 +1,14 @@
 import { Flex, Modal } from "antd";
 import styled from "styled-components";
+
 export const PostWrapper = styled.div`
   box-sizing: border-box;
-
   margin: 20px 0;
   padding: 10px;
   max-width: 700px;
   width: 100%;
-
   border: 1.5px solid #ccc;
   border-radius: 30px;
-
   background-color: transparent;
 `;
 
@@ -33,7 +31,8 @@ export const Avatar = styled.img`
 export const UserName = styled.span`
   font-weight: bold;
   margin-left: 10px;
-  color: #b9b4c7;
+  color: #352f44;
+  font-size: 18px;
 `;
 
 export const ContentWrapper = styled(Flex)`
@@ -41,10 +40,13 @@ export const ContentWrapper = styled(Flex)`
   padding-left: 40px;
 `;
 
-export const Content = styled.p`
+export const PostContent = styled.p`
   color: #b9b4c7;
+  font-size: 14px;
+  line-height: 2;
   margin: 0;
-  padding: 10px 0px;
+  padding: 10px 0;
+  border-left: 2px solid #352f44; 
 `;
 
 export const ImagesWrapper = styled(Flex)`
@@ -68,10 +70,8 @@ export const TagWrapper = styled(Flex)`
 
 export const Actions = styled(Flex)`
   gap: 10px;
-
   color: #b9b4c7;
   font-size: 16px;
-
   align-items: center;
   padding-left: 40px;
 `;
@@ -80,33 +80,40 @@ export const Tag = styled.span`
   background-color: transparent;
   color: #b9b4c7;
   cursor: pointer;
-
   padding: 2px 8px;
   display: flex;
   align-items: center;
-
   gap: 10px;
+`;
+
+export const TagContent = styled.span`
+  color: #b9b4c7;
+  font-size: 14px;
+  line-height: 2;
 `;
 
 export const CustomCard = styled(Flex)`
   flex-direction: column;
-  gap: 10px;
-
+  gap: 5px;
   background-color: transparent;
   border: none;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 0px;
+  border-radius: 30px;
+
 `;
+
 
 export const CustomModal = styled(Modal)`
   .ant-modal-content {
     background-color: #faf0e6 !important;
-    padding: 20px 11px;
+    padding: 0px 0px;
+    border-radius:50px;
+   
+    
   }
   .ant-modal-header {
     background-color: #faf0e6;
   }
-
   .ant-modal-title {
     background-color: #faf0e6;
   }
@@ -125,3 +132,89 @@ export const CustomModal = styled(Modal)`
     background: #faf0e6;
   }
 `;
+
+export const ModalContent = styled.span`
+  color: #b9b4c7;
+  font-size: 14px;
+`;
+
+export const CommentSection = styled(Flex)`
+  flex-direction: column;
+  gap: 0px;
+  margin-top: 5px;
+  background-color: #faf0e6;
+  
+`;
+
+export const Comment = styled(Flex)`
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: transparent; 
+  padding: 10px;
+  gap: 5px;
+`;
+
+export const CommentHeader = styled(Flex)`
+  align-items: center;
+  gap: 10px;
+`;
+
+export const CommentUser = styled.span`
+  font-weight: bold;
+  color: #352f44;
+  font-size: 14px;
+`;
+
+export const CommentContent = styled.span`
+  color: #352f44;
+  font-size: 14px;
+  margin-left:40px;
+`;
+
+export const Divider = styled.div`
+  height: 1px;
+  background-color: #ccc;
+  margin: 10px 0;
+`;
+
+export const CommentBox = styled(Flex)`
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+  align-items: flex-start;
+`;
+
+export const TextArea = styled.textarea`
+  width: 50%;
+  padding: 30px;
+  border-radius: 20px;
+  border: 10px;
+  background-color: #faf0e6; 
+  &::placeholder {
+    color: #5c5470;
+  }
+`;
+export const Stroke = styled.div`
+  width: 2px;
+  height: 30px; 
+  background-color: #ccc;
+  margin-right: 15px;
+  display: inline-block;
+  margin-left:0;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  align-items: center; 
+`;
+
+
+
+
+
+
+
+
+
+
+

@@ -78,10 +78,15 @@ function Home() {
               user="Thanh Thủy"
               avatar="/thanhthuy.png"
               content="Hôm nay tôi học bài nè ..."
-              images={["post.png", "post.png"]}
+              images={["pam.png", "pam.png"]}
               tags={["Học tập"]}
               initialLikes={10}
-              initialComments={2}
+              initialComments={5}
+              initialCommentsData={[
+                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
+                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
+                {id: 1, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+              ]}
             />
             <Post
               user="Thanh Thủy"
@@ -90,7 +95,12 @@ function Home() {
               images={[]}
               tags={["Cuộc sống"]}
               initialLikes={10}
-              initialComments={2}
+              initialComments={5}
+              initialCommentsData={[
+                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
+                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
+                {id: 1, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+              ]}
             />
           </S.PostContainer>
         </S.ContentWrapper>

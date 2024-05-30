@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@/components/core/common/Button";
 import {
   HeartOutlined,
   HeartFilled,
@@ -6,10 +7,15 @@ import {
   ExclamationCircleOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-
 import Typography from "@/components/core/common/Typography";
-
 import * as S from "./styles";
+
+interface Comment {
+  id: number;
+  user: string;
+  avatar: string;
+  content: string;
+}
 
 interface PostProps {
   user: string;
@@ -19,6 +25,7 @@ interface PostProps {
   tags: string[];
   initialLikes: number;
   initialComments: number;
+  initialCommentsData: Comment[];
 }
 
 function Post({
@@ -29,12 +36,17 @@ function Post({
   tags,
   initialLikes,
   initialComments,
+  initialCommentsData = [],
 }: Readonly<PostProps>) {
   const [likes, setLikes] = useState(initialLikes);
-  const [comments] = useState(initialComments);
+  const [comments, setComments] = useState(initialComments);
   const [liked, setLiked] = useState(false);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [commentsData, setCommentsData] = useState(initialCommentsData);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -54,11 +66,33 @@ function Post({
     setShowSuccessModal(false);
   };
 
+  const handleCommentClick = () => {
+    setShowCommentsModal(true);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      const newCommentData = {
+        id: commentsData.length + 1,
+        user: "Jos Phan Ái",
+        avatar: "jos.png", 
+        content: newComment,
+      };
+      setCommentsData([...commentsData, newCommentData]);
+      setComments(comments + 1);
+      setNewComment("");
+    }
+  };
+
+  const handleCloseCommentsModal = () => {
+    setShowCommentsModal(false);
+  };
+
   return (
     <S.PostWrapper>
       <S.CustomCard>
         <S.PostHeader>
-          <S.UserInfo>
+        <S.UserInfo>
             <S.Avatar src={avatar} alt={`${user}'s avatar`} />
             <Typography
               variant="caption-normal"
@@ -75,7 +109,8 @@ function Post({
         </S.PostHeader>
 
         <S.ContentWrapper>
-          <Typography
+        
+        <Typography
             variant="caption-small"
             color="#B9B4C7"
             fontSize="14px"
@@ -106,22 +141,25 @@ function Post({
               />
             )}
             <span>{likes}</span>
-            <CommentOutlined style={{ color: "white" }} />
+            <CommentOutlined
+              style={{ color: "white", cursor: "pointer" }}
+              onClick={handleCommentClick}
+            />
             <span>{comments}</span>
           </S.Actions>
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-                <Typography
-                  variant="caption-small"
-                  color="#B9B4C7"
-                  fontSize="14px"
-                  lineHeight="2"
-                >
-                  <TagOutlined style={{ marginRight: "10px" }} />
-                  {tag}
-                </Typography>
-              </S.Tag>
+              <Typography
+                variant="caption-small"
+                color="#B9B4C7"
+                fontSize="14px"
+                lineHeight="2"
+              >
+                <TagOutlined style={{ marginRight: "10px" }} />
+                {tag}
+              </Typography>
+            </S.Tag>
             ))}
           </S.TagWrapper>
         </S.PostFooter>
@@ -148,9 +186,77 @@ function Post({
         onCancel={handleCloseSuccessModal}
         okText={"Ok"}
       >
-        <Typography variant="caption-small">
+         <Typography variant="caption-small">
           Báo cáo bài viết thành công
         </Typography>
+      </S.CustomModal>
+
+      <S.CustomModal
+        title="Bình luận"
+        open={showCommentsModal}
+        onOk={handleCloseCommentsModal}
+        onCancel={handleCloseCommentsModal}
+        footer={null}
+      >
+        <S.CommentSection>
+          <S.Comment>
+            <S.CommentHeader>
+              <S.Avatar src={avatar} alt={`${user}'s avatar`} />
+              <S.CommentUser>{user}</S.CommentUser>
+            </S.CommentHeader>
+            
+            <S.CommentContent>
+              <S.Content>
+              <S.Stroke/>
+              {content}
+              </S.Content>
+              </S.CommentContent>
+
+             
+             
+        
+          </S.Comment>
+          {commentsData &&
+            commentsData.map((comment) => (
+              <S.Comment key={comment.id}>
+                <S.CommentHeader>
+                  <S.Avatar
+                    src={comment.avatar}
+                    alt={`${comment.user}'s avatar`}
+                  />
+                  <S.CommentUser>{comment.user}</S.CommentUser>
+                </S.CommentHeader>
+                <S.CommentContent>
+               
+                  {comment.content}</S.CommentContent>
+              </S.Comment>
+            ))}
+          <S.Divider />
+          <S.CommentBox>
+            <S.CommentHeader>
+              <S.Avatar src="jos.png" alt="Jos Phan Ái's avatar" />
+              <S.CommentUser>Jos Phan Ái</S.CommentUser>
+            </S.CommentHeader>
+            <S.TextArea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Viết bình luận..."
+            />
+            <Button
+              color="red"
+              type="primary"
+              style={{
+                width: "100px",
+                marginTop: "10px",
+                padding: "5px 10px",
+                border: "none",
+                alignSelf: "flex-end",
+              }}
+            >
+              Đăng
+            </Button>
+          </S.CommentBox>
+        </S.CommentSection>
       </S.CustomModal>
     </S.PostWrapper>
   );

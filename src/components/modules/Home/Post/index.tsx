@@ -74,7 +74,7 @@ function Post({
       const newCommentData = {
         id: commentsData.length + 1,
         user: "Jos Phan Ái",
-        avatar: "jos.png", 
+        avatar: "jos.png",
         content: newComment,
       };
       setCommentsData([...commentsData, newCommentData]);
@@ -91,7 +91,7 @@ function Post({
     <S.PostWrapper>
       <S.CustomCard>
         <S.PostHeader>
-        <S.UserInfo>
+          <S.UserInfo>
             <S.Avatar src={avatar} alt={`${user}'s avatar`} />
             <Typography
               variant="caption-normal"
@@ -108,8 +108,7 @@ function Post({
         </S.PostHeader>
 
         <S.ContentWrapper>
-        
-        <Typography
+          <Typography
             variant="caption-small"
             color="#B9B4C7"
             fontSize="14px"
@@ -149,16 +148,16 @@ function Post({
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-              <Typography
-                variant="caption-small"
-                color="#B9B4C7"
-                fontSize="14px"
-                lineHeight="2"
-              >
-                <TagOutlined style={{ marginRight: "10px" }} />
-                {tag}
-              </Typography>
-            </S.Tag>
+                <Typography
+                  variant="caption-small"
+                  color="#B9B4C7"
+                  fontSize="14px"
+                  lineHeight="2"
+                >
+                  <TagOutlined style={{ marginRight: "10px" }} />
+                  {tag}
+                </Typography>
+              </S.Tag>
             ))}
           </S.TagWrapper>
         </S.PostFooter>
@@ -184,9 +183,7 @@ function Post({
         onOk={handleCloseSuccessModal}
         onCancel={handleCloseSuccessModal}
         okText={"Ok"}
-      >
-        
-      </S.CustomModal>
+      ></S.CustomModal>
 
       <S.CustomModal
         title="Bình luận"
@@ -201,33 +198,26 @@ function Post({
               <S.Avatar src={avatar} alt={`${user}'s avatar`} />
               <S.CommentUser>{user}</S.CommentUser>
             </S.CommentHeader>
-            
+
             <S.CommentContent>
               <S.Content>
-              <S.Stroke/>
-              {content}
+                <S.Stroke />
+                {content}
               </S.Content>
-              </S.CommentContent>
-
-             
-             
-        
+            </S.CommentContent>
           </S.Comment>
-          {commentsData &&
-            commentsData.map((comment) => (
-              <S.Comment key={comment.id}>
-                <S.CommentHeader>
-                  <S.Avatar
-                    src={comment.avatar}
-                    alt={`${comment.user}'s avatar`}
-                  />
-                  <S.CommentUser>{comment.user}</S.CommentUser>
-                </S.CommentHeader>
-                <S.CommentContent>
-               
-                  {comment.content}</S.CommentContent>
-              </S.Comment>
-            ))}
+          {commentsData?.map((comment) => (
+            <S.Comment key={comment.id}>
+              <S.CommentHeader>
+                <S.Avatar
+                  src={comment.avatar}
+                  alt={`${comment.user}'s avatar`}
+                />
+                <S.CommentUser>{comment.user}</S.CommentUser>
+              </S.CommentHeader>
+              <S.CommentContent>{comment.content}</S.CommentContent>
+            </S.Comment>
+          ))}
           <S.Divider />
           <S.CommentBox>
             <S.CommentHeader>
@@ -249,6 +239,7 @@ function Post({
                 border: "none",
                 alignSelf: "flex-end",
               }}
+              onClick={handleAddComment} 
             >
               Đăng
             </Button>

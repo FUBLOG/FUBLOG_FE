@@ -41,7 +41,6 @@ function Post({
   const [likes, setLikes] = useState(initialLikes);
   const [comments, setComments] = useState(initialComments);
   const [liked, setLiked] = useState(false);
-  const [showCommentBox, setShowCommentBox] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [commentsData, setCommentsData] = useState(initialCommentsData);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -186,9 +185,7 @@ function Post({
         onCancel={handleCloseSuccessModal}
         okText={"Ok"}
       >
-         <Typography variant="caption-small">
-          Báo cáo bài viết thành công
-        </Typography>
+        
       </S.CustomModal>
 
       <S.CustomModal

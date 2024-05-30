@@ -9,11 +9,14 @@ import {
   MessageOutlined,
   BellOutlined,
   UserOutlined,
-  CaretDownOutlined  
+  CaretDownOutlined,
 } from "@ant-design/icons";
-import * as S from "./styles";
+
 import Button from "../../common/Button";
+
 import logo from "@/public/logo.png";
+
+import * as S from "./styles";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -49,7 +52,9 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
           ) : (
             <S.UserIconContainer>
               <UserOutlined style={{ fontSize: "28px" }} />
-              <CaretDownOutlined style={{ fontSize: "18px", marginLeft: "4px" }} />
+              <CaretDownOutlined
+                style={{ fontSize: "18px", marginLeft: "4px" }}
+              />
             </S.UserIconContainer>
           )}
         </S.Container>

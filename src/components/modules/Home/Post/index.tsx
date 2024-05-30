@@ -6,9 +6,10 @@ import {
   ExclamationCircleOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-import { Modal, Button } from 'antd';
-import styled from 'styled-components';
 import * as S from "./styles";
+import Button from "@/components/core/common/Button";
+import Modal from "antd/es/modal/Modal";
+import Typography from "@/components/core/common/Typography";
 
 interface PostProps {
   user: string;
@@ -19,26 +20,6 @@ interface PostProps {
   initialLikes: number;
   initialComments: number;
 }
-
-const CustomModal = styled(Modal)`
-  .ant-modal-content {
-    background-color: #faf0e6;
-    padding: 20px 11px;
-  }
-  .ant-modal-header {
-    background-color: #faf0e6;
-  }
-  .ant-modal-footer {
-    background-color: #faf0e6;
-  }
-
-  .ant-modal-title {
-    background-color: #faf0e6;
-  }
-  .ant-btn-primary {
-    background: #352f44;
-  }
-`;
 
 function Post({
   user,
@@ -79,7 +60,13 @@ function Post({
         <S.PostHeader>
           <S.UserInfo>
             <S.Avatar src={avatar} alt={`${user}'s avatar`} />
-            <S.UserName>{user}</S.UserName>
+            <Typography
+              variant="caption-normal"
+              color="#B9B4C7"
+              fontSize="18px"
+            >
+              {user}
+            </Typography>
           </S.UserInfo>
           <ExclamationCircleOutlined
             onClick={handleReportClick}
@@ -88,7 +75,14 @@ function Post({
         </S.PostHeader>
 
         <S.ContentWrapper>
-          <S.Content>{content}</S.Content>
+          <Typography
+            variant="caption-small"
+            color="#B9B4C7"
+            fontSize="14px"
+            lineHeight="2"
+          >
+            {content}
+          </Typography>
         </S.ContentWrapper>
         {images.length > 0 && (
           <S.ImagesWrapper>
@@ -118,45 +112,46 @@ function Post({
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-                <TagOutlined style={{ fontSize: "22px" }} /> {tag}
+                <Typography
+                  variant="caption-small"
+                  color="#B9B4C7"
+                  fontSize="14px"
+                  lineHeight="2"
+                >
+                  <TagOutlined style={{ marginRight: "10px" }} />
+                  {tag}
+                </Typography>
               </S.Tag>
             ))}
           </S.TagWrapper>
         </S.PostFooter>
       </S.CustomCard>
 
-      
-      <CustomModal
+      <S.CustomModal
         title="Báo cáo bài viết"
-        visible={showConfirmModal}
+        open={showConfirmModal}
         onOk={handleConfirmReport}
         onCancel={() => setShowConfirmModal(false)}
-        footer={[
-          <Button key="back" onClick={() => setShowConfirmModal(false)}>
-            Hủy
-          </Button>,
-          <Button key="submit" type="primary" onClick={handleConfirmReport}>
-            Xác nhận
-          </Button>,
-        ]}
+        cancelText={"Hủy"}
+        okText={"Báo cáo"}
       >
-        <p>Bài viết này vi phạm quy chuẩn cộng đồng, bạn muốn báo cáo lên Quản trị viên?</p>
-      </CustomModal>
+        <Typography variant="caption-small">
+          Bài viết này vi phạm quy chuẩn cộng đồng, bạn muốn báo cáo lên Quản
+          trị viên?
+        </Typography>
+      </S.CustomModal>
 
-      
-      <CustomModal
+      <S.CustomModal
         title="Báo cáo thành công"
-        visible={showSuccessModal}
+        open={showSuccessModal}
         onOk={handleCloseSuccessModal}
         onCancel={handleCloseSuccessModal}
-        footer={[
-          <Button key="submit" type="primary" onClick={handleCloseSuccessModal}>
-            Ok
-          </Button>,
-        ]}
+        okText={"Ok"}
       >
-        <p>Báo cáo bài viết thành công</p>
-      </CustomModal>
+        <Typography variant="caption-small">
+          Báo cáo bài viết thành công
+        </Typography>
+      </S.CustomModal>
     </S.PostWrapper>
   );
 }

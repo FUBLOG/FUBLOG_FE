@@ -5,7 +5,8 @@ import { Flex } from "antd";
 
 import Button from "../../common/Button";
 
-import logo from "@/public/logo.png"
+import logo from "@/public/logo.png";
+
 import * as S from "./styles";
 
 interface AuthLayoutProps {

@@ -1,4 +1,4 @@
-
+import { Flex } from "antd";
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.main`
@@ -23,48 +23,39 @@ export const Header = styled.header`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center; 
-  max-width: 180px; 
+  justify-content: center;
+
+  max-width: 180px;
   max-height: 60px;
 `;
 
-export const IconContainer = styled.div`
-  display: flex;
+export const IconContainer = styled(Flex)`
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  margin: 0 120px;  
+
+  margin: 0 120px;
   gap: 60px;
 `;
 
-export const ActionsContainer = styled.div`
-
-
-  
-`;
-
-export const UserIconContainer = styled.div`
-  display: flex;
+export const UserIconContainer = styled(Flex)`
   align-items: center;
-  gap: 4px;  
+  gap: 4px;
 `;
 
-export const GuestActions = styled.div`
-  display: flex;
+export const GuestActions = styled(Flex)`
   gap: 15px;
 `;
 
-export const Body = styled.div`
-  padding-top: 30px; 
+export const Body = styled(Flex)`
+  padding-top: 30px;
   width: 100%;
-  display: flex;
-justify-content: center;
+
   flex: 1;
 `;
-export const Container = styled.div`
+export const Container = styled(Flex)`
   margin: 4px 18px;
 
-  display: flex;
   justify-content: space-between;
   align-items: center;
 `;

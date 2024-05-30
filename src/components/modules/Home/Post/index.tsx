@@ -6,10 +6,10 @@ import {
   ExclamationCircleOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-import * as S from "./styles";
-import Button from "@/components/core/common/Button";
-import Modal from "antd/es/modal/Modal";
+
 import Typography from "@/components/core/common/Typography";
+
+import * as S from "./styles";
 
 interface PostProps {
   user: string;

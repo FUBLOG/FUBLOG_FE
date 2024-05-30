@@ -6,7 +6,7 @@ import Typography from "@/components/core/common/Typography";
 import Image from "next/image";
 
 interface PageProps {
-  isGuest: boolean;
+  readonly isGuest: boolean;
 }
 
 function Sidebar(isGuest: PageProps) {

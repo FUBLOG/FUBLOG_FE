@@ -1,5 +1,4 @@
 "use client";
-import Homelayout from "@/components/core/layouts/MainLayout";
 import Button from "@/components/core/common/Button";
 
 import Sidebar from "../Sidebar";

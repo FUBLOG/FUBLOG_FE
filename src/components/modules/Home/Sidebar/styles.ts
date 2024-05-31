@@ -1,6 +1,5 @@
 import { Flex } from "antd";
 import styled from "styled-components";
-
 export const SidebarWrapper = styled.div`
   width: 250px;
   background-color: transparent;

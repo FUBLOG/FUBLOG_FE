@@ -23,7 +23,7 @@ interface LayoutProps {
   readonly isGuestPage?: boolean;
 }
 
-function MainLayout({ children, isGuestPage = false }: LayoutProps) {
+function MainLayout({ children, isGuestPage = true }: LayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>

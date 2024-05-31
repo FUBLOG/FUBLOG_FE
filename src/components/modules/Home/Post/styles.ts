@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const PostWrapper = styled.div`
   box-sizing: border-box;
   margin: 20px 0;
-  padding: 10px;
+  padding: 24px;
   max-width: 700px;
   width: 100%;
   border: 1.5px solid #ccc;
@@ -46,7 +46,7 @@ export const PostContent = styled.p`
   line-height: 2;
   margin: 0;
   padding: 10px 0;
-  border-left: 2px solid #352f44; 
+  border-left: 2px solid #352f44;
 `;
 
 export const ImagesWrapper = styled(Flex)`
@@ -99,17 +99,13 @@ export const CustomCard = styled(Flex)`
   border: none;
   padding: 0px;
   border-radius: 30px;
-
 `;
-
 
 export const CustomModal = styled(Modal)`
   .ant-modal-content {
     background-color: #faf0e6 !important;
     padding: 0px 0px;
-    border-radius:50px;
-   
-    
+    border-radius: 50px;
   }
   .ant-modal-header {
     background-color: #faf0e6;
@@ -143,13 +139,12 @@ export const CommentSection = styled(Flex)`
   gap: 0px;
   margin-top: 5px;
   background-color: #faf0e6;
-  
 `;
 
 export const Comment = styled(Flex)`
   flex-direction: column;
   align-items: flex-start;
-  background-color: transparent; 
+  background-color: transparent;
   padding: 10px;
   gap: 5px;
 `;
@@ -168,7 +163,7 @@ export const CommentUser = styled.span`
 export const CommentContent = styled.span`
   color: #352f44;
   font-size: 14px;
-  margin-left:40px;
+  margin-left: 40px;
 `;
 
 export const Divider = styled.div`
@@ -201,25 +196,14 @@ export const TextArea = styled.textarea`
 
 export const Stroke = styled.div`
   width: 2px;
-  height: 30px; 
+  height: 30px;
   background-color: #ccc;
   margin-right: 15px;
   display: inline-block;
-  margin-left:0;
+  margin-left: 0;
 `;
 
 export const Content = styled.div`
   display: flex;
-  align-items: center; 
+  align-items: center;
 `;
-
-
-
-
-
-
-
-
-
-
-

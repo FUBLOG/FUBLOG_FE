@@ -7,7 +7,7 @@ import Post from "../Post";
 import * as S from "./styles";
 
 function Home() {
-  const isGuest = false;
+  const isGuest = true;
   return (
     <S.HomeWrapper>
       <Sidebar isGuest={isGuest} />
@@ -83,9 +83,24 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
-                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
-                {id: 1, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+                {
+                  id: 1,
+                  user: "Thu Phương",
+                  avatar: "/thuphuong.png",
+                  content: "giỏi quá c ơi",
+                },
+                {
+                  id: 2,
+                  user: "Vĩnh Trung",
+                  avatar: "./vinhtrung.png",
+                  content: "Cho học với",
+                },
+                {
+                  id: 1,
+                  user: "Văn Mạnh",
+                  avatar: "./vanmanh.png",
+                  content: "Đi ăn kem",
+                },
               ]}
             />
             <Post
@@ -97,9 +112,24 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
-                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
-                {id: 1, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+                {
+                  id: 1,
+                  user: "Thu Phương",
+                  avatar: "/thuphuong.png",
+                  content: "giỏi quá c ơi",
+                },
+                {
+                  id: 2,
+                  user: "Vĩnh Trung",
+                  avatar: "./vinhtrung.png",
+                  content: "Cho học với",
+                },
+                {
+                  id: 1,
+                  user: "Văn Mạnh",
+                  avatar: "./vanmanh.png",
+                  content: "Đi ăn kem",
+                },
               ]}
             />
           </S.PostContainer>

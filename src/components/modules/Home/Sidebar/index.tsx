@@ -1,15 +1,16 @@
 "use client";
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
-
-import * as S from "./styles";
-import Typography from "@/components/core/common/Typography";
 import Image from "next/image";
 
-interface PageProps {
+import Typography from "@/components/core/common/Typography";
+
+import * as S from "./styles";
+
+export interface PageProps {
   readonly isGuest: boolean;
 }
 
-function Sidebar(isGuest: PageProps) {
+function Sidebar(props: PageProps) {
   const friends = [
     { name: "Vĩnh Trung", image: "/vinhtrung.png" },
     { name: "Thu Phương", image: "/thuphuong.png" },
@@ -72,9 +73,10 @@ function Sidebar(isGuest: PageProps) {
     { name: "Thanh Thủy", image: "/thanhthuy.png" },
     { name: "Minh Quân", image: "/minhquan.png" },
   ];
+  console.log(props.isGuest);
 
   return (
-    <S.SidebarWrapper style={{ display: "block" }}>
+    <S.SidebarWrapper style={{ display: props.isGuest ? "none" : "block" }}>
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>

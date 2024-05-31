@@ -185,15 +185,20 @@ export const CommentBox = styled(Flex)`
 `;
 
 export const TextArea = styled.textarea`
-  width: 50%;
-  padding: 30px;
-  border-radius: 20px;
-  border: 10px;
-  background-color: #faf0e6; 
+  width: 100%;
+  max-height: 150px; 
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #faf0e6;
+  overflow-y: auto; 
+  resize: none; 
+  box-sizing: border-box; 
   &::placeholder {
     color: #5c5470;
   }
 `;
+
 export const Stroke = styled.div`
   width: 2px;
   height: 30px; 

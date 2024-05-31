@@ -10,6 +10,7 @@ export const H1 = styled.h1<{
   $style?: string;
   $textDecoration?: string;
   $fontSize?: string;
+  $lineHeight?: string;
 }>`
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
@@ -41,7 +42,9 @@ export const H2 = styled.h2<{
   $style?: string;
   $textDecoration?: string;
   $fontSize?: string;
+  $lineHeight?: string;
 }>`
+  line-height: ${(props) => props.$lineHeight};
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
 
@@ -72,7 +75,9 @@ export const H3 = styled.h3<{
   $style?: string;
   $textDecoration?: string;
   $fontSize?: string;
+  $lineHeight?: string;
 }>`
+  line-height: ${(props) => props.$lineHeight};
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
 
@@ -102,8 +107,10 @@ export const H4 = styled.h4<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $lineHeight?: string;
   $fontSize?: string;
 }>`
+  line-height: ${(props) => props.$lineHeight};
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
 
@@ -133,8 +140,10 @@ export const H5 = styled.h5<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $lineHeight?: string;
   $fontSize?: string;
 }>`
+  line-height: ${(props) => props.$lineHeight};
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
 
@@ -164,8 +173,10 @@ export const P = styled.p<{
   $align?: string;
   $style?: string;
   $textDecoration?: string;
+  $lineHeight?: string;
   $fontSize?: string;
 }>`
+  line-height: ${(props) => props.$lineHeight};
   text-transform: ${(props) => props.$transform};
   text-align: ${(props) => props?.$align};
 

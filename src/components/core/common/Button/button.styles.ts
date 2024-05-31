@@ -103,7 +103,10 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
   }
 
   &.ant-btn-default {
-    color: ${(props) => props.$color || props?.theme?.colors?.primary};
+    span {
+      color: ${(props) =>
+        props.$color || props?.theme?.colors?.primary} !important;
+    }
     border-color: ${(props) => props?.theme?.colors?.primary};
 
     &.ant-btn-background-ghost {
@@ -125,8 +128,10 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
 
   &.ant-btn-default:hover {
     box-shadow: none;
-    color: ${(props) =>
-      props.$hoverColor || props?.theme?.colors?.primaryLighter} !important;
+    span {
+      color: ${(props) =>
+        props.$hoverColor || props?.theme?.colors?.primaryLighter} !important;
+    }
     border-color: ${(props) => props?.theme?.colors?.primaryLighter} !important;
     background-color: ${(props) =>
       props.$hoverBackgroundColor || props?.theme?.colors?.primary} !important;

@@ -30,7 +30,9 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <HomeOutlined style={{ fontSize: "22px" }} />
+            <a href="/home">
+              <HomeOutlined style={{ fontSize: "22px" }} />
+            </a>
             <SearchOutlined style={{ fontSize: "22px" }} />
             <EditOutlined style={{ fontSize: "22px" }} />
             <MessageOutlined style={{ fontSize: "22px" }} />
@@ -51,7 +53,9 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <UserOutlined style={{ fontSize: "28px" }} />
+              <a href="/profile">
+                <UserOutlined style={{ fontSize: "28px" }} />
+              </a>
               <CaretDownOutlined
                 style={{ fontSize: "18px", marginLeft: "4px" }}
               />

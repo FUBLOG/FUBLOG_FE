@@ -34,13 +34,13 @@ export const IconContainer = styled(Flex)`
   align-items: center;
   flex-grow: 1;
 
-  margin: 0 120px;
-  gap: 60px;
+  gap: 120px;
 `;
 
 export const UserIconContainer = styled(Flex)`
   align-items: center;
   gap: 4px;
+  margin-left: 200px;
 `;
 
 export const GuestActions = styled(Flex)`

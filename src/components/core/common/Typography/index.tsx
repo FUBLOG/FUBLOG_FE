@@ -28,6 +28,7 @@ interface TypographyProps {
   style?: "normal" | "italic" | "oblique";
   textDecoration?: "none" | "underline";
   fontSize?: string;
+  lineHeight?: string;
 }
 
 export default function Typography({
@@ -42,6 +43,7 @@ export default function Typography({
   style = "normal",
   textDecoration = "none",
   fontSize = "none",
+  lineHeight,
 }: Readonly<TypographyProps>) {
   let Component;
   switch (variant) {
@@ -82,6 +84,7 @@ export default function Typography({
       $style={style}
       $textDecoration={textDecoration}
       $fontSize={fontSize}
+      $lineHeight={lineHeight}
     >
       {children}
     </Component>

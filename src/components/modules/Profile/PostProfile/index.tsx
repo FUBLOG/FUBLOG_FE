@@ -1,4 +1,3 @@
-import Post from "../../Home/Post";
 import * as S from "./styles";
 
 export default function PostProfile() {

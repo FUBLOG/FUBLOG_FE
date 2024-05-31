@@ -6,8 +6,8 @@ export const HomeWrapper = styled(Flex)`
   align-items: center;
 
   background-color: #352f44;
-  height: 100vh;
-
+  width: 100%;
+  gap: 32px;
   span {
     color: #b9b4c7 !important;
   }

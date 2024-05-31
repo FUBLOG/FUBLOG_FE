@@ -1,19 +1,20 @@
 "use client";
 
 import Banner from "../Banner";
-import Post from "../Post";
 import ListFriend from "../ListFriend";
+import PostProfile from "../PostProfile";
 
 import * as S from "./styles";
 
 function Profile() {
+  const isGuest = false;
   return (
     <S.HomeWrapper>
       <Banner />
       <S.Container>
         <S.Main>
-          <ListFriend />
-          <Post />
+          <ListFriend isGuest={isGuest} />
+          <PostProfile />
         </S.Main>
       </S.Container>
     </S.HomeWrapper>

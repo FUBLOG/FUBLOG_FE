@@ -14,7 +14,7 @@ export const HeaderMain = styled(Flex)`
 `;
 export const Wrapper = styled.div`
   position: relative;
-  top: 10px;
+  top: 40px;
 
   width: 74%;
   height: 250px;

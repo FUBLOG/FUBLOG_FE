@@ -12,7 +12,9 @@ export const HeaderMain = styled(Flex)`
   align-items: center;
   justify-content: center;
 `;
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  position: relative;
+`;
 export const CoverImage = styled.img`
   width: 100%;
   height: 100%;

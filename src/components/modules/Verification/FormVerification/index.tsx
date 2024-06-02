@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Statistic } from "antd";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";

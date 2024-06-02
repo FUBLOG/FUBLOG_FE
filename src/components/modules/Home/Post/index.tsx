@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@/components/core/common/Button";
 import {
   HeartOutlined,
   HeartFilled,
@@ -6,10 +7,7 @@ import {
   ExclamationCircleOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-
-import Button from "@/components/core/common/Button";
 import Typography from "@/components/core/common/Typography";
-
 import * as S from "./styles";
 
 interface Comment {
@@ -241,7 +239,7 @@ function Post({
                 border: "none",
                 alignSelf: "flex-end",
               }}
-              onClick={handleAddComment}
+              onClick={handleAddComment} 
             >
               Đăng
             </Button>

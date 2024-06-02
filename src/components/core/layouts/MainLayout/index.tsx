@@ -17,6 +17,7 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+import Link from "next/link";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -30,9 +31,9 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <a href="/home">
+            <Link href="/home">
               <HomeOutlined style={{ fontSize: "22px" }} />
-            </a>
+            </Link>
             <SearchOutlined style={{ fontSize: "22px" }} />
             <EditOutlined style={{ fontSize: "22px" }} />
             <MessageOutlined style={{ fontSize: "22px" }} />
@@ -40,16 +41,16 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
           </S.IconContainer>
           {isGuestPage ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
-              <a href="/sign-in">
+              <Link href="/sign-in">
                 <Button type="default" $width="100px">
                   Đăng nhập
                 </Button>
-              </a>
-              <a href="/sign-up">
+              </Link>
+              <Link href="/sign-up">
                 <Button color="red" type="primary" $width="100px">
                   Đăng ký
                 </Button>
-              </a>
+              </Link>
             </Flex>
           ) : (
             <S.UserIconContainer>

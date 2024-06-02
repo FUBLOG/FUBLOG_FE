@@ -1,17 +1,17 @@
-import { createGlobalStyle, css } from 'styled-components';
+import { createGlobalStyle, css } from "styled-components";
 
-import { utility } from './utility';
+import { utility } from "./utility";
 
 export const calculateLetterSpacing = (
   fontSize: string,
-  percent: number = 0.02,
+  percent: number = 0.02
 ) => {
   const fontSizeNumber = parseFloat(fontSize);
   return `${fontSizeNumber * percent}px`;
 };
 
 const fontFamily = css`
-/* font-family: 'Inter'; */
+  /* font-family: 'Inter'; */
   /* @font-face {
     font-family: 'FontinSans';
     src: url('/fonts/FontinSans-Regular.otf') format('opentype');
@@ -151,7 +151,7 @@ const reset = css`
   blockquote:after,
   q:before,
   q:after {
-    content: '';
+    content: "";
     content: none;
   }
   a,

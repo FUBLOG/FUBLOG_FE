@@ -3,7 +3,7 @@ import { Lora } from "next/font/google";
 
 import ProviderComponents from "./provider";
 
-const lora = Lora({ subsets: ["vietnamese"] });
+const lora = Lora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "HaS - Healing and Sharing",

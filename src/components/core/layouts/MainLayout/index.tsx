@@ -1,5 +1,6 @@
 "use client";
 import { ReactNode } from "react";
+import Link from "next/link";
 import { Flex } from "antd";
 import Image from "next/legacy/image";
 import {
@@ -17,7 +18,6 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
-import Link from "next/link";
 
 interface LayoutProps {
   readonly children: ReactNode;

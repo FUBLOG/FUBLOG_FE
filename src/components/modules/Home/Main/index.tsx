@@ -77,8 +77,8 @@ function Home() {
             <Post
               user="Thanh Thủy"
               avatar="/thanhthuy.png"
-              content="Hôm nay tôi học bài nè ..."
-              images={["post.png", "post.png"]}
+              content="Hôm nay tôi học bài ..."
+              images={["post.jpg"]}
               tags={["Học tập"]}
               initialLikes={10}
               initialComments={5}

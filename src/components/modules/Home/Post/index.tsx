@@ -239,7 +239,7 @@ function Post({
                 border: "none",
                 alignSelf: "flex-end",
               }}
-              onClick={handleAddComment} 
+              onClick={handleAddComment}
             >
               Đăng
             </Button>

@@ -207,7 +207,7 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
             <EditOutlined style={{ fontSize: "22px" }} />
             <MessageOutlined
               style={{ fontSize: "22px" }}
-              onClick={handleOpenMessageModal} // Mở modal nhắn tin khi nhấn vào biểu tượng
+              onClick={handleOpenMessageModal} 
             />
             <BellOutlined style={{ fontSize: "22px" }} />
           </S.IconContainer>

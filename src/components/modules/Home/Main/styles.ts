@@ -2,6 +2,7 @@ import { Flex } from "antd";
 import styled from "styled-components";
 
 export const HomeWrapper = styled(Flex)`
+  padding-top: 20px;
   flex-direction: row;
   justify-content: center;
   width: 100%;

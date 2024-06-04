@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import Input from "@/components/core/common/form/Input";
 import Typography from "@/components/core/common/Typography";

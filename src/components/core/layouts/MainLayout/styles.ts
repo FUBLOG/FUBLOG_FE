@@ -1,5 +1,4 @@
 import { Flex } from "antd";
-import { Modal, Input } from "antd";
 import styled, { createGlobalStyle } from 'styled-components';
 
 

@@ -1,5 +1,6 @@
 export const errorMessage: any = {
-  'Auth.ForgotPassword.INPUT_VALIDATION_FAIL':
-    'Số điện thoại chưa đúng định dạng',
-  'Auth.Register.USER_IS_EXISTED': 'Số điện thoại đã tồn tại !',
+  "Auth.ForgotPassword.INPUT_VALIDATION_FAIL":
+    "Số điện thoại chưa đúng định dạng",
+  "Auth.Register.USER_IS_EXISTED": "Số điện thoại đã tồn tại !",
+  "Request failed with status code 401": "Mật khẩu không trùng khớp",
 };

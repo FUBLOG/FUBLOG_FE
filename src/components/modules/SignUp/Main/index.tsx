@@ -1,15 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Intro from "../../SignIn/Intro";
 import FormSignUp from "../FormSignup";
 
 import * as S from "./styles";
+import FormVerification from "../FormVerification";
 
 function SignUp() {
+  const [nextStep, setNextStep] = useState("signup");
   return (
     <S.HomeWrapper>
       <Intro />
-      <FormSignUp />
+      {nextStep === "signup" ? (
+        <FormSignUp setNextStep={setNextStep} />
+      ) : (
+        <FormVerification />
+      )}
     </S.HomeWrapper>
   );
 }

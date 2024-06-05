@@ -1,16 +1,21 @@
-import axiosInstance from '../base/axiosInstance';
-import { RequestOptionsInterface } from '@/model/requestOptions';
-import webStorageClient from '@/utils/webStorageClient';
-import { message } from 'antd';
+import axiosInstance from "../base/axiosInstance";
+import { RequestOptionsInterface } from "@/model/requestOptions";
+import webStorageClient from "@/utils/webStorageClient";
+import { message } from "antd";
 
 const getRequest = (
   url: string,
-  options?: RequestOptionsInterface,
+  options?: RequestOptionsInterface
 ): Promise<object> => {
   const params = options?.params;
 
   const tokenClient = webStorageClient.getToken();
+  // url endpoint to run method
+  // options
+  // headers { content method authorization cookies session method}
+  // credentials server info
 
+  // body
   if (tokenClient) {
     return axiosInstance
       .get(url, {
@@ -26,12 +31,9 @@ const getRequest = (
         return res;
       })
       .catch((err) => {
-        if (
-  
-          err?.response?.data?.errors?.length > 0
-        ) {
+        if (err?.response?.data?.errors?.length > 0) {
           err?.response?.data?.errors?.forEach((mess: string) => {
-           //todo addition in need
+            //todo addition in need
           });
         }
         return Promise.reject(err);

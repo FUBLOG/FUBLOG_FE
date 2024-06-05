@@ -54,9 +54,9 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <a href="/profile">
+              <Link href="/profile">
                 <UserOutlined style={{ fontSize: "28px" }} />
-              </a>
+              </Link>
               <CaretDownOutlined
                 style={{ fontSize: "18px", marginLeft: "4px" }}
               />

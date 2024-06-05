@@ -9,8 +9,10 @@ import {
   MessageOutlined,
   BellOutlined,
   UserOutlined,
-  CaretDownOutlined, PictureOutlined,
-  SendOutlined,CloseOutlined
+  CaretDownOutlined,
+  PictureOutlined,
+  SendOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import Button from "../../common/Button";
 import logo from "@/public/logo.png";
@@ -32,9 +34,19 @@ const avatars: { [key: string]: string } = {
 const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
   const [messages, setMessages] = useState([
     { id: 1, sender: "Văn Mạnh", content: "Chán quá đi", type: "text" },
-    { id: 2, sender: "Jos Phan Ái", content: "Muốn làm task không?", type: "text" },
+    {
+      id: 2,
+      sender: "Jos Phan Ái",
+      content: "Muốn làm task không?",
+      type: "text",
+    },
     { id: 3, sender: "Văn Mạnh", content: "Không mệt lắm rồi!", type: "text" },
-    { id: 4, sender: "Jos Phan Ái", content: "Vậy giờ muốn chi?", type: "text" },
+    {
+      id: 4,
+      sender: "Jos Phan Ái",
+      content: "Vậy giờ muốn chi?",
+      type: "text",
+    },
     { id: 5, sender: "Văn Mạnh", content: "Muốn đi uống nước!", type: "text" },
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -43,7 +55,12 @@ const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
     if (inputValue.trim()) {
       setMessages([
         ...messages,
-        { id: messages.length + 1, sender: "Jos Phan Ái", content: inputValue, type: "text" },
+        {
+          id: messages.length + 1,
+          sender: "Jos Phan Ái",
+          content: inputValue,
+          type: "text",
+        },
       ]);
       setInputValue("");
     }
@@ -54,20 +71,26 @@ const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
     if (file) {
       setMessages([
         ...messages,
-        { id: messages.length + 1, sender: "Jos Phan Ái", content: URL.createObjectURL(file), type: "image" },
+        {
+          id: messages.length + 1,
+          sender: "Jos Phan Ái",
+          content: URL.createObjectURL(file),
+          type: "image",
+        },
       ]);
     }
   };
 
   return (
     <Modal
-      visible={visible}
-      onCancel={onClose}
-      footer={null}
-      width={800}
-      bodyStyle={{ backgroundColor: "#FAF0E6", padding: 0 }}
-      closable={false}
-    >
+    open={visible}
+    onCancel={onClose}
+    footer={null}
+    width={800}
+    styles={{ body: { backgroundColor: "#FAF0E6", padding: 0 } }}
+    closable={false}
+  >
+  
       <S.ModalContainer>
         <S.CloseButton onClick={onClose}>
           <CloseOutlined />
@@ -110,7 +133,11 @@ const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
         <S.ChatArea>
           <S.ActiveFriends>
             <S.ActiveFriend>
-              <S.ActiveFriendImage src="/thuphuong.png" alt="Thu Phương" isActive />
+              <S.ActiveFriendImage
+                src="/thuphuong.png"
+                alt="Thu Phương"
+                isActive
+              />
               <S.ActiveFriendName>Thu Phương</S.ActiveFriendName>
             </S.ActiveFriend>
             <S.ActiveFriend>
@@ -134,15 +161,25 @@ const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
             </S.ChatHeader>
             <S.MessagesList>
               {messages.map((message) => (
-                <S.MessageItem key={message.id} isOwnMessage={message.sender === "Jos Phan Ái"}>
+                <S.MessageItem
+                  key={message.id}
+                  isOwnMessage={message.sender === "Jos Phan Ái"}
+                >
                   {message.sender !== "Jos Phan Ái" && (
-                    <S.MessageAvatar src={avatars[message.sender]} alt={message.sender} />
+                    <S.MessageAvatar
+                      src={avatars[message.sender]}
+                      alt={message.sender}
+                    />
                   )}
                   {message.type === "text" ? (
                     <S.MessageContent>{message.content}</S.MessageContent>
                   ) : (
                     <S.MessageContent>
-                      <img src={message.content} alt="Uploaded" style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                      <img
+                        src={message.content}
+                        alt="Uploaded"
+                        style={{ maxWidth: "100px", maxHeight: "100px" }}
+                      />
                     </S.MessageContent>
                   )}
                 </S.MessageItem>
@@ -157,7 +194,13 @@ const MessageModal: React.FC<MessageModalProps> = ({ visible, onClose }) => {
                 style={{ backgroundColor: "#FAF0E6", borderColor: "#5C5470" }}
                 suffix={
                   <>
-                    <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: "none" }} id="upload" />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      style={{ display: "none" }}
+                      id="upload"
+                    />
                     <label htmlFor="upload">
                       <PictureOutlined style={{ marginRight: 8 }} />
                     </label>
@@ -196,7 +239,7 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>
-      <S.GlobalStyle /> 
+        <S.GlobalStyle />
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
@@ -207,7 +250,7 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
             <EditOutlined style={{ fontSize: "22px" }} />
             <MessageOutlined
               style={{ fontSize: "22px" }}
-              onClick={handleOpenMessageModal} 
+              onClick={handleOpenMessageModal}
             />
             <BellOutlined style={{ fontSize: "22px" }} />
           </S.IconContainer>

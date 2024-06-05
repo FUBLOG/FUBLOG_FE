@@ -1,7 +1,6 @@
 import { Flex } from "antd";
 import styled, { createGlobalStyle } from 'styled-components';
 
-
 export const LayoutWrapper = styled.main`
   background-color: ${(props) => props?.theme?.colors?.backgroundGray};
   min-height: 100vh;

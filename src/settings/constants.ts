@@ -1,4 +1,4 @@
-const API_SERVER = "https://has.io.vn";
+const API_SERVER = "https://has.io.vn/v1/api";
 import { TIME_FORMAT } from "./formatDateTime";
 
 //cookie keys storage

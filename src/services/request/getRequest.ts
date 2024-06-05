@@ -12,10 +12,6 @@ const getRequest = (
   const params = options?.params;
 
   const tokenClient = webStorageClient.getToken();
-  // url endpoint to run method
-  // options
-  // headers { content method authorization cookies session method}
-  // credentials server info
 
   let headers: any = {
     "Content-Type": fomrData ? "multipart/form-data" : "application/json",

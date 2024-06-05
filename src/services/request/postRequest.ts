@@ -8,7 +8,6 @@ const postRequest = (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
-  fomrData?: boolean
 ): Promise<object> => {
   console.log(url);
   // kaidophan37@gmail.com
@@ -23,15 +22,9 @@ const postRequest = (
   };
 
   if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
-  let headers: any = {
-    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
-  };
 
-  if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
   return axiosInstance
     .post(url, data, {
-      headers: headers,
-      withCredentials: true,
       headers: headers,
       withCredentials: true,
     })

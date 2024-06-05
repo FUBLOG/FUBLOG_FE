@@ -1,6 +1,5 @@
 //edit prefixBase here
 const prefixBase: string = "/api";
-const prefixBase: string = "/api";
 
 const authEndpoint = {
   SIGN_IN: `/access/login`,

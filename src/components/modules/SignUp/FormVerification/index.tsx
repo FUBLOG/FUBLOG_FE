@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Statistic } from "antd";
 import Image from "next/legacy/image";
@@ -13,8 +13,14 @@ import verImg from "@/public/verified.png";
 import * as S from "./styles";
 
 const { Countdown } = Statistic;
+interface PageProps {
+  readonly setNextStep: Dispatch<SetStateAction<string>>;
+}
 
-function FormVerification() {
+function FormVerification({ setNextStep }: PageProps) {
+  const handleClick = () => {
+    setNextStep("signup");
+  };
   const [targetTime, setTargetTime] = useState<number>(Date.now() + 60 * 1000);
 
   const [finish, setFinish] = useState<boolean>(false);
@@ -75,7 +81,7 @@ function FormVerification() {
           value={targetTime}
         />
       )}
-      <Link href="/verification">
+      <Link href="/sign-up">
         <S.Typography
           style={{
             justifyContent: "center",
@@ -87,6 +93,7 @@ function FormVerification() {
             className="ButtonWrapper"
             type="default"
             $backgroundColor="#B9B4C7"
+            onClick={handleClick}
           >
             <ArrowLeftOutlined style={{ fontSize: "10px" }} />
           </Button>
@@ -96,7 +103,7 @@ function FormVerification() {
             color="#B9B4C7"
             fontSize="xx-small"
           >
-            Nhập lại email
+            Đăng ký lại
           </Typography>
         </S.Typography>
       </Link>

@@ -15,7 +15,7 @@ function SignUp() {
       {nextStep === "signup" ? (
         <FormSignUp setNextStep={setNextStep} />
       ) : (
-        <FormVerification />
+        <FormVerification setNextStep={setNextStep} />
       )}
     </S.HomeWrapper>
   );

@@ -1,6 +1,8 @@
+import { message } from "antd";
 import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
 import axiosInstance from "../base/axiosInstance";
+import { errorMessage } from "../errorMessage";
 
 const postRequest = (
   url: string,
@@ -26,6 +28,7 @@ const postRequest = (
       return res;
     })
     .catch((err) => {
+      message.error(errorMessage[err?.message]);
       if (err?.response?.data?.errors?.length > 0) {
         err?.response?.data?.errors?.forEach((mess: string) => {
           //todo addtion in need

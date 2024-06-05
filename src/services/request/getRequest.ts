@@ -2,43 +2,22 @@ import axiosInstance from "../base/axiosInstance";
 import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
 import { message } from "antd";
+import { errorMessage } from "../errorMessage";
 
 const getRequest = (
   url: string,
-  options?: RequestOptionsInterface
+  options?: RequestOptionsInterface,
+  fomrData?: boolean
 ): Promise<object> => {
   const params = options?.params;
 
   const tokenClient = webStorageClient.getToken();
-  // url endpoint to run method
-  // options
-  // headers { content method authorization cookies session method}
-  // credentials server info
 
-  // body
-  if (tokenClient) {
-    return axiosInstance
-      .get(url, {
-        params: params,
-        headers: {
-          Authorization: `Bearer ${tokenClient}`,
-        },
-      })
-      .then((res: any) => {
-        if (res?.message) {
-          //todo addition in need
-        }
-        return res;
-      })
-      .catch((err) => {
-        if (err?.response?.data?.errors?.length > 0) {
-          err?.response?.data?.errors?.forEach((mess: string) => {
-            //todo addition in need
-          });
-        }
-        return Promise.reject(err);
-      });
-  }
+  let headers: any = {
+    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+  };
+
+  if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
 
   return axiosInstance
     .get(url, {
@@ -46,17 +25,11 @@ const getRequest = (
       headers: {},
     })
     .then((res: any) => {
-      if (res?.message) {
-        //todo addition in need
-      }
       return res;
     })
     .catch((err) => {
-      if (err?.response?.data?.errors?.length > 0) {
-        err?.response?.data?.errors?.forEach((mess: string) => {
-          //todo addition in need
-        });
-      }
+      message.error(errorMessage[err?.message]);
+
       return Promise.reject(err);
     });
 };

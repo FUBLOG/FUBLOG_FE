@@ -1,5 +1,6 @@
 export interface RequestOptionsInterface {
-  data?: object;
-  params?: object;
-  //addition in need
+  data?: any;
+  params?: any;
+  options?: any;
+  //cai nao e can trong option thi define trong nay, cai nay loi typescipt
 }

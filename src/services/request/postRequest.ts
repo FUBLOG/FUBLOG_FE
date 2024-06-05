@@ -29,11 +29,7 @@ const postRequest = (
     })
     .catch((err) => {
       message.error(errorMessage[err?.message]);
-      if (err?.response?.data?.errors?.length > 0) {
-        err?.response?.data?.errors?.forEach((mess: string) => {
-          //todo addtion in need
-        });
-      }
+
       return Promise.reject(err);
     });
 };

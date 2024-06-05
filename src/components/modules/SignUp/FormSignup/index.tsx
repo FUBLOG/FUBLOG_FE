@@ -5,19 +5,19 @@ import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";
 import useModal from "@/hooks/useModal";
+import Link from "next/link";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-
-import * as S from "./styles";
-import Link from "next/link";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import { postRequest } from "@/services/request";
-import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+
+import * as S from "./styles";
+
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
 }
@@ -193,8 +193,8 @@ function FormSignUp(props: PageProps) {
                         e.preventDefault();
                       }}
                     >
-                      <Space defaultValue={"  Chọn giới tính"}>
-                        {sex ? sex : "Chọn giới tính"}
+                      <Space>
+                        {sex}
                         <DownOutlined />
                       </Space>
                     </a>

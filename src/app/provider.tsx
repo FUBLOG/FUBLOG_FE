@@ -1,5 +1,4 @@
 "use client";
-import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 

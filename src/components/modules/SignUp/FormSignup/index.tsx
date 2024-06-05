@@ -1,22 +1,9 @@
 "use client";
 
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import {
-  Checkbox,
-  CheckboxProps,
-  DatePicker,
-  Divider,
-  Dropdown,
-  Form,
-  List,
-  MenuProps,
-  Select,
-  Space,
-  message,
-} from "antd";
+import { LockOutlined, UserOutlined, DownOutlined } from "@ant-design/icons";
+import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";
-import { DownOutlined } from "@ant-design/icons";
 import useModal from "@/hooks/useModal";
 
 import Input from "@/components/core/common/form/Input";
@@ -36,7 +23,6 @@ interface PageProps {
 }
 function FormSignUp(props: PageProps) {
   const modalState = useModal();
-  const router = useRouter();
 
   const [sex, setSex] = useState("Nam");
   const items: MenuProps["items"] = [
@@ -51,7 +37,7 @@ function FormSignUp(props: PageProps) {
       label: "Nữ",
       key: "1",
       onClick: () => {
-        setSex("Nữ");
+        setSex("Nữ  ");
       },
     },
     {
@@ -87,6 +73,7 @@ function FormSignUp(props: PageProps) {
         constants.API_SERVER + authEndpoint.SIGN_UP,
         { data }
       );
+      console.log(res);
       props.setNextStep("verification");
     } catch (error) {
       console.log(error);
@@ -181,7 +168,7 @@ function FormSignUp(props: PageProps) {
                 <DatePicker format="YYYY-MM-DD" placeholder="Nhập ngày" />
               </FormItem>
             </div>
-            <FormItem name="sex" style={{ width: "100%" }}>
+            <div style={{ width: "100%" }}>
               <Typography
                 padding="0 0 8px 0"
                 variant="caption-small"
@@ -189,29 +176,32 @@ function FormSignUp(props: PageProps) {
               >
                 Giới tính <span style={{ color: "red" }}>*</span>
               </Typography>
-
-              <Button
-                type="primary"
-                style={{
-                  padding: " 12px 16px !important",
-                }}
-              >
-                <Dropdown menu={{ items }} trigger={["click"]}>
-                  <a
-                    onClick={(e) => {
-                      console.log(e);
-
-                      e.preventDefault();
-                    }}
-                  >
-                    <Space defaultValue={"  Chọn giới tính"}>
-                      {sex ? sex : "Chọn giới tính"}
-                      <DownOutlined />
-                    </Space>
-                  </a>
-                </Dropdown>
-              </Button>
-            </FormItem>
+              <FormItem name="sex">
+                <Button
+                  type="primary"
+                  style={{
+                    padding: " 12px 16px !important",
+                    width: "80px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <a
+                      onClick={(e) => {
+                        console.log(e);
+                        e.preventDefault();
+                      }}
+                    >
+                      <Space defaultValue={"  Chọn giới tính"}>
+                        {sex ? sex : "Chọn giới tính"}
+                        <DownOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </Button>
+              </FormItem>
+            </div>
           </div>
           <FormItem
             name="email"

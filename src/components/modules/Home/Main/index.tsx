@@ -5,9 +5,15 @@ import Sidebar from "../Sidebar";
 import Post from "../Post";
 
 import * as S from "./styles";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
+import { useEffect, useState } from "react";
 
 function Home() {
-  const isGuest = true;
+  const [isGuest, setIsGuest] = useState(true);
+  useEffect(() => {
+    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
+  });
   return (
     <S.HomeWrapper>
       <Sidebar isGuest={isGuest} />

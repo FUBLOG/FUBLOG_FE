@@ -1,30 +1,27 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import * as S from "./styles";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "antd";
+
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
-import { useRouter } from "next/navigation";
 import { getRequest } from "@/services/request";
+
+import * as S from "./styles";
+
 const Welcome = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const router = useRouter();
   const handleVerify = async () => {
-    console.log(token);
-
     try {
       const options = { param: token! };
       const res: any = await getRequest(
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
         { options }
       );
-      console.log(res);
       router.push("/sign-in");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <>

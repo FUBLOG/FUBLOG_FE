@@ -3,20 +3,17 @@ import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
 import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
+import { constants } from "@/settings";
 
 const postRequest = (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
 ): Promise<object> => {
-  console.log(url);
-  // kaidophan37@gmail.com
-  // 123456
-  console.log(url);
   // kaidophan37@gmail.com
   // 123456
   const data = options?.data;
-  const tokenClient = webStorageClient.getToken();
+  const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
     "Content-Type": fomrData ? "multipart/form-data" : "application/json",
   };

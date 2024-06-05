@@ -14,6 +14,7 @@ import { postRequest } from "@/services/request";
 import { constants } from "@/settings";
 import { authEndpoint } from "@/services/endpoint";
 import webStorageClient from "@/utils/webStorageClient";
+import webLocalStorage from "@/utils/webLocalStorage";
 
 import * as S from "./styles";
 
@@ -35,10 +36,11 @@ function FormSignIn() {
       webStorageClient.setToken(res?.metadata?.tokens?.accessToken, {
         maxAge: 60 * 4,
       });
+      webLocalStorage.set("refreshToken", res?.metadata?.tokens?.refreshToken);
+      webLocalStorage.set("privateKey", res?.metadata?.tokens?.privateKey);
+
       router.push("/");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <S.HomeWrapper>

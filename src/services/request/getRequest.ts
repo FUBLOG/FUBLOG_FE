@@ -3,6 +3,7 @@ import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
 import { message } from "antd";
 import { errorMessage } from "../errorMessage";
+import { constants } from "@/settings";
 
 const getRequest = (
   url: string,
@@ -11,8 +12,7 @@ const getRequest = (
 ): Promise<object> => {
   const params = options?.params;
 
-  const tokenClient = webStorageClient.getToken();
-
+  const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
     "Content-Type": fomrData ? "multipart/form-data" : "application/json",
   };

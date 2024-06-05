@@ -178,9 +178,9 @@ function FormSignUp(props: PageProps) {
               </Typography>
               <FormItem name="sex">
                 <Button
+                  $padding="12px 16px !important"
                   type="primary"
                   style={{
-                    padding: " 12px 16px !important",
                     width: "80px",
                     display: "flex",
                     justifyContent: "space-between",

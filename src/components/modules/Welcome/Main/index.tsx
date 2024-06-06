@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { message } from "antd";
 
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";

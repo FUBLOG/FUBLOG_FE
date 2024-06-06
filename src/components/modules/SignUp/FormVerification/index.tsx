@@ -5,18 +5,17 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Statistic, message } from "antd";
 import Image from "next/legacy/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { io } from "socket.io-client";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
+import { postRequest } from "@/services/request";
+import { authEndpoint } from "@/services/endpoint";
+import { constants } from "@/settings";
 
 import * as S from "./styles";
-import { postRequest } from "@/services/request";
-import { constants } from "@/settings";
-import { authEndpoint } from "@/services/endpoint";
-import { io } from "socket.io-client";
-import { Socket } from "dgram";
-import { useRouter } from "next/navigation";
 
 const { Countdown } = Statistic;
 interface PageProps {
@@ -38,9 +37,7 @@ function FormVerification(props: PageProps) {
 
   useEffect(() => {
     const socket = io("https://has.io.vn");
-    // socket.on("connect", () => {
-    //   console.log("connect to server ");
-    // });
+
     socket.on(`${props?.formData?.email}`, handleEmailVerify);
     return () => {
       if (socket) {

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Statistic } from "antd";
+import { Statistic, message } from "antd";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
@@ -14,6 +14,9 @@ import * as S from "./styles";
 import { postRequest } from "@/services/request";
 import { constants } from "@/settings";
 import { authEndpoint } from "@/services/endpoint";
+import { io } from "socket.io-client";
+import { Socket } from "dgram";
+import { useRouter } from "next/navigation";
 
 const { Countdown } = Statistic;
 interface PageProps {
@@ -31,6 +34,28 @@ function FormVerification(props: PageProps) {
   const onFinish = () => {
     setFinish(true);
   };
+  const router = useRouter();
+
+  useEffect(() => {
+    const socket = io("https://has.io.vn");
+    // socket.on("connect", () => {
+    //   console.log("connect to server ");
+    // });
+    socket.on(`${props?.formData?.email}`, handleEmailVerify);
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
+  });
+  const handleEmailVerify = async (...arg: any[]) => {
+    console.log(arg);
+    if (arg[0] === "Signup successfully") {
+      message.success("Đăng ký thành công");
+      router.push("/sign-in");
+    }
+  };
+
   const resend = async () => {
     setFinish(false);
     setTargetTime(Date.now() + 60 * 1000);

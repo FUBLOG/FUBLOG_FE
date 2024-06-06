@@ -1,7 +1,7 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { Button, message } from "antd";
+import { useSearchParams } from "next/navigation";
+import { message } from "antd";
 
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
@@ -12,7 +12,6 @@ import { useEffect } from "react";
 const Welcome = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const router = useRouter();
   const handleVerify = async () => {
     try {
       const options = {
@@ -24,8 +23,10 @@ const Welcome = () => {
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
         options
       );
-      message.success("Đăng ký thành công");
-    } catch (error) {}
+      window.close();
+    } catch (error) {
+      window.close();
+    }
   };
   useEffect(() => {
     handleVerify();

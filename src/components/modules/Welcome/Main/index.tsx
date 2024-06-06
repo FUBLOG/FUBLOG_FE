@@ -1,13 +1,13 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import { getRequest } from "@/services/request";
 
-import * as S from "./styles";
+import { useEffect } from "react";
 
 const Welcome = () => {
   const searchParams = useSearchParams();
@@ -15,25 +15,22 @@ const Welcome = () => {
   const router = useRouter();
   const handleVerify = async () => {
     try {
-      const options = { param: token! };
-      await getRequest(constants.API_SERVER + authEndpoint.VERIFY_TOKEN, {
-        options,
-      });
-      router.push("/sign-in");
+      const options = {
+        params: {
+          token,
+        }!,
+      };
+      await getRequest(
+        constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
+        options
+      );
+      message.success("Đăng ký thành công");
     } catch (error) {}
   };
-  return (
-    <>
-      {!token ? (
-        <S.HomeWrapper>Token không được cung cấp</S.HomeWrapper>
-      ) : (
-        <S.HomeWrapper>
-          Chào mừng tới với HaS - mạng xã hội dành cho người Việt
-          <Button onClick={handleVerify}>Xác thực</Button>
-        </S.HomeWrapper>
-      )}
-    </>
-  );
+  useEffect(() => {
+    handleVerify();
+  });
+  return <></>;
 };
 
 export default Welcome;

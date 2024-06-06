@@ -1,6 +1,6 @@
 export interface RequestOptionsInterface {
   data?: any;
   params?: any;
-  options?: any;
+  token?: any;
   //cai nao e can trong option thi define trong nay, cai nay loi typescipt
 }

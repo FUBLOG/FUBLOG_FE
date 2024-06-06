@@ -21,10 +21,14 @@ const getRequest = (
 
   return axiosInstance
     .get(url, {
-      params: params,
+      params: {
+        ...params,
+      },
       headers: {},
     })
     .then((res: any) => {
+      console.log("res verify");
+      console.log(res);
       return res;
     })
     .catch((err) => {

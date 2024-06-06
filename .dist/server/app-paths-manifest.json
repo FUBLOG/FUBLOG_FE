@@ -1,6 +1,8 @@
 {
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/home/page": "app/(main)/home/page.js",
   "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/(auth)/sign-up/page": "app/(auth)/sign-up/page.js",
+  "/(main)/home/page": "app/(main)/home/page.js",
+  "/(verify)/welcome-back/page": "app/(verify)/welcome-back/page.js",
+  "/(main)/page": "app/(main)/page.js",
   "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js"
 }

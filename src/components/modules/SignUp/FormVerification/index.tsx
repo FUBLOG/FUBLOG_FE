@@ -11,15 +11,19 @@ import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
 
 import * as S from "./styles";
+import { postRequest } from "@/services/request";
+import { constants } from "@/settings";
+import { authEndpoint } from "@/services/endpoint";
 
 const { Countdown } = Statistic;
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
+  readonly formData: any;
 }
 
-function FormVerification({ setNextStep }: PageProps) {
+function FormVerification(props: PageProps) {
   const handleClick = () => {
-    setNextStep("signup");
+    props.setNextStep("signup");
   };
   const [targetTime, setTargetTime] = useState<number>(Date.now() + 60 * 1000);
 
@@ -27,9 +31,23 @@ function FormVerification({ setNextStep }: PageProps) {
   const onFinish = () => {
     setFinish(true);
   };
-  const resend = () => {
+  const resend = async () => {
     setFinish(false);
     setTargetTime(Date.now() + 60 * 1000);
+    try {
+      const data = {
+        firstName: props?.formData?.firstName!,
+        lastName: props?.formData?.lastName!,
+        email: props?.formData?.email!,
+        password: props?.formData?.password!,
+        dateOfBirth: props?.formData?.dateOfBirth!,
+        sex: props?.formData.sex!,
+      };
+      await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, {
+        data,
+      });
+      props.setNextStep("verification");
+    } catch (error) {}
   };
   return (
     <S.HomeWrapper>
@@ -63,16 +81,44 @@ function FormVerification({ setNextStep }: PageProps) {
         Không nhận được mail xác nhận? {finish === true ? "" : "Gửi lại sau"}
       </Typography>
       {finish === true ? (
-        <Button
-          className="ButtonWrapper"
-          type="default"
-          $backgroundColor="#FAF0E6"
-          $width={"100px"}
-          $margin="10px 0px"
-          onClick={resend}
-        >
-          GỬI LẠI
-        </Button>
+        <>
+          <Button
+            className="ButtonWrapper"
+            type="default"
+            $backgroundColor="#FAF0E6"
+            $width={"100px"}
+            $margin="10px 0px"
+            onClick={resend}
+          >
+            GỬI LẠI
+          </Button>
+          <Link href="/sign-up">
+            <S.Typography
+              style={{
+                justifyContent: "center",
+                margin: "0px 0px 10px 0px",
+                color: "#B9B4C7",
+              }}
+            >
+              <Button
+                className="ButtonWrapper"
+                type="default"
+                $backgroundColor="#B9B4C7"
+                onClick={handleClick}
+              >
+                <ArrowLeftOutlined style={{ fontSize: "10px" }} />
+              </Button>
+              <Typography
+                style="italic"
+                variant="body-text-normal"
+                color="#B9B4C7"
+                fontSize="xx-small"
+              >
+                Đăng ký lại
+              </Typography>
+            </S.Typography>
+          </Link>
+        </>
       ) : (
         <Countdown
           onFinish={onFinish}
@@ -81,32 +127,6 @@ function FormVerification({ setNextStep }: PageProps) {
           value={targetTime}
         />
       )}
-      <Link href="/sign-up">
-        <S.Typography
-          style={{
-            justifyContent: "center",
-            margin: "0px 0px 10px 0px",
-            color: "#B9B4C7",
-          }}
-        >
-          <Button
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#B9B4C7"
-            onClick={handleClick}
-          >
-            <ArrowLeftOutlined style={{ fontSize: "10px" }} />
-          </Button>
-          <Typography
-            style="italic"
-            variant="body-text-normal"
-            color="#B9B4C7"
-            fontSize="xx-small"
-          >
-            Đăng ký lại
-          </Typography>
-        </S.Typography>
-      </Link>
     </S.HomeWrapper>
   );
 }

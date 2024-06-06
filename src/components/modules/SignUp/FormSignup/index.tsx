@@ -205,6 +205,7 @@ function FormSignUp(props: PageProps) {
           <FormItem
             name="email"
             rules={[{ required: true, message: "Vui lòng nhập email" }]}
+            initialValue={props?.formData?.email}
           >
             <Input
               placeholder="Nhập email"

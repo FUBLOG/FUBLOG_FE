@@ -7,6 +7,7 @@ import { constants } from "@/settings";
 import { getRequest } from "@/services/request";
 
 import { useEffect } from "react";
+import { message } from "antd";
 
 const Welcome = () => {
   const searchParams = useSearchParams();
@@ -14,16 +15,16 @@ const Welcome = () => {
   const handleVerify = async () => {
     try {
       const options = {
-        params: token!,
+        params: {
+          token,
+        },
       };
       await getRequest(
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
         options
       );
       window.close();
-    } catch (error) {
-      window.close();
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     handleVerify();

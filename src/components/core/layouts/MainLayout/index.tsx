@@ -30,7 +30,9 @@ interface LayoutProps {
 function MainLayout({ children }: LayoutProps) {
   const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
-    const token = webStorageClient.get(constants.ACCESS_TOKEN);
+    const token = webStorageClient.getToken();
+    console.log(token);
+
     if (token) {
       webStorageClient.set(constants.IS_AUTH, true);
       const decodedToken = jwtDecode(token);

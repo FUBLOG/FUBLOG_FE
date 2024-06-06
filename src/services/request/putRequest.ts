@@ -1,12 +1,13 @@
-import axiosInstance from '../base/axiosInstance';
-import { RequestOptionsInterface } from '@/model/requestOptions';
-import webStorageClient from '@/utils/webStorageClient';
-import { message } from 'antd';
+import axiosInstance from "../base/axiosInstance";
+import { RequestOptionsInterface } from "@/model/requestOptions";
+import webStorageClient from "@/utils/webStorageClient";
+import { message } from "antd";
+import { errorMessage } from "../errorMessage";
 
 const updateRequest = (
   url: string,
   options?: RequestOptionsInterface,
-  fomrData?: boolean,
+  fomrData?: boolean
 ): Promise<object> => {
   const data = options?.data;
   const tokenClient = webStorageClient.getToken();
@@ -16,7 +17,7 @@ const updateRequest = (
       .put(url, data, {
         headers: {
           Authorization: `Bearer ${tokenClient}`,
-          'Content-Type': fomrData ? 'multipart/form-data' : 'application/json',
+          "Content-Type": fomrData ? "multipart/form-data" : "application/json",
         },
       })
       .then((res: any) => {
@@ -26,13 +27,7 @@ const updateRequest = (
         return res;
       })
       .catch((err) => {
-        if (
-          err?.response?.data?.errors?.length > 0
-        ) {
-          err?.response?.data?.errors?.forEach((mess: string) => {
-            //todo addition in need
-          });
-        }
+        message.error(errorMessage[err?.message]);
         return Promise.reject(err);
       });
   }

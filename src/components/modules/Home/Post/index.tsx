@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react";
+import { Modal, message } from 'antd';
 import Button from "@/components/core/common/Button";
 import {
   HeartOutlined,
@@ -59,9 +60,8 @@ function Post({
 
   const handleConfirmReport = () => {
     setShowConfirmModal(false);
-    setShowSuccessModal(true);
+    message.success("Báo cáo bài viết thành công");
   };
-
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };

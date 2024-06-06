@@ -263,7 +263,19 @@ export const CloseButton = styled.div`
   right: 10px;
   cursor: pointer;
 `;
+const StyledIcon = styled.div`
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.3s;
 
+  &:hover {
+    color: #B9B4C7;
+  }
+
+  &.active {
+    color: #B9B4C7; 
+  }
+    `
 export const GlobalStyle = createGlobalStyle`
   .ant-modal-content {
     background-color: #faf0e6 !important;

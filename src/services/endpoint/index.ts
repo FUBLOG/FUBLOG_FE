@@ -1,9 +1,11 @@
 //edit prefixBase here
-const prefixBase: string = '/api';
+const prefixBase: string = "/api";
 
 const authEndpoint = {
-  SIGN_IN: `/auth/sign-in`,
-  SIGN_UP: `/auth/sign-up`,
+  SIGN_IN: `/access/login`,
+  SIGN_UP: `/user/newUser`,
+  VERIFY_TOKEN: `/access/verifyToken`,
+  REFRESH_TOKEN: `/access/refreshToken`,
   FORGOT_PASSWORD: `/auth/forgot-password`,
   RESET_PASSWORD: `/auth/reset-password-with-otp-code`,
 };

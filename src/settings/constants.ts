@@ -1,9 +1,11 @@
-const API_SERVER = "https://has.io.vn";
+const API_SERVER = "https://has.io.vn/v1/api";
 import { TIME_FORMAT } from "./formatDateTime";
 
 //cookie keys storage
 const ACCESS_TOKEN = "_access_token";
 const REFRESH_TOKEN = "_refresh_token";
+const PRIVATEKEY = "_privateKey";
+
 const IS_AUTH = "_is_auth";
 const USER_INFO = "_user_info";
 
@@ -16,5 +18,6 @@ const constants = {
   IS_AUTH,
   USER_INFO,
   TIME_FORMAT,
+  PRIVATEKEY,
 };
 export default constants;

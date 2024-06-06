@@ -20,6 +20,8 @@ import * as S from "./styles";
 
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
+  readonly setFormData: Dispatch<SetStateAction<any>>;
+  readonly formData: any;
 }
 function FormSignUp(props: PageProps) {
   const modalState = useModal();
@@ -59,25 +61,23 @@ function FormSignUp(props: PageProps) {
     "Nội dung phù hợp: Mọi nội dung được chia sẻ trên HaS phải tuân thủ các nguyên tắc đạo đức và pháp luật. Nội dung bạo lực, đồi trụy, kích động, hay vi phạm bản quyền sẽ bị xóa và người đăng có thể bị khóa tài khoản.",
     "HaS không chấp nhận bất kỳ hình thức kích động hoặc chủ trương cụ thể nào, bao gồm cả sự phân biệt đối xử dựa trên tôn giáo, chủng tộc, giới tính, hoặc quốc gia.",
   ];
+
   const onFinish = async (values: any) => {
     try {
       const data = {
-        firstName: values.firstName!,
-        lastName: values.lastName!,
-        email: values.email!,
-        password: values.password!,
-        dateOfBirth: values.dateOfBirth!,
+        firstName: values?.firstName!,
+        lastName: values?.lastName!,
+        email: values?.email!,
+        password: values?.password!,
+        dateOfBirth: values?.dateOfBirth!,
         sex: sex!,
       };
-      const res: any = await postRequest(
-        constants.API_SERVER + authEndpoint.SIGN_UP,
-        { data }
-      );
-      console.log(res);
+      props.setFormData(data);
+      console.log("values.dateOfBirth!");
+      console.log(values.dateOfBirth);
+      await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, { data });
       props.setNextStep("verification");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <>
@@ -126,6 +126,7 @@ function FormSignUp(props: PageProps) {
               name="firstName"
               rules={[{ required: true, message: "Không để trống ô này" }]}
               style={{ width: "100%" }}
+              initialValue={props?.formData?.firstName}
             >
               <Input
                 placeholder="Nhập họ"
@@ -138,6 +139,7 @@ function FormSignUp(props: PageProps) {
               name="lastName"
               rules={[{ required: true, message: "Không để trống ô này" }]}
               style={{ width: "100%" }}
+              initialValue={props?.formData?.firstName}
             >
               <Input
                 placeholder="Nhập tên"
@@ -164,6 +166,7 @@ function FormSignUp(props: PageProps) {
                     message: "Vui lòng nhập ngày tháng năm sinh",
                   },
                 ]}
+                initialValue={props?.formData?.dateOfBirth}
               >
                 <DatePicker format="YYYY-MM-DD" placeholder="Nhập ngày" />
               </FormItem>
@@ -178,9 +181,9 @@ function FormSignUp(props: PageProps) {
               </Typography>
               <FormItem name="sex">
                 <Button
+                  $padding="12px 16px !important"
                   type="primary"
                   style={{
-                    padding: " 12px 16px !important",
                     width: "80px",
                     display: "flex",
                     justifyContent: "space-between",
@@ -189,7 +192,6 @@ function FormSignUp(props: PageProps) {
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <a
                       onClick={(e) => {
-                        console.log(e);
                         e.preventDefault();
                       }}
                     >
@@ -206,6 +208,7 @@ function FormSignUp(props: PageProps) {
           <FormItem
             name="email"
             rules={[{ required: true, message: "Vui lòng nhập email" }]}
+            initialValue={props?.formData?.email}
           >
             <Input
               placeholder="Nhập email"
@@ -218,6 +221,7 @@ function FormSignUp(props: PageProps) {
           <FormItem
             name="password"
             rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+            initialValue={props?.formData?.firstName}
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
@@ -254,6 +258,7 @@ function FormSignUp(props: PageProps) {
               alignItems: "center",
               justifyContent: "center",
             }}
+            initialValue={props?.formData?.firstName}
           >
             <Button
               htmlType="submit"

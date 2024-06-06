@@ -73,6 +73,8 @@ function Sidebar(props: PageProps) {
     { name: "Thanh Thủy", image: "/thanhthuy.png" },
     { name: "Minh Quân", image: "/minhquan.png" },
   ];
+  console.log("slide bar, isGuest");
+
   console.log(props.isGuest);
 
   return (

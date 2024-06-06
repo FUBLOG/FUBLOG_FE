@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { Flex } from "antd";
 import Image from "next/legacy/image";
@@ -12,8 +12,12 @@ import {
   UserOutlined,
   CaretDownOutlined,
 } from "@ant-design/icons";
+import { constants } from "@/settings";
+import { jwtDecode } from "jwt-decode";
 
 import Button from "../../common/Button";
+
+import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
@@ -21,10 +25,21 @@ import * as S from "./styles";
 
 interface LayoutProps {
   readonly children: ReactNode;
-  readonly isGuestPage?: boolean;
 }
 
-function MainLayout({ children, isGuestPage = true }: LayoutProps) {
+function MainLayout({ children }: LayoutProps) {
+  const [isGuest, setIsGuest] = useState(true);
+  useEffect(() => {
+    const token = webStorageClient.get(constants.ACCESS_TOKEN);
+    if (token) {
+      webStorageClient.set(constants.IS_AUTH, true);
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+    } else {
+      webStorageClient.set(constants.IS_AUTH, false);
+    }
+    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
+  }, []);
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -39,7 +54,7 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
             <MessageOutlined style={{ fontSize: "22px" }} />
             <BellOutlined style={{ fontSize: "22px" }} />
           </S.IconContainer>
-          {isGuestPage ? (
+          {isGuest ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

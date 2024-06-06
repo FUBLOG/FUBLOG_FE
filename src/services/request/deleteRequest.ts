@@ -1,11 +1,12 @@
-import axiosInstance from '../base/axiosInstance';
-import { RequestOptionsInterface } from '@/model/requestOptions';
-import webStorageClient from '@/utils/webStorageClient';
-import { message } from 'antd';
+import axiosInstance from "../base/axiosInstance";
+import { RequestOptionsInterface } from "@/model/requestOptions";
+import webStorageClient from "@/utils/webStorageClient";
+import { message } from "antd";
+import { errorMessage } from "../errorMessage";
 
 const deleteRequest = (
   url: string,
-  options?: RequestOptionsInterface,
+  options?: RequestOptionsInterface
 ): Promise<object> => {
   const data = options?.data;
   const tokenClient = webStorageClient.getToken();
@@ -24,11 +25,7 @@ const deleteRequest = (
       return res;
     })
     .catch((err) => {
-      if (err?.response?.data?.errors?.length > 0) {
-        err?.response?.data?.errors?.forEach((mess: string) => {
-          //todo addition in need
-        });
-      }
+      message.error(errorMessage[err?.message]);
       return Promise.reject(err);
     });
 };

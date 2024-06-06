@@ -9,13 +9,18 @@ import FormVerification from "../FormVerification";
 
 function SignUp() {
   const [nextStep, setNextStep] = useState("signup");
+  const [formData, setFormData] = useState();
   return (
     <S.HomeWrapper>
       <Intro />
       {nextStep === "signup" ? (
-        <FormSignUp setNextStep={setNextStep} />
+        <FormSignUp
+          setNextStep={setNextStep}
+          setFormData={setFormData}
+          formData={formData}
+        />
       ) : (
-        <FormVerification />
+        <FormVerification setNextStep={setNextStep} formData={formData} />
       )}
     </S.HomeWrapper>
   );

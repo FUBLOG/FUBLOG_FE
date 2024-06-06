@@ -14,9 +14,7 @@ const Welcome = () => {
   const handleVerify = async () => {
     try {
       const options = {
-        params: {
-          token,
-        }!,
+        params: token!,
       };
       await getRequest(
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,

@@ -1,9 +1,7 @@
-"use client";
+"use client"
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/legacy/image";
-
 import Typography from "@/components/core/common/Typography";
-
 import * as S from "./styles";
 
 export interface PageProps {
@@ -12,66 +10,12 @@ export interface PageProps {
 
 function Sidebar(props: PageProps) {
   const friends = [
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
+    { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
+    { id: 2, name: "Thu Phương", image: "/thuphuong.png" },
+    { id: 3, name: "Văn Mạnh", image: "/vanmanh.png" },
+    { id: 4, name: "Thanh Thủy", image: "/thanhthuy.png" },
+    { id: 5, name: "Minh Quân", image: "/minhquan.png" },
+   
   ];
 
   return (
@@ -81,7 +25,7 @@ function Sidebar(props: PageProps) {
       </Typography>
       <S.FriendContainer style={{ background: "transparent" }}>
         {friends.map((friend) => (
-          <S.Friend key={friend.name}>
+          <S.Friend key={friend.id}>
             <S.FriendImageContainer>
               <Image
                 alt={friend.name}

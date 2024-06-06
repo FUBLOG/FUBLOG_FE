@@ -1,4 +1,6 @@
+"use client"
 import React, { useState } from "react";
+import { Modal, message } from 'antd';
 import Button from "@/components/core/common/Button";
 import {
   HeartOutlined,
@@ -58,9 +60,8 @@ function Post({
 
   const handleConfirmReport = () => {
     setShowConfirmModal(false);
-    setShowSuccessModal(true);
+    message.success("Báo cáo bài viết thành công");
   };
-
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };
@@ -192,59 +193,58 @@ function Post({
         onCancel={handleCloseCommentsModal}
         footer={null}
       >
-        <S.CommentSection>
-          <S.Comment>
-            <S.CommentHeader>
-              <S.Avatar src={avatar} alt={`${user}'s avatar`} />
-              <S.CommentUser>{user}</S.CommentUser>
-            </S.CommentHeader>
+       <S.CommentSection>
+  <S.PostContent>
+    <S.CommentHeader>
+      <S.Avatar src={avatar} alt={`${user}'s avatar`} />
+      <S.CommentUser>{user}</S.CommentUser>
+    </S.CommentHeader>
+    <S.CommentContent>
+      <S.Content>
+        <S.Stroke />
+        {content}
+      </S.Content>
+    </S.CommentContent>
+  </S.PostContent>
+  <S.CommentsWrapper>
+    {commentsData?.map((comment) => (
+      <S.Comment key={comment.id}>
+        <S.CommentHeader>
+          <S.Avatar src={comment.avatar} alt={`${comment.user}'s avatar`} />
+          <S.CommentUser>{comment.user}</S.CommentUser>
+        </S.CommentHeader>
+        <S.CommentContent>{comment.content}</S.CommentContent>
+      </S.Comment>
+    ))}
+  </S.CommentsWrapper>
+  <S.Divider />
+  <S.CommentBox>
+    <S.CommentHeader>
+      <S.Avatar src="jos.png" alt="Jos Phan Ái's avatar" />
+      <S.CommentUser>Jos Phan Ái</S.CommentUser>
+    </S.CommentHeader>
+    <S.TextArea
+      value={newComment}
+      onChange={(e) => setNewComment(e.target.value)}
+      placeholder="Viết bình luận..."
+    />
+    <Button
+      color="red"
+      type="primary"
+      style={{
+        width: "100px",
+        marginTop: "10px",
+        padding: "5px 10px",
+        border: "none",
+        alignSelf: "flex-end",
+      }}
+      onClick={handleAddComment}
+    >
+      Đăng
+    </Button>
+  </S.CommentBox>
+</S.CommentSection>
 
-            <S.CommentContent>
-              <S.Content>
-                <S.Stroke />
-                {content}
-              </S.Content>
-            </S.CommentContent>
-          </S.Comment>
-          {commentsData?.map((comment) => (
-            <S.Comment key={comment.id}>
-              <S.CommentHeader>
-                <S.Avatar
-                  src={comment.avatar}
-                  alt={`${comment.user}'s avatar`}
-                />
-                <S.CommentUser>{comment.user}</S.CommentUser>
-              </S.CommentHeader>
-              <S.CommentContent>{comment.content}</S.CommentContent>
-            </S.Comment>
-          ))}
-          <S.Divider />
-          <S.CommentBox>
-            <S.CommentHeader>
-              <S.Avatar src="jos.png" alt="Jos Phan Ái's avatar" />
-              <S.CommentUser>Jos Phan Ái</S.CommentUser>
-            </S.CommentHeader>
-            <S.TextArea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Viết bình luận..."
-            />
-            <Button
-              color="red"
-              type="primary"
-              style={{
-                width: "100px",
-                marginTop: "10px",
-                padding: "5px 10px",
-                border: "none",
-                alignSelf: "flex-end",
-              }}
-              onClick={handleAddComment}
-            >
-              Đăng
-            </Button>
-          </S.CommentBox>
-        </S.CommentSection>
       </S.CustomModal>
     </S.PostWrapper>
   );

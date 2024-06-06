@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, use, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { Flex } from "antd";
 import Image from "next/legacy/image";
@@ -12,17 +12,16 @@ import {
   UserOutlined,
   CaretDownOutlined,
 } from "@ant-design/icons";
+import { constants } from "@/settings";
+import { jwtDecode } from "jwt-decode";
 
 import Button from "../../common/Button";
 
-import { checkToken } from "@/utils/checkToken";
 import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
-import { constants } from "@/settings";
-import { jwtDecode } from "jwt-decode";
 
 interface LayoutProps {
   readonly children: ReactNode;

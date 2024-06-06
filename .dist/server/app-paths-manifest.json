@@ -1,8 +1,6 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js",
-  "/(main)/profile/page": "app/(main)/profile/page.js",
-  "/(verify)/welcome-back/page": "app/(verify)/welcome-back/page.js",
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/home/page": "app/(main)/home/page.js"
+  "/(main)/home/page": "app/(main)/home/page.js",
+  "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js"
 }

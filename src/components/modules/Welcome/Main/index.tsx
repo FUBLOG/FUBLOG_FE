@@ -16,10 +16,9 @@ const Welcome = () => {
   const handleVerify = async () => {
     try {
       const options = { param: token! };
-      const res: any = await getRequest(
-        constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
-        { options }
-      );
+      await getRequest(constants.API_SERVER + authEndpoint.VERIFY_TOKEN, {
+        options,
+      });
       router.push("/sign-in");
     } catch (error) {}
   };

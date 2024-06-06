@@ -72,10 +72,7 @@ function FormSignUp(props: PageProps) {
         sex: sex!,
       };
       props.setFormData(data);
-      const res: any = await postRequest(
-        constants.API_SERVER + authEndpoint.SIGN_UP,
-        { data }
-      );
+      await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, { data });
       props.setNextStep("verification");
     } catch (error) {}
   };

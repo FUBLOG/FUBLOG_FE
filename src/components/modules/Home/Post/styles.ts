@@ -150,13 +150,9 @@ export const CommentsWrapper = styled(Flex)`
   overflow-y: auto; 
   padding: 10px; 
 
-  
   ::-webkit-scrollbar {
     width: 5px; 
   }
-
-  
-
 `;
 
 export const CommentBox = styled(Flex)`

@@ -1,9 +1,7 @@
 "use client";
 import Button from "@/components/core/common/Button";
-
 import Sidebar from "../Sidebar";
 import Post from "../Post";
-
 import * as S from "./styles";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
@@ -11,9 +9,14 @@ import { useEffect, useState } from "react";
 
 function Home() {
   const [isGuest, setIsGuest] = useState(true);
+  const [currentUser, setCurrentUser] = useState("Anonymous");
+
   useEffect(() => {
     setIsGuest(!webStorageClient.get(constants.IS_AUTH));
-  });
+    const user = webStorageClient.get("currentUser") || "Anonymous"; // giả sử bạn có thông tin này
+    setCurrentUser(user);
+  }, []);
+
   return (
     <S.HomeWrapper>
       <Sidebar isGuest={isGuest} />
@@ -29,16 +32,14 @@ function Home() {
               >
                 Tất cả
               </Button>
-
               <Button
                 type="default"
                 $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
+                $hoverColor="#352Fmp4"
                 $width={"84px"}
               >
                 Gia đình
               </Button>
-
               <Button
                 type="default"
                 $hoverBackgroundColor="#FAF0E6"
@@ -102,12 +103,13 @@ function Home() {
                   content: "Cho học với",
                 },
                 {
-                  id: 1,
+                  id: 3,
                   user: "Văn Mạnh",
                   avatar: "./vanmanh.png",
                   content: "Đi ăn kem",
                 },
               ]}
+          
             />
             <Post
               user="Thanh Thủy"
@@ -131,12 +133,13 @@ function Home() {
                   content: "Cho học với",
                 },
                 {
-                  id: 1,
+                  id: 3,
                   user: "Văn Mạnh",
                   avatar: "./vanmanh.png",
                   content: "Đi ăn kem",
                 },
               ]}
+            
             />
           </S.PostContainer>
         </S.ContentWrapper>

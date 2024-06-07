@@ -226,7 +226,7 @@ interface LayoutProps {
 }
 
 function MainLayout({ children, isGuestPage = true }: LayoutProps) {
-  const [showMessageModal, setShowMessageModal] = useState(false); // Trạng thái modal nhắn tin
+  const [showMessageModal, setShowMessageModal] = useState(false);
 
   const handleOpenMessageModal = () => {
     setShowMessageModal(true);

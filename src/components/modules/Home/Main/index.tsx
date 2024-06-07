@@ -13,7 +13,7 @@ function Home() {
 
   useEffect(() => {
     setIsGuest(!webStorageClient.get(constants.IS_AUTH));
-    const user = webStorageClient.get("currentUser") || "Anonymous"; // giả sử bạn có thông tin này
+    const user = webStorageClient.get("currentUser") || "Anonymous"; 
     setCurrentUser(user);
   }, []);
 

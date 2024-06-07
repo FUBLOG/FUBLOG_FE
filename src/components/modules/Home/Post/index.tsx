@@ -13,7 +13,7 @@ interface Comment {
   avatar: string;
   content: string;
   parentId?: number | null;
-  replies?: Comment[];  
+  replies?: Comment[];
 }
 
 interface PostProps {
@@ -51,6 +51,7 @@ function Post({
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<number | null>(null); // Track editing comment ID
 
+  const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -64,7 +65,13 @@ function Post({
       editInputRef.current.setSelectionRange(editInputRef.current.value.length, editInputRef.current.value.length);
     }
   }, [editMode]);
-  
+
+  // This effect ensures that the comments section scrolls to the latest comment.
+  useEffect(() => {
+    if (commentsWrapperRef.current) {
+      commentsWrapperRef.current.scrollTop = commentsWrapperRef.current.scrollHeight;
+    }
+  }, [commentsData]);
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -96,18 +103,17 @@ function Post({
 
   const handleAddComment = () => {
     if (newComment.trim()) {
-      const newCommentData = {
+      const newCommentData: Comment = {
         id: commentsData.length + 1,
         user: currentUser,
         avatar: "jos.png",
         content: newComment,
         parentId: selectedCommentId || null,
-        replies: [], // Initialize replies array for new comments
+        replies: [],
       };
 
       let updatedComments;
       if (selectedCommentId) {
-        // If it's a reply, find the parent and update its replies
         updatedComments = commentsData.map((comment) => {
           if (comment.id === selectedCommentId) {
             const newReplies = comment.replies ? [...comment.replies, newCommentData] : [newCommentData];
@@ -116,7 +122,6 @@ function Post({
           return comment;
         });
       } else {
-        // If it's a top-level comment, add it directly
         updatedComments = [...commentsData, newCommentData];
       }
 
@@ -136,6 +141,7 @@ function Post({
     if (commentToEdit) {
       setEditMode(commentId);
       setEditComment(commentToEdit.content);
+      setShowCommentsModal(true);
     }
   };
 
@@ -347,7 +353,7 @@ function Post({
         footer={null}
       >
         <S.CommentSection>
-          <S.CommentsWrapper>
+          <S.CommentsWrapper ref={commentsWrapperRef}>
             {renderComments(commentsData)}
           </S.CommentsWrapper>
           <S.Divider />
@@ -357,12 +363,12 @@ function Post({
               <S.CommentUser>{currentUser}</S.CommentUser>
             </S.CommentHeader>
             <S.TextArea
-  value={newComment}
-  onChange={(e) => setNewComment(e.target.value)}
-  placeholder="Viết bình luận..."
-  className={newComment.includes('@') ? 'blinking-cursor' : ''} // Apply cursor style if mentioning
-  ref={editInputRef} // Reference to focus the textarea
-/>
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Viết bình luận..."
+              className={newComment.includes('@') ? 'blinking-cursor' : ''}
+              ref={editInputRef}
+            />
             <Button
               color="red"
               type="primary"

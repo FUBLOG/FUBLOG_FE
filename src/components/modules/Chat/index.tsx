@@ -181,9 +181,9 @@ const Chat = ({ visible, onClose }: PageProps) => {
             />
           </S.SearchBar>
           <S.FriendList>
-            {user.map((user, index) => (
+            {user.map((user) => (
               <S.FriendItem
-                key={index}
+                key={user.id}
                 onClick={() => {
                   setSelectedId(user.id);
                 }}
@@ -203,7 +203,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
         <S.ChatArea>
           <S.ActiveFriends>
             {user.map((user) => (
-              <S.ActiveFriend>
+              <S.ActiveFriend key={user.id}>
                 <Badge dot={user.action} status="success">
                   <S.ActiveFriendImage
                     src={user.avatar}

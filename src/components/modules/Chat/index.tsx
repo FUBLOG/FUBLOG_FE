@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Modal, Input, Badge, Space } from "antd";
+import { Modal, Input, Badge } from "antd";
 import {
   SearchOutlined,
   PictureOutlined,
   SendOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
+
 import * as S from "./styles";
 
 interface PageProps {
@@ -180,8 +181,9 @@ const Chat = ({ visible, onClose }: PageProps) => {
             />
           </S.SearchBar>
           <S.FriendList>
-            {user.map((user) => (
+            {user.map((user, index) => (
               <S.FriendItem
+                key={index}
                 onClick={() => {
                   setSelectedId(user.id);
                 }}
@@ -201,18 +203,16 @@ const Chat = ({ visible, onClose }: PageProps) => {
         <S.ChatArea>
           <S.ActiveFriends>
             {user.map((user) => (
-              <>
-                <S.ActiveFriend>
-                  <Badge dot={user.action} status="success">
-                    <S.ActiveFriendImage
-                      src={user.avatar}
-                      alt="Thu Phương"
-                      isActive
-                    />
-                  </Badge>
-                  <S.ActiveFriendName>{user.name}</S.ActiveFriendName>
-                </S.ActiveFriend>
-              </>
+              <S.ActiveFriend>
+                <Badge dot={user.action} status="success">
+                  <S.ActiveFriendImage
+                    src={user.avatar}
+                    alt="Thu Phương"
+                    isActive
+                  />
+                </Badge>
+                <S.ActiveFriendName>{user.name}</S.ActiveFriendName>
+              </S.ActiveFriend>
             ))}
           </S.ActiveFriends>
 

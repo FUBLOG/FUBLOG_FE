@@ -4,10 +4,10 @@ import Button from "@/components/core/common/Button";
 import Sidebar from "../Sidebar";
 import Post from "../Post";
 
-import * as S from "./styles";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import * as S from "./styles";
 
 function Home() {
   const [isGuest, setIsGuest] = useState(true);

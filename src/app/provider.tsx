@@ -5,7 +5,6 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { themes } from "@/style/themes";
 import GlobalStyle from "@/style/global";
 import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
   children: React.ReactNode;

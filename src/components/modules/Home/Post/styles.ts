@@ -1,4 +1,4 @@
-import { Flex, Modal } from "antd";
+import { Flex, Modal,Menu } from "antd";
 import styled from "styled-components";
 
 export const PostWrapper = styled.div`
@@ -12,7 +12,6 @@ export const PostWrapper = styled.div`
   background-color: transparent;
  
 `;
-
 
 export const PostHeader = styled(Flex)`
   align-items: center;
@@ -48,7 +47,6 @@ export const PostContent = styled.p`
   line-height: 2;
   margin: 0;
   padding: 10px 0;
- 
 `;
 
 export const ImagesWrapper = styled(Flex)`
@@ -129,6 +127,7 @@ export const CustomModal = styled(Modal)`
   .ant-btn-default {
     background: #faf0e6;
   }
+  
 `;
 
 export const ModalContent = styled.span`
@@ -146,12 +145,12 @@ export const CommentSection = styled(Flex)`
 export const CommentsWrapper = styled(Flex)`
   flex-direction: column;
   gap: 5px;
-  max-height: 220px; 
-  overflow-y: auto; 
-  padding: 10px; 
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 10px;
 
   ::-webkit-scrollbar {
-    width: 5px; 
+    width: 5px;
   }
 `;
 
@@ -207,8 +206,6 @@ export const Divider = styled.div`
   margin: 10px 0;
 `;
 
-
-
 export const Stroke = styled.div`
   width: 2px;
   height: 30px;
@@ -221,4 +218,22 @@ export const Stroke = styled.div`
 export const Content = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const CustomMenu = styled(Menu)`
+  background-color: #faf0e6 !important;
+`;
+
+export const CustomMenuItem = styled(Menu.Item)`
+  background-color: #faf0e6 !important;
+  color: #352f44 !important;
+
+  &:hover {
+    background-color: #e5d6c6 !important;
+    color: #352f44 !important;
+  }
+
+  &:active {
+    background-color: #d4b8a9 !important;
+  }
 `;

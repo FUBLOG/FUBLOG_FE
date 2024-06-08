@@ -49,7 +49,8 @@ function Post({
   const [currentUser, setCurrentUser] = useState("Anonymous");
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [reportReason, setReportReason] = useState<string | null>(null);
-  const [editMode, setEditMode] = useState<number | null>(null); // Track editing comment ID
+  const [editMode, setEditMode] = useState<number | null>(null);
+  const [isPostReport, setIsPostReport] = useState(false); 
 
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -66,7 +67,6 @@ function Post({
     }
   }, [editMode]);
 
-  // This effect ensures that the comments section scrolls to the latest comment.
   useEffect(() => {
     if (commentsWrapperRef.current) {
       commentsWrapperRef.current.scrollTop = commentsWrapperRef.current.scrollHeight;
@@ -80,6 +80,12 @@ function Post({
 
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
+    setIsPostReport(false); 
+    setShowReportModal(true);
+  };
+
+  const handlePostReportClick = () => {
+    setIsPostReport(true); 
     setShowReportModal(true);
   };
 
@@ -90,7 +96,9 @@ function Post({
 
   const handleFinalReport = () => {
     setShowConfirmModal(false);
-    message.success("Báo cáo bình luận thành công");
+    message.success(isPostReport ? "Báo cáo bài viết thành công" : "Báo cáo bình luận thành công");
+    setReportReason(null);
+    setSelectedCommentId(null);
   };
 
   const handleCloseSuccessModal = () => {
@@ -134,6 +142,7 @@ function Post({
 
   const handleCloseCommentsModal = () => {
     setShowCommentsModal(false);
+    setEditMode(null); 
   };
 
   const handleEditComment = (commentId: number) => {
@@ -141,7 +150,7 @@ function Post({
     if (commentToEdit) {
       setEditMode(commentId);
       setEditComment(commentToEdit.content);
-      setShowCommentsModal(true);
+      setShowCommentsModal(true); 
     }
   };
 
@@ -167,11 +176,11 @@ function Post({
       setSelectedCommentId(commentId);
       setShowCommentsModal(true);
 
-      // Set timeout to ensure the modal is open and the textarea is rendered
+     
       setTimeout(() => {
         if (editInputRef.current) {
           editInputRef.current.focus();
-          // Set cursor at the end of the text
+        
           const len = editInputRef.current.value.length;
           editInputRef.current.setSelectionRange(len, len);
         }
@@ -180,29 +189,28 @@ function Post({
   };
 
   const renderCommentMenu = (comment: Comment) => (
-    <Menu>
+    <S.CustomMenu>
       {comment.user === currentUser ? (
         <>
-          <Menu.Item key="edit" onClick={() => handleEditComment(comment.id)}>
+          <S.CustomMenuItem key="edit" onClick={() => handleEditComment(comment.id)}>
             Chỉnh sửa
-          </Menu.Item>
-          <Menu.Item key="delete" onClick={() => handleDeleteComment(comment.id)}>
+          </S.CustomMenuItem>
+          <S.CustomMenuItem key="delete" onClick={() => handleDeleteComment(comment.id)}>
             Xóa
-          </Menu.Item>
+          </S.CustomMenuItem>
         </>
       ) : (
         <>
-          <Menu.Item key="reply" onClick={() => handleReplyComment(comment.id)}>
+          <S.CustomMenuItem key="reply" onClick={() => handleReplyComment(comment.id)}>
             Phản hồi
-          </Menu.Item>
-          <Menu.Item key="report" onClick={() => handleReportClick(comment.id)}>
+          </S.CustomMenuItem>
+          <S.CustomMenuItem key="report" onClick={() => handleReportClick(comment.id)}>
             Báo cáo
-          </Menu.Item>
+          </S.CustomMenuItem>
         </>
       )}
-    </Menu>
+    </S.CustomMenu>
   );
-
   const renderComments = (commentsArray: Comment[], depth = 0) => {
     return commentsArray.map((comment) => (
       <React.Fragment key={comment.id}>
@@ -223,7 +231,7 @@ function Post({
                 onFocus={(e) => {
                   const value = e.target.value;
                   e.target.value = '';
-                  e.target.value = value; // This trick ensures the cursor is at the end
+                  e.target.value = value; 
                 }}
                 ref={editInputRef}
               />
@@ -261,7 +269,7 @@ function Post({
               {user}
             </Typography>
           </S.UserInfo>
-          <ExclamationCircleOutlined onClick={() => setShowConfirmModal(true)} style={{ color: "#FAF0E6", cursor: "pointer" }} />
+          <ExclamationCircleOutlined onClick={handlePostReportClick} style={{ color: "#FAF0E6", cursor: "pointer" }} />
         </S.PostHeader>
 
         <S.ContentWrapper>
@@ -302,7 +310,7 @@ function Post({
       </S.CustomCard>
 
       <S.CustomModal
-        title="Báo cáo bình luận"
+        title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
         open={showReportModal}
         onOk={handleConfirmReport}
         onCancel={() => setShowReportModal(false)}
@@ -316,7 +324,7 @@ function Post({
           style={{ display: "flex", flexDirection: "column" }}
         >
           {[
-            "Ảnh khỏa thân",
+            "Nội dung phản cảm",
             "Bạo lực",
             "Quấy rối",
             "Tự tử hoặc tự gây thương tích",
@@ -324,6 +332,7 @@ function Post({
             "Spam",
             "Chất cấm, chất gây nghiện",
             "Bán hàng trái phép",
+            "khác"
           ].map((reason) => (
             <Radio value={reason} key={reason}>
               {reason}
@@ -336,12 +345,12 @@ function Post({
         title="Xác nhận báo cáo"
         open={showConfirmModal}
         onOk={handleFinalReport}
-        onCancel={() => setShowConfirmModal(false)}
+        onCancel={handleCloseSuccessModal}
         cancelText={"Hủy"}
         okText={"Báo cáo"}
       >
         <Typography variant="caption-small">
-          Bạn có chắc chắn muốn báo cáo bình luận này không?
+          {isPostReport ? "Bạn có chắc chắn muốn báo cáo bài viết này không?" : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
 

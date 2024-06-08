@@ -2,7 +2,7 @@
 import Button from "@/components/core/common/Button";
 import Sidebar from "../Sidebar";
 import Post from "../Post";
-import * as S from "./styles";
+
 
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";

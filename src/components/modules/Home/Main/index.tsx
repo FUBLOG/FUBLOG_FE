@@ -23,65 +23,17 @@ function Home() {
       <Sidebar isGuest={isGuest} />
       <S.MainWrapper>
         <S.ContentWrapper>
+          <S.TagsContainer>
+           
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Tất cả</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Gia đình</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Bạn bè</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Học tập</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Công việc</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Tình cảm</Button>
+            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Khác</Button>
+          </S.TagsContainer>
           <S.PostContainer>
-            <S.TagsContainer>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Tất cả
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Gia đình
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Bạn bè
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Học tập
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Công việc
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Tình cảm
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Khác
-              </Button>
-            </S.TagsContainer>
             <Post
               user="Thanh Thủy"
               avatar="/thanhthuy.png"
@@ -91,25 +43,11 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                {
-                  id: 1,
-                  user: "Thu Phương",
-                  avatar: "/thuphuong.png",
-                  content: "giỏi quá c ơi",
-                },
-                {
-                  id: 2,
-                  user: "Vĩnh Trung",
-                  avatar: "./vinhtrung.png",
-                  content: "Cho học với",
-                },
-                {
-                  id: 3,
-                  user: "Văn Mạnh",
-                  avatar: "./vanmanh.png",
-                  content: "Đi ăn kem",
-                },
+                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
+                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
+                { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
               ]}
+              currentUser={currentUser}  
             />
             <Post
               user="Thanh Thủy"
@@ -120,25 +58,11 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                {
-                  id: 1,
-                  user: "Thu Phương",
-                  avatar: "/thuphuong.png",
-                  content: "giỏi quá c ơi",
-                },
-                {
-                  id: 2,
-                  user: "Vĩnh Trung",
-                  avatar: "./vinhtrung.png",
-                  content: "Cho học với",
-                },
-                {
-                  id: 3,
-                  user: "Văn Mạnh",
-                  avatar: "./vanmanh.png",
-                  content: "Đi ăn kem",
-                },
+                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
+                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
+                { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
               ]}
+              currentUser={currentUser}  
             />
           </S.PostContainer>
         </S.ContentWrapper>

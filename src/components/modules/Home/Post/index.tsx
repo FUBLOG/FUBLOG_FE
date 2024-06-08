@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, message, Dropdown, Radio } from "antd";
+import {  message, Dropdown, Radio } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined, ExclamationCircleOutlined, EllipsisOutlined, TagOutlined } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
@@ -25,6 +25,7 @@ interface PostProps {
   initialLikes: number;
   initialComments: number;
   initialCommentsData: Comment[];
+  currentUser: string | null;
 }
 
 function Post({

@@ -2,8 +2,6 @@
 import Button from "@/components/core/common/Button";
 import Sidebar from "../Sidebar";
 import Post from "../Post";
-
-
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { useEffect, useState } from "react";
@@ -11,11 +9,12 @@ import * as S from "./styles";
 
 function Home() {
   const [isGuest, setIsGuest] = useState(true);
-  const [currentUser, setCurrentUser] = useState("Anonymous");
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
-    const user = webStorageClient.get("currentUser") || "Anonymous"; 
+    const isAuth = webStorageClient.get(constants.IS_AUTH);
+    const user = webStorageClient.get("currentUser") || "Anonymous";
+    setIsGuest(!isAuth);
     setCurrentUser(user);
   }, []);
 
@@ -37,7 +36,7 @@ function Home() {
               <Button
                 type="default"
                 $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352Fmp4"
+                $hoverColor="#352F44"
                 $width={"84px"}
               >
                 Gia đình
@@ -111,7 +110,6 @@ function Home() {
                   content: "Đi ăn kem",
                 },
               ]}
-          
             />
             <Post
               user="Thanh Thủy"
@@ -141,7 +139,6 @@ function Home() {
                   content: "Đi ăn kem",
                 },
               ]}
-            
             />
           </S.PostContainer>
         </S.ContentWrapper>

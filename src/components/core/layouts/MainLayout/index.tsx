@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode } from "react";
-import { Flex, Modal, Input } from "antd";
+import { Flex, Modal, Input,Menu,Dropdown } from "antd";
 import Image from "next/image";
 import {
   HomeOutlined,
@@ -225,7 +225,7 @@ interface LayoutProps {
   readonly isGuestPage?: boolean;
 }
 
-function MainLayout({ children, isGuestPage = true }: LayoutProps) {
+function MainLayout({ children, isGuestPage = false }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
 
   const handleOpenMessageModal = () => {
@@ -236,6 +236,19 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
     setShowMessageModal(false);
   };
 
+  const menuItems = (
+    <S.CustomMenu>
+      <Menu.Item key="viewProfile" className="custom-menu-item">
+        <a href="/profile">Xem trang cá nhân</a>
+      </Menu.Item>
+      <Menu.Item key="editProfile" className="custom-menu-item">
+        <a href="/profile/edit">Chỉnh sửa trang cá nhân</a>
+      </Menu.Item>
+      <Menu.Item key="logout" className="custom-menu-item">
+        <a href="/logout">Đăng xuất</a>
+      </Menu.Item>
+    </S.CustomMenu>
+  );
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -272,9 +285,11 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
               <a href="/profile">
                 <UserOutlined style={{ fontSize: "28px" }} />
               </a>
-              <CaretDownOutlined
-                style={{ fontSize: "18px", marginLeft: "4px" }}
-              />
+              <Dropdown overlay={menuItems} trigger={["click"]}>
+                <CaretDownOutlined
+                  style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
+                />
+              </Dropdown>
             </S.UserIconContainer>
           )}
         </S.Container>

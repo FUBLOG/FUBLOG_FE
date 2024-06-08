@@ -1,5 +1,5 @@
-import { Flex } from "antd";
-import styled, { createGlobalStyle } from 'styled-components';
+import { Flex, Menu } from "antd";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
   background-color: ${(props) => props?.theme?.colors?.backgroundGray};
@@ -138,7 +138,7 @@ export const FriendImage = styled.img`
 
 export const FriendName = styled.div`
   font-size: 14px;
-  margin-left:8px;
+  margin-left: 8px;
 `;
 
 export const ChatArea = styled.div`
@@ -165,12 +165,12 @@ export const ActiveFriend = styled.div`
 export const ActiveFriendImage = styled(FriendImage)<{ isActive?: boolean }>`
   position: relative;
   &::after {
-    content: ${(props) => (props.isActive ? 'url("/moon.png")' : "''")}; // 
+    content: ${(props) => (props.isActive ? 'url("/moon.png")' : "''")}; //
     position: absolute;
     top: -5px;
     right: -5px;
-    width: 20px; 
-    height: 20px; 
+    width: 20px;
+    height: 20px;
   }
 `;
 export const ActiveFriendName = styled.div`
@@ -191,7 +191,7 @@ export const ChatHeader = styled.div`
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #352f44;
-  justify-content: flex-start;;
+  justify-content: flex-start;
 `;
 
 export const ChatFriendName = styled.div`
@@ -216,7 +216,8 @@ export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  justify-content: ${(props) => (props.isOwnMessage ? "flex-end" : "flex-start")};
+  justify-content: ${(props) =>
+    props.isOwnMessage ? "flex-end" : "flex-start"};
 `;
 
 export const MessageAvatar = styled.img`
@@ -269,15 +270,75 @@ const StyledIcon = styled.div`
   transition: color 0.3s;
 
   &:hover {
-    color: #B9B4C7;
+    color: #b9b4c7;
   }
 
   &.active {
-    color: #B9B4C7; 
+    color: #b9b4c7;
   }
-    `
+`;
+
+export const CustomMenu = styled(Menu)`
+  .ant-dropdown-menu {
+    padding: 0px !important;
+    background-color: #faf0e6 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+
+  }
+    
+
+  .ant-dropdown-menu-item {
+    background-color: #faf0e6 !important;
+    padding: 8px 12px !important;
+    &:hover {
+      background-color: #f0e1d2 !important;
+    }
+  }
+    .ant-dropdown-menu-submenu .ant-dropdown-menu{
+     background-color: #faf0e6 !important;
+     padding:0;
+    }
+
+  .ant-dropdown-menu-item-active {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-item-selected {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-submenu {
+    background-color: #faf0e6 !important;
+  }
+`;
+
 export const GlobalStyle = createGlobalStyle`
-  .ant-modal-content {
+ .ant-modal-content {
+    background-color: #faf0e6 !important;
+  .ant-dropdown-menu {
+    padding: 0 !important;
+    background-color: #faf0e6 !important;
+    border-radius: 8px !important;
+  }
+
+  .ant-dropdown-menu-item {
+    background-color: #faf0e6 !important;
+    padding: 8px 12px !important;
+    &:hover {
+      background-color: #f0e1d2 !important;
+    }
+  }
+
+  .ant-dropdown-menu-item-active {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-item-selected {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-submenu {
     background-color: #faf0e6 !important;
   }
 `;

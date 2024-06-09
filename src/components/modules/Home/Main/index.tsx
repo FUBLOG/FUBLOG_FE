@@ -6,16 +6,15 @@ import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { useEffect, useState } from "react";
 import * as S from "./styles";
-
 function Home() {
   const [isGuest, setIsGuest] = useState(true);
   const [currentUser, setCurrentUser] = useState<string | null>(null);
 
   useEffect(() => {
     const isAuth = webStorageClient.get(constants.IS_AUTH);
-    const user = webStorageClient.get("currentUser") || "Anonymous";
+    const user = webStorageClient.get("currentUser");
     setIsGuest(!isAuth);
-    setCurrentUser(user);
+    setCurrentUser(user || "Jos Phan Ái"); 
   }, []);
 
   return (
@@ -25,13 +24,13 @@ function Home() {
         <S.ContentWrapper>
           <S.TagsContainer>
            
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Tất cả</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Gia đình</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Bạn bè</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Học tập</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Công việc</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Tình cảm</Button>
-            <Button type="default" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}>Khác</Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44 " $width={"84px"} ><span style={{color:"#B9B4C7 !important" } }>Tất cả</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Gia đình</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Bạn bè</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Học tập</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Công việc</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Tình cảm</span></Button>
+            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Khác</span></Button>
           </S.TagsContainer>
           <S.PostContainer>
             <Post

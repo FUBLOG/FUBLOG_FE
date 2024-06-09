@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import {  message, Dropdown, Radio } from "antd";
+import { Modal, message, Dropdown, Radio } from "antd";
 import { HeartOutlined, HeartFilled, CommentOutlined, ExclamationCircleOutlined, EllipsisOutlined, TagOutlined } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
-import webStorageClient from "@/utils/webStorageClient";
+
 
 interface Comment {
   id: number;
@@ -37,6 +37,7 @@ function Post({
   initialLikes,
   initialComments,
   initialCommentsData = [],
+  currentUser,
 }: Readonly<PostProps>) {
   const [likes, setLikes] = useState(initialLikes);
   const [comments, setComments] = useState(initialComments);
@@ -47,7 +48,6 @@ function Post({
   const [showReportModal, setShowReportModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState("Anonymous");
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<number | null>(null);
@@ -55,11 +55,6 @@ function Post({
 
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    const user = webStorageClient.get("currentUser") || "Jos Phan Ái";
-    setCurrentUser(user);
-  }, []);
 
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
@@ -114,7 +109,7 @@ function Post({
     if (newComment.trim()) {
       const newCommentData: Comment = {
         id: commentsData.length + 1,
-        user: currentUser,
+        user: currentUser || "Anonymous",  
         avatar: "jos.png",
         content: newComment,
         parentId: selectedCommentId || null,
@@ -147,7 +142,7 @@ function Post({
   };
 
   const handleEditComment = (commentId: number) => {
-    const commentToEdit = commentsData.find(comment => comment.id === commentId);
+    const commentToEdit = findComment(commentsData, commentId); 
     if (commentToEdit) {
       setEditMode(commentId);
       setEditComment(commentToEdit.content);
@@ -156,32 +151,28 @@ function Post({
   };
 
   const handleUpdateComment = () => {
-    const updatedComments = commentsData.map((comment) =>
-      comment.id === editMode ? { ...comment, content: editComment } : comment
-    );
+    const updatedComments = updateNestedComment(commentsData, editMode, editComment);
     setCommentsData(updatedComments);
     setEditMode(null);
     setEditComment("");
   };
 
   const handleDeleteComment = (commentId: number) => {
-    const updatedComments = commentsData.filter(comment => comment.id !== commentId);
+    const updatedComments = deleteNestedComment(commentsData, commentId);
     setCommentsData(updatedComments);
     setComments(comments - 1);
   };
 
   const handleReplyComment = (commentId: number) => {
-    const parentComment = commentsData.find(comment => comment.id === commentId);
+    const parentComment = findComment(commentsData, commentId);
     if (parentComment) {
       setNewComment(`@${parentComment.user} `);
       setSelectedCommentId(commentId);
       setShowCommentsModal(true);
 
-     
       setTimeout(() => {
         if (editInputRef.current) {
           editInputRef.current.focus();
-        
           const len = editInputRef.current.value.length;
           editInputRef.current.setSelectionRange(len, len);
         }
@@ -212,10 +203,11 @@ function Post({
       )}
     </S.CustomMenu>
   );
+
   const renderComments = (commentsArray: Comment[], depth = 0) => {
     return commentsArray.map((comment) => (
       <React.Fragment key={comment.id}>
-        <S.Comment style={{ marginLeft: `${depth * 20}px` }}>
+        <S.Comment style={{ marginLeft: `${depth * 40}px` }}>
           <S.CommentHeader>
             <S.Avatar src={comment.avatar} alt={`${comment.user}'s avatar`} />
             <S.CommentUser>{comment.user}</S.CommentUser>
@@ -398,6 +390,47 @@ function Post({
       </S.CustomModal>
     </S.PostWrapper>
   );
+}
+
+function findComment(comments: Comment[], commentId: number): Comment | null {
+  for (const comment of comments) {
+    if (comment.id === commentId) {
+      return comment;
+    }
+    if (comment.replies) {
+      const found = findComment(comment.replies, commentId);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+function updateNestedComment(comments: Comment[], commentId: number | null, content: string): Comment[] {
+  if (commentId === null) return comments;
+
+  return comments.map(comment => {
+    if (comment.id === commentId) {
+      return { ...comment, content };
+    }
+    if (comment.replies) {
+      return { ...comment, replies: updateNestedComment(comment.replies, commentId, content) };
+    }
+    return comment;
+  });
+}
+
+function deleteNestedComment(comments: Comment[], commentId: number): Comment[] {
+  return comments
+    .map(comment => {
+      if (comment.id === commentId) {
+        return null;
+      }
+      if (comment.replies) {
+        return { ...comment, replies: deleteNestedComment(comment.replies, commentId) };
+      }
+      return comment;
+    })
+    .filter(comment => comment !== null) as Comment[];
 }
 
 export default Post;

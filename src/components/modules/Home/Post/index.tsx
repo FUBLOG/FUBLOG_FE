@@ -109,7 +109,7 @@ function Post({
     if (newComment.trim()) {
       const newCommentData: Comment = {
         id: commentsData.length + 1,
-        user: currentUser || "Anonymous",  
+        user: currentUser ?? "Anonymous",  
         avatar: "jos.png",
         content: newComment,
         parentId: selectedCommentId || null,
@@ -166,10 +166,10 @@ function Post({
   const handleReplyComment = (commentId: number) => {
     const parentComment = findComment(commentsData, commentId);
     if (parentComment) {
-      setNewComment(`@${parentComment.user} `);
+      const replyContent = `@${parentComment.user} `;
+      setNewComment(replyContent);
       setSelectedCommentId(commentId);
       setShowCommentsModal(true);
-
       setTimeout(() => {
         if (editInputRef.current) {
           editInputRef.current.focus();

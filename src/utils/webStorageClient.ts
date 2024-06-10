@@ -32,9 +32,16 @@ const webStorageClient = {
   setToken(value: string, option?: any) {
     setCookie(constants.ACCESS_TOKEN, value, option);
   },
-
-  getToken() {
-    return getCookie(constants.ACCESS_TOKEN);
+  setProfileHash(value: string, option?: any) {
+    setCookie(constants.PROFILE_HASH, value, option);
+  },
+  getToken: async () => {
+    const data = await getCookie(constants.ACCESS_TOKEN);
+    return data;
+  },
+  getProfileHash: async () => {
+    const data = await getCookie(constants.PROFILE_HASH);
+    return data;
   },
 };
 

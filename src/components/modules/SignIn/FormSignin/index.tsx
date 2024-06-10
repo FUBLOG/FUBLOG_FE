@@ -29,12 +29,12 @@ function FormSignIn() {
         password: values.password!,
         isRemember: values.isRemember!,
       };
-      const res: any = await postRequest(
-        constants.API_SERVER + authEndpoint.SIGN_IN,
-        { data }
-      );
+      const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
+      webStorageClient.setProfileHash(res?.metadata?.user?.profileHash, {
+        maxAge: 7 * 24 * 60,
+      });
       webStorageClient.setToken(res?.metadata?.tokens?.accessToken, {
-        maxAge: 60 * 4,
+        maxAge: 7 * 24 * 60,
       });
       webLocalStorage.set("refreshToken", res?.metadata?.tokens?.refreshToken);
       webLocalStorage.set("privateKey", res?.metadata?.tokens?.privateKey);

@@ -1,5 +1,5 @@
 import { Flex,Modal } from "antd";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
   background-color: ${(props) => props?.theme?.colors?.backgroundGray};
@@ -53,9 +53,9 @@ export const Body = styled(Flex)`
 
   flex: 1;
 `;
+
 export const Container = styled(Flex)`
   margin: 4px 18px;
-
   justify-content: space-between;
   align-items: center;
 `;

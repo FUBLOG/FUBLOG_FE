@@ -14,16 +14,16 @@ const Welcome = () => {
   const handleVerify = async () => {
     try {
       const options = {
-        params: token!,
+        params: {
+          token,
+        },
       };
       await getRequest(
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
         options
       );
       window.close();
-    } catch (error) {
-      window.close();
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     handleVerify();

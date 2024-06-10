@@ -6,7 +6,7 @@ interface SearchContentProps {
   onPressEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
+const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     const [value,setValue] = useState("");
     const handleClear = ()=>{
         setValue("");
@@ -30,4 +30,4 @@ const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     </div>
   );
 };
-export default searchContent;
+export default SearchContent;

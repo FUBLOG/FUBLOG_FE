@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Flex } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,18 +18,27 @@ import {
   EditFilled,
   BellFilled,
 } from "@ant-design/icons";
+import { constants } from "@/settings";
+import { jwtDecode } from "jwt-decode";
+
 import Button from "../../common/Button";
+
+import webStorageClient from "@/utils/webStorageClient";
+
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+
+interface LayoutProps {
+  readonly children: ReactNode;
+}
 import Chat from "@/components/modules/Chat";
 
 interface LayoutProps {
   readonly children: ReactNode;
-  readonly isGuestPage?: boolean;
 }
 
-function MainLayout({ children, isGuestPage = true }: LayoutProps) {
+function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const handleOpenMessageModal = () => {
@@ -46,6 +55,20 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
     setNav(e);
   };
 
+  const [isGuest, setIsGuest] = useState(true);
+  useEffect(() => {
+    const token = webStorageClient.getToken();
+    console.log(token);
+
+    if (token) {
+      webStorageClient.set(constants.IS_AUTH, true);
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+    } else {
+      webStorageClient.set(constants.IS_AUTH, false);
+    }
+    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
+  }, []);
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -96,7 +119,7 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
               )}
             </Button>
           </S.IconContainer>
-          {isGuestPage ? (
+          {isGuest ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

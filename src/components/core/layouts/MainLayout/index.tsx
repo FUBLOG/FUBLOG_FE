@@ -1,9 +1,10 @@
 "use client";
-import {Users} from "../../../modules/Home/SearchBar/SearchedUser/test"
-import { ReactNode, useEffect, useState } from "react";
+import { useState, ReactNode, useEffect } from "react";
+import { Flex } from "antd";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { Flex, Modal } from "antd";
-import Image from "next/legacy/image";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   HomeOutlined,
   SearchOutlined,
@@ -29,7 +30,6 @@ import logo from "@/public/logo.png";
 import SearchContent from "../../../modules/Home/SearchBar"; 
 
 import * as S from "./styles";
-import Input from "../../common/form/Input";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -58,8 +58,6 @@ function MainLayout({ children }: LayoutProps) {
   };
 
   const [isGuest, setIsGuest] = useState(true);
-  const [searchVisible,setSearchVisible] = useState(false);
-  const [searchResults, setSearchResults] = useState<string[]>([]);
   useEffect(() => {
     const token = webStorageClient.getToken();
     console.log(token);
@@ -73,21 +71,19 @@ function MainLayout({ children }: LayoutProps) {
     }
     setIsGuest(!webStorageClient.get(constants.IS_AUTH));
   }, []);
-    // Search Modal
-    const showSearchModal = ()=>{
-      setSearchVisible(true);
-    }
-    
-    const handleOk = ()=> {
-      setSearchVisible(true);
-    }
-    const handleCancle = ()=> {
-      setSearchVisible(false);
-    }
-    // const handleSearch = (query: string) => {
-    //   // Perform search here and set search results
-    //   setSearchResults([`Result 1 for ${query}`, `Result 2 for ${query}`, `Result 3 for ${query}`]);
-    // };
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const showSearchModal = () => {
+    setSearchVisible(true);
+  };
+
+  const handleOk = () => {
+    setSearchVisible(true);
+  };
+  const handleCancle = () => {
+    setSearchVisible(false);
+  };
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -110,15 +106,14 @@ function MainLayout({ children }: LayoutProps) {
                 />
               ) : (
                 <SearchOutlined
-                  style={{
-                    fontSize: "22px",
-                  }}
+                  onClick={showSearchModal}
+                  style={{ fontSize: "22px" }}
                 />
               )}
             </Link>
             <Link href="" onClick={() => handleSetNavigation("edit")}>
               {nav === "edit" ? (
-                <EditFilled onClick={showSearchModal} style={{ fontSize: "22px" }} />
+                <EditFilled style={{ fontSize: "22px" }} />
               ) : (
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
@@ -164,7 +159,8 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-
+      <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
+      <SearchOutlined onClick={showSearchModal} style={{ fontSize: "22px" }} />
       <S.SearchModal
         open={searchVisible}
         onOk={handleOk}
@@ -172,15 +168,10 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent onPressEnter={handleCancle}/>
+        <SearchContent onPressEnter={handleCancle} />
       </S.SearchModal>
     </S.LayoutWrapper>
-
-    
   );
-
-
-
 }
 
 export default MainLayout;

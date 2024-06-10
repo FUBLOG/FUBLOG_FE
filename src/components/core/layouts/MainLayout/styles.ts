@@ -8,7 +8,11 @@ export const LayoutWrapper = styled.main`
   flex-direction: column;
   align-items: center;
 `;
-
+export const GlobalStyle = createGlobalStyle`
+  .ant-modal-content {
+    background-color: #faf0e6 !important;
+  }
+  `
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
@@ -61,12 +65,12 @@ export const Container = styled(Flex)`
 `;
 export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
   &.searchModal{
-    background-color: transparent;
+    background-color: transparent ;
   }
 
   &.searchModal .ant-modal-content {
     background-color: rgb(250,240,230);
-    background-color: transparent;
+    background-color: transparent !important;
 
     height: 350px;
   }

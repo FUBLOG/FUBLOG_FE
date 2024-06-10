@@ -20,7 +20,7 @@ const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
       <InputWrapper>
         <SearchIcon />
         <StyledInput
-          placeholder="Search..."
+          placeholder="Tìm Kiếm..."
           value={value}
           onChange={handleChange}
           onPressEnter={onPressEnter}

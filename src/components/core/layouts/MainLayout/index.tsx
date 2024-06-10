@@ -72,7 +72,6 @@ function MainLayout({ children }: LayoutProps) {
     setIsGuest(!webStorageClient.get(constants.IS_AUTH));
   }, []);
   const [searchVisible, setSearchVisible] = useState(false);
-  const [searchResults, setSearchResults] = useState<string[]>([]);
   const showSearchModal = () => {
     setSearchVisible(true);
   };

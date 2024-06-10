@@ -1,6 +1,5 @@
 import Button from "@/components/core/common/Button";
 import React, { useState } from "react";
-import thanhthuy1 from "@/public/thanhthuy1.jpg";
 
 import Image from "next/legacy/image";
 import { UserAddOutlined } from "@ant-design/icons";

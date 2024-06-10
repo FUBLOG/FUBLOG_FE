@@ -1,4 +1,4 @@
-import { Flex,Modal } from "antd";
+import { Flex, Modal } from "antd";
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.main`
@@ -53,59 +53,56 @@ export const Body = styled(Flex)`
 
   flex: 1;
 `;
+
 export const Container = styled(Flex)`
   margin: 4px 18px;
-
   justify-content: space-between;
   align-items: center;
 `;
-export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
-  &.searchModal{
+export const SearchModal = styled(Modal).attrs({ className: "searchModal" })`
+  &.searchModal {
     background-color: transparent;
   }
 
   &.searchModal .ant-modal-content {
-    background-color: rgb(250,240,230);
+    background-color: rgb(250, 240, 230);
     background-color: transparent;
 
     height: 350px;
   }
   &.searchModal .ant-modal-header {
-     background-color: transparent;
+    background-color: transparent;
   }
   &.searchModal .ant-modal-title {
-
     // color: #f9f9f9;
   }
   &.searchModal .ant-modal-body {
     padding: 20px;
   }
   &.searchModal .ant-input {
-
     margin-top: 15px;
     height: 35px;
     color: #fff;
-    background-color: rgb(92,84,112);
+    background-color: rgb(92, 84, 112);
     border-radius: 25px;
-  } 
-    &.searchModal .ant-input::placeholder {
-      opacity: 0.5;
-      color:#fff;
-    }
+  }
+  &.searchModal .ant-input::placeholder {
+    opacity: 0.5;
+    color: #fff;
+  }
   &.searchModal .ant-modal-footer {
     display: flex;
     justify-content: center;
     border-top: none;
   }
   &.searchModal .ant-modal-close {
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.3);
   }
   &.searchModal .ant-modal-close-x {
-    opacity: 1 ;
+    opacity: 1;
     width: 20px;
     height: 20px;
     transform: translate(30%, 0px);
-    color: rgb(255,255,255); /* Change this to the desired color */
+    color: rgb(255, 255, 255); /* Change this to the desired color */
   }
-
 `;

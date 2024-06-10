@@ -31,7 +31,6 @@ import * as S from "./styles";
 
 interface LayoutProps {
   readonly children: ReactNode;
-  readonly isGuestPage?: boolean;
 }
 import Chat from "@/components/modules/Chat";
 

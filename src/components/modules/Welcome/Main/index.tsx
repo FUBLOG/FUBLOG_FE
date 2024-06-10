@@ -7,7 +7,6 @@ import { constants } from "@/settings";
 import { getRequest } from "@/services/request";
 
 import { useEffect } from "react";
-import { message } from "antd";
 
 const Welcome = () => {
   const searchParams = useSearchParams();

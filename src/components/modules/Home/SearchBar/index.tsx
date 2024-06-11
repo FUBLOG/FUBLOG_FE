@@ -1,6 +1,8 @@
+"use client"
 import React, { useState } from "react";
 import SearchInfo from "./content";
 import { CloseIcon, InputWrapper, SearchIcon, StyledInput } from "./style";
+
 
 interface SearchContentProps {
   onPressEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -18,6 +20,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     <div>
       <InputWrapper>
         <SearchIcon />
+
         <StyledInput
           placeholder="Tìm Kiếm..."
           value={value}

@@ -19,14 +19,15 @@ export const StyledInput = styled(Input)`
 `;
 export const SearchIcon = styled(SearchOutlined)`
   position: absolute;
-  left: 10px;
-  color: #555;
+  top: 33px;
+  left: 14px;
+  z-index:10;
 `;
 export const CloseIcon = styled(CloseOutlined)<CloseIconProps>`
   position: absolute;
   right: 11px;
-  bottom: 11px;
-  color: white !important;
+  top: 33px;
+  color:  #FAF0E6 ;
   cursor: pointer;
   visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 

@@ -5,6 +5,8 @@ export const Usersearch = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+    margin-bottom: 16px;
+
 
   .image-wrapper {
     margin-right: 10px;
@@ -19,7 +21,7 @@ export const Usersearch = styled.div`
     display: flex;
     align-items: center;
     .des {
-      color: white;
+      color: color: #352F44;
       p{
         font-weight: 700;
       }

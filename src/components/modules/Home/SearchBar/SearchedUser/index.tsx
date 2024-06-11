@@ -21,7 +21,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   const [sendRequest, setSendRequest] = useState(false);
   const [requestCancel, setRequestCancel] = useState(false);
   const [isFriend, setIsFriend] = useState(true);
-  const [deleteCanle,setDeleteCancle] = useState(false)
+  const [deleteCancle,setDeleteCancle] = useState(false)
   
   const deleteFriend = () =>{
     setIsFriend(false);
@@ -71,8 +71,8 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               Hủy Kết bạn
             </Button>
           )}
-          {!isFriend && !deleteCanle && <span>Đã hủy kết bạn</span>}
-          {deleteCanle && (
+          {!isFriend && !deleteCancle && <span>Đã hủy kết bạn</span>}
+          {deleteCancle && (
             <Button
               type="primary"
               $color="#352F44"

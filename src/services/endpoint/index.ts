@@ -8,6 +8,7 @@ const authEndpoint = {
   REFRESH_TOKEN: `/access/refreshToken`,
   FORGOT_PASSWORD: `/auth/forgot-password`,
   RESET_PASSWORD: `/auth/reset-password-with-otp-code`,
+  AUTH_TOKEN: `/auth/checkToken`,
 };
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,

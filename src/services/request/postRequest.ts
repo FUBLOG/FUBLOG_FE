@@ -12,10 +12,23 @@ const postRequest = (
 ): Promise<object> => {
   // kaidophan37@gmail.com
   // 123456
+  const isSecurity = options?.security || false;
+  let header = {};
+  if (isSecurity) {
+    const accessToken = webStorageClient.getToken();
+    const profileHash = webStorageClient.getProfileHash();
+
+    header = {
+      Authorization: "Bearer " + { accessToken },
+      "x-client-id": { profileHash },
+    };
+  }
+
   const data = options?.data;
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
     "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+    ...header,
   };
 
   if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;

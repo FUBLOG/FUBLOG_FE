@@ -1,6 +1,5 @@
 "use client";
 import { useState, ReactNode, useEffect } from "react";
-import { useState, ReactNode, useEffect } from "react";
 import { Flex } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,25 +19,14 @@ import {
   BellFilled,
 } from "@ant-design/icons";
 import { constants } from "@/settings";
-import { jwtDecode } from "jwt-decode";
-
-import { constants } from "@/settings";
-import { jwtDecode } from "jwt-decode";
 
 import Button from "../../common/Button";
-
-import webStorageClient from "@/utils/webStorageClient";
-
 
 import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
-
-interface LayoutProps {
-  readonly children: ReactNode;
-}
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -51,7 +39,6 @@ interface LayoutProps {
   readonly children: ReactNode;
 }
 
-function MainLayout({ children }: LayoutProps) {
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
@@ -142,7 +129,6 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Button>
           </S.IconContainer>
-          {isGuest ? (
           {isGuest ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">

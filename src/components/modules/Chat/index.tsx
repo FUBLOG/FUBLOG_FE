@@ -207,7 +207,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
                 <Badge dot={user.action} status="success">
                   <S.ActiveFriendImage
                     src={user.avatar}
-                    alt="Thu Phương"
+                    alt={user.avatar}
                     isActive
                   />
                 </Badge>

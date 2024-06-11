@@ -1,7 +1,10 @@
 "use client";
 import { useState, ReactNode, useEffect } from "react";
-import { Flex, Modal, Input,Menu,Dropdown } from "antd";
+import { Flex } from "antd";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   HomeOutlined,
   SearchOutlined,
@@ -10,9 +13,10 @@ import {
   BellOutlined,
   UserOutlined,
   CaretDownOutlined,
-  PictureOutlined,
-  SendOutlined,
-  CloseOutlined,
+  MessageFilled,
+  HomeFilled,
+  EditFilled,
+  BellFilled,
 } from "@ant-design/icons";
 import { constants } from "@/settings";
 import { jwtDecode } from "jwt-decode";
@@ -22,6 +26,7 @@ import Button from "../../common/Button";
 import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
+
 import * as S from "./styles";
 
 interface LayoutProps {
@@ -32,20 +37,22 @@ import Chat from "@/components/modules/Chat";
 interface LayoutProps {
   readonly children: ReactNode;
 }
-interface LayoutProps {
-  readonly children: ReactNode;
-  readonly isGuestPage?: boolean;
-}
 
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
-
+  const [nav, setNav] = useState("home");
   const handleOpenMessageModal = () => {
     setShowMessageModal(true);
+    setNav("mess");
   };
 
   const handleCloseMessageModal = () => {
     setShowMessageModal(false);
+    setNav("home");
+  };
+
+  const handleSetNavigation = (e: string) => {
+    setNav(e);
   };
 
   const [isGuest, setIsGuest] = useState(true);
@@ -69,49 +76,76 @@ function MainLayout({ children }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <a href="/home">
-              <HomeOutlined style={{ fontSize: "22px" }} />
-            </a>
-            <SearchOutlined style={{ fontSize: "22px" }} />
-            <EditOutlined style={{ fontSize: "22px" }} />
-            <MessageOutlined
-              style={{ fontSize: "22px" }}
-              onClick={handleOpenMessageModal}
-            />
-            <BellOutlined style={{ fontSize: "22px" }} />
+            <Link href="/home" onClick={(e) => handleSetNavigation("home")}>
+              {nav === "home" ? (
+                <HomeFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <HomeOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+            <Link href="" onClick={() => handleSetNavigation("search")}>
+              {nav === "search" ? (
+                <FontAwesomeIcon
+                  style={{ fontSize: "22px" }}
+                  icon={faMagnifyingGlass}
+                />
+              ) : (
+                <SearchOutlined
+                  style={{
+                    fontSize: "22px",
+                  }}
+                />
+              )}
+            </Link>
+            <Link href="" onClick={() => handleSetNavigation("edit")}>
+              {nav === "edit" ? (
+                <EditFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <EditOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+            <Button type="text" onClick={handleOpenMessageModal}>
+              {nav === "mess" ? (
+                <MessageFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <MessageOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Button>
+            <Button type="text" onClick={() => handleSetNavigation("bell")}>
+              {nav === "bell" ? (
+                <BellFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <BellOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Button>
           </S.IconContainer>
           {isGuest ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
-              <a href="/sign-in">
+              <Link href="/sign-in">
                 <Button type="default" $width="100px">
                   Đăng nhập
                 </Button>
-              </a>
-              <a href="/sign-up">
+              </Link>
+              <Link href="/sign-up">
                 <Button color="red" type="primary" $width="100px">
                   Đăng ký
                 </Button>
-              </a>
+              </Link>
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <a href="/profile">
+              <Link href="/profile">
                 <UserOutlined style={{ fontSize: "28px" }} />
-              </a>
-              <Dropdown overlay={menuItems} trigger={["click"]}>
-                <CaretDownOutlined
-                  style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
-                />
-              </Dropdown>
+              </Link>
+              <CaretDownOutlined
+                style={{ fontSize: "18px", marginLeft: "4px" }}
+              />
             </S.UserIconContainer>
           )}
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-      <MessageModal
-        visible={showMessageModal}
-        onClose={handleCloseMessageModal}
-      />
+      <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
     </S.LayoutWrapper>
   );
 }

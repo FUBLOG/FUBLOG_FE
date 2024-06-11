@@ -24,8 +24,6 @@ const postRequest = (
     };
   }
 
-  // if (isSecurity) {
-  // }
   const data = options?.data;
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {

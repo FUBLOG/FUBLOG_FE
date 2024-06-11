@@ -11,7 +11,6 @@ import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { postRequest } from "@/services/request";
-import { constants } from "@/settings";
 import { authEndpoint } from "@/services/endpoint";
 import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";

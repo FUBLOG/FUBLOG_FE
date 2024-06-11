@@ -284,9 +284,7 @@ export const CustomMenu = styled(Menu)`
     background-color: #faf0e6 !important;
     border-radius: 8px !important;
     box-shadow: none !important;
-
   }
-    
 
   .ant-dropdown-menu-item {
     background-color: #faf0e6 !important;
@@ -295,10 +293,10 @@ export const CustomMenu = styled(Menu)`
       background-color: #f0e1d2 !important;
     }
   }
-    .ant-dropdown-menu-submenu .ant-dropdown-menu{
-     background-color: #faf0e6 !important;
-     padding:0;
-    }
+  .ant-dropdown-menu-submenu .ant-dropdown-menu {
+    background-color: #faf0e6 !important;
+    padding: 0;
+  }
 
   .ant-dropdown-menu-item-active {
     background-color: #f0e1d2 !important;
@@ -340,5 +338,5 @@ export const GlobalStyle = createGlobalStyle`
 
   .ant-dropdown-menu-submenu {
     background-color: #faf0e6 !important;
-  }
+  }}
 `;

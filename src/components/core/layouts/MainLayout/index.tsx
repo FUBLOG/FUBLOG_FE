@@ -60,24 +60,24 @@ function MainLayout({ children }: LayoutProps) {
   useEffect(() => {
     const isValidUser = async () => {
       const token = await webStorageClient.getToken();
-      console.log(token);
+      console.log("token ", token);
 
       if (token) {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
-        }).then((response) => {
-          return true;
         });
+        webStorageClient.set(constants.IS_AUTH, true);
+
+        setIsGuest(false);
+        return;
+      } else {
+        setIsGuest(true);
+        webStorageClient.set(constants.IS_AUTH, false);
+
+        return;
       }
-      return false;
     };
-    const isValid = isValidUser();
-    if (!isValid) {
-      setIsGuest(!isValid);
-      webStorageClient.set(constants.IS_AUTH, true);
-    } else {
-      webStorageClient.set(constants.IS_AUTH, false);
-    }
+    isValidUser();
   }, []);
   return (
     <S.LayoutWrapper>
@@ -144,7 +144,7 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href="/profile">
+              <Link href="/profile" onClick={() => handleSetNavigation("")}>
                 <UserOutlined style={{ fontSize: "28px" }} />
               </Link>
               <CaretDownOutlined

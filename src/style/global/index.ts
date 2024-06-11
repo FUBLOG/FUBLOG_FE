@@ -410,20 +410,6 @@ const typography = css`
 
 const scrollApp = css`
   ::-webkit-scrollbar {
-    width: 9px;
-    height: 9px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #a0a0a5;
-    border-radius: 16px;
-    z-index: 1000;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #a0a0a5;
-  }
-
-  ::-webkit-scrollbar-button {
     display: none;
   }
 `;

@@ -35,9 +35,4 @@ export const MyStyledDiv = styled.div`
       
     }
   }
-    .line{
-    height: 1px;
-    background-color: #352F44;
-
-    }
 `;

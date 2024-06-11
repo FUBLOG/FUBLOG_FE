@@ -10,10 +10,6 @@ interface SearchInfoProps {
 const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
   return (
     <S.MyStyledDiv>
-      <div className="searchHeader">
-        <h3>Kết quả</h3>
-        <div className="line"></div>
-      </div>
       <div className="searchContent">
         <ul className="list">
           {Friends.filter((friend) => friend.name.toLowerCase().includes(value)).map(
@@ -25,7 +21,8 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
                   friends={friend.friend}
                   avatar={friend.imagelink}
                 />
-                <div className="line"></div>
+                {/* <div className="line"></div> */}
+                <hr/>
               </li>
             )
           )}
@@ -40,7 +37,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
                   friends={user.friend}
                   avatar={user.imagelink}
                 />
-                <div className="line"></div>
+                <hr/>
               </li>
             )
           )}

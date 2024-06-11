@@ -66,14 +66,14 @@ export const Container = styled(Flex)`
 export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
   &.searchModal{
     position: relative;
-    right: 200px;
+    right: 140px;
     background-color: transparent ;
     
   }
 
   &.searchModal .ant-modal-content {
-    width: 977px;
-    height: 560px;
+    width: 800px;
+    height: 540px;
     background-color: #FAF0E6 !important;
     
   }

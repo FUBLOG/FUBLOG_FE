@@ -14,7 +14,11 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
-import { jwtDecode } from "jwt-decode";
+import { JwtHeader, jwtDecode } from "jwt-decode";
+import { CookieValueTypes } from "cookies-next";
+import { authEndpoint } from "@/services/endpoint";
+import { getRequest } from "@/services/request";
+import { constants } from "@/settings";
 
 interface Comment {
   id: number;
@@ -82,15 +86,29 @@ function Post({
   }, [commentsData]);
 
   useEffect(() => {
-    const token = webStorageClient.getToken();
-    if (token) {
-      const decodedToken = jwtDecode<{ username: string }>(token);
-      setCurrentUserState(decodedToken.username || "Anonymous");
-      setIsGuest(false);
-    } else {
-      setCurrentUserState("Anonymous");
-      setIsGuest(true);
-    }
+    const isValidUser = async () => {
+      const token = await webStorageClient.getToken();
+      console.log(token);
+
+      if (token) {
+        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
+          security: true,
+        }).then((response) => {
+      console.log(response?.metadata?.profileHash      );
+      setCurrentUserState(response?.metadata?.profileHash || "Anonymous");
+
+          return true;
+        });
+      }
+      return false;
+    };
+    const isValid = isValidUser();
+      if (!isValid) {
+        setIsGuest(!isValid);
+        webStorageClient.set(constants.IS_AUTH, true);
+      } else {
+        webStorageClient.set(constants.IS_AUTH, false);
+      }
   }, []);
 
   const toggleLike = () => {

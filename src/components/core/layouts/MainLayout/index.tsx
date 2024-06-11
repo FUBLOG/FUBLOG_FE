@@ -72,7 +72,7 @@ function MainLayout({ children }: LayoutProps) {
       return false;
     };
     const isValid = isValidUser();
-    if (isValid) {
+    if (!isValid) {
       setIsGuest(!isValid);
       webStorageClient.set(constants.IS_AUTH, true);
     } else {

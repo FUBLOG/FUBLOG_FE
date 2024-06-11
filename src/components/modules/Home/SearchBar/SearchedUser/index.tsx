@@ -21,17 +21,19 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   const [sendRequest, setSendRequest] = useState(false);
   const [requestCancel, setRequestCancel] = useState(false);
   const [isFriend, setIsFriend] = useState(true);
+  const [deleteCanle,setDeleteCancle] = useState(false)
+  
   const deleteFriend = () =>{
     setIsFriend(false);
     setTimeout(() => {
-      setRequestCancel(true);
-    }, 3000);
+      setDeleteCancle(true);
+    }, 2000);
   }
   const handleFriendRequest = () => {
-    setSendRequest(false);
+    setSendRequest(true);
     setTimeout(() => {
       setRequestCancel(true);
-    }, 3000);
+    }, 2000);
   };
   const handleCancel = () => {
     setSendRequest(false);
@@ -39,7 +41,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   };
   const handleDeleteFriend = ()=>{
     setIsFriend(true);
-    setRequestCancel(false);
+    setDeleteCancle(false);
   }
   return (
     <Usersearch>
@@ -69,8 +71,8 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               Hủy Kết bạn
             </Button>
           )}
-          {!isFriend && !requestCancel && <span>Đã hủy kết bạn</span>}
-          {requestCancel && (
+          {!isFriend && !deleteCanle && <span>Đã hủy kết bạn</span>}
+          {deleteCanle && (
             <Button
               type="primary"
               $color="#352F44"

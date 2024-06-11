@@ -1,6 +1,5 @@
 import Button from "@/components/core/common/Button";
 import React, { useState } from "react";
-import thanhthuy1 from "@/public/thanhthuy1.jpg";
 
 import Image from "next/legacy/image";
 import { UserAddOutlined } from "@ant-design/icons";
@@ -23,12 +22,12 @@ export const SearchUser:React.FC<SearchUserProp> = ({ name, friends, avatar }) =
     <Usersearch >
       <div className="user-wrapper">
         <div className="image-wrapper">
-          <Image src={avatar} width={40} height={40} />
+          <Image src="" width={40} height={40} />
         </div>
 
         <div className="des">
           <p>{name}</p>
-          <span>{friends}</span>
+          <span>{friends} bạn bè</span>
         </div>
       </div>
       {!addFriend ? (

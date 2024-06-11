@@ -11,7 +11,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
   return (
     <S.MyStyledDiv>
       <div className="searchHeader">
-        <h3>Top Searching</h3>
+        <h3>Tìm Kiếm</h3>
         <div className="line"></div>
       </div>
       <div className="searchContent">

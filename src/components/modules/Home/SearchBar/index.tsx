@@ -1,4 +1,3 @@
-import { Input } from "antd";
 import React, { useState } from "react";
 import SearchInfo from "./content";
 import { CloseIcon, InputWrapper, SearchIcon, StyledInput } from "./style";
@@ -7,7 +6,7 @@ interface SearchContentProps {
   onPressEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
+const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     const [value,setValue] = useState("");
     const handleClear = ()=>{
         setValue("");
@@ -20,7 +19,7 @@ const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
       <InputWrapper>
         <SearchIcon />
         <StyledInput
-          placeholder="Search..."
+          placeholder="Tìm Kiếm..."
           value={value}
           onChange={handleChange}
           onPressEnter={onPressEnter}
@@ -31,4 +30,4 @@ const searchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     </div>
   );
 };
-export default searchContent;
+export default SearchContent;

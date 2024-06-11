@@ -27,6 +27,8 @@ import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
+import SearchContent from "../../../modules/Home/SearchBar";
+
 import * as S from "./styles";
 
 interface LayoutProps {
@@ -69,6 +71,18 @@ function MainLayout({ children }: LayoutProps) {
     }
     setIsGuest(!webStorageClient.get(constants.IS_AUTH));
   }, []);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const showSearchModal = () => {
+    setSearchVisible(true);
+  };
+
+  const handleOk = () => {
+    setSearchVisible(true);
+  };
+  const handleCancle = () => {
+    setSearchVisible(false);
+  };
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -91,9 +105,8 @@ function MainLayout({ children }: LayoutProps) {
                 />
               ) : (
                 <SearchOutlined
-                  style={{
-                    fontSize: "22px",
-                  }}
+                  onClick={showSearchModal}
+                  style={{ fontSize: "22px" }}
                 />
               )}
             </Link>
@@ -146,6 +159,16 @@ function MainLayout({ children }: LayoutProps) {
       </S.Header>
       <S.Body>{children}</S.Body>
       <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
+      <SearchOutlined onClick={showSearchModal} style={{ fontSize: "22px" }} />
+      <S.SearchModal
+        open={searchVisible}
+        onOk={handleOk}
+        onCancel={handleCancle}
+        className="searchModal"
+        footer={null}
+      >
+        <SearchContent onPressEnter={handleCancle} />
+      </S.SearchModal>
     </S.LayoutWrapper>
   );
 }

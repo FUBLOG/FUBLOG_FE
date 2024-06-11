@@ -5,21 +5,44 @@ import Image from "next/legacy/image";
 import { UserAddOutlined } from "@ant-design/icons";
 import { Usersearch } from "./style";
 
-interface SearchUserProp{
-    name: string,
-    friends: number,
-    avatar: string
+interface SearchUserProp {
+  name: string;
+  friends: number;
+  avatar: string;
+  role: string;
 }
 
-export const SearchUser:React.FC<SearchUserProp> = ({ name, friends, avatar }) => {
-  const [addFriend, setAddFriend] = useState(false);
-  const handleFriend = () => {
-    setAddFriend(true);
+export const SearchUser: React.FC<SearchUserProp> = ({
+  name,
+  friends,
+  avatar,
+  role,
+}) => {
+  const [sendRequest, setSendRequest] = useState(false);
+  const [requestCancel, setRequestCancel] = useState(false);
+  const [isFriend, setIsFriend] = useState(true);
+  const deleteFriend = () =>{
+    setIsFriend(false);
+    setTimeout(() => {
+      setRequestCancel(true);
+    }, 3000);
+  }
+  const handleFriendRequest = () => {
+    setSendRequest(false);
+    setTimeout(() => {
+      setRequestCancel(true);
+    }, 3000);
   };
-  
-
+  const handleCancel = () => {
+    setSendRequest(false);
+    setRequestCancel(false);
+  };
+  const handleDeleteFriend = ()=>{
+    setIsFriend(true);
+    setRequestCancel(false);
+  }
   return (
-    <Usersearch >
+    <Usersearch>
       <div className="user-wrapper">
         <div className="image-wrapper">
           <Image src="" width={40} height={40} />
@@ -30,21 +53,68 @@ export const SearchUser:React.FC<SearchUserProp> = ({ name, friends, avatar }) =
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      {!addFriend ? (
-        <Button
-          type="primary"
-          $color="#352F44"
-          $backgroundColor="#fff"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000  "
-          $width={"84px"}
-          onClick={handleFriend}
-        >
-          <UserAddOutlined />
-          Kết Bạn
-        </Button>
+      {role === "Friend" ? (
+        <>
+          {isFriend && (
+            <Button
+              type="primary"
+              $color="#352F44"
+              $backgroundColor="#fff"
+              $hoverBackgroundColor="#ccc"
+              $hoverColor="#000  "
+              $width={"120px"}
+              onClick={deleteFriend}
+            >
+              <UserAddOutlined />
+              Hủy Kết bạn
+            </Button>
+          )}
+          {!isFriend && !requestCancel && <span>Đã hủy kết bạn</span>}
+          {requestCancel && (
+            <Button
+              type="primary"
+              $color="#352F44"
+              $backgroundColor="#fff"
+              $hoverBackgroundColor="#ccc"
+              $hoverColor="#000  "
+              $width={"84px"}
+              onClick={handleDeleteFriend}
+            >
+              Hoàn tác
+            </Button>
+          )}
+        </>
       ) : (
-        <div>Đã gửi lời mời</div>
+        <>
+          {!sendRequest && (
+            <Button
+              type="primary"
+              $color="#352F44"
+              $backgroundColor="#fff"
+              $hoverBackgroundColor="#ccc"
+              $hoverColor="#000"
+              $width={"84px"}
+              onClick={handleFriendRequest}
+            >
+              <UserAddOutlined />
+              Kết bạn
+            </Button>
+          )}
+          {sendRequest && !requestCancel && <span>Đã gửi lời mời</span>}
+          {requestCancel && (
+            <Button
+              type="primary"
+              $color="#352F44"
+              $backgroundColor="#fff"
+              $hoverBackgroundColor="#ccc"
+              $hoverColor="#000"
+              $width={"84px"}
+              onClick={handleCancel}
+            >
+              Hủy lời mời
+            </Button>
+          )}
+        </>
       )}
     </Usersearch>
   );

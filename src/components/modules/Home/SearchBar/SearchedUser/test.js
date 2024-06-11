@@ -142,3 +142,26 @@ export const Users = [
     friend: 112,
   },
 ];
+export const Friends = [
+  {
+    id: 21,
+    name: "Đường Tank",
+    age: "20",
+    imagelink: "link_to_image1.jpg",
+    friend: 132,
+  },
+  {
+    id: 22,
+    name: "Như Lai",
+    age: "25",
+    imagelink: "link_to_image2.jpg",
+    friend: 85,
+  },
+  {
+    id: 23,
+    name: "Bồ Tát",
+    age: "30",
+    imagelink: "link_to_image3.jpg",
+    friend: 190,
+  },
+]

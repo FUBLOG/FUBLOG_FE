@@ -1,6 +1,6 @@
 import React from "react";
 import * as S from "./style";
-import { Users } from "@/components/modules/Home/SearchBar/SearchedUser/test";
+import { Users, Friends } from "@/components/modules/Home/SearchBar/SearchedUser/test";
 import { SearchUser } from "../SearchedUser";
 
 interface SearchInfoProps {
@@ -11,20 +11,40 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
   return (
     <S.MyStyledDiv>
       <div className="searchHeader">
-        <h3>Tìm Kiếm</h3>
+        <h3>Kết quả</h3>
         <div className="line"></div>
       </div>
       <div className="searchContent">
         <ul className="list">
-          {Users.filter((user) => user.name.toLowerCase().includes(value)).map(
-            (user) => (
-              <li key={user.id} className="listItem">
-                <SearchUser name={user.name} friends={user.friend} avatar={user.imagelink}/>
+          {Friends.filter((friend) => friend.name.toLowerCase().includes(value)).map(
+            (friend) => (
+              <li key={friend.id} className="listItem">
+                <SearchUser
+                  role = "Friend"
+                  name={friend.name}
+                  friends={friend.friend}
+                  avatar={friend.imagelink}
+                />
+                <div className="line"></div>
               </li>
             )
           )}
         </ul>
-        
+        <ul className="list">
+          {Users.filter((user) => user.name.toLowerCase().includes(value)).map(
+            (user) => (
+              <li key={user.id} className="listItem">
+                <SearchUser
+                  role = "Stranger" 
+                  name={user.name}
+                  friends={user.friend}
+                  avatar={user.imagelink}
+                />
+                <div className="line"></div>
+              </li>
+            )
+          )}
+        </ul>
       </div>
     </S.MyStyledDiv>
   );

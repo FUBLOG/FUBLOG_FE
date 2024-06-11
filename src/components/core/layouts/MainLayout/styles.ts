@@ -21,7 +21,7 @@ export const Header = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1000;
 `;
 
 export const LogoContainer = styled.div`
@@ -65,18 +65,17 @@ export const Container = styled(Flex)`
 `;
 export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
   &.searchModal{
-    width: 800px;
-    height: 540px;
+    position: relative;
+    right: 200px;
     background-color: transparent ;
-    margin-left: 380px;
-
+    
   }
 
   &.searchModal .ant-modal-content {
-    width: 800px;
-    height: 540px;
-    background-color: rgb(250,240,230);
-    background-color: transparent !important;
+    width: 977px;
+    height: 560px;
+    background-color: #FAF0E6 !important;
+    
   }
   &.searchModal .ant-modal-header {
      background-color: transparent;
@@ -89,31 +88,27 @@ export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
     padding: 15px;
   }
   &.searchModal .ant-input {
-
+      padding-left: 35px;
+  
     margin-top: 15px;
-    height: 35px;
-    color: #fff;
-    background-color: rgb(92,84,112);
-    border-radius: 25px;
+    height: 50px;
+    color: rgb(92,84,112);
+    background-color: #FAF0E6;
+    border-radius: 50px;
+    border-color: rgb(92,84,112) ; 
   } 
     &.searchModal .ant-input::placeholder {
-      opacity: 0.5;
-      color:#fff;
+      opacity: 1;
+      color: rgb(92,84,112);
     }
-  &.searchModal .ant-modal-footer {
-    display: flex;
-    justify-content: center;
-    border-top: none;
-  }
+
   &.searchModal .ant-modal-close {
     background-color: rgba(255,255,255,0.3);
   }
   &.searchModal .ant-modal-close-x {
-    opacity: 1 ;
     width: 20px;
     height: 20px;
     transform: translate(30%, 0px);
-    color: rgb(255,255,255); /* Change this to the desired color */
   }
 
 `;

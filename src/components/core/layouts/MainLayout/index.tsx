@@ -32,7 +32,7 @@ interface LayoutProps {
   readonly children: ReactNode;
 }
 import Chat from "@/components/modules/Chat";
-import { getRequest, postRequest } from "@/services/request";
+import { getRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 
 interface LayoutProps {
@@ -72,11 +72,10 @@ function MainLayout({ children }: LayoutProps) {
       return false;
     };
     const isValid = isValidUser();
-    if (isValid) {
-      setIsGuest(!isValid);
-      webStorageClient.set(constants.IS_AUTH, true);
-    } else {
-      webStorageClient.set(constants.IS_AUTH, false);
+    {
+      isValid
+        ? (setIsGuest(!isValid), webStorageClient.set(constants.IS_AUTH, true))
+        : webStorageClient.set(constants.IS_AUTH, false);
     }
   }, []);
   return (

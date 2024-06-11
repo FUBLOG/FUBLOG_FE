@@ -14,8 +14,6 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
-import { JwtHeader, jwtDecode } from "jwt-decode";
-import { CookieValueTypes } from "cookies-next";
 import { authEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { constants } from "@/settings";

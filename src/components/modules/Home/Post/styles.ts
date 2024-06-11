@@ -126,7 +126,6 @@ export const CustomModal = styled(Modal)`
   .ant-btn-default {
     background: #faf0e6;
   }
-  .ant-modal: fixed;
 `;
 
 export const ModalContent = styled.span`
@@ -162,14 +161,14 @@ export const CommentBox = styled(Flex)`
 
 export const TextArea = styled.textarea`
   width: 100%;
-  max-height: 150px; 
+  max-height: 150px;
   padding: 10px;
   border-radius: 10px;
   border: none;
   background-color: #faf0e6;
-  overflow-y: auto; 
-  resize: none; 
-  box-sizing: border-box; 
+  overflow-y: auto;
+  resize: none;
+  box-sizing: border-box;
   &::placeholder {
     color: #5c5470;
   }
@@ -238,22 +237,20 @@ export const CustomMenuItem = styled(Menu.Item)`
   }
 `;
 
-
-
 export const ReplyBox = styled(Flex)`
-flex-direction: row;
-align-items: flex-start;
-margin-top: 10px;
-padding: 10px;
-margin: 10px 0;
-border-radius: 8px;
-background-color: #faf0e6; 
-width: 100%;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background-color: #faf0e6;
+  width: 100%;
 `;
 
 export const ButtonWrapper = styled.div`
-margin-left: auto; 
-display: flex;
-align-items: center;
-padding-top: 5px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
 `;

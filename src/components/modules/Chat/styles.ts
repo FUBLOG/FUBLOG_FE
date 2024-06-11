@@ -118,17 +118,7 @@ export const ActiveFriend = styled.div`
   }
 `;
 
-export const ActiveFriendImage = styled(FriendImage)<{ isActive?: boolean }>`
-  position: relative;
-  &::after {
-    content: ${(props) => (props.isActive ? 'url("/moon.png")' : "''")}; //
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 20px;
-    height: 20px;
-  }
-`;
+export const ActiveFriendImage = styled(FriendImage)<{ isActive?: boolean }>``;
 export const ActiveFriendName = styled.div`
   width: max-content;
   font-size: 12px;

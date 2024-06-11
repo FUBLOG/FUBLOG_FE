@@ -19,7 +19,6 @@ import {
   BellFilled,
 } from "@ant-design/icons";
 import { constants } from "@/settings";
-import { jwtDecode } from "jwt-decode";
 
 import Button from "../../common/Button";
 
@@ -33,6 +32,8 @@ interface LayoutProps {
   readonly children: ReactNode;
 }
 import Chat from "@/components/modules/Chat";
+import { getRequest } from "@/services/request";
+import { authEndpoint } from "@/services/endpoint";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -57,17 +58,26 @@ function MainLayout({ children }: LayoutProps) {
 
   const [isGuest, setIsGuest] = useState(true);
   useEffect(() => {
-    const token = webStorageClient.getToken();
-    console.log(token);
+    const isValidUser = async () => {
+      const token = await webStorageClient.getToken();
+      console.log(token);
 
-    if (token) {
+      if (token) {
+        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
+          security: true,
+        }).then((response) => {
+          return true;
+        });
+      }
+      return false;
+    };
+    const isValid = isValidUser();
+    if (!isValid) {
+      setIsGuest(!isValid);
       webStorageClient.set(constants.IS_AUTH, true);
-      const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
     } else {
       webStorageClient.set(constants.IS_AUTH, false);
     }
-    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
   }, []);
   return (
     <S.LayoutWrapper>

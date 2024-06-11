@@ -1,16 +1,15 @@
-import { Flex, Modal,Menu } from "antd";
 import styled from "styled-components";
+import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   box-sizing: border-box;
   margin: 20px 0;
-  padding: 24px;cccc
+  padding: 24px;
   max-width: 700px;
   width: 100%;
   border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
- 
 `;
 
 export const PostHeader = styled(Flex)`
@@ -127,7 +126,7 @@ export const CustomModal = styled(Modal)`
   .ant-btn-default {
     background: #faf0e6;
   }
-  
+  .ant-modal: fixed;
 `;
 
 export const ModalContent = styled.span`
@@ -173,8 +172,9 @@ export const TextArea = styled.textarea`
   box-sizing: border-box; 
   &::placeholder {
     color: #5c5470;
-  }c
+  }
 `;
+
 export const Comment = styled(Flex)`
   flex-direction: column;
   align-items: flex-start;
@@ -236,4 +236,24 @@ export const CustomMenuItem = styled(Menu.Item)`
   &:active {
     background-color: #d4b8a9 !important;
   }
+`;
+
+
+
+export const ReplyBox = styled(Flex)`
+flex-direction: row;
+align-items: flex-start;
+margin-top: 10px;
+padding: 10px;
+margin: 10px 0;
+border-radius: 8px;
+background-color: #faf0e6; 
+width: 100%;
+`;
+
+export const ButtonWrapper = styled.div`
+margin-left: auto; 
+display: flex;
+align-items: center;
+padding-top: 5px;
 `;

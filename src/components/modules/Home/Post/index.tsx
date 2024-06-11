@@ -1,11 +1,20 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, message, Dropdown, Radio } from "antd";
-import { HeartOutlined, HeartFilled, CommentOutlined, ExclamationCircleOutlined, EllipsisOutlined, TagOutlined } from "@ant-design/icons";
+import { message, Dropdown, Menu, Radio } from "antd";
+import {
+  HeartOutlined,
+  HeartFilled,
+  CommentOutlined,
+  ExclamationCircleOutlined,
+  EllipsisOutlined,
+  TagOutlined,
+} from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
-
+import webStorageClient from "@/utils/webStorageClient";
+import { jwtDecode } from "jwt-decode";
 
 interface Comment {
   id: number;
@@ -43,6 +52,7 @@ function Post({
   const [comments, setComments] = useState(initialComments);
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [replyComment, setReplyComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [commentsData, setCommentsData] = useState(initialCommentsData);
   const [showReportModal, setShowReportModal] = useState(false);
@@ -51,7 +61,9 @@ function Post({
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<number | null>(null);
-  const [isPostReport, setIsPostReport] = useState(false); 
+  const [isPostReport, setIsPostReport] = useState(false);
+  const [isGuest, setIsGuest] = useState(true);
+  const [currentUserState, setCurrentUserState] = useState<string>("Anonymous");
 
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -69,6 +81,18 @@ function Post({
     }
   }, [commentsData]);
 
+  useEffect(() => {
+    const token = webStorageClient.getToken();
+    if (token) {
+      const decodedToken = jwtDecode<{ username: string }>(token);
+      setCurrentUserState(decodedToken.username || "Anonymous");
+      setIsGuest(false);
+    } else {
+      setCurrentUserState("Anonymous");
+      setIsGuest(true);
+    }
+  }, []);
+
   const toggleLike = () => {
     setLiked(!liked);
     setLikes(liked ? likes - 1 : likes + 1);
@@ -76,19 +100,25 @@ function Post({
 
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
-    setIsPostReport(false); 
+    setIsPostReport(true);
     setShowReportModal(true);
   };
+  
 
   const handlePostReportClick = () => {
-    setIsPostReport(true); 
+    setIsPostReport(true);
     setShowReportModal(true);
   };
 
   const handleConfirmReport = () => {
+    if (!reportReason) {
+      message.error("Vui lòng chọn vấn đề để báo cáo.");
+      return;
+    }
     setShowReportModal(false);
     setShowConfirmModal(true);
   };
+  
 
   const handleFinalReport = () => {
     setShowConfirmModal(false);
@@ -106,51 +136,79 @@ function Post({
   };
 
   const handleAddComment = () => {
+    if (isGuest) {
+      message.warning("Vui lòng đăng nhập để bình luận.");
+      return;
+    }
+
     if (newComment.trim()) {
       const newCommentData: Comment = {
         id: commentsData.length + 1,
-        user: currentUser ?? "Anonymous",  
+        user: currentUserState,
         avatar: "jos.png",
         content: newComment,
-        parentId: selectedCommentId || null,
+        parentId: null,
         replies: [],
       };
 
-      let updatedComments;
-      if (selectedCommentId) {
-        updatedComments = commentsData.map((comment) => {
-          if (comment.id === selectedCommentId) {
-            const newReplies = comment.replies ? [...comment.replies, newCommentData] : [newCommentData];
-            return { ...comment, replies: newReplies };
-          }
-          return comment;
-        });
-      } else {
-        updatedComments = [...commentsData, newCommentData];
-      }
-
+      const updatedComments = [...commentsData, newCommentData];
       setCommentsData(updatedComments);
       setComments(comments + 1);
       setNewComment("");
+    }
+  };
+
+  const handleReply = () => {
+    if (isGuest) {
+      message.warning("Vui lòng đăng nhập để phản hồi.");
+      return;
+    }
+
+    if (replyComment.trim() && selectedCommentId !== null) {
+      const replyData: Comment = {
+        id: commentsData.length + 1,
+        user: currentUserState,
+        avatar: "jos.png",
+        content: replyComment,
+        parentId: selectedCommentId,
+        replies: [],
+      };
+
+      const updatedComments = commentsData.map((comment) => {
+        if (comment.id === selectedCommentId) {
+          const newReplies = comment.replies ? [...comment.replies, replyData] : [replyData];
+          return { ...comment, replies: newReplies };
+        }
+        return comment;
+      });
+
+      setCommentsData(updatedComments);
+      setComments(comments + 1);
+      setReplyComment("");
       setSelectedCommentId(null);
     }
   };
 
   const handleCloseCommentsModal = () => {
     setShowCommentsModal(false);
-    setEditMode(null); 
+    setEditMode(null);
   };
 
   const handleEditComment = (commentId: number) => {
-    const commentToEdit = findComment(commentsData, commentId); 
+    const commentToEdit = findComment(commentsData, commentId);
     if (commentToEdit) {
       setEditMode(commentId);
       setEditComment(commentToEdit.content);
-      setShowCommentsModal(true); 
+      setShowCommentsModal(true);
     }
   };
 
   const handleUpdateComment = () => {
+    if (isGuest) {
+      message.warning("Vui lòng đăng nhập để chỉnh sửa bình luận.");
+      return;
+    }
+
     const updatedComments = updateNestedComment(commentsData, editMode, editComment);
     setCommentsData(updatedComments);
     setEditMode(null);
@@ -158,62 +216,109 @@ function Post({
   };
 
   const handleDeleteComment = (commentId: number) => {
+    if (isGuest) {
+      message.warning("Vui lòng đăng nhập để xóa bình luận.");
+      return;
+    }
+
     const updatedComments = deleteNestedComment(commentsData, commentId);
     setCommentsData(updatedComments);
     setComments(comments - 1);
   };
 
   const handleReplyComment = (commentId: number) => {
+    if (isGuest) {
+      message.warning("Vui lòng đăng nhập để phản hồi bình luận.");
+      return;
+    }
+
     const parentComment = findComment(commentsData, commentId);
     if (parentComment) {
       const replyContent = `@${parentComment.user} `;
-      setNewComment(replyContent);
+      setReplyComment(replyContent);
       setSelectedCommentId(commentId);
-      setShowCommentsModal(true);
+
       setTimeout(() => {
         if (editInputRef.current) {
           editInputRef.current.focus();
-          const len = editInputRef.current.value.length;
+          const len = replyContent.length;
           editInputRef.current.setSelectionRange(len, len);
         }
       }, 100);
     }
   };
 
-  const renderCommentMenu = (comment: Comment) => (
-    <S.CustomMenu>
-      {comment.user === currentUser ? (
-        <>
-          <S.CustomMenuItem key="edit" onClick={() => handleEditComment(comment.id)}>
-            Chỉnh sửa
-          </S.CustomMenuItem>
-          <S.CustomMenuItem key="delete" onClick={() => handleDeleteComment(comment.id)}>
-            Xóa
-          </S.CustomMenuItem>
-        </>
-      ) : (
-        <>
-          <S.CustomMenuItem key="reply" onClick={() => handleReplyComment(comment.id)}>
-            Phản hồi
-          </S.CustomMenuItem>
-          <S.CustomMenuItem key="report" onClick={() => handleReportClick(comment.id)}>
-            Báo cáo
-          </S.CustomMenuItem>
-        </>
-      )}
-    </S.CustomMenu>
-  );
+  const renderCommentMenu = (comment: Comment) => {
+    if (isGuest) {
+      return (
+        <Menu
+          items={[
+            {
+              key: "report",
+              label: "Báo cáo",
+              onClick: () => handleReportClick(comment.id),
+            },
+          ]}
+        />
+      );
+    }
+
+    return (
+      <Menu
+        items={[
+          ...(comment.user === currentUserState
+            ? [
+                {
+                  key: "edit",
+                  label: "Chỉnh sửa",
+                  onClick: () => handleEditComment(comment.id),
+                },
+                {
+                  key: "delete",
+                  label: "Xóa",
+                  onClick: () => handleDeleteComment(comment.id),
+                },
+              ]
+            : [
+                {
+                  key: "reply",
+                  label: "Phản hồi",
+                  onClick: () => handleReplyComment(comment.id),
+                },
+                {
+                  key: "report",
+                  label: "Báo cáo",
+                  onClick: () => handleReportClick(comment.id),
+                },
+              ]),
+        ]}
+      />
+    );
+  };
 
   const renderComments = (commentsArray: Comment[], depth = 0) => {
     return commentsArray.map((comment) => (
       <React.Fragment key={comment.id}>
-        <S.Comment style={{ marginLeft: `${depth * 40}px` }}>
+        <S.Comment
+          style={{
+            marginLeft: `${depth * 40}px`,
+            border: selectedCommentId === comment.id ? "1px solid #5c5470" : "none",
+            borderLeft: editMode === comment.id ? "3px solid #5c5470" : "none",
+          }}
+        >
           <S.CommentHeader>
             <S.Avatar src={comment.avatar} alt={`${comment.user}'s avatar`} />
             <S.CommentUser>{comment.user}</S.CommentUser>
-            <Dropdown overlay={renderCommentMenu(comment)} trigger={['click']}>
-              <EllipsisOutlined style={{ cursor: "pointer" }} />
-            </Dropdown>
+            {isGuest ? (
+              <ExclamationCircleOutlined
+                style={{ cursor: "pointer" }}
+                onClick={() => handleReportClick(comment.id)}
+              />
+            ) : (
+              <Dropdown overlay={renderCommentMenu(comment)} trigger={["click"]}>
+                <EllipsisOutlined style={{ cursor: "pointer" }} />
+              </Dropdown>
+            )}
           </S.CommentHeader>
           {editMode === comment.id ? (
             <>
@@ -221,31 +326,53 @@ function Post({
                 value={editComment}
                 onChange={(e) => setEditComment(e.target.value)}
                 autoFocus
-                onFocus={(e) => {
-                  const value = e.target.value;
-                  e.target.value = '';
-                  e.target.value = value; 
-                }}
                 ref={editInputRef}
               />
-              <Button
-                color="red"
-                type="primary"
-                style={{
-                  width: "100px",
-                  marginTop: "10px",
-                  padding: "5px 10px",
-                  border: "none",
-                  alignSelf: "flex-end",
-                }}
-                onClick={handleUpdateComment}
-              >
-                Cập nhật
-              </Button>
+              <S.ButtonWrapper>
+                <Button
+                  color="red"
+                  type="primary"
+                  style={{
+                    width: "80px",
+                    marginTop: "0px",
+                    padding: "5px 5px",
+                    border: "none",
+                  }}
+                  onClick={handleUpdateComment}
+                >
+                  Cập nhật
+                </Button>
+              </S.ButtonWrapper>
             </>
           ) : (
             <S.CommentContent>{comment.content}</S.CommentContent>
           )}
+         {!isGuest && !isPostReport && selectedCommentId === comment.id && (
+  <S.ReplyBox>
+    <S.TextArea
+      value={replyComment}
+      onChange={(e) => setReplyComment(e.target.value)}
+      placeholder="Viết phản hồi..."
+      ref={editInputRef}
+    />
+    <S.ButtonWrapper>
+      <Button
+        color="red"
+        type="primary"
+        style={{
+          width: "80px",
+          marginTop: "40px",
+          padding: "5px 5px",
+          border: "none",
+        }}
+        onClick={handleReply}
+      >
+        Phản hồi
+      </Button>
+    </S.ButtonWrapper>
+  </S.ReplyBox>
+)}
+
         </S.Comment>
         {comment.replies && renderComments(comment.replies, depth + 1)}
       </React.Fragment>
@@ -359,33 +486,36 @@ function Post({
             {renderComments(commentsData)}
           </S.CommentsWrapper>
           <S.Divider />
-          <S.CommentBox>
-            <S.CommentHeader>
-              <S.Avatar src="jos.png" alt="Jos Phan Ái's avatar" />
-              <S.CommentUser>{currentUser}</S.CommentUser>
-            </S.CommentHeader>
-            <S.TextArea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Viết bình luận..."
-              className={newComment.includes('@') ? 'blinking-cursor' : ''}
-              ref={editInputRef}
-            />
-            <Button
-              color="red"
-              type="primary"
-              style={{
-                width: "100px",
-                marginTop: "10px",
-                padding: "5px 10px",
-                border: "none",
-                alignSelf: "flex-end",
-              }}
-              onClick={handleAddComment}
-            >
-              Đăng
-            </Button>
-          </S.CommentBox>
+          {!isGuest && (
+            <S.CommentBox>
+              <S.CommentHeader>
+                <S.Avatar src="jos.png" alt={`${currentUserState}'s avatar`} />
+                <S.CommentUser>{currentUserState}</S.CommentUser>
+              </S.CommentHeader>
+              <S.TextArea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Viết bình luận..."
+                ref={editInputRef}
+                className="comment-textarea"
+              />
+              <S.ButtonWrapper>
+                <Button
+                  color="red"
+                  type="primary"
+                  style={{
+                    width: "100px",
+                    marginTop: "0px",
+                    padding: "5px 5px",
+                    border: "none",
+                  }}
+                  onClick={handleAddComment}
+                >
+                  Đăng
+                </Button>
+              </S.ButtonWrapper>
+            </S.CommentBox>
+          )}
         </S.CommentSection>
       </S.CustomModal>
     </S.PostWrapper>
@@ -408,7 +538,7 @@ function findComment(comments: Comment[], commentId: number): Comment | null {
 function updateNestedComment(comments: Comment[], commentId: number | null, content: string): Comment[] {
   if (commentId === null) return comments;
 
-  return comments.map(comment => {
+  return comments.map((comment) => {
     if (comment.id === commentId) {
       return { ...comment, content };
     }
@@ -421,7 +551,7 @@ function updateNestedComment(comments: Comment[], commentId: number | null, cont
 
 function deleteNestedComment(comments: Comment[], commentId: number): Comment[] {
   return comments
-    .map(comment => {
+    .map((comment) => {
       if (comment.id === commentId) {
         return null;
       }
@@ -430,7 +560,7 @@ function deleteNestedComment(comments: Comment[], commentId: number): Comment[] 
       }
       return comment;
     })
-    .filter(comment => comment !== null) as Comment[];
+    .filter((comment) => comment !== null) as Comment[];
 }
 
 export default Post;

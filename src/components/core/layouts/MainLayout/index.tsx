@@ -81,6 +81,7 @@ function MainLayout({ children }: LayoutProps) {
   };
   const handleCancle = () => {
     setSearchVisible(false);
+    setNav("home");
   };
 
   return (

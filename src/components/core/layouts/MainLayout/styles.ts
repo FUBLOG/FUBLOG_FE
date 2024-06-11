@@ -65,14 +65,18 @@ export const Container = styled(Flex)`
 `;
 export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
   &.searchModal{
+    width: 800px;
+    height: 540px;
     background-color: transparent ;
+    margin-left: 380px;
+
   }
 
   &.searchModal .ant-modal-content {
+    width: 800px;
+    height: 540px;
     background-color: rgb(250,240,230);
     background-color: transparent !important;
-
-    height: 350px;
   }
   &.searchModal .ant-modal-header {
      background-color: transparent;
@@ -82,7 +86,7 @@ export const SearchModal = styled(Modal).attrs({ className: 'searchModal' })`
     // color: #f9f9f9;
   }
   &.searchModal .ant-modal-body {
-    padding: 20px;
+    padding: 15px;
   }
   &.searchModal .ant-input {
 

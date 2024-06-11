@@ -13,6 +13,7 @@ export const MyStyledDiv = styled.div`
   background-color: rgb(92, 84, 112);
   border-radius: 9px;
   
+
   .searchHeader{
       background-color: #5C5470;
       top: 0;
@@ -28,7 +29,7 @@ export const MyStyledDiv = styled.div`
 
   ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0 25px 0 25px;
 
     li {
       margin: 5px 0;

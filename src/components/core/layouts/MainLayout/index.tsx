@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode, useEffect } from "react";
-import { Flex } from "antd";
+import { Flex ,Menu,Dropdown} from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -79,6 +79,20 @@ function MainLayout({ children }: LayoutProps) {
     };
     isValidUser();
   }, []);
+  const menuItems = (
+    <S.CustomMenu>
+      <Menu.Item key="viewProfile" className="custom-menu-item">
+        <a href="/profile">Xem trang cá nhân</a>
+      </Menu.Item>
+      <Menu.Item key="editProfile" className="custom-menu-item">
+        <a href="/profile/edit">Chỉnh sửa trang cá nhân</a>
+      </Menu.Item>
+      <Menu.Item key="logout" className="custom-menu-item">
+        <a href="/logout">Đăng xuất</a>
+      </Menu.Item>
+    </S.CustomMenu>
+  );
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -147,9 +161,11 @@ function MainLayout({ children }: LayoutProps) {
               <Link href="/profile" onClick={() => handleSetNavigation("")}>
                 <UserOutlined style={{ fontSize: "28px" }} />
               </Link>
-              <CaretDownOutlined
-                style={{ fontSize: "18px", marginLeft: "4px" }}
-              />
+              <Dropdown overlay={menuItems} trigger={["click"]}>
+                <CaretDownOutlined
+                  style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
+                />
+              </Dropdown>
             </S.UserIconContainer>
           )}
         </S.Container>

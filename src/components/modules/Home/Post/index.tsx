@@ -36,7 +36,6 @@ interface PostProps {
   initialLikes: number;
   initialComments: number;
   initialCommentsData: Comment[];
-  currentUser: string | null;
 }
 
 function Post({
@@ -118,7 +117,7 @@ function Post({
 
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
-    setIsPostReport(true);
+    setIsPostReport(false);
     setShowReportModal(true);
   };
 

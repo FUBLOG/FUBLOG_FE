@@ -11,6 +11,30 @@ export const PostWrapper = styled.div`
   border-radius: 30px;
   background-color: transparent;
 `;
+export const ContentWrapper = styled(Flex)`
+  align-items: flex-start; /* Align text at the top */
+  padding: 0 20px; /* Apply the same padding to left and right */
+`;
+
+export const PostContent = styled.p`
+  color: #b9b4c7;
+  font-size: 14px;
+  line-height: 2;
+  margin: 0;
+  padding: 10px 0;
+`;
+
+export const ImagesWrapper = styled(Flex)`
+  justify-content: flex-start; /* Align images at the start */
+  padding: 0 20px; /* Apply the same padding as ContentWrapper */
+  gap: 10px;
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+  }
+`;
+
 
 export const PostHeader = styled(Flex)`
   align-items: center;
@@ -35,28 +59,6 @@ export const UserName = styled.span`
   font-size: 18px;
 `;
 
-export const ContentWrapper = styled(Flex)`
-  align-items: center;
-  padding-left: 40px;
-`;
-
-export const PostContent = styled.p`
-  color: #b9b4c7;
-  font-size: 14px;
-  line-height: 2;
-  margin: 0;
-  padding: 10px 0;
-`;
-
-export const ImagesWrapper = styled(Flex)`
-  justify-content: center;
-  gap: 10px;
-  img {
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
-`;
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;

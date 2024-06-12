@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
@@ -15,7 +15,6 @@ function Sidebar(props: PageProps) {
     { id: 3, name: "Văn Mạnh", image: "/vanmanh.png" },
     { id: 4, name: "Thanh Thủy", image: "/thanhthuy.png" },
     { id: 5, name: "Minh Quân", image: "/minhquan.png" },
-   
   ];
 
   return (
@@ -35,18 +34,20 @@ function Sidebar(props: PageProps) {
                 objectFit="cover"
               />
             </S.FriendImageContainer>
-            <S.FriendInfo>
+            <S.FriendInfo
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="caption-normal" color="#B9B4C7">
                 {friend.name}
               </Typography>
-              <Typography variant="caption-small" color="#B9B4C7">
+              <Typography variant="caption-small" color="#B9B4C7" fontSize="12px">
                 101 bạn bè
               </Typography>
             </S.FriendInfo>
-            <S.FriendActions>
-              <UserOutlined />
-              <MessageOutlined />
-            </S.FriendActions>
           </S.Friend>
         ))}
       </S.FriendContainer>

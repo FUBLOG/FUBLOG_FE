@@ -13,7 +13,6 @@ import * as S from "./styles";
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
-
 function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <S.LayoutWrapper>

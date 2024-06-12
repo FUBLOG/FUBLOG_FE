@@ -9,6 +9,8 @@ import * as S from "./styles";
 function Home() {
   const [isGuest, setIsGuest] = useState(true);
   const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [activeTag, setActiveTag] = useState("Tất cả");
+
 
   useEffect(() => {
     const isAuth = webStorageClient.get(constants.IS_AUTH);
@@ -16,22 +18,39 @@ function Home() {
     setIsGuest(!isAuth);
     setCurrentUser(user || "Jos Phan Ái"); 
   }, []);
+  const tags = [
+    "Tất cả",
+    "Gia đình",
+    "Bạn bè",
+    "Học tập",
+    "Công việc",
+    "Tình cảm",
+    "Khác",
+  ];
+
 
   return (
     <S.HomeWrapper>
       <Sidebar isGuest={isGuest} />
       <S.MainWrapper>
         <S.ContentWrapper>
-          <S.TagsContainer>
-           
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44 " $width={"84px"} ><span style={{color:"#B9B4C7 !important" } }>Tất cả</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Gia đình</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Bạn bè</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Học tập</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Công việc</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Tình cảm</span></Button>
-            <Button type="default" $borderColor="#fff" $hoverBackgroundColor="#FAF0E6" $hoverColor="#352F44" $width={"84px"}><span style={{color:"#B9B4C7 !important"} }>Khác</span></Button>
-          </S.TagsContainer>
+        <S.TagsContainer>
+              {tags.map((tag) => (
+                <Button
+                  key={tag}
+                  type="default"
+                  $hoverBackgroundColor="#FAF0E6"
+                  $hoverColor="#352F44"
+                  $width={"84px"}
+                  onClick={() => setActiveTag(tag)}
+                  $backgroundColor={
+                    activeTag === tag ? "#FAF0E6 " : "transparent"
+                  }
+                >
+                  {tag}
+                </Button>
+              ))}
+            </S.TagsContainer>
           <S.PostContainer>
             <Post
               user="Thanh Thủy"
@@ -46,7 +65,7 @@ function Home() {
                 { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
                 { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
               ]}
-              currentUser={currentUser}  
+            
             />
             <Post
               user="Thanh Thủy"
@@ -61,7 +80,7 @@ function Home() {
                 { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
                 { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
               ]}
-              currentUser={currentUser}  
+             
             />
           </S.PostContainer>
         </S.ContentWrapper>

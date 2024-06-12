@@ -1,18 +1,17 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import SearchInfo from "./content";
-import { CloseIcon, InputWrapper, SearchIcon, StyledInput } from "./style";
-
+import { InputWrapper, SearchIcon, StyledInput } from "./style";
+import SearchInfo from "./Content";
 
 interface SearchContentProps {
   onPressEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
-    const [value,setValue] = useState("");
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-      setValue(e.target.value)
-    }
+  const [value, setValue] = useState("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
   return (
     <div>
       <InputWrapper>
@@ -24,7 +23,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
           onPressEnter={onPressEnter}
         />
       </InputWrapper>
-      <SearchInfo value={value}/>
+      <SearchInfo value={value} />
     </div>
   );
 };

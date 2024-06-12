@@ -8,22 +8,19 @@ export const MyStyledDiv = styled.div`
   margin-top: 20px;
   padding: 0 20px 20px 20px;
   border-radius: 5px;
-  overflow-y: auto; /* Add vertical scroll bar when content overflows */
-  overflow-x: hidden; /* Hide horizontal scroll bar if not needed */
-  background-color:  #FAF0E6;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #faf0e6;
   border-radius: 9px;
-  
 
-  .searchHeader{
-      top: 0;
-      height: 50px;
-      
+  .searchHeader {
+    top: 0;
+    height: 50px;
   }
   h3 {
-    color: #352F44;
+    color: #352f44;
     margin-bottom: 10px;
-      margin-top:20px
-
+    margin-top: 20px;
   }
 
   ul {
@@ -32,7 +29,6 @@ export const MyStyledDiv = styled.div`
 
     li {
       margin: 5px 0;
-      
     }
   }
 `;

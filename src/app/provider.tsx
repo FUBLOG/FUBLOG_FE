@@ -14,8 +14,10 @@ const ProviderComponents = ({ children }: Props) => {
     <>
       <StyledComponentsRegistry>
         <ThemeProvider theme={themes.default}>
-          <GlobalStyle />
-          <AntdRegistry>{children}</AntdRegistry>
+          <AuthProvider>
+            <GlobalStyle />
+            <AntdRegistry>{children}</AntdRegistry>
+          </AuthProvider>
         </ThemeProvider>
       </StyledComponentsRegistry>
     </>

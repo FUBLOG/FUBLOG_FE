@@ -72,7 +72,7 @@ function Home() {
                   content: "Cho học với",
                 },
                 {
-                  id: 1,
+                  id: 3,
                   user: "Văn Mạnh",
                   avatar: "./vanmanh.png",
                   content: "Đi ăn kem",

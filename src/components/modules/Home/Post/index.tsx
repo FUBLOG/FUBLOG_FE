@@ -115,15 +115,14 @@ function Post({
 
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
-    setIsPostReport(false);
+    setIsPostReport(true);
     setShowReportModal(true);
-    setShowCommentsModal(false); 
   };
+  
 
   const handlePostReportClick = () => {
     setIsPostReport(true);
     setShowReportModal(true);
-    setShowCommentsModal(false); 
   };
 
   const handleConfirmReport = () => {
@@ -134,14 +133,11 @@ function Post({
     setShowReportModal(false);
     setShowConfirmModal(true);
   };
+  
 
   const handleFinalReport = () => {
     setShowConfirmModal(false);
-    message.success(
-      isPostReport
-        ? "Báo cáo bài viết thành công"
-        : "Báo cáo bình luận thành công"
-    );
+    message.success(isPostReport ? "Báo cáo bài viết thành công" : "Báo cáo bình luận thành công");
     setReportReason(null);
     setSelectedCommentId(null);
   };
@@ -195,9 +191,7 @@ function Post({
 
       const updatedComments = commentsData.map((comment) => {
         if (comment.id === selectedCommentId) {
-          const newReplies = comment.replies
-            ? [...comment.replies, replyData]
-            : [replyData];
+          const newReplies = comment.replies ? [...comment.replies, replyData] : [replyData];
           return { ...comment, replies: newReplies };
         }
         return comment;
@@ -230,11 +224,7 @@ function Post({
       return;
     }
 
-    const updatedComments = updateNestedComment(
-      commentsData,
-      editMode,
-      editComment
-    );
+    const updatedComments = updateNestedComment(commentsData, editMode, editComment);
     setCommentsData(updatedComments);
     setEditMode(null);
     setEditComment("");
@@ -327,8 +317,7 @@ function Post({
         <S.Comment
           style={{
             marginLeft: `${depth * 40}px`,
-            border:
-              selectedCommentId === comment.id ? "1px solid #5c5470" : "none",
+            border: selectedCommentId === comment.id ? "1px solid #5c5470" : "none",
             borderLeft: editMode === comment.id ? "3px solid #5c5470" : "none",
           }}
         >
@@ -341,10 +330,7 @@ function Post({
                 onClick={() => handleReportClick(comment.id)}
               />
             ) : (
-              <Dropdown
-                overlay={renderCommentMenu(comment)}
-                trigger={["click"]}
-              >
+              <Dropdown overlay={renderCommentMenu(comment)} trigger={["click"]}>
                 <EllipsisOutlined style={{ cursor: "pointer" }} />
               </Dropdown>
             )}
@@ -376,31 +362,32 @@ function Post({
           ) : (
             <S.CommentContent>{comment.content}</S.CommentContent>
           )}
-          {!isGuest && !showReportModal && !isPostReport && selectedCommentId === comment.id && (
-            <S.ReplyBox>
-              <S.TextArea
-                value={replyComment}
-                onChange={(e) => setReplyComment(e.target.value)}
-                placeholder="Viết phản hồi..."
-                ref={editInputRef}
-              />
-              <S.ButtonWrapper>
-                <Button
-                  color="red"
-                  type="primary"
-                  style={{
-                    width: "80px",
-                    marginTop: "40px",
-                    padding: "5px 5px",
-                    border: "none",
-                  }}
-                  onClick={handleReply}
-                >
-                  Phản hồi
-                </Button>
-              </S.ButtonWrapper>
-            </S.ReplyBox>
-          )}
+         {!isGuest && !isPostReport && selectedCommentId === comment.id && (
+  <S.ReplyBox>
+    <S.TextArea
+      value={replyComment}
+      onChange={(e) => setReplyComment(e.target.value)}
+      placeholder="Viết phản hồi..."
+      ref={editInputRef}
+    />
+    <S.ButtonWrapper>
+      <Button
+        color="red"
+        type="primary"
+        style={{
+          width: "80px",
+          marginTop: "40px",
+          padding: "5px 5px",
+          border: "none",
+        }}
+        onClick={handleReply}
+      >
+        Phản hồi
+      </Button>
+    </S.ButtonWrapper>
+  </S.ReplyBox>
+)}
+
         </S.Comment>
         {comment.replies && renderComments(comment.replies, depth + 1)}
       </React.Fragment>
@@ -413,27 +400,15 @@ function Post({
         <S.PostHeader>
           <S.UserInfo>
             <S.Avatar src={avatar} alt={`${user}'s avatar`} />
-            <Typography
-              variant="caption-normal"
-              color="#B9B4C7"
-              fontSize="18px"
-            >
+            <Typography variant="caption-normal" color="#B9B4C7" fontSize="18px">
               {user}
             </Typography>
           </S.UserInfo>
-          <ExclamationCircleOutlined
-            onClick={handlePostReportClick}
-            style={{ color: "#FAF0E6", cursor: "pointer" }}
-          />
+          <ExclamationCircleOutlined onClick={handlePostReportClick} style={{ color: "#FAF0E6", cursor: "pointer" }} />
         </S.PostHeader>
 
         <S.ContentWrapper>
-          <Typography
-            variant="caption-small"
-            color="#B9B4C7"
-            fontSize="14px"
-            lineHeight="2"
-          >
+          <Typography variant="caption-small" color="#B9B4C7" fontSize="14px" lineHeight="2">
             {content}
           </Typography>
         </S.ContentWrapper>
@@ -448,32 +423,18 @@ function Post({
         <S.PostFooter>
           <S.Actions>
             {liked ? (
-              <HeartFilled
-                style={{ color: "white", cursor: "pointer" }}
-                onClick={toggleLike}
-              />
+              <HeartFilled style={{ color: "white", cursor: "pointer" }} onClick={toggleLike} />
             ) : (
-              <HeartOutlined
-                style={{ color: "white", cursor: "pointer" }}
-                onClick={toggleLike}
-              />
+              <HeartOutlined style={{ color: "white", cursor: "pointer" }} onClick={toggleLike} />
             )}
             <span>{likes}</span>
-            <CommentOutlined
-              style={{ color: "white", cursor: "pointer" }}
-              onClick={handleCommentClick}
-            />
+            <CommentOutlined style={{ color: "white", cursor: "pointer" }} onClick={handleCommentClick} />
             <span>{comments}</span>
           </S.Actions>
           <S.TagWrapper>
             {tags.map((tag) => (
               <S.Tag key={tag}>
-                <Typography
-                  variant="caption-small"
-                  color="#B9B4C7"
-                  fontSize="14px"
-                  lineHeight="2"
-                >
+                <Typography variant="caption-small" color="#B9B4C7" fontSize="14px" lineHeight="2">
                   <TagOutlined style={{ marginRight: "10px" }} />
                   {tag}
                 </Typography>
@@ -506,7 +467,7 @@ function Post({
             "Spam",
             "Chất cấm, chất gây nghiện",
             "Bán hàng trái phép",
-            "khác",
+            "khác"
           ].map((reason) => (
             <Radio value={reason} key={reason}>
               {reason}
@@ -524,9 +485,7 @@ function Post({
         okText={"Báo cáo"}
       >
         <Typography variant="caption-small">
-          {isPostReport
-            ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
-            : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
+          {isPostReport ? "Bạn có chắc chắn muốn báo cáo bài viết này không?" : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
 
@@ -591,11 +550,7 @@ function findComment(comments: Comment[], commentId: number): Comment | null {
   return null;
 }
 
-function updateNestedComment(
-  comments: Comment[],
-  commentId: number | null,
-  content: string
-): Comment[] {
+function updateNestedComment(comments: Comment[], commentId: number | null, content: string): Comment[] {
   if (commentId === null) return comments;
 
   return comments.map((comment) => {
@@ -603,29 +558,20 @@ function updateNestedComment(
       return { ...comment, content };
     }
     if (comment.replies) {
-      return {
-        ...comment,
-        replies: updateNestedComment(comment.replies, commentId, content),
-      };
+      return { ...comment, replies: updateNestedComment(comment.replies, commentId, content) };
     }
     return comment;
   });
 }
 
-function deleteNestedComment(
-  comments: Comment[],
-  commentId: number
-): Comment[] {
+function deleteNestedComment(comments: Comment[], commentId: number): Comment[] {
   return comments
     .map((comment) => {
       if (comment.id === commentId) {
         return null;
       }
       if (comment.replies) {
-        return {
-          ...comment,
-          replies: deleteNestedComment(comment.replies, commentId),
-        };
+        return { ...comment, replies: deleteNestedComment(comment.replies, commentId) };
       }
       return comment;
     })

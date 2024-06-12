@@ -80,12 +80,12 @@ function Post({
         webStorageClient.set(constants.IS_AUTH, true);
         setCurrentUserState(res?.metadata?.profileHash || "Anonymous");
         setIsGuest(false);
-        return;
+      
       } else {
         setIsGuest(true);
         setCurrentUserState("Anonymous");
         webStorageClient.set(constants.IS_AUTH, false);
-        return;
+        
       }
     };
     isValidUser();

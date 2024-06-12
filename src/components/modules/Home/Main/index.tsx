@@ -1,23 +1,22 @@
-"use client"
+"use client";
 import Button from "@/components/core/common/Button";
+
 import Sidebar from "../Sidebar";
 import Post from "../Post";
+
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { useEffect, useState } from "react";
 import * as S from "./styles";
+
 function Home() {
   const [isGuest, setIsGuest] = useState(true);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState("Tất cả");
 
-
   useEffect(() => {
-    const isAuth = webStorageClient.get(constants.IS_AUTH);
-    const user = webStorageClient.get("currentUser");
-    setIsGuest(!isAuth);
-    setCurrentUser(user || "Jos Phan Ái"); 
-  }, []);
+    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
+  });
+
   const tags = [
     "Tất cả",
     "Gia đình",
@@ -28,13 +27,13 @@ function Home() {
     "Khác",
   ];
 
-
   return (
     <S.HomeWrapper>
       <Sidebar isGuest={isGuest} />
       <S.MainWrapper>
         <S.ContentWrapper>
-        <S.TagsContainer>
+          <S.PostContainer>
+            <S.TagsContainer>
               {tags.map((tag) => (
                 <Button
                   key={tag}
@@ -51,7 +50,6 @@ function Home() {
                 </Button>
               ))}
             </S.TagsContainer>
-          <S.PostContainer>
             <Post
               user="Thanh Thủy"
               avatar="/thanhthuy.png"
@@ -61,11 +59,25 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
-                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
-                { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+                {
+                  id: 1,
+                  user: "Thu Phương",
+                  avatar: "/thuphuong.png",
+                  content: "giỏi quá c ơi",
+                },
+                {
+                  id: 2,
+                  user: "Vĩnh Trung",
+                  avatar: "./vinhtrung.png",
+                  content: "Cho học với",
+                },
+                {
+                  id: 1,
+                  user: "Văn Mạnh",
+                  avatar: "./vanmanh.png",
+                  content: "Đi ăn kem",
+                },
               ]}
-            
             />
             <Post
               user="Thanh Thủy"
@@ -76,11 +88,25 @@ function Home() {
               initialLikes={10}
               initialComments={5}
               initialCommentsData={[
-                { id: 1, user: "Thu Phương", avatar: "/thuphuong.png", content: "giỏi quá c ơi" },
-                { id: 2, user: "Vĩnh Trung", avatar: "./vinhtrung.png", content: "Cho học với" },
-                { id: 3, user: "Văn Mạnh", avatar: "./vanmanh.png", content: "Đi ăn kem" },
+                {
+                  id: 1,
+                  user: "Thu Phương",
+                  avatar: "/thuphuong.png",
+                  content: "giỏi quá c ơi",
+                },
+                {
+                  id: 2,
+                  user: "Vĩnh Trung",
+                  avatar: "./vinhtrung.png",
+                  content: "Cho học với",
+                },
+                {
+                  id: 1,
+                  user: "Văn Mạnh",
+                  avatar: "./vanmanh.png",
+                  content: "Đi ăn kem",
+                },
               ]}
-             
             />
           </S.PostContainer>
         </S.ContentWrapper>

@@ -64,11 +64,11 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               $backgroundColor="#fff"
               $hoverBackgroundColor="#ccc"
               $hoverColor="#000  "
-              $width={"120px"}
+              $width={"84px"}
               onClick={deleteFriend}
             >
               <UserAddOutlined />
-              Hủy Kết bạn
+              Xóa
             </Button>
           )}
           {!isFriend && !deleteCancle && <span>Đã hủy kết bạn</span>}

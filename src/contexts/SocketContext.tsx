@@ -1,4 +1,10 @@
-import React, { createContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useMemo,
+} from "react";
 import { socket } from "@/utils/socket";
 
 interface Socket {
@@ -43,8 +49,13 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       socket.off("disconnect", onDisconnect);
     };
   }, []);
+  const socketContextValue = useMemo(
+    () => ({ connected: isConnected, transport }),
+    [isConnected, transport]
+  );
+
   return (
-    <SocketContext.Provider value={{ connected: isConnected, transport }}>
+    <SocketContext.Provider value={socketContextValue}>
       {children}
     </SocketContext.Provider>
   );

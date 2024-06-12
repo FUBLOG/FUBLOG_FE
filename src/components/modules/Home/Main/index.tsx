@@ -1,14 +1,11 @@
 "use client";
 import Button from "@/components/core/common/Button";
+import { useState } from "react";
 
 import Sidebar from "../Sidebar";
 import Post from "../Post";
 
-import { constants } from "@/settings";
-import webStorageClient from "@/utils/webStorageClient";
-import { useEffect, useState } from "react";
 import * as S from "./styles";
-import { useUser } from "@/hooks/useUser";
 
 function Home() {
   const [activeTag, setActiveTag] = useState("Tất cả");

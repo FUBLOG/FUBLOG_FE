@@ -1,6 +1,5 @@
 "use client";
 
-import webStorageClient from "@/utils/webStorageClient";
 import Banner from "../Banner";
 import ListFriend from "../ListFriend";
 import PostProfile from "../PostProfile";

@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import { Flex } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

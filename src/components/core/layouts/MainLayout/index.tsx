@@ -26,7 +26,7 @@ import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
-import SearchContent from "../../../modules/Home/SearchBar"; 
+import SearchContent from "../../../modules/Home/SearchBar";
 
 import * as S from "./styles";
 
@@ -36,6 +36,7 @@ interface LayoutProps {
 import Chat from "@/components/modules/Chat";
 import { getRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
+import { CreateContent } from "@/components/modules/CreatePost";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -85,12 +86,17 @@ function MainLayout({ children }: LayoutProps) {
   const showSearchModal = () => {
     setSearchVisible(true);
   };
-
+  const [showCreate, setShowCreate] = useState(false);
+  const handleShowCreate = () => {
+    setShowCreate(true);
+  };
   const handleOk = () => {
+    setShowCreate(true);
     setSearchVisible(true);
   };
   const handleCancle = () => {
     setSearchVisible(false);
+    setShowCreate(false);
     setNav("home");
   };
 
@@ -121,11 +127,14 @@ function MainLayout({ children }: LayoutProps) {
                 />
               )}
             </Link>
-            <Link href="" onClick={() => handleSetNavigation("edit")}>
-              {nav === "edit" ? (
+            <Link href="" onClick={() => handleSetNavigation("create")}>
+              {nav === "create" ? (
                 <EditFilled style={{ fontSize: "22px" }} />
               ) : (
-                <EditOutlined style={{ fontSize: "22px" }} />
+                <EditOutlined
+                  onClick={handleShowCreate}
+                  style={{ fontSize: "22px" }}
+                />
               )}
             </Link>
             <Button type="text" onClick={handleOpenMessageModal}>
@@ -170,7 +179,7 @@ function MainLayout({ children }: LayoutProps) {
       </S.Header>
       <S.Body>{children}</S.Body>
       <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
-      <SearchOutlined onClick={showSearchModal} style={{ fontSize: "22px" }} />
+      {/* Search modal */}
       <S.SearchModal
         open={searchVisible}
         onOk={handleOk}
@@ -180,6 +189,16 @@ function MainLayout({ children }: LayoutProps) {
       >
         <SearchContent onPressEnter={handleCancle} />
       </S.SearchModal>
+      {/* Create Post */}
+      <S.CreateModal
+        open={showCreate}
+        onOk={handleOk}
+        onCancel={handleCancle}
+        className="createModal"
+        footer={null}
+      >
+        <CreateContent />
+      </S.CreateModal>
     </S.LayoutWrapper>
   );
 }

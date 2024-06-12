@@ -10,9 +10,6 @@ interface SearchContentProps {
 
 const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     const [value,setValue] = useState("");
-    const handleClear = ()=>{
-        setValue("");
-    };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
       setValue(e.target.value)
     }
@@ -20,14 +17,12 @@ const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
     <div>
       <InputWrapper>
         <SearchIcon />
-
         <StyledInput
           placeholder="Tìm Kiếm..."
           value={value}
           onChange={handleChange}
           onPressEnter={onPressEnter}
         />
-        <CloseIcon visible={!!value} onClick={handleClear} />   
       </InputWrapper>
       <SearchInfo value={value}/>
     </div>

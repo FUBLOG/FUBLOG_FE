@@ -26,7 +26,7 @@ import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
-import SearchContent from "../../../modules/SearchBar";
+import SearchContent from "../../../modules/SearchBar/Main";
 
 import * as S from "./styles";
 
@@ -44,6 +44,8 @@ interface LayoutProps {
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
+  const [valueSearch, setValueSearch] = useState("");
+
   const handleOpenMessageModal = () => {
     setShowMessageModal(true);
     setNav("mess");
@@ -97,6 +99,7 @@ function MainLayout({ children }: LayoutProps) {
     setSearchVisible(false);
     setShowCreate(false);
     setNav("home");
+    setValueSearch("");
   };
 
   return (
@@ -185,7 +188,7 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent onPressEnter={handleCancle} />
+        <SearchContent value={valueSearch} setValue={setValueSearch} />
       </S.SearchModal>
     </S.LayoutWrapper>
   );

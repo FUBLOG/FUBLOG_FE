@@ -10,6 +10,7 @@ interface SearchUserProp {
   friends: number;
   avatar: string;
   role: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const SearchUser: React.FC<SearchUserProp> = ({
@@ -17,15 +18,15 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   friends,
   avatar,
   role,
+  setValue,
 }) => {
-
   const [sendRequest, setSendRequest] = useState(false);
   const [requestCancel, setRequestCancel] = useState(false);
   const [isFriend, setIsFriend] = useState(true);
-  const [deleted,setDeleted] = useState(false)
-  const [newRole, setNewRole] = useState(role); // State mới để lưu giữ giá trị mới của role
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null); // Khởi tạo biến state timeoutId
-  const[finished,setFinished] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [newRole, setNewRole] = useState(role);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [finished, setFinished] = useState(false);
   const deleteFriend = () => {
     const id = setTimeout(() => {
       setDeleted(true);
@@ -33,10 +34,9 @@ export const SearchUser: React.FC<SearchUserProp> = ({
       setTimeout(() => {
         setNewRole("Stranger");
       }, 2000);
-       // Cập nhật giá trị mới cho role
     }, 2000);
     setIsFriend(false);
-    setTimeoutId(id); // Lưu ID của timeout vào biến state
+    setTimeoutId(id);
   };
 
   const handleFriendRequest = () => {
@@ -55,7 +55,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     setIsFriend(true);
     setDeleted(false);
     if (timeoutId) {
-      clearTimeout(timeoutId); // Hủy timeout nếu tồn tại
+      clearTimeout(timeoutId);
     }
   };
 
@@ -87,7 +87,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               Hủy kết bạn
             </Button>
           )}
-          {finished  && <span>Đã hủy kết bạn</span>}
+          {finished && <span>Đã hủy kết bạn</span>}
           {!deleted && !isFriend && (
             <Button
               type="primary"

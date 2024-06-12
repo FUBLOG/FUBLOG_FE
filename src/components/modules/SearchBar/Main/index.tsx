@@ -1,30 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
-import SearchInfo from "./Content";
+import SearchInfo from "../SearchInfo";
 
 interface SearchContentProps {
-  onPressEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchContent: React.FC<SearchContentProps> = ({ onPressEnter }) => {
-  const [value, setValue] = useState("");
+const SearchContent: React.FC<SearchContentProps> = ({ value, setValue }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   return (
-    <div>
+    <>
       <InputWrapper>
         <SearchIcon />
         <StyledInput
           placeholder="Tìm Kiếm..."
           value={value}
           onChange={handleChange}
-          onPressEnter={onPressEnter}
         />
       </InputWrapper>
-      <SearchInfo value={value} />
-    </div>
+      <SearchInfo value={value} setValue={setValue} />
+    </>
   );
 };
 export default SearchContent;

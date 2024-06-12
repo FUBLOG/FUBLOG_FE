@@ -9,9 +9,10 @@ import * as S from "./style";
 
 interface SearchInfoProps {
   value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
+const SearchInfo: React.FC<SearchInfoProps> = ({ value, setValue }) => {
   return (
     <S.MyStyledDiv>
       <div className="searchContent">
@@ -21,6 +22,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
           ).map((friend) => (
             <li key={friend.id} className="listItem">
               <SearchUser
+                setValue={setValue}
                 role="Friend"
                 name={friend.name}
                 friends={friend.friend}
@@ -39,6 +41,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value }) => {
                   name={user.name}
                   friends={user.friend}
                   avatar={user.imagelink}
+                  setValue={setValue}
                 />
                 <hr />
               </li>

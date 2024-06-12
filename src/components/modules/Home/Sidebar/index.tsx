@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/legacy/image";
-import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
 
 export interface PageProps {
@@ -19,9 +18,7 @@ function Sidebar(props: PageProps) {
 
   return (
     <S.SidebarWrapper style={{ display: props.isGuest ? "none" : "block" }}>
-      <Typography variant="h3" color="#B9B4C7">
-        Bạn bè
-      </Typography>
+      <S.SidebarTitle variant="h3">Bạn bè</S.SidebarTitle>
       <S.FriendContainer style={{ background: "transparent" }}>
         {friends.map((friend) => (
           <S.Friend key={friend.id}>
@@ -34,19 +31,11 @@ function Sidebar(props: PageProps) {
                 objectFit="cover"
               />
             </S.FriendImageContainer>
-            <S.FriendInfo
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="caption-normal" color="#B9B4C7">
+            <S.FriendInfo>
+              <S.FriendName variant="caption-normal">
                 {friend.name}
-              </Typography>
-              <Typography variant="caption-small" color="#B9B4C7" fontSize="12px">
-                101 bạn bè
-              </Typography>
+              </S.FriendName>
+              
             </S.FriendInfo>
           </S.Friend>
         ))}

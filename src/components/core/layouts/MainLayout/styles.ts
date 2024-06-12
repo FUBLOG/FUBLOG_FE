@@ -100,11 +100,24 @@ export const SearchModal = styled(Modal).attrs({ className: "searchModal" })`
   }
 
   &.searchModal .ant-modal-close {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #faf0e6;
   }
   &.searchModal .ant-modal-close-x {
     width: 20px;
     height: 20px;
     transform: translate(30%, 0px);
+  }
+`;
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
+  }
+  &.createModal .ant-modal-content {
+    height: 540px;
+    width: 800px;
+    background-color: #faf0e6 !important;
+    border-radius: 10px;
   }
 `;

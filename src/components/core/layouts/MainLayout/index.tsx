@@ -17,6 +17,7 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+import Link from "next/link";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -40,11 +41,11 @@ function MainLayout({ children, isGuestPage = true }: LayoutProps) {
           </S.IconContainer>
           {isGuestPage ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
-              <a href="/sign-in">
+              <Link href="/sign-in">
                 <Button type="default" $width="100px">
                   Đăng nhập
                 </Button>
-              </a>
+              </Link>
               <a href="/sign-up">
                 <Button color="red" type="primary" $width="100px">
                   Đăng ký

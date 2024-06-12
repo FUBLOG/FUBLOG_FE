@@ -1,28 +1,22 @@
 "use client";
-import { useState } from "react";
+import { User, useUser } from "./useUser";
+export interface Key {
+  ACCESS_TOKEN: string;
+  PROFILE_HASH: string;
+  REFRESH_TOKEN?: string;
+  PRIVATEKEY?: string;
+}
 
-const useModal = () => {
-  const [visible, setVisible] = useState<boolean>(false);
+export const useAuth = () => {
+  const { user, addUser, removeUser, setUser } = useUser();
 
-  function toggle() {
-    setVisible(!visible);
-  }
-  function openModal() {
-    setVisible(true);
-  }
-  function closeModal() {
-    setVisible(false);
-  }
-  function modalState(state: boolean) {
-    setVisible(state);
-  }
-  return {
-    toggle,
-    visible,
-    openModal,
-    closeModal,
-    modalState,
+  const login = (key: Key) => {
+    addUser(key);
   };
-};
 
-export default useModal;
+  const logout = () => {
+    removeUser();
+  };
+
+  return { user, login, logout, setUser };
+};

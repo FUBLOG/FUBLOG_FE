@@ -9,6 +9,10 @@ const webLocalStorage = {
 
     return data;
   },
+
+  remove(key: string) {
+    localStorage?.removeItem(key);
+  },
 };
 
 export default webLocalStorage;

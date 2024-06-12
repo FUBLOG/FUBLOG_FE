@@ -1,13 +1,10 @@
 import Sidebar from "../../Home/Sidebar";
 import * as S from "./styles";
 
-export interface PageProps {
-  readonly isGuest: boolean;
-}
-export default function ListFriend(props: PageProps) {
+export default function ListFriend() {
   return (
     <S.Wrapper>
-      <Sidebar isGuest={props.isGuest} />
+      <Sidebar />
     </S.Wrapper>
   );
 }

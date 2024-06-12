@@ -12,8 +12,8 @@ export const PostWrapper = styled.div`
   background-color: transparent;
 `;
 export const ContentWrapper = styled(Flex)`
-  align-items: flex-start; /* Align text at the top */
-  padding: 0 20px; /* Apply the same padding to left and right */
+  align-items: flex-start; 
+  padding: 0 20px; 
 `;
 
 export const PostContent = styled.p`
@@ -25,8 +25,8 @@ export const PostContent = styled.p`
 `;
 
 export const ImagesWrapper = styled(Flex)`
-  justify-content: flex-start; /* Align images at the start */
-  padding: 0 20px; /* Apply the same padding as ContentWrapper */
+  justify-content: flex-start; 
+  padding: 0 20px;
   gap: 10px;
   img {
     max-width: 100%;

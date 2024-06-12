@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Modal, Input, Badge } from "antd";
-import {
-  SearchOutlined,
-  PictureOutlined,
-  SendOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
-
+import { SearchOutlined, PictureOutlined, SendOutlined, CloseOutlined } from "@ant-design/icons";
 import * as S from "./styles";
 
 interface PageProps {
@@ -44,54 +38,6 @@ const user = [
     avatar: "/thanhthuy.png",
     action: false,
   },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
-  {
-    id: 5,
-    name: "Thanh Thủy",
-    avatar: "/thanhthuy.png",
-    action: false,
-  },
 ];
 
 const avatars: { [key: string]: string } = {
@@ -105,25 +51,19 @@ const avatars: { [key: string]: string } = {
 
 const Chat = ({ visible, onClose }: PageProps) => {
   const [selectedId, setSelectedId] = useState(3);
-
   const [messages, setMessages] = useState([
     { id: 1, sender: "Văn Mạnh", content: "Chán quá đi", type: "text" },
-    {
-      id: 2,
-      sender: "Jos Phan Ái",
-      content: "Muốn làm task không?",
-      type: "text",
-    },
+    { id: 2, sender: "Jos Phan Ái", content: "Muốn làm task không?", type: "text" },
     { id: 3, sender: "Văn Mạnh", content: "Không mệt lắm rồi!", type: "text" },
-    {
-      id: 4,
-      sender: "Jos Phan Ái",
-      content: "Vậy giờ muốn chi?",
-      type: "text",
-    },
+    { id: 4, sender: "Jos Phan Ái", content: "Vậy giờ muốn chi?", type: "text" },
     { id: 5, sender: "Văn Mạnh", content: "Muốn đi uống nước!", type: "text" },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSend = () => {
     if (inputValue.trim()) {
@@ -188,13 +128,11 @@ const Chat = ({ visible, onClose }: PageProps) => {
                   setSelectedId(user.id);
                 }}
                 style={{
-                  backgroundColor:
-                    selectedId === user.id ? "#b9b4c7" : "transparent",
-                  borderRadius:
-                    selectedId === user.id ? "20px 0px 0px 20px" : "none",
+                  backgroundColor: selectedId === user.id ? "#b9b4c7" : "transparent",
+                  borderRadius: selectedId === user.id ? "20px 0px 0px 20px" : "none",
                 }}
               >
-                <S.FriendImage src={user.avatar} alt="Vĩnh Trung" />
+                <S.FriendImage src={user.avatar} alt={user.name} />
                 <S.FriendName>{user.name}</S.FriendName>
               </S.FriendItem>
             ))}
@@ -205,11 +143,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
             {user.map((user) => (
               <S.ActiveFriend key={user.id}>
                 <Badge dot={user.action} status="success">
-                  <S.ActiveFriendImage
-                    src={user.avatar}
-                    alt={user.avatar}
-                    isActive
-                  />
+                  <S.ActiveFriendImage src={user.avatar} alt={user.avatar} isActive />
                 </Badge>
                 <S.ActiveFriendName>{user.name}</S.ActiveFriendName>
               </S.ActiveFriend>
@@ -224,29 +158,20 @@ const Chat = ({ visible, onClose }: PageProps) => {
             </S.ChatHeader>
             <S.MessagesList>
               {messages.map((message) => (
-                <S.MessageItem
-                  key={message.id}
-                  isOwnMessage={message.sender === "Jos Phan Ái"}
-                >
+                <S.MessageItem key={message.id} isOwnMessage={message.sender === "Jos Phan Ái"}>
                   {message.sender !== "Jos Phan Ái" && (
-                    <S.MessageAvatar
-                      src={avatars[message.sender]}
-                      alt={message.sender}
-                    />
+                    <S.MessageAvatar src={avatars[message.sender]} alt={message.sender} />
                   )}
                   {message.type === "text" ? (
                     <S.MessageContent>{message.content}</S.MessageContent>
                   ) : (
                     <S.MessageContent>
-                      <img
-                        src={message.content}
-                        alt="Uploaded"
-                        style={{ maxWidth: "100px", maxHeight: "100px" }}
-                      />
+                      <img src={message.content} alt="Uploaded" style={{ maxWidth: "100px", maxHeight: "100px" }} />
                     </S.MessageContent>
                   )}
                 </S.MessageItem>
               ))}
+              <div ref={messagesEndRef} />
             </S.MessagesList>
             <S.MessageInputContainer>
               <Input

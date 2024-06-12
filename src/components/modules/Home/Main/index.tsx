@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Button from "@/components/core/common/Button";
 import Sidebar from "../Sidebar";
 import Post from "../Post";

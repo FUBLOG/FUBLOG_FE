@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import { message, Dropdown, Menu, Radio } from "antd";
 import {
@@ -119,11 +117,13 @@ function Post({
     setSelectedCommentId(commentId);
     setIsPostReport(false);
     setShowReportModal(true);
+    setShowCommentsModal(false); 
   };
 
   const handlePostReportClick = () => {
     setIsPostReport(true);
     setShowReportModal(true);
+    setShowCommentsModal(false); 
   };
 
   const handleConfirmReport = () => {
@@ -376,7 +376,7 @@ function Post({
           ) : (
             <S.CommentContent>{comment.content}</S.CommentContent>
           )}
-          {!isGuest && !isPostReport && selectedCommentId === comment.id && (
+          {!isGuest && !showReportModal && !isPostReport && selectedCommentId === comment.id && (
             <S.ReplyBox>
               <S.TextArea
                 value={replyComment}

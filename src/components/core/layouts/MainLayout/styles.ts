@@ -1,4 +1,4 @@
-import { Flex, Menu } from "antd";
+import { Flex, Modal,Menu } from "antd";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
@@ -8,7 +8,11 @@ export const LayoutWrapper = styled.main`
   flex-direction: column;
   align-items: center;
 `;
-
+export const GlobalStyle = createGlobalStyle`
+  .ant-modal-content {
+    background-color: #faf0e6 !important;
+  }
+  `;
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
@@ -17,7 +21,7 @@ export const Header = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1000;
 `;
 
 export const LogoContainer = styled.div`
@@ -59,225 +63,64 @@ export const Container = styled(Flex)`
   justify-content: space-between;
   align-items: center;
 `;
+export const SearchModal = styled(Modal).attrs({ className: "searchModal" })`
+  &.searchModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
+  }
 
-export const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 500px;
-  max-height: 500px;
-  background-color: #faf0e6;
-`;
+  &.searchModal .ant-modal-content {
+    width: 800px;
+    height: 540px;
+    background-color: #faf0e6 !important;
+  }
+  &.searchModal .ant-modal-header {
+    background-color: transparent;
+  }
+  &.searchModal .ant-modal-title {
+    // color: #f9f9f9;
+  }
+  &.searchModal .ant-modal-body {
+    padding: 15px;
+  }
+  &.searchModal .ant-input {
+    padding-left: 35px;
 
-export const Sidebar = styled.div`
-  width: 30%;
-  background-color: #faf0e6;
-  border-right: 1px solid #e8e8e8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  overflow-y: auto;
-`;
-
-export const Profile = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-export const ProfileImage = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  object-fit: cover;
-`;
-
-export const ProfileName = styled.div`
-  font-weight: bold;
-  font-size: 16px;
-`;
-
-export const SearchBar = styled.div`
-  width: 100%;
-  margin-bottom: 20px;
-  .ant-input-affix-wrapper {
+    margin-top: 15px;
+    height: 50px;
+    color: rgb(92, 84, 112);
     background-color: #faf0e6;
-    border: 1px solid #5c5470;
-    border-radius: 20px;
+    border-radius: 50px;
+    border-color: rgb(92, 84, 112);
   }
-`;
-
-export const FriendList = styled.div`
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
-`;
-
-export const FriendItem = styled.div`
-  display: grid;
-  grid-template-columns: 40px auto;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #e8e8e8;
+  &.searchModal .ant-input::placeholder {
+    opacity: 1;
+    color: rgb(92, 84, 112);
   }
-`;
 
-export const FriendImage = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  border: 1px solid #5c5470;
-`;
-
-export const FriendName = styled.div`
-  font-size: 14px;
-  margin-left: 8px;
-`;
-
-export const ChatArea = styled.div`
-  width: 70%;
-  background-color: #faf0e6;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const ActiveFriends = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #e8e8e8;
-`;
-
-export const ActiveFriend = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-`;
-
-export const ActiveFriendImage = styled(FriendImage)<{ isActive?: boolean }>`
-  position: relative;
-  &::after {
-    content: ${(props) => (props.isActive ? 'url("/moon.png")' : "''")}; //
-    position: absolute;
-    top: -5px;
-    right: -5px;
+  &.searchModal .ant-modal-close {
+    background-color: #faf0e6;
+  }
+  &.searchModal .ant-modal-close-x {
     width: 20px;
     height: 20px;
+    transform: translate(30%, 0px);
   }
 `;
-export const ActiveFriendName = styled.div`
-  font-size: 12px;
-  text-align: center;
-  color: #352f44;
-`;
-
-export const ChatContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-`;
-
-export const ChatHeader = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #352f44;
-  justify-content: flex-start;
-`;
-
-export const ChatFriendName = styled.div`
-  font-weight: bold;
-  font-size: 16px;
-  margin-left: 8px;
-`;
-
-export const ActiveStatus = styled.div`
-  font-size: 14px;
-  color: #352f44;
-  margin-left: auto;
-`;
-
-export const MessagesList = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-`;
-
-export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  justify-content: ${(props) =>
-    props.isOwnMessage ? "flex-end" : "flex-start"};
-`;
-
-export const MessageAvatar = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 10px;
-  object-fit: cover;
-`;
-
-export const MessageContent = styled.div`
-  background-color: #b9b4c7;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #5c5470;
-  color: #352f44;
-`;
-
-export const MessageInputContainer = styled.div`
-  padding: 10px;
-  border-top: 1px solid #e8e8e8;
-  display: flex;
-  align-items: center;
-  background-color: #faf0e6;
-
-  .ant-input-affix-wrapper {
-    background-color: #faf0e6;
-    border: 1px solid #5c5470;
-    border-radius: 20px;
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
   }
-
-  .ant-input::placeholder {
-    color: #8c8c8c;
-  }
-
-  .anticon {
-    color: #8c8c8c;
+  &.createModal .ant-modal-content {
+    height: 540px;
+    width: 800px;
+    background-color: #faf0e6 !important;
+    border-radius: 10px;
   }
 `;
-
-export const CloseButton = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-`;
-const StyledIcon = styled.div`
-  font-size: 22px;
-  cursor: pointer;
-  transition: color 0.3s;
-
-  &:hover {
-    color: #b9b4c7;
-  }
-
-  &.active {
-    color: #b9b4c7;
-  }
-`;
-
 export const CustomMenu = styled(Menu)`
   .ant-dropdown-menu {
     padding: 0px !important;
@@ -309,34 +152,4 @@ export const CustomMenu = styled(Menu)`
   .ant-dropdown-menu-submenu {
     background-color: #faf0e6 !important;
   }
-`;
-
-export const GlobalStyle = createGlobalStyle`
- .ant-modal-content {
-    background-color: #faf0e6 !important;
-  .ant-dropdown-menu {
-    padding: 0 !important;
-    background-color: #faf0e6 !important;
-    border-radius: 8px !important;
-  }
-
-  .ant-dropdown-menu-item {
-    background-color: #faf0e6 !important;
-    padding: 8px 12px !important;
-    &:hover {
-      background-color: #f0e1d2 !important;
-    }
-  }
-
-  .ant-dropdown-menu-item-active {
-    background-color: #f0e1d2 !important;
-  }
-
-  .ant-dropdown-menu-item-selected {
-    background-color: #f0e1d2 !important;
-  }
-
-  .ant-dropdown-menu-submenu {
-    background-color: #faf0e6 !important;
-  }}
 `;

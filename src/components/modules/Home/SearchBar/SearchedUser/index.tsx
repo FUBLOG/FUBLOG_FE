@@ -18,31 +18,43 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   avatar,
   role,
 }) => {
+
   const [sendRequest, setSendRequest] = useState(false);
   const [requestCancel, setRequestCancel] = useState(false);
   const [isFriend, setIsFriend] = useState(true);
-  const [deleteCancle,setDeleteCancle] = useState(false)
-  
-  const deleteFriend = () =>{
-    setIsFriend(false);
-    setTimeout(() => {
-      setDeleteCancle(true);
+  const [deleted,setDeleted] = useState(false)
+  const [newRole, setNewRole] = useState(role); // State mới để lưu giữ giá trị mới của role
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null); // Khởi tạo biến state timeoutId
+
+  const deleteFriend = () => {
+    const id = setTimeout(() => {
+      setDeleted(true);
+      setNewRole("Stranger"); // Cập nhật giá trị mới cho role
     }, 2000);
-  }
+    setIsFriend(false);
+    setTimeoutId(id); // Lưu ID của timeout vào biến state
+  };
+
   const handleFriendRequest = () => {
     setSendRequest(true);
     setTimeout(() => {
       setRequestCancel(true);
     }, 2000);
   };
+
   const handleCancel = () => {
     setSendRequest(false);
     setRequestCancel(false);
   };
-  const handleDeleteFriend = ()=>{
+
+  const handleDeleteFriend = () => {
     setIsFriend(true);
-    setDeleteCancle(false);
-  }
+    setDeleted(false);
+    if (timeoutId) {
+      clearTimeout(timeoutId); // Hủy timeout nếu tồn tại
+    }
+  };
+
   return (
     <Usersearch>
       <div className="user-wrapper">
@@ -55,7 +67,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      {role === "Friend" ? (
+      {newRole === "Friend" ? (
         <>
           {isFriend && (
             <Button
@@ -64,27 +76,28 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               $backgroundColor="#fff"
               $hoverBackgroundColor="#ccc"
               $hoverColor="#000  "
-              $width={"84px"}
+              $width={"120px"}
               onClick={deleteFriend}
             >
               <UserAddOutlined />
-              Xóa
+              Hủy kết bạn
             </Button>
           )}
-          {!isFriend && !deleteCancle && <span>Đã hủy kết bạn</span>}
-          {deleteCancle && (
+          {!isFriend && deleted && <span>Đã hủy kết bạn</span>}
+          {!deleted && !isFriend && (
             <Button
               type="primary"
               $color="#352F44"
               $backgroundColor="#fff"
               $hoverBackgroundColor="#ccc"
               $hoverColor="#000  "
-              $width={"84px"}
+              $width={"120px"}
               onClick={handleDeleteFriend}
             >
               Hoàn tác
             </Button>
           )}
+          {deleted && <span>Người dùng đã trở thành người lạ</span>} {/* Hiển thị thông báo mới */}
         </>
       ) : (
         <>
@@ -95,7 +108,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               $backgroundColor="#fff"
               $hoverBackgroundColor="#ccc"
               $hoverColor="#000"
-              $width={"84px"}
+              $width={"120px"}
               onClick={handleFriendRequest}
             >
               <UserAddOutlined />
@@ -110,7 +123,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               $backgroundColor="#fff"
               $hoverBackgroundColor="#ccc"
               $hoverColor="#000"
-              $width={"84px"}
+              $width={"120px"}
               onClick={handleCancel}
             >
               Hủy lời mời

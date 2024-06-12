@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode, useEffect } from "react";
-import { Flex,Menu,Dropdown } from "antd";
+import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -64,25 +64,79 @@ function MainLayout({ children }: LayoutProps) {
   useEffect(() => {
     const isValidUser = async () => {
       const token = await webStorageClient.getToken();
-      console.log(token);
+      console.log("token ", token);
 
       if (token) {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
-        }).then((response) => {
-          return true;
         });
+        webStorageClient.set(constants.IS_AUTH, true);
+
+        setIsGuest(false);
+        return;
+      } else {
+        setIsGuest(true);
+        webStorageClient.set(constants.IS_AUTH, false);
+
+        return;
       }
-      return false;
     };
-    const isValid = isValidUser();
-    if (isValid) {
-      setIsGuest(!isValid);
-      webStorageClient.set(constants.IS_AUTH, true);
-    } else {
-      webStorageClient.set(constants.IS_AUTH, false);
-    }
+    isValidUser();
   }, []);
+  useEffect(() => {
+    const isValidUser = async () => {
+      const token = await webStorageClient.getToken();
+      console.log("token ", token);
+
+      if (token) {
+        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
+          security: true,
+        });
+        webStorageClient.set(constants.IS_AUTH, true);
+
+        setIsGuest(false);
+        return;
+      } else {
+        setIsGuest(true);
+        webStorageClient.set(constants.IS_AUTH, false);
+
+        return;
+      }
+    };
+    isValidUser();
+  }, []);
+  const User = () => {
+    return isGuest ? (
+      <Flex gap={15} style={{ marginRight: "20px" }}>
+        <Link href="/sign-in">
+          <Button type="default" $width="100px">
+            Đăng nhập
+          </Button>
+        </Link>
+        <Link href="/sign-up">
+          <Button color="red" type="primary" $width="100px">
+            Đăng ký
+          </Button>
+        </Link>
+      </Flex>
+    ) : (
+      <S.UserIconContainer>
+        <Link href="/profile" onClick={() => handleSetNavigation("")}>
+          <UserOutlined style={{ fontSize: "28px" }} />
+        </Link>
+        <Dropdown overlay={menuItems} trigger={["click"]}>
+          <CaretDownOutlined
+            style={{
+              fontSize: "18px",
+              marginLeft: "0px",
+              cursor: "pointer",
+            }}
+          />
+        </Dropdown>
+      </S.UserIconContainer>
+    );
+  };
+
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
     setSearchVisible(true);
@@ -109,7 +163,6 @@ function MainLayout({ children }: LayoutProps) {
       </Menu.Item>
     </S.CustomMenu>
   );
-
 
   return (
     <S.LayoutWrapper>
@@ -159,32 +212,8 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
+            <User />
           </S.IconContainer>
-          {isGuest ? (
-            <Flex gap={15} style={{ marginRight: "20px" }}>
-              <Link href="/sign-in">
-                <Button type="default" $width="100px">
-                  Đăng nhập
-                </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button color="red" type="primary" $width="100px">
-                  Đăng ký
-                </Button>
-              </Link>
-            </Flex>
-          ) : (
-            <S.UserIconContainer>
-            <Link href="/profile" onClick={() => handleSetNavigation("")}>
-              <UserOutlined style={{ fontSize: "28px" }} />
-            </Link>
-            <Dropdown overlay={menuItems} trigger={["click"]}>
-              <CaretDownOutlined
-                style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
-              />
-            </Dropdown>
-          </S.UserIconContainer>
-          )}
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>

@@ -25,11 +25,15 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   const [deleted,setDeleted] = useState(false)
   const [newRole, setNewRole] = useState(role); // State mới để lưu giữ giá trị mới của role
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null); // Khởi tạo biến state timeoutId
-
+  const[finished,setFinished] = useState(false);
   const deleteFriend = () => {
     const id = setTimeout(() => {
       setDeleted(true);
-      setNewRole("Stranger"); // Cập nhật giá trị mới cho role
+      setFinished(true);
+      setTimeout(() => {
+        setNewRole("Stranger");
+      }, 2000);
+       // Cập nhật giá trị mới cho role
     }, 2000);
     setIsFriend(false);
     setTimeoutId(id); // Lưu ID của timeout vào biến state
@@ -83,7 +87,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               Hủy kết bạn
             </Button>
           )}
-          {!isFriend && deleted && <span>Đã hủy kết bạn</span>}
+          {finished  && <span>Đã hủy kết bạn</span>}
           {!deleted && !isFriend && (
             <Button
               type="primary"
@@ -97,7 +101,6 @@ export const SearchUser: React.FC<SearchUserProp> = ({
               Hoàn tác
             </Button>
           )}
-          {deleted && <span>Người dùng đã trở thành người lạ</span>} {/* Hiển thị thông báo mới */}
         </>
       ) : (
         <>

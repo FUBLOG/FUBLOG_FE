@@ -26,6 +26,8 @@ import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
+import SearchContent from "../../../modules/SearchBar/Main";
+
 import * as S from "./styles";
 
 interface LayoutProps {
@@ -42,6 +44,8 @@ interface LayoutProps {
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
+  const [valueSearch, setValueSearch] = useState("");
+
   const handleOpenMessageModal = () => {
     setShowMessageModal(true);
     setNav("mess");
@@ -79,6 +83,20 @@ function MainLayout({ children }: LayoutProps) {
       webStorageClient.set(constants.IS_AUTH, false);
     }
   }, []);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const showSearchModal = () => {
+    setSearchVisible(true);
+  };
+
+  const handleOk = () => {
+    setSearchVisible(true);
+  };
+  const handleCancle = () => {
+    setSearchVisible(false);
+    setNav("home");
+    setValueSearch("");
+  };
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -86,7 +104,7 @@ function MainLayout({ children }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <Link href="/home" onClick={(e) => handleSetNavigation("home")}>
+            <Link href="/home" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
               ) : (
@@ -101,14 +119,13 @@ function MainLayout({ children }: LayoutProps) {
                 />
               ) : (
                 <SearchOutlined
-                  style={{
-                    fontSize: "22px",
-                  }}
+                  onClick={showSearchModal}
+                  style={{ fontSize: "22px" }}
                 />
               )}
             </Link>
-            <Link href="" onClick={() => handleSetNavigation("edit")}>
-              {nav === "edit" ? (
+            <Link href="" onClick={() => handleSetNavigation("create")}>
+              {nav === "create" ? (
                 <EditFilled style={{ fontSize: "22px" }} />
               ) : (
                 <EditOutlined style={{ fontSize: "22px" }} />
@@ -156,6 +173,15 @@ function MainLayout({ children }: LayoutProps) {
       </S.Header>
       <S.Body>{children}</S.Body>
       <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
+      <S.SearchModal
+        open={searchVisible}
+        onOk={handleOk}
+        onCancel={handleCancle}
+        className="searchModal"
+        footer={null}
+      >
+        <SearchContent value={valueSearch} setValue={setValueSearch} />
+      </S.SearchModal>
     </S.LayoutWrapper>
   );
 }

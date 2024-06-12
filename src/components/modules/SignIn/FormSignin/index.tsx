@@ -12,34 +12,31 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
-import webStorageClient from "@/utils/webStorageClient";
-import webLocalStorage from "@/utils/webLocalStorage";
 
 import * as S from "./styles";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 function FormSignIn() {
   const router = useRouter();
-
+  const { login } = useAuth();
   const onFinish = async (values: any) => {
-    console.log(values);
     try {
       const data = {
-        email: values.mail!,
-        password: values.password!,
-        isRemember: values.isRemember!,
+        email: values.mail,
+        password: values.password,
+        isRemember: values.isRemember,
       };
       const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
-      webStorageClient.setProfileHash(res?.metadata?.user?.profileHash, {
-        maxAge: 7 * 24 * 60,
+      login({
+        ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
+        PROFILE_HASH: res?.metadata?.user?.profileHash,
+        REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
+        PRIVATEKEY: res?.metadata?.tokens?.privateKey,
       });
-      webStorageClient.setToken(res?.metadata?.tokens?.accessToken, {
-        maxAge: 7 * 24 * 60,
-      });
-      webLocalStorage.set("refreshToken", res?.metadata?.tokens?.refreshToken);
-      webLocalStorage.set("privateKey", res?.metadata?.tokens?.privateKey);
-
       router.push("/");
-    } catch (error) {}
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
   return (
     <S.HomeWrapper>

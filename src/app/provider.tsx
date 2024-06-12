@@ -5,6 +5,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { themes } from "@/style/themes";
 import GlobalStyle from "@/style/global";
 import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 type Props = {
   children: React.ReactNode;
@@ -15,7 +16,9 @@ const ProviderComponents = ({ children }: Props) => {
       <StyledComponentsRegistry>
         <ThemeProvider theme={themes.default}>
           <GlobalStyle />
-          <AntdRegistry>{children}</AntdRegistry>
+          <AntdRegistry>
+            <AuthProvider>{children}</AuthProvider>
+          </AntdRegistry>
         </ThemeProvider>
       </StyledComponentsRegistry>
     </>

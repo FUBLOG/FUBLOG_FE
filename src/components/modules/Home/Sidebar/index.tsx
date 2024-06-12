@@ -1,13 +1,14 @@
 "use client";
+import { UserOutlined, MessageOutlined } from "@ant-design/icons";
+"use client";
 
 import Image from "next/legacy/image";
 import * as S from "./styles";
+import { useUser } from "@/hooks/useUser";
 
-export interface PageProps {
-  readonly isGuest: boolean;
-}
+function Sidebar() {
+  const { userInfo } = useUser();
 
-function Sidebar(props: PageProps) {
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
     { id: 2, name: "Thu Phương", image: "/thuphuong.png" },
@@ -19,6 +20,10 @@ function Sidebar(props: PageProps) {
   return (
     <S.SidebarWrapper style={{ display: props.isGuest ? "none" : "block" }}>
       <S.SidebarTitle variant="h3">Bạn bè</S.SidebarTitle>
+    <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
+      <Typography variant="h3" color="#B9B4C7">
+        Bạn bè
+      </Typography>
       <S.FriendContainer style={{ background: "transparent" }}>
         {friends.map((friend) => (
           <S.Friend key={friend.id}>

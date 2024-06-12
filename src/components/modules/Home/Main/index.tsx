@@ -1,22 +1,14 @@
 "use client";
 import Button from "@/components/core/common/Button";
+import { useState } from "react";
 
 import Sidebar from "../Sidebar";
 import Post from "../Post";
 
-import { constants } from "@/settings";
-import webStorageClient from "@/utils/webStorageClient";
-import { useEffect, useState } from "react";
 import * as S from "./styles";
 
 function Home() {
-  const [isGuest, setIsGuest] = useState(true);
   const [activeTag, setActiveTag] = useState("Tất cả");
-
-  useEffect(() => {
-    setIsGuest(!webStorageClient.get(constants.IS_AUTH));
-  });
-
   const tags = [
     "Tất cả",
     "Gia đình",
@@ -29,7 +21,7 @@ function Home() {
 
   return (
     <S.HomeWrapper>
-      <Sidebar isGuest={isGuest} />
+      <Sidebar />
       <S.MainWrapper>
         <S.ContentWrapper>
           <S.PostContainer>

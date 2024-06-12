@@ -5,13 +5,14 @@ import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
 import { authEndpoint } from "@/services/endpoint";
-import { Key } from "./useAuthStatus";
+
 export interface User {
   name: string;
 }
 
 export const useUser = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { userInfo, setUserInfo } = useContext(AuthContext);
+
   useEffect(() => {
     const isUser = async () => {
       const token = await webStorageClient.getToken();
@@ -22,34 +23,46 @@ export const useUser = () => {
           });
           if (res) {
             webStorageClient.set(constants.IS_AUTH, true);
-            setUser({
-              name: constants.PROFILE_HASH,
-            });
+            setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
           } else {
             throw new Error("Invalid user data");
           }
         } catch (error) {
           webStorageClient.set(constants.IS_AUTH, false);
-          setUser(null);
+          setUserInfo(null);
         }
       } else {
         webStorageClient.set(constants.IS_AUTH, false);
-        setUser(null);
+        setUserInfo(null);
       }
     };
     isUser();
-  }, [setUser]);
-  const addUser = (key: Key) => {
-    webStorageClient.setProfileHash(key.PROFILE_HASH, {
-      maxAge: 7 * 24 * 60,
-    });
-    webStorageClient.setToken(key.ACCESS_TOKEN, { maxAge: 7 * 24 * 60 });
-    webLocalStorage.set("refreshToken", key.REFRESH_TOKEN);
-    webLocalStorage.set("privateKey", key.PRIVATEKEY);
+  }, [setUserInfo]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await webStorageClient.get(constants.IS_AUTH);
+      if (isAuth) {
+        setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
+      } else {
+        setUserInfo(null);
+      }
+    };
+    checkAuth();
+  }, [setUserInfo]);
+
+  const addUser = (user: {
+    ACCESS_TOKEN: string;
+    PROFILE_HASH: string;
+    REFRESH_TOKEN?: string;
+    PRIVATEKEY?: string;
+  }) => {
+    webStorageClient.setProfileHash(user.PROFILE_HASH, { maxAge: 7 * 24 * 60 });
+    webStorageClient.setToken(user.ACCESS_TOKEN, { maxAge: 7 * 24 * 60 });
+    webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
+    webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
-    setUser({
-      name: constants.PROFILE_HASH,
-    });
+    setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
   };
 
   const removeUser = () => {
@@ -57,8 +70,9 @@ export const useUser = () => {
     webStorageClient.remove(constants.PROFILE_HASH);
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
-    setUser(null);
+    webStorageClient.set(constants.IS_AUTH, false);
+    setUserInfo(null);
   };
 
-  return { user, addUser, removeUser, setUser };
+  return { userInfo, addUser, removeUser, setUserInfo };
 };

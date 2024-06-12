@@ -15,21 +15,16 @@ import { authEndpoint } from "@/services/endpoint";
 
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
-import webStorageClient from "@/utils/webStorageClient";
-import { constant } from "lodash";
-import { constants } from "@/settings";
-import webLocalStorage from "@/utils/webLocalStorage";
 
 function FormSignIn() {
   const router = useRouter();
   const { login } = useAuth();
   const onFinish = async (values: any) => {
-    console.log(values);
     try {
       const data = {
-        email: values.mail!,
-        password: values.password!,
-        isRemember: values.isRemember!,
+        email: values.mail,
+        password: values.password,
+        isRemember: values.isRemember,
       };
       const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
       login({
@@ -39,7 +34,9 @@ function FormSignIn() {
         PRIVATEKEY: res?.metadata?.tokens?.privateKey,
       });
       router.push("/");
-    } catch (error) {}
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
   return (
     <S.HomeWrapper>

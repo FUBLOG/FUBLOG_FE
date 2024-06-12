@@ -55,11 +55,8 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
-  const { user } = useAuth();
+  const { userInfo } = useAuth();
 
-  useEffect(() => {
-    console.log("Auth status updated:", user);
-  }, [user]);
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
     setSearchVisible(true);
@@ -123,7 +120,7 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Button>
           </S.IconContainer>
-          {user === null ? (
+          {userInfo === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

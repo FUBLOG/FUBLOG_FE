@@ -1,5 +1,5 @@
-"use client";
-import { User, useUser } from "./useUser";
+import { useUser } from "./useUser";
+
 export interface Key {
   ACCESS_TOKEN: string;
   PROFILE_HASH: string;
@@ -8,7 +8,7 @@ export interface Key {
 }
 
 export const useAuth = () => {
-  const { user, addUser, removeUser, setUser } = useUser();
+  const { userInfo, addUser, removeUser, setUserInfo } = useUser();
 
   const login = (key: Key) => {
     addUser(key);
@@ -18,5 +18,5 @@ export const useAuth = () => {
     removeUser();
   };
 
-  return { user, login, logout, setUser };
+  return { userInfo, login, logout, setUserInfo };
 };

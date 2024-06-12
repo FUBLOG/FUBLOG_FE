@@ -1,23 +1,23 @@
-"use client";
+import React, { createContext, useState, ReactNode } from "react";
 import { User } from "@/hooks/useUser";
-import { createContext, useContext } from "react";
 
-interface AuthContext {
-  user: User | null;
-  setUser: (user: User | null) => void;
+interface AuthContextProps {
+  userInfo: User | null;
+  setUserInfo: (user: User | null) => void;
 }
 
-export const AuthContext = createContext<AuthContext>({
-  user: null,
-  setUser: () => {},
+export const AuthContext = createContext<AuthContextProps>({
+  userInfo: null,
+  setUserInfo: () => {},
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { user, setUser } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ userInfo, setUserInfo }}>
       {children}
     </AuthContext.Provider>
   );

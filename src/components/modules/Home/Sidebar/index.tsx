@@ -6,7 +6,7 @@ import * as S from "./styles";
 import { useUser } from "@/hooks/useUser";
 
 function Sidebar() {
-  const { user } = useUser();
+  const { userInfo } = useUser();
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
@@ -17,7 +17,7 @@ function Sidebar() {
   ];
 
   return (
-    <S.SidebarWrapper style={{ display: user === null ? "none" : "block" }}>
+    <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>

@@ -4,15 +4,13 @@ import styled from "styled-components";
 export const PostWrapper = styled.div`
   box-sizing: border-box;
   margin: 20px 0;
-  padding: 24px;cccc
+  padding: 24px;
   max-width: 700px;
   width: 100%;
   border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
- 
 `;
-
 
 export const PostHeader = styled(Flex)`
   align-items: center;
@@ -48,7 +46,6 @@ export const PostContent = styled.p`
   line-height: 2;
   margin: 0;
   padding: 10px 0;
- 
 `;
 
 export const ImagesWrapper = styled(Flex)`
@@ -146,17 +143,13 @@ export const CommentSection = styled(Flex)`
 export const CommentsWrapper = styled(Flex)`
   flex-direction: column;
   gap: 5px;
-  max-height: 220px; 
-  overflow-y: auto; 
-  padding: 10px; 
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 10px;
 
-  
   ::-webkit-scrollbar {
-    width: 5px; 
+    width: 5px;
   }
-
-  
-
 `;
 
 export const CommentBox = styled(Flex)`
@@ -168,17 +161,17 @@ export const CommentBox = styled(Flex)`
 
 export const TextArea = styled.textarea`
   width: 100%;
-  max-height: 150px; 
+  max-height: 150px;
   padding: 10px;
   border-radius: 10px;
   border: none;
   background-color: #faf0e6;
-  overflow-y: auto; 
-  resize: none; 
-  box-sizing: border-box; 
+  overflow-y: auto;
+  resize: none;
+  box-sizing: border-box;
   &::placeholder {
     color: #5c5470;
-  }c
+  }
 `;
 export const Comment = styled(Flex)`
   flex-direction: column;
@@ -210,8 +203,6 @@ export const Divider = styled.div`
   background-color: #ccc;
   margin: 10px 0;
 `;
-
-
 
 export const Stroke = styled.div`
   width: 2px;

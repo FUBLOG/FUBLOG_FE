@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
 

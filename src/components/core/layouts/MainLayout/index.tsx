@@ -87,17 +87,12 @@ function MainLayout({ children }: LayoutProps) {
   const showSearchModal = () => {
     setSearchVisible(true);
   };
-  const [showCreate, setShowCreate] = useState(false);
-  const handleShowCreate = () => {
-    setShowCreate(true);
-  };
+
   const handleOk = () => {
-    setShowCreate(true);
     setSearchVisible(true);
   };
   const handleCancle = () => {
     setSearchVisible(false);
-    setShowCreate(false);
     setNav("home");
     setValueSearch("");
   };
@@ -109,7 +104,7 @@ function MainLayout({ children }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <Link href="/home" onClick={(e) => handleSetNavigation("home")}>
+            <Link href="/home" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
               ) : (
@@ -133,10 +128,7 @@ function MainLayout({ children }: LayoutProps) {
               {nav === "create" ? (
                 <EditFilled style={{ fontSize: "22px" }} />
               ) : (
-                <EditOutlined
-                  onClick={handleShowCreate}
-                  style={{ fontSize: "22px" }}
-                />
+                <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
             <Button type="text" onClick={handleOpenMessageModal}>

@@ -1,5 +1,5 @@
-import { Flex, Modal } from "antd";
 import styled from "styled-components";
+import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   box-sizing: border-box;
@@ -11,6 +11,30 @@ export const PostWrapper = styled.div`
   border-radius: 30px;
   background-color: transparent;
 `;
+export const ContentWrapper = styled(Flex)`
+  align-items: flex-start; 
+  padding: 0 20px; 
+`;
+
+export const PostContent = styled.p`
+  color: #b9b4c7;
+  font-size: 14px;
+  line-height: 2;
+  margin: 0;
+  padding: 10px 0;
+`;
+
+export const ImagesWrapper = styled(Flex)`
+  justify-content: flex-start; 
+  padding: 0 20px;
+  gap: 10px;
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+  }
+`;
+
 
 export const PostHeader = styled(Flex)`
   align-items: center;
@@ -35,28 +59,6 @@ export const UserName = styled.span`
   font-size: 18px;
 `;
 
-export const ContentWrapper = styled(Flex)`
-  align-items: center;
-  padding-left: 40px;
-`;
-
-export const PostContent = styled.p`
-  color: #b9b4c7;
-  font-size: 14px;
-  line-height: 2;
-  margin: 0;
-  padding: 10px 0;
-`;
-
-export const ImagesWrapper = styled(Flex)`
-  justify-content: center;
-  gap: 10px;
-  img {
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
-`;
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
@@ -173,6 +175,7 @@ export const TextArea = styled.textarea`
     color: #5c5470;
   }
 `;
+
 export const Comment = styled(Flex)`
   flex-direction: column;
   align-items: flex-start;
@@ -216,4 +219,40 @@ export const Stroke = styled.div`
 export const Content = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const CustomMenu = styled(Menu)`
+  background-color: #faf0e6 !important;
+`;
+
+export const CustomMenuItem = styled(Menu.Item)`
+  background-color: #faf0e6 !important;
+  color: #352f44 !important;
+
+  &:hover {
+    background-color: #e5d6c6 !important;
+    color: #352f44 !important;
+  }
+
+  &:active {
+    background-color: #d4b8a9 !important;
+  }
+`;
+
+export const ReplyBox = styled(Flex)`
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background-color: #faf0e6;
+  width: 100%;
+`;
+
+export const ButtonWrapper = styled.div`
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
 `;

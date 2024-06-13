@@ -114,21 +114,13 @@ function Post({
     setSelectedCommentId(commentId);
     setIsPostReport(false);
     setShowReportModal(true);
-<<<<<<< HEAD
     setShowCommentsModal(false);
-=======
-    setShowCommentsModal(false); 
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
   };
 
   const handlePostReportClick = () => {
     setIsPostReport(true);
     setShowReportModal(true);
-<<<<<<< HEAD
     setShowCommentsModal(false);
-=======
-    setShowCommentsModal(false); 
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
   };
 
   const handleConfirmReport = () => {
@@ -227,7 +219,6 @@ function Post({
       return;
     }
 
-<<<<<<< HEAD
     if (editMode !== null) {
       const updatedComments = updateNestedComment(commentsData, editMode, editComment);
       setCommentsData(updatedComments);
@@ -242,16 +233,6 @@ function Post({
       setEditMode(commentId);
       setEditComment(commentToEdit.content);
     }
-=======
-    const updatedComments = updateNestedComment(
-      commentsData,
-      editMode,
-      editComment
-    );
-    setCommentsData(updatedComments);
-    setEditMode(null);
-    setEditComment("");
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
   };
 
   const handleDeleteComment = (commentId: number) => {
@@ -342,12 +323,7 @@ function Post({
           style={{
             marginLeft: `${depth * 40}px`,
             border:
-<<<<<<< HEAD
               editMode === comment.id ? "3px solid #5c5470" : "none",
-=======
-              selectedCommentId === comment.id ? "1px solid #5c5470" : "none",
-            borderLeft: editMode === comment.id ? "3px solid #5c5470" : "none",
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
           }}
         >
           <S.CommentHeader>
@@ -609,10 +585,7 @@ function findComment(comments: Comment[], commentId: number): Comment | null {
   return null;
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
 function updateNestedComment(
   comments: Comment[],
   commentId: number | null,
@@ -634,10 +607,7 @@ function updateNestedComment(
   });
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> ce3d6ee3d93023c5f816ca5bb9be946e9fe5bfa5
 function deleteNestedComment(
   comments: Comment[],
   commentId: number
@@ -659,4 +629,3 @@ function deleteNestedComment(
 }
 
 export default Post;
-//day là file cuoi cung

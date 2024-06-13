@@ -1,6 +1,6 @@
 "use client";
-import { useState, ReactNode, useEffect } from "react";
-import { Flex, Menu, Dropdown } from "antd";
+import { useState, ReactNode } from "react";
+import { Flex,Menu,Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -18,11 +18,8 @@ import {
   EditFilled,
   BellFilled,
 } from "@ant-design/icons";
-import { constants } from "@/settings";
 
 import Button from "../../common/Button";
-
-import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
@@ -34,8 +31,7 @@ interface LayoutProps {
   readonly children: ReactNode;
 }
 import Chat from "@/components/modules/Chat";
-import { getRequest } from "@/services/request";
-import { authEndpoint } from "@/services/endpoint";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -59,83 +55,9 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
+  const { userInfo } = useAuth();
 
-  const [isGuest, setIsGuest] = useState(true);
-  useEffect(() => {
-    const isValidUser = async () => {
-      const token = await webStorageClient.getToken();
-      console.log("token ", token);
-
-      if (token) {
-        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-          security: true,
-        });
-        webStorageClient.set(constants.IS_AUTH, true);
-
-        setIsGuest(false);
-        return;
-      } else {
-        setIsGuest(true);
-        webStorageClient.set(constants.IS_AUTH, false);
-
-        return;
-      }
-    };
-    isValidUser();
-  }, []);
-  useEffect(() => {
-    const isValidUser = async () => {
-      const token = await webStorageClient.getToken();
-      console.log("token ", token);
-
-      if (token) {
-        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-          security: true,
-        });
-        webStorageClient.set(constants.IS_AUTH, true);
-
-        setIsGuest(false);
-        return;
-      } else {
-        setIsGuest(true);
-        webStorageClient.set(constants.IS_AUTH, false);
-
-        return;
-      }
-    };
-    isValidUser();
-  }, []);
-  const User = () => {
-    return isGuest ? (
-      <Flex gap={15} style={{ marginRight: "20px" }}>
-        <Link href="/sign-in">
-          <Button type="default" $width="100px">
-            Đăng nhập
-          </Button>
-        </Link>
-        <Link href="/sign-up">
-          <Button color="red" type="primary" $width="100px">
-            Đăng ký
-          </Button>
-        </Link>
-      </Flex>
-    ) : (
-      <S.UserIconContainer>
-        <Link href="/profile" onClick={() => handleSetNavigation("")}>
-          <UserOutlined style={{ fontSize: "28px" }} />
-        </Link>
-        <Dropdown overlay={menuItems} trigger={["click"]}>
-          <CaretDownOutlined
-            style={{
-              fontSize: "18px",
-              marginLeft: "0px",
-              cursor: "pointer",
-            }}
-          />
-        </Dropdown>
-      </S.UserIconContainer>
-    );
-  };
+ 
 
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
@@ -212,8 +134,34 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
-            <User />
+     
           </S.IconContainer>
+          
+          {userInfo === null ? (
+            <Flex gap={15} style={{ marginRight: "20px" }}>
+              <Link href="/sign-in">
+                <Button type="default" $width="100px">
+                  Đăng nhập
+                </Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button color="red" type="primary" $width="100px">
+                  Đăng ký
+                </Button>
+              </Link>
+            </Flex>
+          ) : (
+            <S.UserIconContainer>
+            <Link href="/profile" onClick={() => handleSetNavigation("")}>
+              <UserOutlined style={{ fontSize: "28px" }} />
+            </Link>
+            <Dropdown overlay={menuItems} trigger={["click"]}>
+              <CaretDownOutlined
+                style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
+              />
+            </Dropdown>
+          </S.UserIconContainer>
+          )}
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>

@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import { Flex } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,11 +18,8 @@ import {
   EditFilled,
   BellFilled,
 } from "@ant-design/icons";
-import { constants } from "@/settings";
 
 import Button from "../../common/Button";
-
-import webStorageClient from "@/utils/webStorageClient";
 
 import logo from "@/public/logo.png";
 
@@ -34,8 +31,7 @@ interface LayoutProps {
   readonly children: ReactNode;
 }
 import Chat from "@/components/modules/Chat";
-import { getRequest } from "@/services/request";
-import { authEndpoint } from "@/services/endpoint";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -59,30 +55,8 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
+  const { userInfo } = useAuth();
 
-  const [isGuest, setIsGuest] = useState(true);
-  useEffect(() => {
-    const isValidUser = async () => {
-      const token = await webStorageClient.getToken();
-      console.log(token);
-
-      if (token) {
-        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-          security: true,
-        }).then((response) => {
-          return true;
-        });
-      }
-      return false;
-    };
-    const isValid = isValidUser();
-    if (isValid) {
-      setIsGuest(!isValid);
-      webStorageClient.set(constants.IS_AUTH, true);
-    } else {
-      webStorageClient.set(constants.IS_AUTH, false);
-    }
-  }, []);
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
     setSearchVisible(true);
@@ -146,7 +120,7 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Button>
           </S.IconContainer>
-          {isGuest ? (
+          {userInfo === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

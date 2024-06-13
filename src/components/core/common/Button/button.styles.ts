@@ -78,7 +78,7 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
 
   &.ant-btn-primary:disabled {
     background: ${({ theme }) => theme?.colors?.secondary} !important;
-    border-radius: ${(props) => props?.$borderRadius || "0px"} !important;
+    border-radius: ${(props) => props?.$borderRadius || "20px"} !important;
   }
 
   &.ant-btn-link {

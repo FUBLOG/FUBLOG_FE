@@ -30,6 +30,9 @@ export const TagsContainer = styled(Flex)`
   margin-bottom: 20px;
 
   gap: 10px;
+
+  color:#fff !important
+  
 `;
 
 export const Tag = styled.span`

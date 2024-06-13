@@ -1,4 +1,4 @@
-import { Flex, Modal } from "antd";
+import { Flex, Modal,Menu } from "antd";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
@@ -119,5 +119,37 @@ export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
     width: 800px;
     background-color: #faf0e6 !important;
     border-radius: 10px;
+  }
+`;
+export const CustomMenu = styled(Menu)`
+  .ant-dropdown-menu {
+    padding: 0px !important;
+    background-color: #faf0e6 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+  }
+
+  .ant-dropdown-menu-item {
+    background-color: #faf0e6 !important;
+    padding: 8px 12px !important;
+    &:hover {
+      background-color: #f0e1d2 !important;
+    }
+  }
+  .ant-dropdown-menu-submenu .ant-dropdown-menu {
+    background-color: #faf0e6 !important;
+    padding: 0;
+  }
+
+  .ant-dropdown-menu-item-active {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-item-selected {
+    background-color: #f0e1d2 !important;
+  }
+
+  .ant-dropdown-menu-submenu {
+    background-color: #faf0e6 !important;
   }
 `;

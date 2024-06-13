@@ -1,5 +1,6 @@
 export interface RequestOptionsInterface {
-  data?: object;
-  params?: object;
-  //addition in need
+  data?: any;
+  params?: any;
+  token?: any;
+  security?: boolean;
 }

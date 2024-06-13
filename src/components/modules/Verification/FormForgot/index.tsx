@@ -4,7 +4,8 @@ import { Dispatch, SetStateAction } from "react";
 import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import Image from "next/image";
+import Image from "next/legacy/image";
+import Link from "next/link";
 
 import Input from "@/components/core/common/form/Input";
 import Typography from "@/components/core/common/Typography";
@@ -65,7 +66,7 @@ function FormForgot({ status, setStatus }: PageProps) {
             label="Email"
           />
         </FormItem>
-        <a href="/sign-in">
+        <Link href="/sign-in">
           <S.Typography
             style={{
               justifyContent: "left",
@@ -82,7 +83,7 @@ function FormForgot({ status, setStatus }: PageProps) {
             </Button>
             Quay lại đăng nhập
           </S.Typography>
-        </a>
+        </Link>
         <FormItem
           style={{
             display: "flex",
@@ -108,7 +109,7 @@ function FormForgot({ status, setStatus }: PageProps) {
           >
             Tạo tài khoản mới?
           </Typography>
-          <a href="/sign-up">
+          <Link href="/sign-up">
             <Typography
               variant="caption-small"
               color="#B9B4C7"
@@ -117,7 +118,7 @@ function FormForgot({ status, setStatus }: PageProps) {
             >
               Đăng ký
             </Typography>
-          </a>
+          </Link>
         </S.Typography>
       </Form>
     </S.HomeWrapper>

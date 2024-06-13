@@ -1,5 +1,5 @@
 "use client";
-import { UserOutlined, MessageOutlined } from "@ant-design/icons";
+
 import Typography from "@/components/core/common/Typography";
 
 import Image from "next/legacy/image";

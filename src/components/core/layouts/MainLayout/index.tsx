@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode } from "react";
-import { Flex ,Menu} from "antd";
+import { Flex,Menu } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -56,6 +56,8 @@ function MainLayout({ children }: LayoutProps) {
     setNav(e);
   };
   const { userInfo } = useAuth();
+
+ 
 
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
@@ -132,8 +134,9 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
-            <User />
+     
           </S.IconContainer>
+          
           {userInfo === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">

@@ -71,7 +71,6 @@ function Post({
   useEffect(() => {
     const isValidUser = async () => {
       const token = await webStorageClient.getToken();
-      console.log("token ", token);
 
       if (token) {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
@@ -80,12 +79,10 @@ function Post({
         webStorageClient.set(constants.IS_AUTH, true);
         setCurrentUserState(res?.metadata?.profileHash || "Anonymous");
         setIsGuest(false);
-      
       } else {
         setIsGuest(true);
         setCurrentUserState("Anonymous");
         webStorageClient.set(constants.IS_AUTH, false);
-        
       }
     };
     isValidUser();
@@ -117,13 +114,13 @@ function Post({
     setSelectedCommentId(commentId);
     setIsPostReport(false);
     setShowReportModal(true);
-    setShowCommentsModal(false); 
+    setShowCommentsModal(false);
   };
 
   const handlePostReportClick = () => {
     setIsPostReport(true);
     setShowReportModal(true);
-    setShowCommentsModal(false); 
+    setShowCommentsModal(false);
   };
 
   const handleConfirmReport = () => {
@@ -162,7 +159,7 @@ function Post({
 
     if (newComment.trim()) {
       const newCommentData: Comment = {
-        id: commentsData.length + 1,
+        id: Date.now(), 
         user: currentUserState,
         avatar: "jos.png",
         content: newComment,
@@ -185,7 +182,7 @@ function Post({
 
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData: Comment = {
-        id: commentsData.length + 1,
+        id: Date.now(), 
         user: currentUserState,
         avatar: "jos.png",
         content: replyComment,
@@ -215,29 +212,27 @@ function Post({
     setEditMode(null);
   };
 
-  const handleEditComment = (commentId: number) => {
-    const commentToEdit = findComment(commentsData, commentId);
-    if (commentToEdit) {
-      setEditMode(commentId);
-      setEditComment(commentToEdit.content);
-      setShowCommentsModal(true);
-    }
-  };
-
+ 
   const handleUpdateComment = () => {
     if (isGuest) {
       message.warning("Vui lòng đăng nhập để chỉnh sửa bình luận.");
       return;
     }
 
-    const updatedComments = updateNestedComment(
-      commentsData,
-      editMode,
-      editComment
-    );
-    setCommentsData(updatedComments);
-    setEditMode(null);
-    setEditComment("");
+    if (editMode !== null) {
+      const updatedComments = updateNestedComment(commentsData, editMode, editComment);
+      setCommentsData(updatedComments);
+      setEditComment("");
+      setEditMode(null); 
+    }
+  };
+
+  const handleEditComment = (commentId: number) => {
+    const commentToEdit = findComment(commentsData, commentId);
+    if (commentToEdit) {
+      setEditMode(commentId);
+      setEditComment(commentToEdit.content);
+    }
   };
 
   const handleDeleteComment = (commentId: number) => {
@@ -328,8 +323,7 @@ function Post({
           style={{
             marginLeft: `${depth * 40}px`,
             border:
-              selectedCommentId === comment.id ? "1px solid #5c5470" : "none",
-            borderLeft: editMode === comment.id ? "3px solid #5c5470" : "none",
+              editMode === comment.id ? "3px solid #5c5470" : "none",
           }}
         >
           <S.CommentHeader>
@@ -578,6 +572,7 @@ function Post({
   );
 }
 
+
 function findComment(comments: Comment[], commentId: number): Comment | null {
   for (const comment of comments) {
     if (comment.id === commentId) {
@@ -590,6 +585,7 @@ function findComment(comments: Comment[], commentId: number): Comment | null {
   }
   return null;
 }
+
 
 function updateNestedComment(
   comments: Comment[],
@@ -611,6 +607,7 @@ function updateNestedComment(
     return comment;
   });
 }
+
 
 function deleteNestedComment(
   comments: Comment[],

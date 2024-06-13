@@ -41,7 +41,6 @@ const getRequest = async (
       },
     })
     .then((res: any) => {
-    
       return res;
     })
     .catch((err) => {

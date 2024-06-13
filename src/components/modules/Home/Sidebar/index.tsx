@@ -1,6 +1,6 @@
 "use client";
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
-"use client";
+import Typography from "@/components/core/common/Typography";
 
 import Image from "next/legacy/image";
 import * as S from "./styles";
@@ -18,8 +18,6 @@ function Sidebar() {
   ];
 
   return (
-    <S.SidebarWrapper style={{ display: props.isGuest ? "none" : "block" }}>
-      <S.SidebarTitle variant="h3">Bạn bè</S.SidebarTitle>
     <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè

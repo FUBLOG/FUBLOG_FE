@@ -572,7 +572,6 @@ function Post({
   );
 }
 
-
 function findComment(comments: Comment[], commentId: number): Comment | null {
   for (const comment of comments) {
     if (comment.id === commentId) {
@@ -630,3 +629,4 @@ function deleteNestedComment(
 }
 
 export default Post;
+//day là file cuoi cung

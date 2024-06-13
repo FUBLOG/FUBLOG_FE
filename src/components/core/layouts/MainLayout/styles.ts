@@ -11,6 +11,8 @@ export const LayoutWrapper = styled.main`
 export const GlobalStyle = createGlobalStyle`
   .ant-modal-content {
     background-color: #faf0e6 !important;
+  .ant-modal-title {
+    background-color: #faf0e6 !important;
   }
   `;
 export const Header = styled.header`
@@ -91,7 +93,7 @@ export const SearchModal = styled(Modal).attrs({ className: "searchModal" })`
     height: 50px;
     color: rgb(92, 84, 112);
     background-color: #faf0e6;
-    border-radius: 50px; 
+    border-radius: 50px;
     border-color: rgb(92, 84, 112);
   }
   &.searchModal .ant-input::placeholder {
@@ -108,8 +110,8 @@ export const SearchModal = styled(Modal).attrs({ className: "searchModal" })`
     transform: translate(30%, 0px);
   }
 `;
-export const CreateModal = styled(Modal).attrs({className: "createModal"})`
-     &.createModal {
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
     position: relative;
     right: 140px;
     background-color: transparent;
@@ -119,6 +121,6 @@ export const CreateModal = styled(Modal).attrs({className: "createModal"})`
     width: 800px;
     background-color: #faf0e6 !important;
     border-radius: 10px;
-
   }
+
 `;

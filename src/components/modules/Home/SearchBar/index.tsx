@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import SearchInfo from "./content";
-import { CloseIcon, InputWrapper, SearchIcon, StyledInput } from "./style";
+import SearchInfo from "./Content";
+import { InputWrapper, SearchIcon, StyledInput } from "./style";
 
 
 interface SearchContentProps {

@@ -41,8 +41,6 @@ const getRequest = async (
       },
     })
     .then((res: any) => {
-      console.log("res verify");
-      console.log(res);
       return res;
     })
     .catch((err) => {

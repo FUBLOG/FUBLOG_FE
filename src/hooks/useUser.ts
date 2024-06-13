@@ -1,18 +1,13 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { getRequest } from "@/services/request";
 import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
 import { authEndpoint } from "@/services/endpoint";
 
-export interface User {
-  name: string;
-}
-
 export const useUser = () => {
-  const { userInfo, setUserInfo } = useContext(AuthContext);
-
+  const { userInfo, setUserInfo } = useAuthContext();
   useEffect(() => {
     const isUser = async () => {
       const token = await webStorageClient.getToken();
@@ -23,7 +18,7 @@ export const useUser = () => {
           });
           if (res) {
             webStorageClient.set(constants.IS_AUTH, true);
-            setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
+            setUserInfo(res?.metadata);
           } else {
             throw new Error("Invalid user data");
           }
@@ -37,18 +32,6 @@ export const useUser = () => {
       }
     };
     isUser();
-  }, [setUserInfo]);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await webStorageClient.get(constants.IS_AUTH);
-      if (isAuth) {
-        setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
-      } else {
-        setUserInfo(null);
-      }
-    };
-    checkAuth();
   }, [setUserInfo]);
 
   const addUser = (user: {

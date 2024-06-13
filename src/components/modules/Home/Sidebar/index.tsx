@@ -3,10 +3,10 @@ import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
-import { useUser } from "@/hooks/useUser";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 function Sidebar() {
-  const { userInfo } = useUser();
+  const { userInfo } = useAuthContext();
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },

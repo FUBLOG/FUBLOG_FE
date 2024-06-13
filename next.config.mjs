@@ -18,7 +18,7 @@ const nextConfig = {
     // images: {
     //     unoptimized: true,
     // },
-    // reactStrictMode: false,
+     reactStrictMode: false,
 }
 
 export default nextConfig

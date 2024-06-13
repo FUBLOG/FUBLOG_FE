@@ -1,20 +1,21 @@
-import React, { createContext, useState, ReactNode, useMemo } from "react";
-import { User } from "@/hooks/useUser";
+import React, { createContext, useState, ReactNode, useMemo, use, useContext } from "react";
 
 interface AuthContextProps {
-  userInfo: User | null;
-  setUserInfo: (user: User | null) => void;
+  userInfo: any | null;
+  setUserInfo: (userInfo: {} | null) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   userInfo: null,
-  setUserInfo: () => {},
+  setUserInfo: async () => { },
 });
-
+export const useAuthContext = () => {
+  return useContext(AuthContext);
+}
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<any | null>(null);
   const authContextValue = useMemo(
     () => ({ userInfo, setUserInfo }),
     [userInfo, setUserInfo]

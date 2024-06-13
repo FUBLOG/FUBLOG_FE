@@ -55,7 +55,7 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
-  const { userInfo } = useAuth();
+  const { userInfo, logout } = useAuth();
 
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
@@ -73,13 +73,13 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <a href="/profile">Xem trang cá nhân</a>
+        <Link href="/profile">Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <a href="/profile/edit">Chỉnh sửa trang cá nhân</a>
+        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <a href="/logout">Đăng xuất</a>
+        <p onClick={() => logout()}>Đăng xuất</p>
       </Menu.Item>
     </S.CustomMenu>
   );

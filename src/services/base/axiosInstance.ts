@@ -5,6 +5,7 @@ import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
 import { authEndpoint } from "../endpoint";
 import deleteStorage from "@/utils/deleteStorage";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const axiosInstance = axios.create({
   baseURL: constants.API_SERVER,
@@ -15,21 +16,23 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  function (config: any) {
+  async function (config: any) {
+    const accessToken = await webStorageClient.getToken();
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     return config;
   },
-  function (error: any) {
-    return Promise.reject(error);
-  }
+  function (error: any) {}
 );
 
 axiosInstance.interceptors.response.use(
-  (response: any) => {
+  async (response: any) => {
     return response?.data;
   },
   async (error: any) => {
-    if (error?.response && error?.response?.code === 401) {
-      if (error?.response?.message === "JWT invalid") {
+    if (error?.response && error?.response?.status === 401) {
+      if (error?.response?.data?.message === "JWT invalid") {
         try {
           const newAccessToken = await refeshAccessToken();
           error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
@@ -38,11 +41,11 @@ axiosInstance.interceptors.response.use(
           deleteStorage();
         }
       }
-      if (error?.response?.message === "Invalid request") {
+      if (error?.response?.data?.message === "Invalid request") {
         deleteStorage();
       }
     }
-    return Promise.reject(error);
+    return Promise.reject(error?.response?.data?.message);
   }
 );
 
@@ -64,9 +67,7 @@ const refeshAccessToken = async () => {
       }
     )
     .then((response) => {
-      webStorageClient.setToken(response?.data?.metadata?.tokens?.accessToken, {
-        maxAge: 7 * 24 * 60,
-      });
+      webStorageClient.setToken(response?.data?.metadata?.tokens?.accessToken);
       webLocalStorage.set(
         "refreshToken",
         response?.data?.metadata?.tokens?.refreshToken
@@ -74,7 +75,7 @@ const refeshAccessToken = async () => {
       return response?.data?.metadata?.tokens?.accessToken;
     })
     .catch((error) => {
-      throw new Error(error.message);
+      throw new Error(error?.message);
     });
 };
 export default axiosInstance;

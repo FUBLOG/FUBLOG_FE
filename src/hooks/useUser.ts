@@ -101,7 +101,7 @@ export const useUser = () => {
     }
   ) => {
     webStorageClient.setProfileHash(user.PROFILE_HASH, { maxAge: 7 * 24 * 60 });
-    webStorageClient.setToken(user.ACCESS_TOKEN, { maxAge: 7 * 24 * 60 });
+    webStorageClient.setToken(user.ACCESS_TOKEN);
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);

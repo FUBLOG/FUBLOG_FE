@@ -10,8 +10,8 @@ import {
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-import * as S from "./styles";
 import { useAuthContext } from "@/contexts/AuthContext";
+import * as S from "./styles";
 
 interface Comment {
   id: number;

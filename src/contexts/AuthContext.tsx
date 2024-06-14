@@ -6,94 +6,57 @@ import React, {
   useContext,
 } from "react";
 
-interface AuthContextProps {
+interface UserInfo {
+  userId: string;
+  dateOfBirth: string;
+  displayName: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  profileHash: string;
+  sex: string;
   userInfo: {
-    userId: string;
-    dateOfBirth: string;
-    displayName: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    profileHash: string;
-    sex: string;
-    userInfo: {
-      avatar: string;
-      blockList: [""];
-      friendList: [""];
-    };
+    avatar: string;
+    blockList: [""];
+    friendList: [""];
   };
-  setUserInfo: React.Dispatch<
-    React.SetStateAction<{
-      userId: string;
-      dateOfBirth: string;
-      displayName: string;
-      email: string;
-      firstName: string;
-      lastName: string;
-      profileHash: string;
-      sex: string;
-      userInfo: {
-        avatar: string;
-        blockList: [""];
-        friendList: [""];
-      };
-    }>
-  >;
 }
 
-export const AuthContext = createContext<AuthContextProps>({
+interface AuthContextProps {
+  userInfo: UserInfo;
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
+}
+
+const defaultUserInfo: UserInfo = {
+  userId: "",
+  dateOfBirth: "",
+  displayName: "",
+  email: "",
+  firstName: "",
+  lastName: "",
+  profileHash: "",
+  sex: "",
   userInfo: {
-    userId: "",
-    dateOfBirth: "",
-    displayName: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    profileHash: "",
-    sex: "",
-    userInfo: {
-      avatar: "",
-      blockList: [""],
-      friendList: [""],
-    },
+    avatar: "",
+    blockList: [""],
+    friendList: [""],
   },
-  setUserInfo: async () => {},
+};
+
+export const AuthContext = createContext<AuthContextProps>({
+  userInfo: defaultUserInfo,
+  setUserInfo: () => {},
 });
+
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [userInfo, setUserInfo] = useState<{
-    userId: string;
-    dateOfBirth: string;
-    displayName: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    profileHash: string;
-    sex: string;
-    userInfo: {
-      avatar: string;
-      blockList: [""];
-      friendList: [""];
-    };
-  }>({
-    userId: "",
-    dateOfBirth: "",
-    displayName: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    profileHash: "",
-    sex: "",
-    userInfo: {
-      avatar: "",
-      blockList: [""],
-      friendList: [""],
-    },
-  });
+  const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
+
   const authContextValue = useMemo(
     () => ({
       userInfo,
@@ -101,6 +64,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }),
     [userInfo, setUserInfo]
   );
+
   return (
     <AuthContext.Provider value={authContextValue}>
       {children}

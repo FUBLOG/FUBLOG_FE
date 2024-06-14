@@ -5,4 +5,5 @@ export const errorMessage: any = {
   "Authentication failed": "Lỗi",
   "Request failed with status code 409": "Email đã tồn tại trong hệ thống",
   "response status is 404": "Mã xác thực không tồn tại hoặc hết hạn",
+  "Invalid request": "abc",
 };

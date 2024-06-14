@@ -5,7 +5,8 @@ import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
 import { authEndpoint } from "../endpoint";
 import deleteStorage from "@/utils/deleteStorage";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { message } from "antd";
+import { errorMessage } from "../errorMessage";
 
 const axiosInstance = axios.create({
   baseURL: constants.API_SERVER,
@@ -45,7 +46,6 @@ axiosInstance.interceptors.response.use(
         deleteStorage();
       }
     }
-    return Promise.reject(error?.response?.data?.message);
   }
 );
 

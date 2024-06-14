@@ -42,7 +42,7 @@ const postRequest = (
       return res;
     })
     .catch((err) => {
-      message.error(errorMessage[err?.message]);
+      message.error(errorMessage[err]);
 
       return Promise.reject(err);
     });

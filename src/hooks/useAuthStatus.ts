@@ -17,8 +17,15 @@ export interface UserInfo {
   sex: string;
   userInfo: {
     avatar: string;
-    blockList: [""];
-    friendList: [""];
+    blockList: [];
+    friendList: [
+      {
+        friend_id: "";
+        displayName: "";
+        avatar: "";
+        _id: "";
+      }
+    ];
   };
 }
 export const useAuth = () => {

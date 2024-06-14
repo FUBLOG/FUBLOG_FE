@@ -50,8 +50,10 @@ export const useUser = () => {
             sex: "",
             userInfo: {
               avatar: "",
-              blockList: [""],
-              friendList: [""],
+              blockList: [],
+              friendList: [
+                { friend_id: "", displayName: "", avatar: "", _id: "" },
+              ],
             },
           });
         }
@@ -68,8 +70,10 @@ export const useUser = () => {
           sex: "",
           userInfo: {
             avatar: "",
-            blockList: [""],
-            friendList: [""],
+            blockList: [],
+            friendList: [
+              { friend_id: "", displayName: "", avatar: "", _id: "" },
+            ],
           },
         });
       }
@@ -95,8 +99,15 @@ export const useUser = () => {
       sex: string;
       userInfo: {
         avatar: string;
-        blockList: [""];
-        friendList: [""];
+        blockList: [];
+        friendList: [
+          {
+            friend_id: "";
+            displayName: "";
+            avatar: "";
+            _id: "";
+          }
+        ];
       };
     }
   ) => {
@@ -125,8 +136,8 @@ export const useUser = () => {
       sex: "",
       userInfo: {
         avatar: "",
-        blockList: [""],
-        friendList: [""],
+        blockList: [],
+        friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
       },
     });
   };

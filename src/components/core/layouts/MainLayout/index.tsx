@@ -46,7 +46,7 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const { logout } = useAuth();
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {

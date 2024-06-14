@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -134,7 +134,7 @@ function MainLayout({ children }: LayoutProps) {
             </Button>
           </S.IconContainer>
 
-          {userInfo === null ? (
+          {userInfo?.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

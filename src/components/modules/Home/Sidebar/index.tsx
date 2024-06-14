@@ -18,7 +18,9 @@ function Sidebar() {
   ];
 
   return (
-    <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
+    <S.SidebarWrapper
+      style={{ display: userInfo?.userId === "" ? "none" : "block" }}
+    >
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>

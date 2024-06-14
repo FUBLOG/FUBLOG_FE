@@ -28,10 +28,10 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   const [userOnline, setUserOnline] = useState<string[]>([]);
   const { userInfo } = useAuthContext();
   useEffect(() => {
-    if (userInfo !== null) {
+    if (userInfo?.userId !== "") {
       const socket = io("https://has.io.vn", {
         query: {
-          userId: userInfo._id,
+          userId: userInfo?.userId,
         },
       });
       setSocket(socket);

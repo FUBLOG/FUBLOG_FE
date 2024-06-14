@@ -7,7 +7,7 @@ import useConversation from '@/hooks/useConversation';
 const FriendOnline = () => {
     const { userInfo } = useAuthContext();
     const { userOnline } = useSocketContext();
-    const [friends, setFriends] = useState([]);
+    const [friends, setFriends] = useState<any>([]);
     const { setSelectedConversation } = useConversation()
     const clickFriend = async (friend: any) => {
         setSelectedConversation({
@@ -23,7 +23,6 @@ const FriendOnline = () => {
     useEffect(() => {
         const handleFriendsOnline = async () => {
             const listFriends = userInfo?.userInfo?.friendList;
-            console.log('listFriends', listFriends);
             const friendsOnline = listFriends?.map((friend: any) => {
                 if (userOnline.includes(friend?.friend_id)) {
                     return {

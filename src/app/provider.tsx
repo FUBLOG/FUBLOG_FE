@@ -11,16 +11,15 @@ import { SocketProvider } from "@/contexts/SocketContext";
 type Props = {
   children: React.ReactNode;
 };
-const ProviderComponents = ({ children }: Props) => {
+
+const ProviderComponents: React.FC<Props> = ({ children }) => {
   return (
     <StyledComponentsRegistry>
       <ThemeProvider theme={themes.default}>
         <GlobalStyle />
         <AntdRegistry>
           <AuthProvider>
-            <SocketProvider>
-              {children}
-            </SocketProvider>
+            <SocketProvider>{children}</SocketProvider>
           </AuthProvider>
         </AntdRegistry>
       </ThemeProvider>

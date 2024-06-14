@@ -1,6 +1,6 @@
 "use client";
-import { useState, ReactNode } from "react";
-import { Flex,Menu,Dropdown } from "antd";
+import { useState, ReactNode, useEffect } from "react";
+import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -55,9 +55,7 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
-  const { userInfo } = useAuth();
-
- 
+  const { userInfo, logout } = useAuth();
 
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
@@ -75,13 +73,13 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <a href="/profile">Xem trang cá nhân</a>
+        <Link href="/profile">Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <a href="/profile/edit">Chỉnh sửa trang cá nhân</a>
+        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <a href="/logout">Đăng xuất</a>
+        <p onClick={() => logout()}>Đăng xuất</p>
       </Menu.Item>
     </S.CustomMenu>
   );
@@ -134,10 +132,9 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
-     
           </S.IconContainer>
-          
-          {userInfo === null ? (
+
+          {userInfo?.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">
@@ -152,15 +149,19 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-            <Link href="/profile" onClick={() => handleSetNavigation("")}>
-              <UserOutlined style={{ fontSize: "28px" }} />
-            </Link>
-            <Dropdown overlay={menuItems} trigger={["click"]}>
-              <CaretDownOutlined
-                style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
-              />
-            </Dropdown>
-          </S.UserIconContainer>
+              <Link href="/profile" onClick={() => handleSetNavigation("")}>
+                <UserOutlined style={{ fontSize: "28px" }} />
+              </Link>
+              <Dropdown overlay={menuItems} trigger={["click"]}>
+                <CaretDownOutlined
+                  style={{
+                    fontSize: "18px",
+                    marginLeft: "0px",
+                    cursor: "pointer",
+                  }}
+                />
+              </Dropdown>
+            </S.UserIconContainer>
           )}
         </S.Container>
       </S.Header>

@@ -11,7 +11,7 @@ const MessageList = () => {
     return (
         <S.MessagesList>
             {messages.map((message) => (
-                <S.MessageItem key={message?._id} isOwnMessage={message.senderId === userInfo?._id}>
+                <S.MessageItem key={message?._id} isOwnMessage={message.senderId === userInfo?.userId}>
                     <S.MessageContent>{message.message}</S.MessageContent>
 
                     {/* <S.MessageContent>

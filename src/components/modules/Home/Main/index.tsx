@@ -2,7 +2,6 @@
 import Button from "@/components/core/common/Button";
 import { useState } from "react";
 
-import Sidebar from "../Sidebar";
 import Post from "../Post";
 
 import * as S from "./styles";
@@ -21,7 +20,6 @@ function Home() {
 
   return (
     <S.HomeWrapper>
-      <Sidebar />
       <S.MainWrapper>
         <S.ContentWrapper>
           <S.PostContainer>

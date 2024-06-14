@@ -24,7 +24,7 @@ export const SocketContext = createContext<SocketContextProps>({
 });
 export const useSocketContext = () => {
   return useContext(SocketContext);
-}
+};
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -32,12 +32,11 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   const [userOnline, setUserOnline] = useState<string[]>([]);
   const { userInfo } = useAuthContext();
   useEffect(() => {
-    if (userInfo !== null) {
-
+    if (userInfo?.userId !== "") {
       const socket = io("https://has.io.vn", {
         query: {
-          userId: userInfo._id
-        }
+          userId: userInfo?.userId,
+        },
       });
       setSocket(socket);
       socket.on("getOnlineUsers", async (data: string[]) => {
@@ -52,15 +51,12 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
         }
       };
     }
-
   }, [userInfo]);
-
 
   const socketContextValueWithUserOnline = useMemo(
     () => ({ socket, setSocket, userOnline, setUserOnline }),
     [socket, setSocket, userOnline, setUserOnline]
   );
-
 
   return (
     <SocketContext.Provider value={socketContextValueWithUserOnline}>

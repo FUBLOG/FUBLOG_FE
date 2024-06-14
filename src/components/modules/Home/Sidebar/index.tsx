@@ -1,4 +1,5 @@
 "use client";
+
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
@@ -18,7 +19,9 @@ function Sidebar() {
   ];
 
   return (
-    <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
+    <S.SidebarWrapper
+      style={{ display: userInfo?.userId === "" ? "none" : "block" }}
+    >
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>
@@ -38,7 +41,6 @@ function Sidebar() {
               <S.FriendName variant="caption-normal">
                 {friend.name}
               </S.FriendName>
-              
             </S.FriendInfo>
           </S.Friend>
         ))}

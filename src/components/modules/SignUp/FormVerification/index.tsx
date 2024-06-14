@@ -46,7 +46,6 @@ function FormVerification(props: PageProps) {
     };
   });
   const handleEmailVerify = async (...arg: any[]) => {
-    console.log(arg);
     if (arg[0] === "Signup successfully") {
       message.success("Đăng ký thành công");
       router.push("/sign-in");

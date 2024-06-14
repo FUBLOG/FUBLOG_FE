@@ -2,6 +2,7 @@
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
+
 import * as S from "./styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 
@@ -34,17 +35,11 @@ function Sidebar() {
               />
             </S.FriendImageContainer>
             <S.FriendInfo>
-              <Typography variant="caption-normal" color="#B9B4C7">
+              <S.FriendName variant="caption-normal">
                 {friend.name}
-              </Typography>
-              <Typography variant="caption-small" color="#B9B4C7">
-                101 bạn bè
-              </Typography>
+              </S.FriendName>
+              
             </S.FriendInfo>
-            <S.FriendActions>
-              <UserOutlined />
-              <MessageOutlined />
-            </S.FriendActions>
           </S.Friend>
         ))}
       </S.FriendContainer>

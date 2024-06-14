@@ -12,11 +12,15 @@ import { useAuthContext } from "./AuthContext";
 interface SocketContextProps {
   socket: Socket | null;
   setSocket: (socket: Socket | null) => void;
+  userOnline: string[];
+  setUserOnline: (userOnline: string[]) => void;
 }
 
 export const SocketContext = createContext<SocketContextProps>({
   socket: {} as Socket,
   setSocket: () => { },
+  userOnline: [],
+  setUserOnline: () => { }
 });
 export const useSocketContext = () => {
   return useContext(SocketContext);
@@ -39,7 +43,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       socket.on("getOnlineUsers", async (data: string[]) => {
         setUserOnline(data);
       })
-      
+
 
       return () => {
         if (socket) {

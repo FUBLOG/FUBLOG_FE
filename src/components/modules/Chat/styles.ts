@@ -204,6 +204,18 @@ export const MessageInputContainer = styled.div`
     color: #8c8c8c;
   }
 `;
+export const NoChatSelected = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #352f44;
+`;
+export const NoChatSelectedText = styled.div`
+  font-size: 24px;
+  color: #352f44;
+`;
 
 const StyledIcon = styled.div`
   font-size: 22px;

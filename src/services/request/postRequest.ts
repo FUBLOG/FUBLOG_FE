@@ -5,7 +5,7 @@ import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const postRequest = (
+const postRequest = async(
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
@@ -13,14 +13,13 @@ const postRequest = (
   // kaidophan37@gmail.com
   // 123456
   const isSecurity = options?.security || false;
+
   let header = {};
   if (isSecurity) {
-    const accessToken = webStorageClient.getToken();
-    const profileHash = webStorageClient.getProfileHash();
+    const profileHash = await webStorageClient.getProfileHash();
 
     header = {
-      Authorization: "Bearer " + { accessToken },
-      "x-client-id": { profileHash },
+      "x-client-id": profileHash,
     };
   }
 

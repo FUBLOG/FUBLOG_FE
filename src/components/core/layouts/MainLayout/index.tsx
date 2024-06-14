@@ -36,12 +36,14 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
+import { useRouter } from "next/navigation";
 
 interface LayoutProps {
   readonly children: ReactNode;
 }
 
 function MainLayout({ children }: LayoutProps) {
+  const router = useRouter();
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
@@ -63,6 +65,8 @@ function MainLayout({ children }: LayoutProps) {
     }
     if (e === "mess") {
       setShowMessageModal(true);
+    }
+    if (e === "") {
     }
   };
 
@@ -160,9 +164,13 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href="/profile" onClick={() => handleSetNavigation("")}>
-                <UserOutlined style={{ fontSize: "28px" }} />
+              <Link href={`/profile/${userInfo.profileHash}`}>
+                <UserOutlined
+                  style={{ fontSize: "28px" }}
+                  onClick={() => handleSetNavigation("")}
+                />
               </Link>
+
               <Dropdown overlay={menuItems} trigger={["click"]}>
                 <CaretDownOutlined
                   style={{

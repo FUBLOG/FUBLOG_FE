@@ -79,7 +79,7 @@ export const useUser = () => {
       }
     };
     isUser();
-  }, [setUserInfo]);
+  }, []);
 
   const addUser = (
     user: {

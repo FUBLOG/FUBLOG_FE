@@ -18,7 +18,7 @@ interface UserInfo {
   userInfo: {
     avatar: string;
     blockList: [];
-    friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }];
+    friendList: [{ friend_id: ""; displayName: ""; avatar: ""; _id: "" }];
   };
 }
 
@@ -45,7 +45,7 @@ const defaultUserInfo: UserInfo = {
 
 export const AuthContext = createContext<AuthContextProps>({
   userInfo: defaultUserInfo,
-  setUserInfo: () => { },
+  setUserInfo: () => {},
 });
 
 export const useAuthContext = () => {
@@ -71,4 +71,3 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     </AuthContext.Provider>
   );
 };
-

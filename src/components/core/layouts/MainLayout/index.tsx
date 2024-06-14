@@ -32,6 +32,10 @@ interface LayoutProps {
 }
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
+import { useAuthContext } from "@/contexts/AuthContext";
+import ModalGuest from "@/components/modules/ModalGuest";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -41,32 +45,37 @@ function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
-
-  const handleOpenMessageModal = () => {
-    setShowMessageModal(true);
-    setNav("mess");
-  };
-
-  const handleCloseMessageModal = () => {
-    setShowMessageModal(false);
-    setNav("home");
-  };
-
+  const { logout } = useAuth();
+  const { userInfo, setUserInfo } = useAuthContext();
+  const [showModalGuest, setShowModalGuest] = useState(false);
+  useEffect(() => {
+    if (webStorageClient.get(constants.IS_AUTH)) {
+      handleCancel();
+    }
+  }, [webStorageClient.get(constants.IS_AUTH)]);
   const handleSetNavigation = (e: string) => {
     setNav(e);
+
+    e != "home" && e != "search" && userInfo?.userId === "" ? (
+      setShowModalGuest(true)
+    ) : e === "search" ? (
+      setSearchVisible(true)
+    ) : e === "mess" ? (
+      setShowMessageModal(true)
+    ) : (
+      <></>
+    );
   };
-  const { userInfo, logout } = useAuth();
 
   const [searchVisible, setSearchVisible] = useState(false);
-  const showSearchModal = () => {
-    setSearchVisible(true);
-  };
 
   const handleOk = () => {
     setSearchVisible(true);
   };
-  const handleCancle = () => {
+  const handleCancel = () => {
     setSearchVisible(false);
+    setShowMessageModal(false);
+    setShowModalGuest(false);
     setNav("home");
     setValueSearch("");
   };
@@ -86,6 +95,7 @@ function MainLayout({ children }: LayoutProps) {
 
   return (
     <S.LayoutWrapper>
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
         <S.GlobalStyle />
         <S.Container>
@@ -105,10 +115,7 @@ function MainLayout({ children }: LayoutProps) {
                   icon={faMagnifyingGlass}
                 />
               ) : (
-                <SearchOutlined
-                  onClick={showSearchModal}
-                  style={{ fontSize: "22px" }}
-                />
+                <SearchOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
             <Link href="" onClick={() => handleSetNavigation("create")}>
@@ -118,14 +125,19 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Button type="text" onClick={handleOpenMessageModal}>
+            <Button type="text" onClick={() => handleSetNavigation("mess")}>
               {nav === "mess" ? (
                 <MessageFilled style={{ fontSize: "22px" }} />
               ) : (
                 <MessageOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
-            <Button type="text" onClick={() => handleSetNavigation("bell")}>
+            <Button
+              type="text"
+              onClick={(e) => {
+                handleSetNavigation("bell");
+              }}
+            >
               {nav === "bell" ? (
                 <BellFilled style={{ fontSize: "22px" }} />
               ) : (
@@ -166,11 +178,11 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-      <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
+      <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal
         open={searchVisible}
         onOk={handleOk}
-        onCancel={handleCancle}
+        onCancel={handleCancel}
         className="searchModal"
         footer={null}
       >

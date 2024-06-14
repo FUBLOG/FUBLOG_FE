@@ -38,6 +38,7 @@ function FormSignIn() {
       );
 
       router.push("/");
+      
     } catch (error) {
       console.error("Login failed:", error);
     }

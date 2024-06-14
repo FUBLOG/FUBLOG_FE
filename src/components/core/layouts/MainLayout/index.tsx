@@ -55,16 +55,15 @@ function MainLayout({ children }: LayoutProps) {
   }, [webStorageClient.get(constants.IS_AUTH)]);
   const handleSetNavigation = (e: string) => {
     setNav(e);
-
-    e != "home" && e != "search" && userInfo?.userId === "" ? (
-      setShowModalGuest(true)
-    ) : e === "search" ? (
-      setSearchVisible(true)
-    ) : e === "mess" ? (
-      setShowMessageModal(true)
-    ) : (
-      <></>
-    );
+    if (e !== "home" && e != "search" && userInfo?.userId === "") {
+      setShowModalGuest(true);
+    }
+    if (e === "search") {
+      setSearchVisible(true);
+    }
+    if (e === "mess") {
+      setShowMessageModal(true);
+    }
   };
 
   const [searchVisible, setSearchVisible] = useState(false);

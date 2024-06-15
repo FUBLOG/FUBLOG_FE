@@ -43,7 +43,6 @@ interface LayoutProps {
 }
 
 function MainLayout({ children }: LayoutProps) {
-  const router = useRouter();
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
@@ -65,8 +64,6 @@ function MainLayout({ children }: LayoutProps) {
     }
     if (e === "mess" && userInfo?.userId !== "") {
       setShowMessageModal(true);
-    }
-    if (e === "") {
     }
   };
 
@@ -91,7 +88,12 @@ function MainLayout({ children }: LayoutProps) {
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <p onClick={() => logout()}>Đăng xuất</p>
+        <button
+          onClick={() => logout()}
+          style={{ all: "unset", cursor: "pointer" }}
+        >
+          Đăng xuất
+        </button>
       </Menu.Item>
     </S.CustomMenu>
   );

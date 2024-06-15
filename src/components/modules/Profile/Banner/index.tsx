@@ -3,7 +3,11 @@ import Button from "@/components/core/common/Button";
 
 import * as S from "./styles";
 
-export default function Banner({ profileHash }: { profileHash: string }) {
+export default function Banner({
+  profileHash,
+}: {
+  readonly profileHash: string;
+}) {
   return (
     <S.Wrapper>
       <S.CoverImage src={"/images/Profile/CoverPhoto.jpg"} />

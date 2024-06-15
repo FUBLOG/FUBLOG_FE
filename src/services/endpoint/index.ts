@@ -1,5 +1,3 @@
-import { message } from "antd";
-//edit prefixBase here
 const prefixBase: string = "/api";
 
 const authEndpoint = {

@@ -5,23 +5,18 @@ import ListFriend from "../ListFriend";
 import PostProfile from "../PostProfile";
 
 import * as S from "./styles";
-import { useAuthContext } from "@/contexts/AuthContext";
 
-function Profile({ profileHash }: { profileHash: string }) {
-  const { userInfo } = useAuthContext();
-
+function Profile({ profileHash }: { readonly profileHash: string }) {
   return (
-    <>
-      <S.HomeWrapper>
-        <Banner profileHash={profileHash} />
-        <S.Container>
-          <S.Main>
-            <ListFriend />
-            <PostProfile />
-          </S.Main>
-        </S.Container>
-      </S.HomeWrapper>
-    </>
+    <S.HomeWrapper>
+      <Banner profileHash={profileHash} />
+      <S.Container>
+        <S.Main>
+          <ListFriend />
+          <PostProfile />
+        </S.Main>
+      </S.Container>
+    </S.HomeWrapper>
   );
 }
 

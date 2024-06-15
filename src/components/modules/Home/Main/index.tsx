@@ -21,7 +21,6 @@ function Home() {
 
   return (
     <S.HomeWrapper>
-      <Sidebar />
       <S.MainWrapper>
         <S.ContentWrapper>
           <S.PostContainer>

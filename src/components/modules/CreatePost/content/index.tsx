@@ -16,9 +16,11 @@ interface PostContent {
   user : {
     name: string; avatar: StaticImageData;
   };
+  onSuccess: () => void;
 }
 
-export const PostContent: React.FC<PostContent> = ({user}) => {
+
+export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
     const [postContent, setPostContent] = useState("");
 
   const {addPost} = useContext(PostContext)
@@ -72,7 +74,7 @@ export const PostContent: React.FC<PostContent> = ({user}) => {
     setAudienceValue(e.target.value);
   };
 
-  const createPost = () => {
+  const CreatePost = () => {
     addPost({
       user: user.name,
       avatar: user.avatar.src,
@@ -83,6 +85,15 @@ export const PostContent: React.FC<PostContent> = ({user}) => {
       initialComments: 0,
       initialCommentsData: [],
     });
+    setPostContent("");
+    setFileList([]);
+    setTagValue("Khác");
+    setAudienceValue("Công Khai");
+
+    // Đóng các modal
+    setOpenTag(false);
+    setOpenAudience(false);
+    onSuccess();
   };
   return (
     <ContentStyleDiv>
@@ -117,6 +128,7 @@ export const PostContent: React.FC<PostContent> = ({user}) => {
             variant={"filled"}
             rows={5}
             cols={10}
+            value={postContent}
             placeholder="Hôm nay bạn thế nào..."
             onChange={handleContent}
             style={{
@@ -145,7 +157,7 @@ export const PostContent: React.FC<PostContent> = ({user}) => {
                 <p>{tagValue}</p>
               </div>
           <div className="create-btn">
-            <Button $width={"100px"} onClick={createPost} >Đăng</Button>
+            <Button $width={"100px"} onClick={CreatePost} >Đăng</Button>
           </div>
           <TagModal
             open={openTag}

@@ -73,8 +73,6 @@ function FormSignUp(props: PageProps) {
         sex: sex!,
       };
       props.setFormData(data);
-      console.log("values.dateOfBirth!");
-      console.log(values.dateOfBirth);
       await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, { data });
       props.setNextStep("verification");
     } catch (error) {}

@@ -27,13 +27,18 @@ function FormSignIn() {
         isRemember: values.isRemember,
       };
       const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
-      login({
-        ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
-        PROFILE_HASH: res?.metadata?.user?.profileHash,
-        REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
-        PRIVATEKEY: res?.metadata?.tokens?.privateKey,
-      });
+      login(
+        {
+          ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
+          PROFILE_HASH: res?.metadata?.user?.profileHash,
+          REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
+          PRIVATEKEY: res?.metadata?.tokens?.privateKey,
+        },
+        res?.metadata?.user
+      );
+
       router.push("/");
+      
     } catch (error) {
       console.error("Login failed:", error);
     }

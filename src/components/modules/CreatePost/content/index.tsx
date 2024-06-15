@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
 import Image, { StaticImageData } from "next/legacy/image";
 import { SettingOutlined, TagOutlined } from "@ant-design/icons";
@@ -9,7 +9,8 @@ import { Radio, Upload } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PostContext } from "@/components/core/layouts/MainLayout/Context"; 
-import Post from "../../Home/Post";
+import { v4 as uuidv4 } from "uuid"; 
+
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
@@ -76,6 +77,7 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
 
   const CreatePost = () => {
     addPost({
+      id: uuidv4(),
       user: user.name,
       avatar: user.avatar.src,
       content: postContent,
@@ -122,8 +124,6 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
       <div className="user-input">
         <div>
           <TextArea
-            // value={content}
-            // onChange={handleChange}
             maxLength={2000}
             variant={"filled"}
             rows={5}

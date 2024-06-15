@@ -1,5 +1,6 @@
 // PostProvider.tsx
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
+import { v4 as uuidv4 } from "uuid"; 
 
 // Định nghĩa các interface và types cho Post và Comment
 interface PostContextProps {
@@ -25,6 +26,7 @@ export interface Comment {
 }
 
 export interface Post {
+  id: string;
   user: string;
   avatar: string;
   content: string;
@@ -38,6 +40,7 @@ export interface Post {
 export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const [posts, setPosts] = useState<Post[]>([
     {
+      id: uuidv4(),
       user: "Thanh Thủy",
       avatar: "/thanhthuy.png",
       content: "Hôm nay tôi học bài ...",
@@ -69,11 +72,13 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   ]);
 
   const addPost = (newPost: Post) => {
-    setPosts([newPost, ...posts]);
+    const postWithId = { ...newPost, id: uuidv4() }; // Gán id duy nhất cho mỗi post
+    setPosts([postWithId, ...posts]);
   };
+  const contextValue = useMemo(() => ({ posts, addPost }), [posts]);
 
   return (
-    <PostContext.Provider value={{ posts, addPost }}>
+    <PostContext.Provider value={contextValue}>
       {children} {/* Đảm bảo rằng bạn truyền children vào đây */}
     </PostContext.Provider>
   );

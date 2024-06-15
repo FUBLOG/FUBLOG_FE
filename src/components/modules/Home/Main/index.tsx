@@ -1,7 +1,6 @@
 "use client";
 import Button from "@/components/core/common/Button";
 import { useState, useContext } from "react";
-import Sidebar from "../Sidebar";
 import Post from "../Post";
 import * as S from "./styles";
 import { PostContext } from "@/components/core/layouts/MainLayout/Context";
@@ -41,9 +40,9 @@ function Home() {
                 </Button>
               ))}
             </S.TagsContainer>
-            {posts.map((post, index) => (
+            {posts.map((post) => (
               <Post
-                key={index}
+                key={post.id}
                 user={post.user }
                 avatar={post.avatar }
                 content={post.content }

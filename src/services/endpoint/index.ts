@@ -21,5 +21,18 @@ const editProfileEndpoint = {
   DISTRICT: `${prefixBase}/province/district`,
   WARD: `${prefixBase}/province/ward`,
 };
+const profileEndpoint = {
+  PROFILE_HASH: `/profile/`,
+};
+const addFriendEndpoint = {
+  SEND_FRIEND: `/addFriend/send`,
+};
 //export endpoint
-export { authEndpoint, editProfileEndpoint, userEndpoint, messageEndpoint };
+export {
+  authEndpoint,
+  editProfileEndpoint,
+  userEndpoint,
+  messageEndpoint,
+  profileEndpoint,
+  addFriendEndpoint,
+};

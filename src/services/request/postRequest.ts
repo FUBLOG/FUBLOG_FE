@@ -5,7 +5,7 @@ import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const postRequest = async(
+const postRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean

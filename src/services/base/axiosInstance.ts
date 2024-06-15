@@ -3,7 +3,7 @@ import axios from "axios";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
-import { authEndpoint } from "../endpoint";
+import { addFriendEndpoint, authEndpoint } from "../endpoint";
 import deleteStorage from "@/utils/deleteStorage";
 
 const axiosInstance = axios.create({
@@ -72,6 +72,23 @@ const refeshAccessToken = async () => {
       );
       return response?.data?.metadata?.tokens?.accessToken;
     })
+    .catch((error) => {
+      throw new Error(error?.message);
+    });
+};
+export const addFriend = async (sourceID: string, targetID: string) => {
+  await axios
+    .post(
+      constants.API_SERVER + addFriendEndpoint.SEND_FRIEND,
+      {
+        sourceID,
+        targetID,
+      },
+      {
+        headers: {},
+      }
+    )
+    .then((response) => {})
     .catch((error) => {
       throw new Error(error?.message);
     });

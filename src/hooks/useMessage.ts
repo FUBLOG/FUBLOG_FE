@@ -5,7 +5,8 @@ import { messageEndpoint } from "@/services/endpoint";
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
-  const { messages, setMessages, selectedConversation } = useConversation();
+  const { messages, setMessages, selectedConversation, setConversations,conversations } =
+    useConversation();
   const sendMessage = async (message: string) => {
     setLoading(true);
     try {
@@ -20,6 +21,13 @@ const useSendMessage = () => {
         }
       );
       setMessages([...messages, res?.metadata]);
+      const updatedConversations = [
+        selectedConversation,
+        ...conversations.filter(
+          (conversation: any) => conversation._id !== selectedConversation._id
+        ),
+      ];
+      setConversations(updatedConversations);
     } catch (error) {
       console.log(error);
     } finally {

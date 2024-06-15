@@ -11,7 +11,7 @@ const MessageList = () => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    })
+    }, [messages]);
     return (
         <S.MessagesList>
             {messages.map((message) => (

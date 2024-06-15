@@ -14,8 +14,8 @@ interface PageProps {
 }
 
 const Chat = ({ visible, onClose }: PageProps) => {
-  const { loading, conversation } = useGetConversation();
-  const { userInfo } = useAuthContext();  
+  const { loading, conversations } = useGetConversation();
+  const { userInfo } = useAuthContext();
   return (
     <Modal
       open={visible}
@@ -44,11 +44,11 @@ const Chat = ({ visible, onClose }: PageProps) => {
           <S.FriendList>
             {loading ? (
               <Skeleton active />
-            ) : conversation?.map((c: any) => <Conversation key={c?._id} conversation={c} />)}
+            ) : conversations?.map((c: any) => <Conversation key={c?._id} conversation={c} />)}
           </S.FriendList>
         </S.Sidebar>
         <S.ChatArea>
-          <FriendOnline />
+          <FriendOnline conversation={conversations} />
           <Message />
         </S.ChatArea>
       </S.ModalContainer>

@@ -3,7 +3,7 @@ import Profile from "@/components/modules/Profile/Main";
 export default function Page({
   params,
 }: {
-  params: { readonly profileHash: string };
+  readonly params: { profileHash: string };
 }) {
   return <Profile profileHash={params.profileHash} />;
 }

@@ -161,10 +161,10 @@ export const MessagesList = styled.div`
 
 export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-bottom: 10px;
-  justify-content: ${(props) =>
-    props.isOwnMessage ? "flex-end" : "flex-start"};
+  align-items: ${(props) => (props.isOwnMessage ? "flex-end" : "flex-start")};
+  justify-content: center;
 `;
 
 export const MessageAvatar = styled.img`
@@ -204,7 +204,24 @@ export const MessageInputContainer = styled.div`
     color: #8c8c8c;
   }
 `;
-
+export const NoChatSelected = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #352f44;
+`;
+export const NoChatSelectedText = styled.div`
+  font-size: 24px;
+  color: #352f44;
+`;
+export const MessageTime = styled.div`
+  color: #352f44;
+  opacity: 0.5;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+`;
 const StyledIcon = styled.div`
   font-size: 22px;
   cursor: pointer;

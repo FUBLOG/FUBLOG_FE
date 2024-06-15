@@ -1,13 +1,13 @@
 "use client";
 
+import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
 
-import Image from "next/legacy/image";
 import * as S from "./styles";
-import { useUser } from "@/hooks/useUser";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 function Sidebar() {
-  const { userInfo } = useUser();
+  const { userInfo } = useAuthContext();
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
@@ -18,7 +18,9 @@ function Sidebar() {
   ];
 
   return (
-    <S.SidebarWrapper style={{ display: userInfo === null ? "none" : "block" }}>
+    <S.SidebarWrapper
+      style={{ display: userInfo?.userId === "" ? "none" : "block" }}
+    >
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>
@@ -38,7 +40,6 @@ function Sidebar() {
               <S.FriendName variant="caption-normal">
                 {friend.name}
               </S.FriendName>
-              
             </S.FriendInfo>
           </S.Friend>
         ))}

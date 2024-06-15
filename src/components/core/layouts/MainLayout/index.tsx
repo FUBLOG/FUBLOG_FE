@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,13 +20,23 @@ import {
 } from "@ant-design/icons";
 
 import Button from "../../common/Button";
+
 import logo from "@/public/logo.png";
+
 import SearchContent from "../../../modules/SearchBar/Main";
 import NotificationModal from "@/components/modules/NotificationModal";
-import Chat from "@/components/modules/Chat";
-import { useAuth } from "@/hooks/useAuthStatus";
 
 import * as S from "./styles";
+
+interface LayoutProps {
+  readonly children: ReactNode;
+}
+import Chat from "@/components/modules/Chat";
+import { useAuth } from "@/hooks/useAuthStatus";
+import { useAuthContext } from "@/contexts/AuthContext";
+import ModalGuest from "@/components/modules/ModalGuest";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -37,21 +47,28 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
-
-  const handleOpenMessageModal = () => {
-    setShowMessageModal(true);
-    setNav("mess");
-  };
-
-  const handleCloseMessageModal = () => {
-    setShowMessageModal(false);
-    setNav("home");
-  };
-
+  const { logout } = useAuth();
+  const { userInfo } = useAuthContext();
+  const [showModalGuest, setShowModalGuest] = useState(false);
+  useEffect(() => {
+    if (webStorageClient.get(constants.IS_AUTH)) {
+      handleCancel();
+    }
+  }, [webStorageClient.get(constants.IS_AUTH)]);
   const handleSetNavigation = (e: string) => {
     setNav(e);
+    if (e !== "home" && e != "search" && userInfo?.userId === "") {
+      setShowModalGuest(true);
+    }
+    if (e === "search") {
+      setSearchVisible(true);
+    }
+    if (e === "mess" && userInfo?.userId !== "") {
+      setShowMessageModal(true);
+    }
   };
 
+  const [searchVisible, setSearchVisible] = useState(false);
   const showBellModal = () => {
     setBellVisible(true);
   };
@@ -60,39 +77,40 @@ function MainLayout({ children }: LayoutProps) {
     setBellVisible(false);
   };
 
-  const [searchVisible, setSearchVisible] = useState(false);
-  const showSearchModal = () => {
-    setSearchVisible(true);
-  };
+
 
   const handleOk = () => {
     setSearchVisible(true);
   };
-
-  const handleCancle = () => {
+  const handleCancel = () => {
     setSearchVisible(false);
+    setShowMessageModal(false);
+    setShowModalGuest(false);
     setNav("home");
     setValueSearch("");
   };
-
-  const { userInfo } = useAuth();
-
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href="/profile">Xem trang cá nhân</Link>
+        <Link href={`/profile/${userInfo.profileHash}`}>Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <Link href="/logout">Đăng xuất</Link>
+        <button
+          onClick={() => logout()}
+          style={{ all: "unset", cursor: "pointer" }}
+        >
+          Đăng xuất
+        </button>
       </Menu.Item>
     </S.CustomMenu>
   );
 
   return (
     <S.LayoutWrapper>
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
         <S.GlobalStyle />
         <S.Container>
@@ -112,10 +130,7 @@ function MainLayout({ children }: LayoutProps) {
                   icon={faMagnifyingGlass}
                 />
               ) : (
-                <SearchOutlined
-                  onClick={showSearchModal}
-                  style={{ fontSize: "22px" }}
-                />
+                <SearchOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
             <Link href="" onClick={() => handleSetNavigation("create")}>
@@ -125,18 +140,18 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Link href="" onClick={handleOpenMessageModal}>
+            <Button type="text" onClick={() => handleSetNavigation("mess")}>
               {nav === "mess" ? (
                 <MessageFilled style={{ fontSize: "22px" }} />
               ) : (
                 <MessageOutlined style={{ fontSize: "22px" }} />
               )}
-            </Link>
+            </Button>
             <Link href="" onClick={showBellModal}>
               {nav === 'bell' ? <BellFilled style={{ fontSize: '22px' }} /> : <BellOutlined style={{ fontSize: '22px' }} />}
             </Link>
-          </S.IconContainer>
 
+          </S.IconContainer>
           {userInfo === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
@@ -152,12 +167,20 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href="/profile" onClick={() => handleSetNavigation("")}>
-                <UserOutlined style={{ fontSize: "28px" }} />
+              <Link href={`/profile/${userInfo.profileHash}`}>
+                <UserOutlined
+                  style={{ fontSize: "28px" }}
+                  onClick={() => handleSetNavigation("")}
+                />
               </Link>
+
               <Dropdown overlay={menuItems} trigger={["click"]}>
                 <CaretDownOutlined
-                  style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
+                  style={{
+                    fontSize: "18px",
+                    marginLeft: "0px",
+                    cursor: "pointer",
+                  }}
                 />
               </Dropdown>
             </S.UserIconContainer>
@@ -165,12 +188,12 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-      <NotificationModal visible={bellVisible} onClose={handleBellClose} />
-      <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
+ <NotificationModal visible={bellVisible} onClose={handleBellClose} />
+      <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal
         open={searchVisible}
         onOk={handleOk}
-        onCancel={handleCancle}
+        onCancel={handleCancel}
         className="searchModal"
         footer={null}
       >

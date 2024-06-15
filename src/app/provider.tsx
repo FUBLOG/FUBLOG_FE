@@ -6,22 +6,24 @@ import { themes } from "@/style/themes";
 import GlobalStyle from "@/style/global";
 import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SocketProvider } from "@/contexts/SocketContext";
 
 type Props = {
   children: React.ReactNode;
 };
-const ProviderComponents = ({ children }: Props) => {
+
+const ProviderComponents: React.FC<Props> = ({ children }) => {
   return (
-    <>
-      <StyledComponentsRegistry>
-        <ThemeProvider theme={themes.default}>
-          <GlobalStyle />
-          <AntdRegistry>
-            <AuthProvider>{children}</AuthProvider>
-          </AntdRegistry>
-        </ThemeProvider>
-      </StyledComponentsRegistry>
-    </>
+    <StyledComponentsRegistry>
+      <ThemeProvider theme={themes.default}>
+        <GlobalStyle />
+        <AntdRegistry>
+          <AuthProvider>
+            <SocketProvider>{children}</SocketProvider>
+          </AuthProvider>
+        </AntdRegistry>
+      </ThemeProvider>
+    </StyledComponentsRegistry>
   );
 };
 

@@ -3,7 +3,11 @@ import Button from "@/components/core/common/Button";
 
 import * as S from "./styles";
 
-export default function Banner() {
+export default function Banner({
+  profileHash,
+}: {
+  readonly profileHash: string;
+}) {
   return (
     <S.Wrapper>
       <S.CoverImage src={"/images/Profile/CoverPhoto.jpg"} />
@@ -14,7 +18,7 @@ export default function Banner() {
           </S.Avatar>
           <S.Typography>
             <Typography variant="h2" color="#FAF0E6 !important">
-              Jos Phan Ái
+              {profileHash}
             </Typography>
             <Typography
               variant="caption-small"

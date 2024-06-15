@@ -36,7 +36,6 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
-import { useRouter } from "next/navigation";
 
 interface LayoutProps {
   readonly children: ReactNode;

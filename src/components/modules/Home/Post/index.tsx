@@ -12,10 +12,7 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { useAuthContext } from "@/contexts/AuthContext";
 import * as S from "./styles";
-import webStorageClient from "@/utils/webStorageClient";
-import { authEndpoint } from "@/services/endpoint";
-import { getRequest } from "@/services/request";
-import { constants } from "@/settings";
+
 
 interface Comment {
   id: number;

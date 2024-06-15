@@ -85,7 +85,7 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href="/profile">Xem trang cá nhân</Link>
+        <Link href={`/profile/${userInfo.profileHash}`}>Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>

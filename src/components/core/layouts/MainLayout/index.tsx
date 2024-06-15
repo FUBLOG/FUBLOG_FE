@@ -25,16 +25,15 @@ import logo from "@/public/logo.png";
 
 import SearchContent from "../../../modules/SearchBar/Main";
 
-import SearchContent from "../../../modules/Home/SearchBar";
 
 import * as S from "./styles";
 
-interface LayoutProps {
-  readonly children: ReactNode;
-}
 import Chat from "@/components/modules/Chat";
+import { useAuth } from "@/hooks/useAuthStatus";
 import { getRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
+import { CreateContent } from "@/components/modules/CreatePost";
+import { PostProvider } from "./Context";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -64,20 +63,6 @@ function MainLayout({ children }: LayoutProps) {
   const showSearchModal = () => {
     setSearchVisible(true);
   };
-
-  const handleOk = () => {
-    setSearchVisible(true);
-  };
-  const handleCancle = () => {
-    setSearchVisible(false);
-    setNav("home");
-    setValueSearch("");
-  };
-
-  const [searchVisible, setSearchVisible] = useState(false);
-  const showSearchModal = () => {
-    setSearchVisible(true);
-  };
   const [showCreate, setShowCreate] = useState(false);
   const handleShowCreate = () => {
     setShowCreate(true);
@@ -93,6 +78,7 @@ function MainLayout({ children }: LayoutProps) {
   };
 
   return (
+  <PostProvider>
     <S.LayoutWrapper>
       <S.Header>
         <S.GlobalStyle />
@@ -179,7 +165,7 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent onPressEnter={handleCancle} />
+        <SearchContent value={valueSearch} setValue={setValueSearch}  />
       </S.SearchModal>
       {/* Create Post */}
       <S.CreateModal
@@ -192,6 +178,7 @@ function MainLayout({ children }: LayoutProps) {
         <CreateContent />
       </S.CreateModal>
     </S.LayoutWrapper>
+  </PostProvider>
   );
 }
 

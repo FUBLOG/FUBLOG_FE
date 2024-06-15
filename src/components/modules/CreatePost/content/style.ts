@@ -56,7 +56,12 @@ export const ContentStyleDiv = styled.div`
   }
     .create-btn{
         position: absolute;
-        right: 0px;
+        right: 20px;
+        top: 450px;
+    }
+        .display-Tag{
+        position: absolute;
+        left: 20px;
         top: 450px;
     }
 `;

@@ -18,7 +18,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({ value, setValue }) => {
       <div className="searchContent">
         <ul className="list">
           {Friends.filter((friend) =>
-            friend.name.toLowerCase().includes(value)
+            friend.name.toLowerCase().includes(value.toLowerCase())
           ).map((friend) => (
             <li key={friend.id} className="listItem">
               <SearchUser

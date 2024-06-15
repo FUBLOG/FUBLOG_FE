@@ -1,14 +1,14 @@
 "use client";
 import Button from "@/components/core/common/Button";
-import { useState } from "react";
-
+import { useState, useContext } from "react";
 import Sidebar from "../Sidebar";
 import Post from "../Post";
-
 import * as S from "./styles";
+import { PostContext } from "@/components/core/layouts/MainLayout/Context";
 
 function Home() {
   const [activeTag, setActiveTag] = useState("Tất cả");
+  const { posts } = useContext(PostContext);
   const tags = [
     "Tất cả",
     "Gia đình",
@@ -42,64 +42,19 @@ function Home() {
                 </Button>
               ))}
             </S.TagsContainer>
-            <Post
-              user="Thanh Thủy"
-              avatar="/thanhthuy.png"
-              content="Hôm nay tôi học bài ..."
-              images={["post.jpg"]}
-              tags={["Học tập"]}
-              initialLikes={10}
-              initialComments={5}
-              initialCommentsData={[
-                {
-                  id: 1,
-                  user: "Thu Phương",
-                  avatar: "/thuphuong.png",
-                  content: "giỏi quá c ơi",
-                },
-                {
-                  id: 2,
-                  user: "Vĩnh Trung",
-                  avatar: "./vinhtrung.png",
-                  content: "Cho học với",
-                },
-                {
-                  id: 1,
-                  user: "Văn Mạnh",
-                  avatar: "./vanmanh.png",
-                  content: "Đi ăn kem",
-                },
-              ]}
-            />
-            <Post
-              user="Thanh Thủy"
-              avatar="/thanhthuy.png"
-              content="Nửa đêm dậy nấu mì ăn, gặp con gián ngồi tâm sự kể cho nó nghe những ngày qua mình đã ra sao... rồi lấy dép đập chết nó vì nó đã biết quá nhiều:(("
-              images={[]}
-              tags={["Cuộc sống"]}
-              initialLikes={10}
-              initialComments={5}
-              initialCommentsData={[
-                {
-                  id: 1,
-                  user: "Thu Phương",
-                  avatar: "/thuphuong.png",
-                  content: "giỏi quá c ơi",
-                },
-                {
-                  id: 2,
-                  user: "Vĩnh Trung",
-                  avatar: "./vinhtrung.png",
-                  content: "Cho học với",
-                },
-                {
-                  id: 1,
-                  user: "Văn Mạnh",
-                  avatar: "./vanmanh.png",
-                  content: "Đi ăn kem",
-                },
-              ]}
-            />
+            {posts.map((post, index) => (
+              <Post
+                key={index}
+                user={post.user }
+                avatar={post.avatar }
+                content={post.content }
+                images={post.images }
+                tag={post.tag as string }
+                initialLikes={post.initialLikes }
+                initialComments={post.initialComments}
+                initialCommentsData={post.initialCommentsData}
+              />
+            ))}
           </S.PostContainer>
         </S.ContentWrapper>
       </S.MainWrapper>

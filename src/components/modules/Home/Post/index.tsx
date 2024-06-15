@@ -24,7 +24,7 @@ interface PostProps {
   avatar: string;
   content: string;
   images: string[];
-  tags: string[];
+  tag: string;
   initialLikes: number;
   initialComments: number;
   initialCommentsData: Comment[];
@@ -35,7 +35,7 @@ function Post({
   avatar,
   content,
   images,
-  tags,
+  tag,
   initialLikes,
   initialComments,
   initialCommentsData = [],
@@ -147,8 +147,7 @@ function Post({
             <span>{comments}</span>
           </S.Actions>
           <S.TagWrapper>
-            {tags.map((tag) => (
-              <S.Tag key={tag}>
+              <S.Tag>
                 <Typography
                   variant="caption-small"
                   color="#B9B4C7"
@@ -159,7 +158,6 @@ function Post({
                   {tag}
                 </Typography>
               </S.Tag>
-            ))}
           </S.TagWrapper>
         </S.PostFooter>
       </S.CustomCard>

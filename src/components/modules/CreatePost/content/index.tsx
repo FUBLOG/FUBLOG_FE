@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
-import Image from "next/legacy/image";
+import Image, { StaticImageData } from "next/legacy/image";
 import { SettingOutlined, TagOutlined } from "@ant-design/icons";
 import thanhthuy1 from "@/public/thanhthuy1.jpg";
 import TextArea from "antd/es/input/TextArea";
@@ -8,9 +8,25 @@ import Button from "@/components/core/common/Button";
 import { Radio, Upload } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
+import { PostContext } from "@/components/core/layouts/MainLayout/Context"; 
+import Post from "../../Home/Post";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
-export const PostContent = () => {
+interface PostContent {
+  user : {
+    name: string; avatar: StaticImageData;
+  };
+}
+
+export const PostContent: React.FC<PostContent> = ({user}) => {
+    const [postContent, setPostContent] = useState("");
+
+  const {addPost} = useContext(PostContext)
+  
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
+    setPostContent(e.target.value);
+  }
+
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -30,7 +46,7 @@ export const PostContent = () => {
     imgWindow?.document.write(img.outerHTML);
   };
 
-  const [tagValue, setTagValue] = useState("");
+  const [tagValue, setTagValue] = useState("Khác");
   const [openTag, setOpenTag] = useState(false);
   const handleOpenTag = () => {
     setOpenTag(true);
@@ -42,14 +58,31 @@ export const PostContent = () => {
     setOpenTag(false);
     setOpenAudience(false);
   };
-  const handleTagChange = (e: RadioChangeEvent) => {
+  const handleTextChange = (e: RadioChangeEvent) => {
     setTagValue(e.target.value);
   };
+  // const handleAudience =
 
-  const [audienceValue, setAudienceValue] = useState("");
+  const [audienceValue, setAudienceValue] = useState("Công Khai");
   const [openAudience, setOpenAudience] = useState(false);
   const handleOpenAudience = () => {
     setOpenAudience(true);
+  };
+  const handleAudienceChange = (e: RadioChangeEvent) => {
+    setAudienceValue(e.target.value);
+  };
+
+  const createPost = () => {
+    addPost({
+      user: user.name,
+      avatar: user.avatar.src,
+      content: postContent,
+      images: fileList.map((file) => file.thumbUrl as string),
+      tag: tagValue,
+      initialLikes: 0,
+      initialComments: 0,
+      initialCommentsData: [],
+    });
   };
   return (
     <ContentStyleDiv>
@@ -61,7 +94,9 @@ export const PostContent = () => {
           </div>
           <div className="des">
             <span>thanhthuy_2704</span>
-            <p>{tagValue}</p>
+            <div className="display-audience">
+              <p>{audienceValue}</p>
+            </div>
           </div>
         </div>
         <div className="userAction">
@@ -83,14 +118,15 @@ export const PostContent = () => {
             rows={5}
             cols={10}
             placeholder="Hôm nay bạn thế nào..."
+            onChange={handleContent}
             style={{
               width: "100%",
               padding: "10px",
               boxSizing: "border-box",
               resize: "none",
-              marginBottom: "60px",
             }}
           />
+
           <ImgCrop modalTitle="Chỉnh sửa" rotationSlider>
             <Upload
               // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
@@ -104,8 +140,12 @@ export const PostContent = () => {
               {fileList.length < 5 && "+ Upload"}
             </Upload>
           </ImgCrop>
+          <div className="display-Tag" style={{display: "flex", gap: "12px"}}>
+                <TagOutlined />
+                <p>{tagValue}</p>
+              </div>
           <div className="create-btn">
-            <Button $width={"100px"}>Đăng</Button>
+            <Button $width={"100px"} onClick={createPost} >Đăng</Button>
           </div>
           <TagModal
             open={openTag}
@@ -115,12 +155,11 @@ export const PostContent = () => {
             footer={null}
           >
             <Radio.Group
-              onChange={handleTagChange}
               style={{ display: "flex", flexDirection: "column", gap: "30px" }}
               value={tagValue}
+              onChange={handleTextChange}
             >
               <h3>Chọn Thẻ</h3>
-              <Radio value={"Tất Cả"}>Tất Cả</Radio>
               <Radio value={"Gia Đình"}>Gia Đình</Radio>
               <Radio value={"Bạn Bè"}>Bạn Bè</Radio>
               <Radio value={"Học Tập"}>Học Tập</Radio>
@@ -137,13 +176,18 @@ export const PostContent = () => {
             footer={null}
           >
             <Radio.Group
-            //   onChange={handleTagChange}
+              onChange={handleAudienceChange}
               style={{ display: "flex", flexDirection: "column", gap: "30px" }}
-              value={tagValue}
+              value={audienceValue}
             >
               <h3>Ai có thể xem bài viết của bạn ?</h3>
-              <h5 style={{fontWeight: "400"}}>Bài đăng của bạn sẽ hiển thị trong Feed, trang cá nhân và trong kết quả tìm kiếm</h5>
-              <h5 style={{fontWeight: "400"}}>Bạn có thể thay đổi đối tượng có thể xem bài đăng dưới đây</h5>
+              <h5 style={{ fontWeight: "400" }}>
+                Bài đăng của bạn sẽ hiển thị trong Feed, trang cá nhân và trong
+                kết quả tìm kiếm
+              </h5>
+              <h5 style={{ fontWeight: "400" }}>
+                Bạn có thể thay đổi đối tượng có thể xem bài đăng dưới đây
+              </h5>
               <Radio value={"Công Khai"}>Công Khai</Radio>
               <Radio value={"Riêng Tư"}>Riêng Tư</Radio>
               <Radio value={"Bạn Bè"}>Bạn Bè</Radio>

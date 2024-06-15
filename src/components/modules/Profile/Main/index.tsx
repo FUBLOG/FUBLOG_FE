@@ -9,23 +9,18 @@ import { useAuthContext } from "@/contexts/AuthContext";
 
 function Profile({ profileHash }: { profileHash: string }) {
   const { userInfo } = useAuthContext();
+
   return (
     <>
-      {userInfo?.userId ? (
-        <>
-          <S.HomeWrapper>
-            <Banner profileHash={profileHash} />
-            <S.Container>
-              <S.Main>
-                <ListFriend />
-                <PostProfile />
-              </S.Main>
-            </S.Container>
-          </S.HomeWrapper>
-        </>
-      ) : (
-        <></>
-      )}
+      <S.HomeWrapper>
+        <Banner profileHash={profileHash} />
+        <S.Container>
+          <S.Main>
+            <ListFriend />
+            <PostProfile />
+          </S.Main>
+        </S.Container>
+      </S.HomeWrapper>
     </>
   );
 }

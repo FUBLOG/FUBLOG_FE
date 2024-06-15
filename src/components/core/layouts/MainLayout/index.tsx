@@ -63,7 +63,7 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "search") {
       setSearchVisible(true);
     }
-    if (e === "mess") {
+    if (e === "mess" && userInfo?.userId !== "") {
       setShowMessageModal(true);
     }
     if (e === "") {

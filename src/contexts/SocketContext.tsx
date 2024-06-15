@@ -4,58 +4,62 @@ import React, {
   ReactNode,
   useEffect,
   useMemo,
+  useContext,
 } from "react";
-import { socket } from "@/utils/socket";
+import { Socket, io } from "socket.io-client";
+import { useAuthContext } from "./AuthContext";
 
-interface Socket {
-  connected: boolean;
-  transport: string;
+interface SocketContextProps {
+  socket: Socket | null;
+  setSocket: (socket: Socket | null) => void;
+  userOnline: string[];
+  setUserOnline: (userOnline: string[]) => void;
 }
 
-export const SocketContext = createContext<Socket>({
-  connected: false,
-  transport: "N/A",
+export const SocketContext = createContext<SocketContextProps>({
+  socket: {} as Socket,
+  setSocket: () => { },
+  userOnline: [],
+  setUserOnline: () => { }
 });
+export const useSocketContext = () => {
+  return useContext(SocketContext);
+};
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [transport, setTransport] = useState("N/A");
-
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [userOnline, setUserOnline] = useState<string[]>([]);
+  const { userInfo } = useAuthContext();
   useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
-
-    function onConnect() {
-      setIsConnected(true);
-      setTransport(socket.io.engine.transport.name);
-
-      socket.io.engine.on("upgrade", (transport) => {
-        setTransport(transport.name);
+    if (userInfo?.userId !== "") {
+      const socket = io("https://has.io.vn", {
+        query: {
+          userId: userInfo?.userId,
+        },
       });
+      setSocket(socket);
+      socket.on("getOnlineUsers", async (data: string[]) => {
+        setUserOnline(data);
+      })
+
+
+      return () => {
+        if (socket) {
+          socket.close();
+          setSocket(null);
+        }
+      };
     }
+  }, [userInfo]);
 
-    function onDisconnect() {
-      setIsConnected(false);
-      setTransport("N/A");
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
-  const socketContextValue = useMemo(
-    () => ({ connected: isConnected, transport }),
-    [isConnected, transport]
+  const socketContextValueWithUserOnline = useMemo(
+    () => ({ socket, setSocket, userOnline, setUserOnline }),
+    [socket, setSocket, userOnline, setUserOnline]
   );
 
   return (
-    <SocketContext.Provider value={socketContextValue}>
+    <SocketContext.Provider value={socketContextValueWithUserOnline}>
       {children}
     </SocketContext.Provider>
   );

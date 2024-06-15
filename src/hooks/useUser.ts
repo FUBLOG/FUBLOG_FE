@@ -1,18 +1,13 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { getRequest } from "@/services/request";
 import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
 import { authEndpoint } from "@/services/endpoint";
 
-export interface User {
-  name: string;
-}
-
 export const useUser = () => {
-  const { userInfo, setUserInfo } = useContext(AuthContext);
-
+  const { userInfo, setUserInfo } = useAuthContext();
   useEffect(() => {
     const isUser = async () => {
       const token = await webStorageClient.getToken();
@@ -21,48 +16,107 @@ export const useUser = () => {
           const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
             security: true,
           });
+
           if (res) {
             webStorageClient.set(constants.IS_AUTH, true);
-            setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
+            setUserInfo({
+              userId: res?.metadata?._id,
+              dateOfBirth: res?.metadata?.dateOfBirth,
+              displayName: res?.metadata?.displayName,
+              email: res?.metadata?.email,
+              firstName: res?.metadata?.firstName,
+              lastName: res?.metadata?.lastName,
+              profileHash: res?.metadata?.profileHash,
+              sex: res?.metadata?.sex,
+              userInfo: {
+                avatar: res?.metadata?.userInfo?.avatar,
+                blockList: res?.metadata?.userInfo?.blockList,
+                friendList: res?.metadata?.userInfo?.friendList,
+              },
+            });
           } else {
             throw new Error("Invalid user data");
           }
         } catch (error) {
           webStorageClient.set(constants.IS_AUTH, false);
-          setUserInfo(null);
+          setUserInfo({
+            userId: "",
+            dateOfBirth: "",
+            displayName: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            profileHash: "",
+            sex: "",
+            userInfo: {
+              avatar: "",
+              blockList: [],
+              friendList: [
+                { friend_id: "", displayName: "", avatar: "", _id: "" },
+              ],
+            },
+          });
         }
       } else {
         webStorageClient.set(constants.IS_AUTH, false);
-        setUserInfo(null);
+        setUserInfo({
+          userId: "",
+          dateOfBirth: "",
+          displayName: "",
+          email: "",
+          firstName: "",
+          lastName: "",
+          profileHash: "",
+          sex: "",
+          userInfo: {
+            avatar: "",
+            blockList: [],
+            friendList: [
+              { friend_id: "", displayName: "", avatar: "", _id: "" },
+            ],
+          },
+        });
       }
     };
     isUser();
-  }, [setUserInfo]);
+  }, []);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await webStorageClient.get(constants.IS_AUTH);
-      if (isAuth) {
-        setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
-      } else {
-        setUserInfo(null);
-      }
-    };
-    checkAuth();
-  }, [setUserInfo]);
-
-  const addUser = (user: {
-    ACCESS_TOKEN: string;
-    PROFILE_HASH: string;
-    REFRESH_TOKEN?: string;
-    PRIVATEKEY?: string;
-  }) => {
+  const addUser = (
+    user: {
+      ACCESS_TOKEN: string;
+      PROFILE_HASH: string;
+      REFRESH_TOKEN?: string;
+      PRIVATEKEY?: string;
+    },
+    userInfo: {
+      userId: string;
+      dateOfBirth: string;
+      displayName: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      profileHash: string;
+      sex: string;
+      userInfo: {
+        avatar: string;
+        blockList: [];
+        friendList: [
+          {
+            friend_id: "";
+            displayName: "";
+            avatar: "";
+            _id: "";
+          }
+        ];
+      };
+    }
+  ) => {
     webStorageClient.setProfileHash(user.PROFILE_HASH, { maxAge: 7 * 24 * 60 });
-    webStorageClient.setToken(user.ACCESS_TOKEN, { maxAge: 7 * 24 * 60 });
+    webStorageClient.setToken(user.ACCESS_TOKEN);
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
-    setUserInfo({ name: webStorageClient.get(constants.PROFILE_HASH) });
+    setUserInfo(userInfo);
   };
 
   const removeUser = () => {
@@ -71,7 +125,21 @@ export const useUser = () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
-    setUserInfo(null);
+    setUserInfo({
+      userId: "",
+      dateOfBirth: "",
+      displayName: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      profileHash: "",
+      sex: "",
+      userInfo: {
+        avatar: "",
+        blockList: [],
+        friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
+      },
+    });
   };
 
   return { userInfo, addUser, removeUser, setUserInfo };

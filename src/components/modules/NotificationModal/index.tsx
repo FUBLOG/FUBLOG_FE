@@ -44,26 +44,37 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
 
   const [acceptedFriends, setAcceptedFriends] = useState<Notification[]>([]);
 
+  const removeRequest = (requestId: number) => {
+    setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
+  };
+
   const handleReject = (requestId: number, event: React.MouseEvent) => {
-    event.stopPropagation(); // Ngăn chặn chuyển hướng khi nhấn nút
-    setFriendRequests(prevRequests => prevRequests.map(request => 
-      request.id === requestId ? { ...request, title: `Bạn đã gỡ lời mời kết bạn từ ${request.title.split(' ')[0]}` } : request
-    ));
-    setTimeout(() => {
-      setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
-    }, 3000);
+    event.stopPropagation();
+    updateFriendRequestTitle(requestId, `Bạn đã gỡ lời mời kết bạn từ ${getRequestName(requestId)}`);
+    setTimeout(() => removeRequest(requestId), 3000);
   };
 
   const handleAccept = (requestId: number, event: React.MouseEvent) => {
-    event.stopPropagation(); // Ngăn chặn chuyển hướng khi nhấn nút
+    event.stopPropagation();
     const acceptedRequest = friendRequests.find(request => request.id === requestId);
     if (acceptedRequest) {
       setAcceptedFriends(prevFriends => [
-        { ...acceptedRequest, title: `Bạn đã chấp nhận lời mời kết bạn từ ${acceptedRequest.title.split(' ')[0]}` },
+        { ...acceptedRequest, title: `Bạn đã chấp nhận lời mời kết bạn từ ${getRequestName(requestId)}` },
         ...prevFriends,
       ]);
-      setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
+      removeRequest(requestId);
     }
+  };
+
+  const getRequestName = (requestId: number) => {
+    const request = friendRequests.find(request => request.id === requestId);
+    return request ? request.title.split(' ')[0] : '';
+  };
+
+  const updateFriendRequestTitle = (requestId: number, newTitle: string) => {
+    setFriendRequests(prevRequests => prevRequests.map(request =>
+      request.id === requestId ? { ...request, title: newTitle } : request
+    ));
   };
 
   const renderTimeAgo = (date: Date) => {

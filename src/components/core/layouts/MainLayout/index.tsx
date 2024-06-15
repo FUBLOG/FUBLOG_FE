@@ -71,9 +71,6 @@ function MainLayout({ children }: LayoutProps) {
 
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const handleShowCreate = () => {
-    setShowCreate(true);
-  };
   const handleOk = () => {
     setShowCreate(true);
     setSearchVisible(true);

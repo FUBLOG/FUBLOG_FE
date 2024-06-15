@@ -1,6 +1,6 @@
 "use client";
 import { useState, ReactNode } from "react";
-import { Flex,Menu,Dropdown } from "antd";
+import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -20,18 +20,13 @@ import {
 } from "@ant-design/icons";
 
 import Button from "../../common/Button";
-
 import logo from "@/public/logo.png";
-
 import SearchContent from "../../../modules/SearchBar/Main";
-
-import * as S from "./styles";
-
-interface LayoutProps {
-  readonly children: ReactNode;
-}
+import NotificationModal from "@/components/modules/NotificationModal";
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
+
+import * as S from "./styles";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -41,6 +36,7 @@ function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
+  const [bellVisible, setBellVisible] = useState(false);
 
   const handleOpenMessageModal = () => {
     setShowMessageModal(true);
@@ -55,9 +51,14 @@ function MainLayout({ children }: LayoutProps) {
   const handleSetNavigation = (e: string) => {
     setNav(e);
   };
-  const { userInfo } = useAuth();
 
- 
+  const showBellModal = () => {
+    setBellVisible(true);
+  };
+
+  const handleBellClose = () => {
+    setBellVisible(false);
+  };
 
   const [searchVisible, setSearchVisible] = useState(false);
   const showSearchModal = () => {
@@ -67,21 +68,25 @@ function MainLayout({ children }: LayoutProps) {
   const handleOk = () => {
     setSearchVisible(true);
   };
+
   const handleCancle = () => {
     setSearchVisible(false);
     setNav("home");
     setValueSearch("");
   };
+
+  const { userInfo } = useAuth();
+
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <a href="/profile">Xem trang cá nhân</a>
+        <Link href="/profile">Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <a href="/profile/edit">Chỉnh sửa trang cá nhân</a>
+        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <a href="/logout">Đăng xuất</a>
+        <Link href="/logout">Đăng xuất</Link>
       </Menu.Item>
     </S.CustomMenu>
   );
@@ -120,23 +125,18 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Button type="text" onClick={handleOpenMessageModal}>
+            <Link href="" onClick={handleOpenMessageModal}>
               {nav === "mess" ? (
                 <MessageFilled style={{ fontSize: "22px" }} />
               ) : (
                 <MessageOutlined style={{ fontSize: "22px" }} />
               )}
-            </Button>
-            <Button type="text" onClick={() => handleSetNavigation("bell")}>
-              {nav === "bell" ? (
-                <BellFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <BellOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Button>
-     
+            </Link>
+            <Link href="" onClick={showBellModal}>
+              {nav === 'bell' ? <BellFilled style={{ fontSize: '22px' }} /> : <BellOutlined style={{ fontSize: '22px' }} />}
+            </Link>
           </S.IconContainer>
-          
+
           {userInfo === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
@@ -152,19 +152,20 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-            <Link href="/profile" onClick={() => handleSetNavigation("")}>
-              <UserOutlined style={{ fontSize: "28px" }} />
-            </Link>
-            <Dropdown overlay={menuItems} trigger={["click"]}>
-              <CaretDownOutlined
-                style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
-              />
-            </Dropdown>
-          </S.UserIconContainer>
+              <Link href="/profile" onClick={() => handleSetNavigation("")}>
+                <UserOutlined style={{ fontSize: "28px" }} />
+              </Link>
+              <Dropdown overlay={menuItems} trigger={["click"]}>
+                <CaretDownOutlined
+                  style={{ fontSize: "18px", marginLeft: "0px", cursor: "pointer" }}
+                />
+              </Dropdown>
+            </S.UserIconContainer>
           )}
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
+      <NotificationModal visible={bellVisible} onClose={handleBellClose} />
       <Chat visible={showMessageModal} onClose={handleCloseMessageModal} />
       <S.SearchModal
         open={searchVisible}

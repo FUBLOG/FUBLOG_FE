@@ -13,10 +13,9 @@ export const NotificationContainer = styled.div`
     color: #352F44 !important; 
   }
 
-  .notification-item:hover {
+  .notification-item:hover, .friend-item:hover {
     background-color: #B9B4C7; 
     cursor: pointer;
-    back-ground:
   }
 `;
 
@@ -36,20 +35,24 @@ export const TabContent = styled.div`
     justify-content: space-between;
   }
 
+  .ant-list-item-meta-description span {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    color: #a0a0a0;
+  }
+
   button {
     background-color: #5C5470;
     border: none;
     color: #FAF0E6;
-    padding: 6px 12px;
+    padding: 8px 16px; /* Tăng kích thước của nút */
     cursor: pointer;
     border-radius: 4px;
     margin-right: 8px;
-   
-
 
     &:hover {
       background-color: #352F44;
-      
     }
 
     &:last-child {

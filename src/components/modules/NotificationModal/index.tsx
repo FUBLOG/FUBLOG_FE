@@ -41,7 +41,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
   ]);
 
   const [acceptedFriends, setAcceptedFriends] = useState<Notification[]>([]);
-
+  const [rejectedRequests, setRejectedRequests] = useState<number[]>([]); 
   const removeRequest = (requestId: number) => {
     setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
   };
@@ -49,6 +49,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
   const handleReject = (requestId: number, event: React.MouseEvent) => {
     event.stopPropagation();
     updateFriendRequestTitle(requestId, `Bạn đã gỡ lời mời kết bạn từ ${getRequestName(requestId)}`);
+    setRejectedRequests(prevRejected => [...prevRejected, requestId]); 
     setTimeout(() => removeRequest(requestId), 3000);
   };
 
@@ -133,7 +134,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
                       description={
                         <>
                           {renderTimeAgo(new Date(item.createdAt))}
-                          {friendRequests.some(request => request.id === item.id) && (
+                          {!rejectedRequests.includes(item.id) && friendRequests.some(request => request.id === item.id) && ( 
                             <S.ActionButtons>
                               <button onClick={(event) => handleReject(item.id, event)}>Hủy</button>
                               <button onClick={(event) => handleAccept(item.id, event)}>Xác nhận</button>

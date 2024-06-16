@@ -36,7 +36,8 @@ const useGetConversation = () => {
           setLoading(false);
         });
     };
-    if (userInfo !== null) {
+
+    if (userInfo?.userId !== "") {
       getConsversations();
     }
   }, [userInfo]);

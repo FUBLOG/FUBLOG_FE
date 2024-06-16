@@ -26,6 +26,11 @@ const profileEndpoint = {
 };
 const addFriendEndpoint = {
   SEND_FRIEND: `/addFriend/send`,
+  ACCEPT_FRIEND: `/addFriend/accept`,
+  DECLINE_FRIEND: `/addFriend/decline`,
+  UNFRIEND: `/addFriend/unFriend`,
+  BLOCK_FRIEND: `/addFriend/block`,
+  ALL_FRIEND: `/addFriend/getAll`,
 };
 //export endpoint
 export {

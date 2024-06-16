@@ -22,7 +22,7 @@ export const useProfile = () => {
       }>(profileEndpoint.PROFILE_HASH + profileHash);
 
       const metadata = res?.metadata;
-      setProfileInfo({
+      await setProfileInfo({
         user: {
           ...metadata.user,
           profileHash: profileHash,
@@ -30,7 +30,7 @@ export const useProfile = () => {
         info: metadata.info,
       });
     } catch (error) {
-      console.error("Profile does not exist:", error);
+      console.error("Profile does not exist:");
     } finally {
       setLoading(false);
     }

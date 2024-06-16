@@ -10,14 +10,31 @@ export default function Banner({
 }: {
   readonly profileHash: string;
 }) {
-  const { isFriend, isBlocked, isGuest, isMyUser, sendFriend } = useFriend();
-  const [loading, setLoading] = useState(true);
+  const {
+    isFriend,
+    isGuest,
+    isMyUser,
+    sendFriend,
+    isSendFriend,
+    unFriend,
+    loading,
+    declineFriend,
+  } = useFriend();
   const { profileInfo } = useProfileContext();
-  useEffect(() => {
-    setLoading(false);
-  }, [profileHash]);
-  const handleAddFriend = () => {
-    sendFriend(profileInfo?.user?._id);
+  useEffect(() => {}, [profileHash, isFriend]);
+  const handleFriend = (event: string) => {
+    if (event === "addFriend") {
+      sendFriend(profileInfo?.user?._id);
+    }
+    if (event === "unfriend") {
+      unFriend(profileInfo?.user?._id);
+    }
+    if (event === "revoke") {
+      // unFriend(profileInfo?.user?._id);
+    }
+    if (event === "decline") {
+      declineFriend(profileInfo?.user?._id);
+    }
   };
   return (
     <S.Wrapper>
@@ -47,7 +64,10 @@ export default function Banner({
             <>
               <Button
                 type="default"
-                children={"Bạn bè"}
+                children={"Hủy kết bạn"}
+                onClick={() => {
+                  handleFriend("unfriend");
+                }}
                 $width="100px"
                 $backgroundColor="#FAF0E6"
                 loading={loading}
@@ -74,15 +94,27 @@ export default function Banner({
               color="#352f44"
               $hoverColor="#faf0e6"
             />
+          ) : isSendFriend ? (
+            <Button
+              type="default"
+              children={"Hủy lời mời"}
+              loading={loading}
+              onClick={() => {
+                handleFriend("unfriend");
+              }}
+              $width="120px"
+              $backgroundColor="#FAF0E6"
+              color="#352f44"
+              $hoverColor="#faf0e6"
+            />
           ) : (
             <Button
               type="default"
               children={"Thêm bạn bè"}
               loading={loading}
               onClick={() => {
-                handleAddFriend();
+                handleFriend("addFriend");
               }}
-              // loading
               $width="120px"
               $backgroundColor="#FAF0E6"
               color="#352f44"

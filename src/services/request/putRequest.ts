@@ -3,53 +3,43 @@ import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
 import { message } from "antd";
 import { errorMessage } from "../errorMessage";
+import { constants } from "@/settings";
 
-const updateRequest = (
+const putRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
 ): Promise<object> => {
-  const data = options?.data;
-  const tokenClient = webStorageClient.getToken();
+  const isSecurity = options?.security || false;
+  let header = {};
+  if (isSecurity) {
+    const profileHash = await webStorageClient.getProfileHash();
 
-  if (tokenClient) {
-    return axiosInstance
-      .put(url, data, {
-        headers: {
-          Authorization: `Bearer ${tokenClient}`,
-          "Content-Type": fomrData ? "multipart/form-data" : "application/json",
-        },
-      })
-      .then((res: any) => {
-        if (res?.message) {
-          //todo addtion in need
-        }
-        return res;
-      })
-      .catch((err) => {
-        message.error(errorMessage[err?.message]);
-        return Promise.reject(err);
-      });
+    header = {
+      "x-client-id": profileHash,
+    };
   }
+  const data = options?.data;
+  const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
+  let headers: any = {
+    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+    ...header,
+  };
+  if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
 
   return axiosInstance
     .put(url, data, {
-      headers: {},
+      headers: {
+        ...headers,
+      },
     })
     .then((res: any) => {
-      if (res?.message) {
-        //todo addtion in need
-      }
       return res;
     })
     .catch((err) => {
-      if (err?.response?.data?.errors?.length > 0) {
-        err?.response?.data?.errors?.forEach((mess: string) => {
-          //todo addtion in need
-        });
-      }
+      message.error(errorMessage[err]);
       return Promise.reject(err);
     });
 };
 
-export { updateRequest };
+export { putRequest };

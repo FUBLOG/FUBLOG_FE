@@ -46,7 +46,7 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const { logout } = useAuth();
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
@@ -55,16 +55,15 @@ function MainLayout({ children }: LayoutProps) {
   }, [webStorageClient.get(constants.IS_AUTH)]);
   const handleSetNavigation = (e: string) => {
     setNav(e);
-
-    e != "home" && e != "search" && userInfo?.userId === "" ? (
-      setShowModalGuest(true)
-    ) : e === "search" ? (
-      setSearchVisible(true)
-    ) : e === "mess" ? (
-      setShowMessageModal(true)
-    ) : (
-      <></>
-    );
+    if (e !== "home" && e != "search" && userInfo?.userId === "") {
+      setShowModalGuest(true);
+    }
+    if (e === "search") {
+      setSearchVisible(true);
+    }
+    if (e === "mess" && userInfo?.userId !== "") {
+      setShowMessageModal(true);
+    }
   };
 
   const [searchVisible, setSearchVisible] = useState(false);
@@ -82,13 +81,18 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href="/profile">Xem trang cá nhân</Link>
+        <Link href={`/profile/${userInfo.profileHash}`}>Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="custom-menu-item">
-        <p onClick={() => logout()}>Đăng xuất</p>
+        <button
+          onClick={() => logout()}
+          style={{ all: "unset", cursor: "pointer" }}
+        >
+          Đăng xuất
+        </button>
       </Menu.Item>
     </S.CustomMenu>
   );
@@ -161,9 +165,13 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href="/profile" onClick={() => handleSetNavigation("")}>
-                <UserOutlined style={{ fontSize: "28px" }} />
+              <Link href={`/profile/${userInfo.profileHash}`}>
+                <UserOutlined
+                  style={{ fontSize: "28px" }}
+                  onClick={() => handleSetNavigation("")}
+                />
               </Link>
+
               <Dropdown overlay={menuItems} trigger={["click"]}>
                 <CaretDownOutlined
                   style={{

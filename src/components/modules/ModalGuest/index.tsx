@@ -9,19 +9,17 @@ interface PageProps {
 
 const ModalGuest = ({ showModalGuest, handleCancel }: PageProps) => {
   return (
-    <>
-      <S.ModalWrap
-        wrapClassName="modalWrap"
-        min-width={"30%"}
-        open={showModalGuest}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <S.ModalContent>
-          <FormSignIn />
-        </S.ModalContent>
-      </S.ModalWrap>
-    </>
+    <S.ModalWrap
+      wrapClassName="modalWrap"
+      min-width={"30%"}
+      open={showModalGuest}
+      onCancel={handleCancel}
+      footer={null}
+    >
+      <S.ModalContent>
+        <FormSignIn />
+      </S.ModalContent>
+    </S.ModalWrap>
   );
 };
 

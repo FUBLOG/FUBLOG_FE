@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Statistic } from "antd";
-import Image from "next/image";
+import Image from "next/legacy/image";
+import Link from "next/link";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
@@ -74,7 +75,7 @@ function FormVerification() {
           value={targetTime}
         />
       )}
-      <a href="/verification">
+      <Link href="/verification">
         <S.Typography
           style={{
             justifyContent: "center",
@@ -98,7 +99,7 @@ function FormVerification() {
             Nhập lại email
           </Typography>
         </S.Typography>
-      </a>
+      </Link>
     </S.HomeWrapper>
   );
 }

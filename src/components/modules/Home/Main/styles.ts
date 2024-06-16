@@ -1,7 +1,9 @@
 import { Flex } from "antd";
 import styled from "styled-components";
 
+
 export const HomeWrapper = styled(Flex)`
+  padding-top: 20px;
   flex-direction: row;
   justify-content: center;
   width: 100%;
@@ -28,6 +30,9 @@ export const TagsContainer = styled(Flex)`
   margin-bottom: 20px;
 
   gap: 10px;
+
+  color:#fff !important
+  
 `;
 
 export const Tag = styled.span`

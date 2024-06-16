@@ -9,7 +9,6 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
   align-items: center;
 
   padding: 8px 10px !important;
-
   gap: 8px;
   color: ${(props) =>
     props?.$color || props?.theme?.colors?.primary} !important;
@@ -79,7 +78,7 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
 
   &.ant-btn-primary:disabled {
     background: ${({ theme }) => theme?.colors?.secondary} !important;
-    border-radius: ${(props) => props?.$borderRadius || "0px"} !important;
+    border-radius: ${(props) => props?.$borderRadius || "20px"} !important;
   }
 
   &.ant-btn-link {

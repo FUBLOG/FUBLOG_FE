@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Flex } from "antd";
+import Link from "next/link";
 
 import Button from "../../common/Button";
 
@@ -12,25 +13,26 @@ import * as S from "./styles";
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
-
 function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <S.LayoutWrapper>
       <S.Header>
         <S.Container>
-          <Image src={logo} alt="logo header" />
+          <Link href="/home">
+            <Image src={logo} alt="logo header" />
+          </Link>
           <Flex gap={15} style={{ marginRight: "20px" }}>
-            <a href="/sign-in">
+            <Link href="/sign-in">
               <Button type="default" children={"Đăng nhập"} $width="100px" />
-            </a>
-            <a href="/sign-up">
+            </Link>
+            <Link href="/sign-up">
               <Button
                 color="red"
                 type="primary"
                 children={"Đăng ký"}
                 $width="100px"
               />
-            </a>
+            </Link>
           </Flex>
         </S.Container>
       </S.Header>

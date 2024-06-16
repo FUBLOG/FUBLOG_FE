@@ -1,88 +1,32 @@
 "use client";
-import { UserOutlined, MessageOutlined } from "@ant-design/icons";
-import Image from "next/image";
 
+import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
 
 import * as S from "./styles";
+import { useAuthContext } from "@/contexts/AuthContext";
 
-export interface PageProps {
-  readonly isGuest: boolean;
-}
+function Sidebar() {
+  const { userInfo } = useAuthContext();
 
-function Sidebar(props: PageProps) {
   const friends = [
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
-    { name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { name: "Thu Phương", image: "/thuphuong.png" },
-    { name: "Văn Mạnh", image: "/vanmanh.png" },
-    { name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { name: "Minh Quân", image: "/minhquan.png" },
+    { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
+    { id: 2, name: "Thu Phương", image: "/thuphuong.png" },
+    { id: 3, name: "Văn Mạnh", image: "/vanmanh.png" },
+    { id: 4, name: "Thanh Thủy", image: "/thanhthuy.png" },
+    { id: 5, name: "Minh Quân", image: "/minhquan.png" },
   ];
-  console.log(props.isGuest);
 
   return (
-    <S.SidebarWrapper style={{ display: props.isGuest ? "none" : "block" }}>
+    <S.SidebarWrapper
+      style={{ display: userInfo?.userId === "" ? "none" : "block" }}
+    >
       <Typography variant="h3" color="#B9B4C7">
         Bạn bè
       </Typography>
       <S.FriendContainer style={{ background: "transparent" }}>
         {friends.map((friend) => (
-          <S.Friend key={friend.name}>
+          <S.Friend key={friend.id}>
             <S.FriendImageContainer>
               <Image
                 alt={friend.name}
@@ -93,17 +37,10 @@ function Sidebar(props: PageProps) {
               />
             </S.FriendImageContainer>
             <S.FriendInfo>
-              <Typography variant="caption-normal" color="#B9B4C7">
+              <S.FriendName variant="caption-normal">
                 {friend.name}
-              </Typography>
-              <Typography variant="caption-small" color="#B9B4C7">
-                101 bạn bè
-              </Typography>
+              </S.FriendName>
             </S.FriendInfo>
-            <S.FriendActions>
-              <UserOutlined />
-              <MessageOutlined />
-            </S.FriendActions>
           </S.Friend>
         ))}
       </S.FriendContainer>

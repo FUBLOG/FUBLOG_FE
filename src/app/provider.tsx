@@ -1,28 +1,29 @@
-'use client';
-import { Provider } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
+"use client";
+import { ThemeProvider } from "styled-components";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
-import { themes } from '@/style/themes';
-import { store } from '@/store';
-import GlobalStyle from '@/style/global';
-import StyledComponentsRegistry from '@/services/base/styledComponentsRegistry';
+import { themes } from "@/style/themes";
+import GlobalStyle from "@/style/global";
+import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { SocketProvider } from "@/contexts/SocketContext";
 
 type Props = {
   children: React.ReactNode;
 };
-const ProviderComponents = ({ children }: Props) => {
+
+const ProviderComponents: React.FC<Props> = ({ children }) => {
   return (
-    <>
-      <StyledComponentsRegistry>
-        <Provider store={store}>
-          <ThemeProvider theme={themes.default}>
-            <GlobalStyle />
-            <AntdRegistry>{children}</AntdRegistry>
-          </ThemeProvider>
-        </Provider>
-      </StyledComponentsRegistry>
-    </>
+    <StyledComponentsRegistry>
+      <ThemeProvider theme={themes.default}>
+        <GlobalStyle />
+        <AntdRegistry>
+          <AuthProvider>
+            <SocketProvider>{children}</SocketProvider>
+          </AuthProvider>
+        </AntdRegistry>
+      </ThemeProvider>
+    </StyledComponentsRegistry>
   );
 };
 

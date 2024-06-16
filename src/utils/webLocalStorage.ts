@@ -1,4 +1,3 @@
-//bộ get, set của storage
 const webLocalStorage = {
   set(key: string, rawValue: any) {
     localStorage.setItem(key, JSON.stringify(rawValue));
@@ -9,6 +8,10 @@ const webLocalStorage = {
     const data = rawData ? JSON.parse(rawData) : null;
 
     return data;
+  },
+
+  remove(key: string) {
+    localStorage?.removeItem(key);
   },
 };
 

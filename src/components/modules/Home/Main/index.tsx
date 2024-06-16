@@ -1,84 +1,50 @@
 "use client";
 import Button from "@/components/core/common/Button";
+import { useState } from "react";
 
-import Sidebar from "../Sidebar";
 import Post from "../Post";
 
 import * as S from "./styles";
 
 function Home() {
-  const isGuest = true;
+  const [activeTag, setActiveTag] = useState("Tất cả");
+  const tags = [
+    "Tất cả",
+    "Gia đình",
+    "Bạn bè",
+    "Học tập",
+    "Công việc",
+    "Tình cảm",
+    "Khác",
+  ];
+
   return (
     <S.HomeWrapper>
-      <Sidebar isGuest={isGuest} />
       <S.MainWrapper>
         <S.ContentWrapper>
           <S.PostContainer>
             <S.TagsContainer>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Tất cả
-              </Button>
-
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Gia đình
-              </Button>
-
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Bạn bè
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Học tập
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Công việc
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Tình cảm
-              </Button>
-              <Button
-                type="default"
-                $hoverBackgroundColor="#FAF0E6"
-                $hoverColor="#352F44"
-                $width={"84px"}
-              >
-                Khác
-              </Button>
+              {tags.map((tag) => (
+                <Button
+                  key={tag}
+                  type="default"
+                  $hoverBackgroundColor="#FAF0E6"
+                  $hoverColor="#352F44"
+                  $width={"84px"}
+                  onClick={() => setActiveTag(tag)}
+                  $backgroundColor={
+                    activeTag === tag ? "#FAF0E6 " : "transparent"
+                  }
+                >
+                  {tag}
+                </Button>
+              ))}
             </S.TagsContainer>
             <Post
               user="Thanh Thủy"
               avatar="/thanhthuy.png"
-              content="Hôm nay tôi học bài nè ..."
-              images={["post.png", "post.png"]}
+              content="Hôm nay tôi học bài ..."
+              images={["post.jpg"]}
               tags={["Học tập"]}
               initialLikes={10}
               initialComments={5}
@@ -96,7 +62,7 @@ function Home() {
                   content: "Cho học với",
                 },
                 {
-                  id: 1,
+                  id: 3,
                   user: "Văn Mạnh",
                   avatar: "./vanmanh.png",
                   content: "Đi ăn kem",

@@ -1,19 +1,47 @@
 "use client";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, CheckboxProps, Form } from "antd";
+import { Checkbox, Form } from "antd";
 import FormItem from "antd/es/form/FormItem";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
+import { postRequest } from "@/services/request";
+import { authEndpoint } from "@/services/endpoint";
 
 import * as S from "./styles";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 function FormSignIn() {
-  const onChange: CheckboxProps["onChange"] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
+  const router = useRouter();
+  const { login } = useAuth();
+  const onFinish = async (values: any) => {
+    try {
+      const data = {
+        email: values.mail,
+        password: values.password,
+        isRemember: values.isRemember,
+      };
+      const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
+      login(
+        {
+          ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
+          PROFILE_HASH: res?.metadata?.user?.profileHash,
+          REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
+          PRIVATEKEY: res?.metadata?.tokens?.privateKey,
+        },
+        res?.metadata?.user
+      );
+
+      router.push("/");
+      
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
   return (
     <S.HomeWrapper>
@@ -32,6 +60,7 @@ function FormSignIn() {
         style={{ width: "100%" }}
         initialValues={{ remember: true }}
         autoComplete="off"
+        onFinish={onFinish}
       >
         <FormItem
           name="mail"
@@ -56,8 +85,12 @@ function FormSignIn() {
           />
         </FormItem>
         <S.Label>
-          <FormItem style={{ margin: "0px" }}>
-            <Checkbox onChange={onChange}>
+          <FormItem
+            style={{ margin: "0px" }}
+            name="isRemember"
+            valuePropName="checked"
+          >
+            <Checkbox>
               <Typography
                 variant="body-text-small-normal"
                 color="#B9B4C7"
@@ -68,7 +101,7 @@ function FormSignIn() {
             </Checkbox>
           </FormItem>
 
-          <a href="/verification">
+          <Link href="/verification">
             <Typography
               variant="caption-small"
               color="#B9B4C7"
@@ -78,7 +111,7 @@ function FormSignIn() {
             >
               Quên mật khẩu?
             </Typography>
-          </a>
+          </Link>
         </S.Label>
         <FormItem
           style={{
@@ -93,6 +126,7 @@ function FormSignIn() {
             $backgroundColor="#FAF0E6"
             $margin="30px 0 0 0"
             $width={"100px"}
+            htmlType="submit"
           >
             ĐĂNG NHẬP
           </Button>
@@ -106,7 +140,7 @@ function FormSignIn() {
           >
             Chưa có tài khoản?
           </Typography>
-          <a href="/sign-up">
+          <Link href="/sign-up">
             <Typography
               variant="caption-small"
               color="#B9B4C7"
@@ -116,7 +150,7 @@ function FormSignIn() {
             >
               Đăng ký
             </Typography>
-          </a>
+          </Link>
         </S.Typography>
       </Form>
     </S.HomeWrapper>

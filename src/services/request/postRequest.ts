@@ -1,62 +1,48 @@
-import axiosInstance from '../base/axiosInstance';
-import { RequestOptionsInterface } from '@/model/requestOptions';
-import webStorageClient from '@/utils/webStorageClient';
-import { message } from 'antd';
+import { message } from "antd";
+import { RequestOptionsInterface } from "@/model/requestOptions";
+import webStorageClient from "@/utils/webStorageClient";
+import axiosInstance from "../base/axiosInstance";
+import { errorMessage } from "../errorMessage";
+import { constants } from "@/settings";
 
-const postRequest = (
+const postRequest = async(
   url: string,
   options?: RequestOptionsInterface,
-  fomrData?: boolean,
+  fomrData?: boolean
 ): Promise<object> => {
-  const data = options?.data;
-  const tokenClient = webStorageClient.getToken();
+  // kaidophan37@gmail.com
+  // 123456
+  const isSecurity = options?.security || false;
 
-  if (tokenClient) {
-    return axiosInstance
-      .post(url, data, {
-        headers: {
-          Authorization: `Bearer ${tokenClient}`,
-          'Content-Type': fomrData ? 'multipart/form-data' : 'application/json',
-          // TODO
-          // TENANT: webStorageClient.get(CURRENT_COMUNITY),
-        },
-      })
-      .then((res: any) => {
-        if (res?.message) {
-          //todo addition in need
-        }
-        return res;
-      })
-      .catch((err) => {
-        if (
-          err?.response?.data?.errors?.length > 0
-        ) {
-          err?.response?.data?.errors?.forEach((mess: string) => {
-            //todo addtion in need
-          });
-        }
-        return Promise.reject(err);
-      });
+  let header = {};
+  if (isSecurity) {
+    const profileHash = await webStorageClient.getProfileHash();
+
+    header = {
+      "x-client-id": profileHash,
+    };
   }
+
+  const data = options?.data;
+  const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
+  let headers: any = {
+    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+    ...header,
+  };
+
+  if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
 
   return axiosInstance
     .post(url, data, {
-      headers: {
-        'Content-Type': fomrData ? fomrData : 'application/json',
-      },
+      headers: headers,
+      withCredentials: true,
     })
     .then((res: any) => {
-      if (res?.message) {
-        //todo addtion in need
-      }
       return res;
     })
     .catch((err) => {
-      if (err?.response?.data?.errors?.length > 0) {
-        err?.response?.data?.errors?.forEach((mess: string) => {
-          //todo addtion in need
-        });
-      }
+      message.error(errorMessage[err]);
+
       return Promise.reject(err);
     });
 };

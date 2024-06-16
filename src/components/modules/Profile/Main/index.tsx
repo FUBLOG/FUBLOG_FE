@@ -6,14 +6,13 @@ import PostProfile from "../PostProfile";
 
 import * as S from "./styles";
 
-function Profile() {
-  const isGuest = false;
+function Profile({ profileHash }: { readonly profileHash: string }) {
   return (
     <S.HomeWrapper>
-      <Banner />
+      <Banner profileHash={profileHash} />
       <S.Container>
         <S.Main>
-          <ListFriend isGuest={isGuest} />
+          <ListFriend />
           <PostProfile />
         </S.Main>
       </S.Container>

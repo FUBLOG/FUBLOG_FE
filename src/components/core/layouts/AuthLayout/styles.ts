@@ -17,7 +17,6 @@ export const Header = styled.header`
 `;
 
 export const Container = styled.div`
-
   margin: 4px 18px;
 
   display: flex;

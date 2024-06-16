@@ -1,25 +1,55 @@
 "use client";
 
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, CheckboxProps, DatePicker, Form, List } from "antd";
+import { LockOutlined, UserOutlined, DownOutlined } from "@ant-design/icons";
+import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";
-
 import useModal from "@/hooks/useModal";
+import Link from "next/link";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import Input from "@/components/core/common/form/Input";
 import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
+import { authEndpoint } from "@/services/endpoint";
+import { constants } from "@/settings";
+import { postRequest } from "@/services/request";
 
 import * as S from "./styles";
 
-function FormSignUp() {
+interface PageProps {
+  readonly setNextStep: Dispatch<SetStateAction<string>>;
+  readonly setFormData: Dispatch<SetStateAction<any>>;
+  readonly formData: any;
+}
+function FormSignUp(props: PageProps) {
   const modalState = useModal();
-  const onChange: CheckboxProps["onChange"] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
 
+  const [sex, setSex] = useState("Nam");
+  const items: MenuProps["items"] = [
+    {
+      label: "Nam",
+      key: "0",
+      onClick: () => {
+        setSex("Nam");
+      },
+    },
+    {
+      label: "Nữ",
+      key: "1",
+      onClick: () => {
+        setSex("Nữ  ");
+      },
+    },
+    {
+      label: "Khác",
+      key: "2",
+      onClick: () => {
+        setSex("Khác");
+      },
+    },
+  ];
   const data = [
     "Mạng xã hội HaS chỉ dành cho những người từ 16 tuổi trở lên để đảm bảo tính phù hợp với nội dung và môi trường của cộng đồng.",
     "Nội dung phù hợp: Mọi bài đăng phải tuân thủ các nguyên tắc đạo đức và pháp luật. Bất kỳ nội dung nào bạo lực, đồi trụy, kích động, hoặc vi phạm bản quyền sẽ bị xóa và người đăng có thể bị khóa tài khoản.",
@@ -32,6 +62,21 @@ function FormSignUp() {
     "HaS không chấp nhận bất kỳ hình thức kích động hoặc chủ trương cụ thể nào, bao gồm cả sự phân biệt đối xử dựa trên tôn giáo, chủng tộc, giới tính, hoặc quốc gia.",
   ];
 
+  const onFinish = async (values: any) => {
+    try {
+      const data = {
+        firstName: values?.firstName!,
+        lastName: values?.lastName!,
+        email: values?.email!,
+        password: values?.password!,
+        dateOfBirth: values?.dateOfBirth!,
+        sex: sex!,
+      };
+      props.setFormData(data);
+      await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, { data });
+      props.setNextStep("verification");
+    } catch (error) {}
+  };
   return (
     <>
       <Modal
@@ -72,32 +117,96 @@ function FormSignUp() {
           style={{ width: "100%" }}
           initialValues={{ remember: true }}
           autoComplete="off"
+          onFinish={onFinish}
         >
+          <div style={{ display: "flex", gap: "20px" }}>
+            <FormItem
+              name="firstName"
+              rules={[{ required: true, message: "Không để trống ô này" }]}
+              style={{ width: "100%" }}
+              initialValue={props?.formData?.firstName}
+            >
+              <Input
+                placeholder="Nhập họ"
+                prefix={<UserOutlined />}
+                isRequired
+                label="Họ"
+              />
+            </FormItem>
+            <FormItem
+              name="lastName"
+              rules={[{ required: true, message: "Không để trống ô này" }]}
+              style={{ width: "100%" }}
+              initialValue={props?.formData?.firstName}
+            >
+              <Input
+                placeholder="Nhập tên"
+                prefix={<UserOutlined />}
+                isRequired
+                label="Tên"
+              />
+            </FormItem>
+          </div>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <div style={{ width: "100%" }}>
+              <Typography
+                padding="0 0 8px 0"
+                variant="caption-small"
+                color="#b9b4c7"
+              >
+                Ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <FormItem
+                name="dateOfBirth"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập ngày tháng năm sinh",
+                  },
+                ]}
+                initialValue={props?.formData?.dateOfBirth}
+              >
+                <DatePicker format="YYYY-MM-DD" placeholder="Nhập ngày" />
+              </FormItem>
+            </div>
+            <div style={{ width: "100%" }}>
+              <Typography
+                padding="0 0 8px 0"
+                variant="caption-small"
+                color="#b9b4c7"
+              >
+                Giới tính <span style={{ color: "red" }}>*</span>
+              </Typography>
+              <FormItem name="sex">
+                <Button
+                  $padding="12px 16px !important"
+                  type="primary"
+                  style={{
+                    width: "80px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <Space>
+                        {sex}
+                        <DownOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </Button>
+              </FormItem>
+            </div>
+          </div>
           <FormItem
-            name="surname"
-            rules={[{ required: true, message: "Không để trống ô này" }]}
-          >
-            <Input
-              placeholder="Nhập họ"
-              prefix={<UserOutlined />}
-              isRequired
-              label="Họ"
-            />
-          </FormItem>
-          <FormItem
-            name="name"
-            rules={[{ required: true, message: "Không để trống ô này" }]}
-          >
-            <Input
-              placeholder="Nhập tên"
-              prefix={<UserOutlined />}
-              isRequired
-              label="Tên"
-            />
-          </FormItem>
-          <FormItem
-            name="mail"
+            name="email"
             rules={[{ required: true, message: "Vui lòng nhập email" }]}
+            initialValue={props?.formData?.email}
           >
             <Input
               placeholder="Nhập email"
@@ -106,24 +215,11 @@ function FormSignUp() {
               label="Email"
             />
           </FormItem>
-          <Typography
-            padding="0 0 8px 0"
-            variant="caption-small"
-            color="#b9b4c7"
-          >
-            Ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
-          </Typography>
-          <FormItem
-            name="birthday"
-            rules={[
-              { required: true, message: "Vui lòng nhập ngày tháng năm sinh" },
-            ]}
-          >
-            <DatePicker format="YYYY-MM-DD" placeholder="Nhập ngày" />
-          </FormItem>
+
           <FormItem
             name="password"
             rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+            initialValue={props?.formData?.firstName}
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
@@ -132,38 +228,35 @@ function FormSignUp() {
               label="Mật khẩu"
             />
           </FormItem>
-          <Checkbox onChange={onChange}>
+          <div>
             <Typography
               variant="body-text-small-normal"
               color="#B9B4C7"
               fontSize="xx-small"
             >
-              Tôi đồng ý với các điều khoản của HaS?
-            </Typography>
-            <Button
-              type="link"
-              onClick={() => {
-                return modalState.openModal();
-              }}
-              $padding="0px !important"
-            >
-              <Typography
-                variant="caption-small"
-                color="#B9B4C7"
-                fontSize="xx-small"
-                textDecoration="underline"
+              Việc bạn nhấn vào đăng ký, bạn đồng ý với các{" "}
+              <span
+                onClick={() => {
+                  return modalState.openModal();
+                }}
+                style={{
+                  color: "#B9B4C7",
+                  fontSize: "xx-small",
+                  textDecoration: "underline",
+                }}
               >
                 Điều khoản
-              </Typography>
-            </Button>
-          </Checkbox>
-
+              </span>{" "}
+              của HaS - mạng xã hội dành cho người Việt
+            </Typography>
+          </div>
           <FormItem
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
+            initialValue={props?.formData?.firstName}
           >
             <Button
               htmlType="submit"
@@ -185,7 +278,7 @@ function FormSignUp() {
             >
               Đã có tài khoản?
             </Typography>
-            <a href="/sign-in">
+            <Link href="/sign-in">
               <Typography
                 variant="caption-small"
                 color="#B9B4C7"
@@ -194,7 +287,7 @@ function FormSignUp() {
               >
                 Đăng nhập
               </Typography>
-            </a>
+            </Link>
           </S.Typography>
         </Form>
       </S.HomeWrapper>

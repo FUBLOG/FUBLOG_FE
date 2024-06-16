@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Tabs, List, Avatar } from 'antd';
 import * as S from './style';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { extractTime } from '@/utils';
 
-dayjs.extend(relativeTime); 
 const { TabPane } = Tabs;
 
 interface Notification {
@@ -78,7 +76,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
   };
 
   const renderTimeAgo = (date: Date) => {
-    return dayjs(date).fromNow();
+    return extractTime(date);
   };
 
   return (

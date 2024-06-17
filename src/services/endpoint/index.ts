@@ -25,12 +25,14 @@ const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
 };
 const addFriendEndpoint = {
-  SEND_FRIEND: `/addFriend/send`,
-  ACCEPT_FRIEND: `/addFriend/accept`,
-  DECLINE_FRIEND: `/addFriend/decline`,
-  UNFRIEND: `/addFriend/unFriend`,
-  BLOCK_FRIEND: `/addFriend/block`,
-  ALL_FRIEND: `/addFriend/getAll`,
+  SEND_FRIEND: `/friend/send`,
+  ACCEPT_FRIEND: `/friend/accept`,
+  DECLINE_FRIEND: `/friend/decline`,
+  UNFRIEND: `/friend/unFriend`,
+  BLOCK_FRIEND: `/friend/block`,
+  ALL_FRIEND: `/friend/getAll`,
+  IS_REQUEST: `/friend/request/`,
+  ALL_REQUEST: `/friend/request`,
 };
 //export endpoint
 export {

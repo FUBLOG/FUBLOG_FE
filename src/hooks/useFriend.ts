@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "./useUser";
 import { useProfile } from "./useProfile";
 import { useProfileContext } from "@/contexts/ProfileContext";
-import { deleteRequest, postRequest } from "@/services/request";
+import { deleteRequest, getRequest, postRequest } from "@/services/request";
 import { addFriendEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import { putRequest } from "@/services/request/putRequest";
@@ -18,6 +18,7 @@ const useFriend = () => {
   const [isMyUser, setIsMyUser] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSendFriend, SetIsSendFriend] = useState(false);
+  const [isRequester, SetIsRequester] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +54,7 @@ const useFriend = () => {
     }
 
     fetchData();
-  }, [userInfo, profileInfo, profileHash, getUserInfo]);
+  }, [userInfo, profileInfo, profileHash, getUserInfo, isFriend, isRequester]);
 
   const sendFriend = async (targetID: string) => {
     const getSendFriend = async () => {
@@ -87,14 +88,13 @@ const useFriend = () => {
   // };
   const unFriend = async (targetID: string) => {
     try {
-      const response = await putRequest(addFriendEndpoint.UNFRIEND, {
+      await postRequest(addFriendEndpoint.UNFRIEND, {
         security: true,
         data: {
           targetID: targetID,
         },
       })
         .then((res: any) => {
-          console.log("Friend request unfriend:", response);
           setIsFriend(false);
         })
         .catch((error) => {
@@ -107,14 +107,30 @@ const useFriend = () => {
       console.error("Failed to  unfriend request:", error);
     }
   };
-  // const acceptFriend = async (targetID: string) => {
-  //   try {
-  //     const response = await unfriend(userInfo?.userId, targetID);
-  //     console.log("Friend request acceptFriend:", response);
-  //   } catch (error) {
-  //     console.error("Failed to send friend request:", error);
-  //   }
-  // };
+
+  const isRequest = async (targetID: string) => {
+    try {
+      await getRequest(addFriendEndpoint.IS_REQUEST + targetID, {
+        security: true,
+      })
+        .then((res: any) => {
+          SetIsRequester(true);
+          return true;
+        })
+        .catch((error) => {
+          SetIsRequester(false);
+          console.error("Get conversation failed:", error);
+
+          return false;
+        })
+
+        .finally(() => {});
+    } catch (error) {
+      return false;
+
+      console.error("Failed to  unfriend request:", error);
+    }
+  };
   const declineFriend = async (targetID: string) => {
     try {
       const response = await deleteRequest(addFriendEndpoint.DECLINE_FRIEND, {
@@ -137,8 +153,19 @@ const useFriend = () => {
       console.error("Failed to  unfriend request:", error);
     }
   };
+  useEffect(() => {
+    const fetchIsRequester = async () => {
+      const result = await isRequest(profileInfo?.user?._id);
+      if (result !== undefined) {
+        SetIsRequester(result);
+      }
+    };
 
+    fetchIsRequester();
+  }, [profileInfo?.user?._id, isRequest, SetIsRequester]);
   return {
+    isRequest,
+    isRequester,
     isFriend,
     isBlocked,
     isGuest,

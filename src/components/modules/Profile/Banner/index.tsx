@@ -18,14 +18,21 @@ export default function Banner({
     isSendFriend,
     unFriend,
     loading,
+    isRequester,
     declineFriend,
+    isRequest,
   } = useFriend();
   const { profileInfo } = useProfileContext();
-  useEffect(() => {}, [profileHash, isFriend]);
+  useEffect(() => {
+    console.log("isRequester", isRequester);
+
+    isRequest(profileInfo?.user?._id);
+  }, [profileHash, isFriend]);
   const handleFriend = (event: string) => {
     if (event === "addFriend") {
       sendFriend(profileInfo?.user?._id);
     }
+
     if (event === "unfriend") {
       unFriend(profileInfo?.user?._id);
     }
@@ -100,13 +107,36 @@ export default function Banner({
               children={"Hủy lời mời"}
               loading={loading}
               onClick={() => {
-                handleFriend("unfriend");
+                // handleFriend("unfriend");
               }}
               $width="120px"
               $backgroundColor="#FAF0E6"
               color="#352f44"
               $hoverColor="#faf0e6"
             />
+          ) : isRequester ? (
+            <>
+              <Button
+                type="default"
+                children={"Chấp nhận lời mời"}
+                loading={loading}
+                onClick={() => {}}
+                $width="120px"
+                $backgroundColor="#FAF0E6"
+                color="#352f44"
+                $hoverColor="#faf0e6"
+              />
+              <Button
+                type="default"
+                children={"Hủy lời mời"}
+                loading={loading}
+                onClick={() => {}}
+                $width="120px"
+                $backgroundColor="#FAF0E6"
+                color="#352f44"
+                $hoverColor="#faf0e6"
+              />
+            </>
           ) : (
             <Button
               type="default"

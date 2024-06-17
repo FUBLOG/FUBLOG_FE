@@ -1,7 +1,7 @@
 import { search } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 
-const getSearchUser = async (keywords: string) => {
+export const getSearchUser = async (keywords: string) => {
   try {
     await getRequest(search.SEARCH_FRIEND, {
       security: true,
@@ -20,10 +20,3 @@ const getSearchUser = async (keywords: string) => {
     return false;
   }
 };
-const getSearch = () => {
-  return {
-    getSearchUser,
-  };
-};
-
-export default getSearch;

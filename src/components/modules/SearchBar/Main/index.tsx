@@ -2,7 +2,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
-import getSearch from "@/api/Search/getSearch";
+import { getSearchUser } from "@/api/Search/getSearch";
 
 interface SearchContentProps {
   value: string;
@@ -10,7 +10,6 @@ interface SearchContentProps {
   setShowModalGuest: Dispatch<SetStateAction<boolean>>;
 }
 
-const { getSearchUser } = getSearch();
 const SearchContent: React.FC<SearchContentProps> = ({
   value,
   setValue,

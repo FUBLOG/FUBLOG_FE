@@ -24,16 +24,7 @@ export const Profile = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `;
-export const Sidebar = styled.div`
-  width: 30%;
-  background-color: #faf0e6;
-  border-right: 1px solid #e8e8e8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  overflow-y: auto;
-`;
+
 
 export const ProfileImage = styled.img`
   width: 80px;
@@ -57,22 +48,8 @@ export const SearchBar = styled.div`
   }
 `;
 
-export const FriendList = styled.div`
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
-`;
 
-export const FriendItem = styled.div`
-  display: grid;
-  grid-template-columns: 40px auto;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #e8e8e8;
-  }
-`;
+
 
 export const FriendImage = styled.img`
   width: 40px;
@@ -81,12 +58,9 @@ export const FriendImage = styled.img`
   object-fit: cover;
   display: block;
   border: 1px solid #5c5470;
+  grid-row: span 2; /* Đặt hình ảnh bao phủ 2 hàng */
 `;
 
-export const FriendName = styled.div`
-  font-size: 14px;
-  margin-left: 8px;
-`;
 
 export const ChatArea = styled.div`
   width: 70%;
@@ -159,13 +133,6 @@ export const MessagesList = styled.div`
   padding: 10px;
 `;
 
-export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  align-items: ${(props) => (props.isOwnMessage ? "flex-end" : "flex-start")};
-  justify-content: center;
-`;
 
 export const MessageAvatar = styled.img`
   width: 30px;
@@ -175,13 +142,6 @@ export const MessageAvatar = styled.img`
   object-fit: cover;
 `;
 
-export const MessageContent = styled.div`
-  background-color: #b9b4c7;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #5c5470;
-  color: #352f44;
-`;
 
 export const MessageInputContainer = styled.div`
   padding: 10px;
@@ -193,7 +153,7 @@ export const MessageInputContainer = styled.div`
   .ant-input-affix-wrapper {
     background-color: #faf0e6;
     border: 1px solid #5c5470;
-    border-radius: 20px;
+    border-radius: 10px;
   }
 
   .ant-input::placeholder {
@@ -218,9 +178,9 @@ export const NoChatSelectedText = styled.div`
 `;
 export const MessageTime = styled.div`
   color: #352f44;
-  opacity: 0.5;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  opacity: 0.4;
+  font-size: 10px;
+  line-height: 16px;
 `;
 const StyledIcon = styled.div`
   font-size: 22px;
@@ -234,4 +194,101 @@ const StyledIcon = styled.div`
   &.active {
     color: #b9b4c7;
   }
+`;
+
+export const FriendList = styled.div`
+  flex: 1;
+  width: 100%; /* Đảm bảo chiều rộng đầy đủ */
+  height: 100%; /* Đảm bảo chiều cao đầy đủ */
+  overflow-y: scroll; /* Hiển thị thanh cuộn khi cần */
+  padding: 0; /* Loại bỏ padding để thanh cuộn sát border */
+  margin: 0; /* Loại bỏ margin để thanh cuộn sát border */
+  position: relative;
+
+  /* Thanh cuộn chính */
+  ::-webkit-scrollbar {
+    width: 8px; /* Độ rộng nhỏ của thanh cuộn */
+  }
+
+  /* Phần kéo của thanh cuộn */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4); /* Màu của phần kéo */
+    border-radius: 4px; /* Góc của phần kéo */
+    cursor: pointer; /* Con trỏ khi hover */
+  }
+
+  /* Track của thanh cuộn */
+  ::-webkit-scrollbar-track {
+    background-color: #f0e4d7; /* Màu nền của track */
+  }
+
+  /* Firefox scrollbar styles */
+  scrollbar-color: rgba(0, 0, 0, 0.4) #C7C8CC; 
+  scrollbar-width: thin;
+
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.6); /* Màu của phần kéo khi hover */
+    }
+  }
+`;
+
+export const Sidebar = styled.div`
+  width: 30%;
+  height: 100%; /* Đảm bảo chiều cao đầy đủ */
+  background-color: #faf0e6;
+  border-right: 4px solid #dcdcdc; /* Đường viền để phân cách */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0; /* Loại bỏ padding */
+  margin: 0; /* Loại bỏ margin */
+`;
+
+export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ isOwnMessage }) => (isOwnMessage ? 'flex-end' : 'flex-start')};
+  margin-bottom: 10px;
+`;
+
+export const MessageContent = styled.div<{ isOwnMessage: boolean }>`
+  max-width: 80%;
+  background-color: ${({ isOwnMessage }) => (isOwnMessage ? '#b9b4c7' : '#d3cfe2')}; /* Màu khác nhau */
+  color: #352f44;
+  padding: 4px;
+   border-radius: ${({ isOwnMessage }) => (isOwnMessage ? '5px 0px 5px 5px' : '0px 5px 5px 5px')}; /* Góc bo khác nhau */
+
+`;
+export const FriendItem = styled.div`
+  display: grid;
+  grid-template-columns: 40px auto;
+  grid-template-rows: auto auto; /* Thêm hàng cho tin nhắn cuối cùng */
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 10px;
+  grid-gap: 2px; /* Khoảng cách giữa các hàng */
+  &:hover {
+    background-color: #d3cfe2; /* Màu nền khi hover */
+  }
+`;
+
+
+export const FriendName = styled.div`
+  font-size: 14px;
+  margin-left: 8px;
+  font-weight: bold;
+  line-height: 1.2; /* Giảm khoảng cách dòng để căn chỉnh tên */
+  margin-bottom: 4px; /* Tạo khoảng trống giữa tên và tin nhắn */
+`;
+
+export const LastMessage = styled.div`
+  font-size: 12px;
+  margin-left: 8px;
+  color: #888; /* Màu xám cho tin nhắn cuối cùng */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Cắt đoạn văn nếu quá dài */
 `;

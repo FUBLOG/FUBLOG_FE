@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Tabs  } from 'antd';
+import { Modal, Tabs } from 'antd';
 import * as S from './style';
 import NotificationTab from './NotificationTab';
 import FriendTab from './FriendTab';
@@ -24,10 +24,13 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       onCancel={onClose}
+      destroyOnClose={true}
       footer={null}
-      bodyStyle={{ padding: 0 }}
+      bodyStyle={{
+        padding: 0
+      }}
       centered
     >
       <S.NotificationContainer>
@@ -40,7 +43,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
         >
           <TabPane tab="Thông báo" key="1">
             <S.TabContent>
-              <NotificationTab  />
+              <NotificationTab />
             </S.TabContent>
           </TabPane>
           <TabPane tab="Bạn bè" key="2">

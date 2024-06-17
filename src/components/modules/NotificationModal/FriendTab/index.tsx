@@ -1,83 +1,74 @@
-import { extractTime, fromNow } from "@/utils";
-import { Avatar, List } from "antd";
+import { fromNow } from "@/utils";
+import { Avatar, Button, List, Skeleton } from "antd";
 import * as S from "../style";
-import { useState } from "react";
-interface FriendRequest {
-    id: number;
-    title: string;
-    avatar: string;
-    createdAt: Date;
-    link: string;
-
-}
+import { useEffect, useState } from "react";
+import useNotification, { useGetFriendRequest } from "@/hooks/useNotification";
+import { acceptFriendRequest, rejectFriendRequest } from "@/services/api/friend";
 
 const FriendTab = () => {
-    const [acceptedFriends, setAcceptedFriends] = useState<FriendRequest[]>([]);
-    const [rejectedRequests, setRejectedRequests] = useState<number[]>([]);
-    const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([
-        { id: 1, title: 'Jos Phan Ái muốn gửi cho bạn lời mời kết bạn', avatar: '/jos2.jpg', createdAt: new Date(), link: '/profile/1' },
-        { id: 2, title: 'Thu Phương đã gửi cho bạn lời mời kết bạn', avatar: 'thuphuong.png', createdAt: new Date(Date.now() - 3600 * 1000), link: '/profile/2' },
-        { id: 3, title: 'Pam Yêu đã gửi cho bạn lời mời kết bạn', avatar: 'pam.png', createdAt: new Date(Date.now() - 7200 * 1000), link: '/profile/3' },
-        { id: 4, title: 'Thanh Thủy đã gửi cho bạn lời mời kết bạn', avatar: 'thanhthuy.png', createdAt: new Date(Date.now() - 10800 * 1000), link: '/profile/4' },
-        { id: 5, title: 'Minh Quân đã gửi cho bạn lời mời kết bạn', avatar: 'minhquan.png', createdAt: new Date(Date.now() - 14400 * 1000), link: '/profile/5' },
-        { id: 6, title: 'Văn Mạnh đã gửi cho bạn lời mời kết bạn', avatar: 'vanmanh.png', createdAt: new Date(Date.now() - 18000 * 1000), link: '/profile/6' },
-      ]);
-    const renderTimeAgo = (date: Date) => {
-        return fromNow(date);
-    };
-    const handleReject = (requestId: number, event: React.MouseEvent) => {
-        event.stopPropagation();
-        updateFriendRequestTitle(requestId, `Bạn đã gỡ lời mời kết bạn từ ${getRequestName(requestId)}`);
-        setRejectedRequests(prevRejected => [...prevRejected, requestId]);
-        setTimeout(() => removeRequest(requestId), 3000);
-    };
-
-    const handleAccept = (requestId: number, event: React.MouseEvent) => {
-        event.stopPropagation();
-        const acceptedRequest = friendRequests.find(request => request.id === requestId);
-        if (acceptedRequest) {
-            setAcceptedFriends(prevFriends => [
-                { ...acceptedRequest, title: `Bạn đã chấp nhận lời mời kết bạn từ ${getRequestName(requestId)}` },
-                ...prevFriends,
-            ]);
-            removeRequest(requestId);
+    const { loading, friendRequest } = useGetFriendRequest();
+    const [acceptList, setAcceptList] = useState<any>([]);
+    const { setFriendRequest } = useNotification();
+    const [loadingButtons, setLoadingButtons] = useState<boolean[]>([]);
+    useEffect(() => {
+        if (friendRequest.length > 0) {
+            setLoadingButtons(new Array(friendRequest.length).fill(false));
         }
+    }, []);
+    const setLoadingButton = async (index: number) => {
+        setLoadingButtons((prev) => {
+            const newLoadingButtons = [...prev];
+            newLoadingButtons[index] = !newLoadingButtons[index];
+            return newLoadingButtons;
+        });
+    }
+    const handleAccept = async (requestId: any, event: any, index: number) => {
+        setLoadingButton(index);
+        event.stopPropagation();
+        const data = {
+            targetID: requestId
+        }
+        const res: any = await acceptFriendRequest(data);
+        setLoadingButton(index);
+        setAcceptList([...acceptList, requestId]);
+        const newLists = friendRequest.map((item: any) => {
+            if (item.sourceID._id === requestId) {
+                return {
+                    ...item,
+                    title: `Bạn và ${item?.sourceID?.displayName} đã là bạn bè`,
+                };
+            }
+            return item;
+        });
+        setFriendRequest(newLists);
     };
-    const removeRequest = (requestId: number) => {
-        setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
-    };
-    const getRequestName = (requestId: number) => {
-        const request = friendRequests.find(request => request.id === requestId);
-        return request ? request.title.split(' ')[0] : '';
+    const handleReject = async (requestId: number, event: React.MouseEvent) => {
+        event.stopPropagation();
+        const res: any = await rejectFriendRequest({ targetID: requestId });
+        const newLists = friendRequest.filter((item: any) => item.sourceID._id !== requestId);
+        setFriendRequest(newLists);
     };
 
-    const updateFriendRequestTitle = (requestId: number, newTitle: string) => {
-        setFriendRequests(prevRequests => prevRequests.map(request =>
-            request.id === requestId ? { ...request, title: newTitle } : request
-        ));
-    };
 
-    return (<List
+    return loading ? (<Loading />) : (<List
         itemLayout="horizontal"
-        dataSource={[...acceptedFriends, ...friendRequests]}
-        renderItem={item => (
+        dataSource={friendRequest}
+        renderItem={(item: any, index) => (
             <List.Item
-                key={item.id}
+                key={item?._id}
                 className="friend-item"
-                onClick={() => window.location.href = item.link}
+                onClick={() => window.location.href = item?.link}
             >
                 <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
+                    avatar={<Avatar src={item?.sourceID?.userInfo?.avatar === "" ? "./default-avatar.png" : item?.sourceID?.userInfo?.avatar} />}
                     title={<span>{item.title}</span>}
                     description={
                         <>
-                            {renderTimeAgo(new Date(item.createdAt))}
-                            {!rejectedRequests.includes(item.id) && friendRequests.some(request => request.id === item.id) && (
-                                <S.ActionButtons>
-                                    <button onClick={(event) => handleReject(item.id, event)}>Hủy</button>
-                                    <button onClick={(event) => handleAccept(item.id, event)}>Xác nhận</button>
-                                </S.ActionButtons>
-                            )}
+                            {fromNow(new Date(item.createdAt))}
+                            {acceptList.includes(item?.sourceID?._id) ? (<></>) : <S.ActionButtons>
+                                <Button onClick={(event) => handleReject(item?.sourceID?._id, event)}>Hủy</Button>
+                                <Button loading={loadingButtons[index]} onClick={(event) => handleAccept(item?.sourceID?._id, event, index)}>Xác nhận</Button>
+                            </S.ActionButtons>}
                         </>
                     }
                 />
@@ -85,5 +76,7 @@ const FriendTab = () => {
         )}
     />);
 }
-
+const Loading = () => {
+    return <Skeleton active round avatar title />;
+}
 export default FriendTab;

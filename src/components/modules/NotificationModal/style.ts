@@ -13,9 +13,16 @@ export const NotificationContainer = styled.div`
     color: #352F44 !important; 
   }
 
+  .notification-item, .friend-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+  }
+
   .notification-item:hover, .friend-item:hover {
     background-color: #B9B4C7; 
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -33,20 +40,14 @@ export const TabContent = styled.div`
     font-size: 14px;
     display: flex;
     justify-content: space-between;
-  }
-
-  .ant-list-item-meta-description span {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    color: #a0a0a0;
+    padding: 0 10px;
   }
 
   button {
     background-color: #5C5470;
     border: none;
     color: #FAF0E6;
-    padding: 8px 16px; /* Tăng kích thước của nút */
+    padding: 8px 16px; 
     cursor: pointer;
     border-radius: 4px;
     margin-right: 8px;
@@ -64,4 +65,6 @@ export const TabContent = styled.div`
 export const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
+  justify-content: flex-end;
+  margin-top: 5px;
 `;

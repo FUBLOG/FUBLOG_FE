@@ -24,7 +24,6 @@ const useFriend = () => {
     const fetchData = async () => {
       try {
         console.log(userInfo);
-
         if (userInfo?.userId !== "") {
           setIsGuest(false);
           setIsFriend(
@@ -86,6 +85,27 @@ const useFriend = () => {
   //     console.error("Failed to send friend request:", error);
   //   }
   // };
+  const getALLBlocks = async (targetID: string) => {
+    try {
+      await getRequest(addFriendEndpoint.ALL_BLOCKS, {
+        security: true,
+        data: {
+          targetID: targetID,
+        },
+      })
+        .then((res: any) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error("Get conversation failed:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Failed to  unfriend request:", error);
+    }
+  };
   const unFriend = async (targetID: string) => {
     try {
       await postRequest(addFriendEndpoint.UNFRIEND, {
@@ -109,28 +129,35 @@ const useFriend = () => {
   };
 
   const isRequest = async (targetID: string) => {
+    console.log("sourceID: " + userInfo?.userId);
+
     try {
       await getRequest(addFriendEndpoint.IS_REQUEST + targetID, {
         security: true,
       })
         .then((res: any) => {
-          SetIsRequester(true);
+          console.log(res);
+          if (res === null) {
+            setIsFriend(false);
+            SetIsRequester(false);
+          }
+          if (res?.metadata?.sourceID == userInfo?.userId) {
+            SetIsSendFriend(true);
+            SetIsRequester(false);
+          } else if (res?.metadata?.sourceID == targetID) SetIsRequester(true);
           return true;
         })
         .catch((error) => {
           SetIsRequester(false);
-          console.error("Get conversation failed:", error);
-
           return false;
         })
 
         .finally(() => {});
     } catch (error) {
       return false;
-
-      console.error("Failed to  unfriend request:", error);
     }
   };
+
   const declineFriend = async (targetID: string) => {
     try {
       const response = await deleteRequest(addFriendEndpoint.DECLINE_FRIEND, {
@@ -155,11 +182,9 @@ const useFriend = () => {
   };
   useEffect(() => {
     const fetchIsRequester = async () => {
-      const result = await isRequest(profileInfo?.user?._id);
-      if (result !== undefined) {
-        SetIsRequester(result);
-      }
+      await isRequest(profileInfo?.user?._id);
     };
+    // getALLBlocks(userInfo?.userId);
 
     fetchIsRequester();
   }, [profileInfo?.user?._id, isRequest, SetIsRequester]);

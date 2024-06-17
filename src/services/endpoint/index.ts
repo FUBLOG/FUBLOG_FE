@@ -30,6 +30,7 @@ const addFriendEndpoint = {
   DECLINE_FRIEND: `/friend/decline`,
   UNFRIEND: `/friend/unFriend`,
   BLOCK_FRIEND: `/friend/block`,
+  ALL_BLOCKS: `/friend/block`,
   ALL_FRIEND: `/friend/getAll`,
   IS_REQUEST: `/friend/request/`,
   ALL_REQUEST: `/friend/request`,

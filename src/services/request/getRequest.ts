@@ -5,11 +5,11 @@ import { message } from "antd";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const getRequest = async (
+const getRequest = async <T>(
   url: string,
   options?: RequestOptionsInterface,
-  fomrData?: boolean
-): Promise<object> => {
+  formData?: boolean
+): Promise<T> => {
   const isSecurity = options?.security || false;
 
   let header = {};
@@ -25,7 +25,7 @@ const getRequest = async (
 
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
-    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+    "Content-Type": formData ? "multipart/form-data" : "application/json",
     ...header,
   };
 
@@ -41,7 +41,7 @@ const getRequest = async (
       },
     })
     .then((res: any) => {
-      return res;
+      return res as T;
     })
     .catch((err) => {
       message.error(errorMessage[err?.message]);

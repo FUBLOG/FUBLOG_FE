@@ -19,7 +19,7 @@ export const useUser = () => {
 
           if (res) {
             webStorageClient.set(constants.IS_AUTH, true);
-            setUserInfo({
+            await setUserInfo({
               userId: res?.metadata?._id,
               dateOfBirth: res?.metadata?.dateOfBirth,
               displayName: res?.metadata?.displayName,
@@ -39,7 +39,7 @@ export const useUser = () => {
           }
         } catch (error) {
           webStorageClient.set(constants.IS_AUTH, false);
-          setUserInfo({
+          await setUserInfo({
             userId: "",
             dateOfBirth: "",
             displayName: "",
@@ -59,7 +59,7 @@ export const useUser = () => {
         }
       } else {
         webStorageClient.set(constants.IS_AUTH, false);
-        setUserInfo({
+        await setUserInfo({
           userId: "",
           dateOfBirth: "",
           displayName: "",
@@ -81,7 +81,7 @@ export const useUser = () => {
     isUser();
   }, []);
 
-  const addUser = (
+  const addUser = async (
     user: {
       ACCESS_TOKEN: string;
       PROFILE_HASH: string;
@@ -116,16 +116,16 @@ export const useUser = () => {
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
-    setUserInfo(userInfo);
+    await setUserInfo(userInfo);
   };
 
-  const removeUser = () => {
+  const removeUser = async () => {
     webStorageClient.remove(constants.ACCESS_TOKEN);
     webStorageClient.remove(constants.PROFILE_HASH);
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
-    setUserInfo({
+    await setUserInfo({
       userId: "",
       dateOfBirth: "",
       displayName: "",

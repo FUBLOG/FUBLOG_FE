@@ -1,9 +1,9 @@
+import { addFriendEndpoint, authEndpoint } from "@/services/endpoint";
 import axios from "axios";
 
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
-import { authEndpoint } from "../endpoint";
 import deleteStorage from "@/utils/deleteStorage";
 
 const axiosInstance = axios.create({
@@ -14,16 +14,13 @@ const axiosInstance = axios.create({
   timeout: 600000,
 });
 
-axiosInstance.interceptors.request.use(
-  async function (config: any) {
-    const accessToken = await webStorageClient.getToken();
-    if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  function (error: any) {}
-);
+axiosInstance.interceptors.request.use(async function (config: any) {
+  const accessToken = await webStorageClient.getToken();
+  if (accessToken) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+  }
+  return config;
+});
 
 axiosInstance.interceptors.response.use(
   async (response: any) => {
@@ -33,11 +30,12 @@ axiosInstance.interceptors.response.use(
     if (error?.response && error?.response?.status === 401) {
       if (error?.response?.data?.message === "JWT invalid") {
         try {
-          const newAccessToken = await refeshAccessToken();
+          const newAccessToken = await refreshAccessToken();
           error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosInstance(error.config);
         } catch (e) {
           deleteStorage();
+          return Promise.reject(e);
         }
       }
       if (error?.response?.data?.message === "Invalid request") {
@@ -47,33 +45,39 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-const refeshAccessToken = async () => {
+const refreshAccessToken = async () => {
   const clientId = await webStorageClient.getProfileHash();
-  const refeshToken = webLocalStorage.get("refreshToken");
+  const refreshToken = webLocalStorage.get("refreshToken");
   const privateKey = webLocalStorage.get("privateKey");
 
-  await axios
+  return axios
     .post(
       constants.API_SERVER + authEndpoint.REFRESH_TOKEN,
       {},
       {
         headers: {
           "x-client-id": clientId,
-          "x-rtoken-id": refeshToken,
+          "x-rtoken-id": refreshToken,
           "x-private-key": privateKey,
         },
       }
     )
     .then((response) => {
-      webStorageClient.setToken(response?.data?.metadata?.tokens?.accessToken);
+      const newAccessToken = response?.data?.metadata?.tokens?.accessToken;
+      webStorageClient.setToken(newAccessToken);
       webLocalStorage.set(
         "refreshToken",
         response?.data?.metadata?.tokens?.refreshToken
       );
-      return response?.data?.metadata?.tokens?.accessToken;
+      return newAccessToken;
     })
     .catch((error) => {
-      throw new Error(error?.message);
+      const message =
+        typeof error?.message === "string"
+          ? error.message
+          : "An error occurred";
+      throw new Error(message);
     });
 };
+
 export default axiosInstance;

@@ -42,8 +42,9 @@ interface LayoutProps {
 }
 
 function MainLayout({ children }: LayoutProps) {
-  const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
+  const [showMessageModal, setShowMessageModal] = useState(false);
+
   const [valueSearch, setValueSearch] = useState("");
   const { logout } = useAuth();
   const { userInfo } = useAuthContext();
@@ -196,7 +197,11 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent value={valueSearch} setValue={setValueSearch} />
+        <SearchContent
+          setShowModalGuest={setShowModalGuest}
+          value={valueSearch}
+          setValue={setValueSearch}
+        />
       </S.SearchModal>
     </S.LayoutWrapper>
   );

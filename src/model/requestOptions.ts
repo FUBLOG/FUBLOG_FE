@@ -4,4 +4,5 @@ export interface RequestOptionsInterface {
   token?: any;
   security?: boolean;
   profileHash?: string;
+  keywords?: string;
 }

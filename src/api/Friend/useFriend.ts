@@ -222,6 +222,7 @@ const useFriend = () => {
     unFriend,
     loading,
     acceptFriend,
+    setIsFriend,
     declineFriend,
   };
 };

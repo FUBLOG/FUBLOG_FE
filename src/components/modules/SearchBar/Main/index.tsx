@@ -1,17 +1,26 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
+import getSearch from "@/api/Search/getSearch";
 
 interface SearchContentProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setShowModalGuest: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchContent: React.FC<SearchContentProps> = ({ value, setValue }) => {
+const { getSearchUser } = getSearch();
+const SearchContent: React.FC<SearchContentProps> = ({
+  value,
+  setValue,
+  setShowModalGuest,
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+    getSearchUser(e?.target?.value);
   };
+  const [list, setList] = useState([]);
   return (
     <>
       <InputWrapper>
@@ -22,7 +31,12 @@ const SearchContent: React.FC<SearchContentProps> = ({ value, setValue }) => {
           onChange={handleChange}
         />
       </InputWrapper>
-      <SearchInfo value={value} setValue={setValue} />
+      <SearchInfo
+        list={list}
+        value={value}
+        setValue={setValue}
+        setShowModalGuest={setShowModalGuest}
+      />
     </>
   );
 };

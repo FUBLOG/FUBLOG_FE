@@ -114,9 +114,7 @@ export default function Banner({
               type="default"
               children={"Hủy lời mời"}
               loading={loading}
-              onClick={() => {
-                // handleFriend("unfriend");
-              }}
+              onClick={() => {}}
               $width="120px"
               $backgroundColor="#FAF0E6"
               color="#352f44"

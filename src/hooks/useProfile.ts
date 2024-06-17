@@ -4,7 +4,7 @@ import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 
 export const useProfile = () => {
-  const { setProfileInfo, profileInfo } = useProfileContext();
+  const { setProfileInfo } = useProfileContext();
   const [loading, setLoading] = useState(false);
   const [profileHash, setProfileHash] = useState("");
 

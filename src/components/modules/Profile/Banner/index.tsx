@@ -1,9 +1,9 @@
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
-import useFriend from "@/hooks/useFriend";
 import { useEffect, useState } from "react";
 import { useProfileContext } from "@/contexts/ProfileContext";
+import useFriend from "@/api/Friend/useFriend";
 
 export default function Banner({
   profileHash,
@@ -20,27 +20,24 @@ export default function Banner({
     loading,
     isRequester,
     declineFriend,
-    isRequest,
+    acceptFriend,
   } = useFriend();
-  const { profileInfo } = useProfileContext();
-  useEffect(() => {
-    console.log("isRequester", isRequester);
-
-    isRequest(profileInfo?.user?._id);
-  }, [profileHash, isFriend]);
   const handleFriend = (event: string) => {
     if (event === "addFriend") {
-      sendFriend(profileInfo?.user?._id);
+      sendFriend();
     }
 
     if (event === "unfriend") {
-      unFriend(profileInfo?.user?._id);
+      unFriend();
     }
     if (event === "revoke") {
       // unFriend(profileInfo?.user?._id);
     }
     if (event === "decline") {
-      declineFriend(profileInfo?.user?._id);
+      declineFriend();
+    }
+    if (event === "accept") {
+      acceptFriend();
     }
   };
   return (
@@ -120,7 +117,9 @@ export default function Banner({
                 type="default"
                 children={"Chấp nhận lời mời"}
                 loading={loading}
-                onClick={() => {}}
+                onClick={() => {
+                  handleFriend("accept");
+                }}
                 $width="120px"
                 $backgroundColor="#FAF0E6"
                 color="#352f44"
@@ -128,9 +127,11 @@ export default function Banner({
               />
               <Button
                 type="default"
-                children={"Hủy lời mời"}
+                children={"Từ chối lời mời"}
                 loading={loading}
-                onClick={() => {}}
+                onClick={() => {
+                  handleFriend("decline");
+                }}
                 $width="120px"
                 $backgroundColor="#FAF0E6"
                 color="#352f44"

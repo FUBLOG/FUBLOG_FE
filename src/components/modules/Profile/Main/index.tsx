@@ -1,8 +1,6 @@
 "use client";
 
 import Banner from "../Banner";
-import ListFriend from "../ListFriend";
-import PostProfile from "../PostProfile";
 import { useProfile } from "@/hooks/useProfile";
 import { useEffect } from "react";
 
@@ -16,12 +14,12 @@ function Profile({ profileHash }: { readonly profileHash: string }) {
   return (
     <S.HomeWrapper>
       <Banner profileHash={profileHash} />
-      <S.Container>
+      {/* <S.Container>
         <S.Main>
           <ListFriend />
           <PostProfile />
         </S.Main>
-      </S.Container>
+      </S.Container> */}
     </S.HomeWrapper>
   );
 }

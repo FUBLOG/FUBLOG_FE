@@ -89,15 +89,26 @@ export default function Banner({
               />
             </>
           ) : isMyUser ? (
-            <Button
-              type="default"
-              loading={loading}
-              children={"Chỉnh sửa"}
-              $width="100px"
-              $backgroundColor="#FAF0E6"
-              color="#352f44"
-              $hoverColor="#faf0e6"
-            />
+            <>
+              <Button
+                type="default"
+                loading={loading}
+                children={"Tạo bài đăng"}
+                $width="100px"
+                $backgroundColor="#FAF0E6"
+                color="#352f44"
+                $hoverColor="#faf0e6"
+              />
+              <Button
+                type="default"
+                loading={loading}
+                children={"Chỉnh sửa"}
+                $width="100px"
+                $backgroundColor="#FAF0E6"
+                color="#352f44"
+                $hoverColor="#faf0e6"
+              />
+            </>
           ) : isSendFriend ? (
             <Button
               type="default"

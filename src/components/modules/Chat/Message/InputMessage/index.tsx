@@ -42,8 +42,8 @@ const InputMessage = () => {
                     <SendOutlined
                             onClick={handleSend}
                             style={{
-                                color: clicked ? "#FF6347" : "#000", // Thay đổi màu khi click
-                                transition: "color 0.3s", // Thêm hiệu ứng chuyển đổi
+                                color: clicked ? "#4C3BCF" : "#000", 
+                                transition: "color 0.3s",
                             }}
                         />
                 </>

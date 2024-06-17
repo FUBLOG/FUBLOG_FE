@@ -5,7 +5,7 @@ const MessageHeader = () => {
     return (<S.ChatHeader>
         <S.FriendImage src={selectedConversation.participants[0]?.avatar} alt="Văn Mạnh" />
         <S.ChatFriendName>{selectedConversation.participants[0]?.displayName}</S.ChatFriendName>
-        <S.ActiveStatus>Đang hoạt động</S.ActiveStatus>
+        <S.ActiveStatus>    <S.ActiveDot /> Đang hoạt động</S.ActiveStatus>
     </S.ChatHeader>);
 }
 

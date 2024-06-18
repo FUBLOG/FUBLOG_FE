@@ -20,6 +20,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
     <Modal
       open={visible}
       onCancel={onClose}
+      destroyOnClose={true}
       footer={null}
       width={800}
       styles={{ body: { backgroundColor: "#FAF0E6", padding: 0 } }}

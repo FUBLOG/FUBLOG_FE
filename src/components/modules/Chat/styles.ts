@@ -158,7 +158,7 @@ export const NoChatSelected = styled.div`
 `;
 
 export const NoChatSelectedText = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   color: #352f44;
 `;
 
@@ -386,4 +386,26 @@ export const InputWrapper = styled.div`
     display: flex;
     align-items: center;
   }
+`;
+
+
+export const NoChatSelectedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+export const NoChatImage = styled.img`
+  width: 150px;
+  margin-bottom: 20px;
+`;
+
+
+export const IntroductionText = styled.div`
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
 `;

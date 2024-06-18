@@ -7,11 +7,16 @@ import useConversation from "@/hooks/useConversation";
 const InputMessage = () => {
     const [inputValue, setInputValue] = useState("");
     const { sendMessage, loading } = useSendMessage();
+    const [clicked, setClicked] = useState(false); 
+
     const handleSend = async (event: any) => {
         event.preventDefault();
         if (!inputValue) return;
+        setClicked(true);
         await sendMessage(inputValue);
         setInputValue("");
+          // Đặt lại trạng thái clicked sau một khoảng thời gian (ví dụ: 300ms)
+          setTimeout(() => setClicked(false), 300);
     };
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     };
@@ -37,7 +42,13 @@ const InputMessage = () => {
                     <label htmlFor="upload">
                         <PictureOutlined style={{ marginRight: 8 }} />
                     </label>
-                    <SendOutlined onClick={handleSend} />
+                    <SendOutlined
+                            onClick={handleSend}
+                            style={{
+                                color: clicked ? "#4C3BCF" : "#000", 
+                                transition: "color 0.3s",
+                            }}
+                        />
                 </>
             }
         />

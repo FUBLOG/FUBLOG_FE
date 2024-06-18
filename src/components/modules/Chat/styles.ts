@@ -12,27 +12,19 @@ export const ModalContainer = styled.div`
     height: 0px !important;
   }
 `;
+
 export const CloseButton = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 `;
+
 export const Profile = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-`;
-export const Sidebar = styled.div`
-  width: 30%;
-  background-color: #faf0e6;
-  border-right: 1px solid #e8e8e8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  overflow-y: auto;
 `;
 
 export const ProfileImage = styled.img`
@@ -47,30 +39,26 @@ export const ProfileName = styled.div`
   font-weight: bold;
   font-size: 16px;
 `;
+
 export const SearchBar = styled.div`
-  width: 100%;
+  width: 95%;
   margin-bottom: 20px;
   .ant-input-affix-wrapper {
     background-color: #faf0e6;
-    border: 1px solid #5c5470;
-    border-radius: 20px;
+    border: 1px solid #c0c0c0;
+    margin-right: 20px;
+    margin-left: -12px;
+
+    padding: 1px 1px;
   }
-`;
-
-export const FriendList = styled.div`
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
-`;
-
-export const FriendItem = styled.div`
-  display: grid;
-  grid-template-columns: 40px auto;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #e8e8e8;
+  .ant-input-affix-wrapper:hover {
+    border-color: #a0a0a0;
+  }
+  .ant-input {
+    border-radius: 15px;
+  }
+  .ant-input:focus {
+    box-shadow: none;
   }
 `;
 
@@ -81,11 +69,7 @@ export const FriendImage = styled.img`
   object-fit: cover;
   display: block;
   border: 1px solid #5c5470;
-`;
-
-export const FriendName = styled.div`
-  font-size: 14px;
-  margin-left: 8px;
+  grid-row: span 2;
 `;
 
 export const ChatArea = styled.div`
@@ -101,7 +85,9 @@ export const ActiveFriends = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 0.05px solid #B9B4C7;
+    box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.1);
+
 `;
 
 export const ActiveFriend = styled.div`
@@ -109,8 +95,15 @@ export const ActiveFriend = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 10px;
+  position: relative;
 
   .ant-badge-dot {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50%;
+    background-color: #52c41a !important;
+    border: 2px solid #faf0e6 !important;
+    box-shadow: 0 0 0 1px #faf0e6;
     bottom: 0px !important;
     inset-inline-start: 0 !important;
     top: auto !important;
@@ -119,6 +112,7 @@ export const ActiveFriend = styled.div`
 `;
 
 export const ActiveFriendImage = styled(FriendImage)<{ isActive?: boolean }>``;
+
 export const ActiveFriendName = styled.div`
   width: max-content;
   font-size: 12px;
@@ -133,14 +127,6 @@ export const ChatContainer = styled.div`
   overflow-y: auto;
 `;
 
-export const ChatHeader = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #352f44;
-  justify-content: flex-start;
-`;
-
 export const ChatFriendName = styled.div`
   font-weight: bold;
   font-size: 16px;
@@ -151,20 +137,7 @@ export const ActiveStatus = styled.div`
   font-size: 14px;
   color: #352f44;
   margin-left: auto;
-`;
-
-export const MessagesList = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-`;
-
-export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
   display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  align-items: ${(props) => (props.isOwnMessage ? "flex-end" : "flex-start")};
-  justify-content: center;
 `;
 
 export const MessageAvatar = styled.img`
@@ -175,17 +148,9 @@ export const MessageAvatar = styled.img`
   object-fit: cover;
 `;
 
-export const MessageContent = styled.div`
-  background-color: #b9b4c7;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #5c5470;
-  color: #352f44;
-`;
-
 export const MessageInputContainer = styled.div`
   padding: 10px;
-  border-top: 1px solid #e8e8e8;
+ 
   display: flex;
   align-items: center;
   background-color: #faf0e6;
@@ -193,7 +158,8 @@ export const MessageInputContainer = styled.div`
   .ant-input-affix-wrapper {
     background-color: #faf0e6;
     border: 1px solid #5c5470;
-    border-radius: 20px;
+    border-radius: 4px;
+    margin-left: 8px;
   }
 
   .ant-input::placeholder {
@@ -204,6 +170,7 @@ export const MessageInputContainer = styled.div`
     color: #8c8c8c;
   }
 `;
+
 export const NoChatSelected = styled.div`
   display: flex;
   flex: 1;
@@ -212,16 +179,12 @@ export const NoChatSelected = styled.div`
   font-size: 24px;
   color: #352f44;
 `;
+
 export const NoChatSelectedText = styled.div`
   font-size: 24px;
   color: #352f44;
 `;
-export const MessageTime = styled.div`
-  color: #352f44;
-  opacity: 0.5;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-`;
+
 const StyledIcon = styled.div`
   font-size: 22px;
   cursor: pointer;
@@ -234,4 +197,174 @@ const StyledIcon = styled.div`
   &.active {
     color: #b9b4c7;
   }
+`;
+
+export const FriendList = styled.div`
+  flex: 1;
+  width: 100%;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+`;
+
+export const Sidebar = styled.div`
+  width: 30%;
+  height: 100%;
+  background-color: #faf0e6;
+  border-right: 3px solid #B9B4C7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+`;
+
+export const FriendItem = styled.div<{ isSelected: boolean }>`
+  display: grid;
+  grid-template-columns: 40px auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  margin-right: 10px;
+  padding: 4px;
+  cursor: pointer;
+  background-color: ${({ isSelected }) =>
+    isSelected ? "#e5e5e5" : "transparent"};
+  border-radius: 4px;
+  grid-gap: 2px;
+  &:hover {
+    background-color: ${({ isSelected }) =>
+      isSelected ? "#e5e5e5" : "#d3cfe2"};
+  }
+  &:not(:hover) {
+    background-color: ${({ isSelected }) =>
+      isSelected ? "#e5e5e5" : "transparent"};
+  }
+`;
+
+export const FriendName = styled.div`
+  font-size: 16px;
+  margin-left: 8px;
+
+  line-height: 1.4;
+  margin-bottom: 4px;
+`;
+
+export const LastMessage = styled.div`
+  font-size: 12px;
+  margin-left: 8px;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+export const ActiveDot = styled.div`
+  width: 10px;
+  height: 10px;
+  background-color: #52c41a;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-top: 8px;
+`;
+
+export const MessagesList = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #faf0e6;
+  height: 100%;
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+`;
+
+export const MessageItem = styled.div<{ isOwnMessage?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ isOwnMessage }) =>
+    isOwnMessage ? "flex-end" : "flex-start"};
+  margin-bottom: 2px;
+  width: 100%;
+`;
+
+export const MessageContent = styled.div<{ isOwnMessage?: boolean }>`
+  background-color: ${({ isOwnMessage }) =>
+    isOwnMessage ? "#1976D2" : "#B9B4C7"};
+  color: ${({ isOwnMessage }) => (isOwnMessage ? "#FFFFFF" : "#")};
+  border-radius: 12px;
+  padding: 10px 16px;
+  max-width: 70%;
+  position: relative;
+  margin-right: ${({ isOwnMessage }) => (isOwnMessage ? "0" : "auto")};
+  margin-left: ${({ isOwnMessage }) => (isOwnMessage ? "auto" : "0")};
+
+  &::before {
+    content: "";
+    position: absolute;
+
+    width: 0;
+    height: 0;
+
+    ${({ isOwnMessage }) =>
+      isOwnMessage
+        ? `
+          top: 26px;
+           border: 7px solid transparent;
+    border-left: 6px solid transparent;
+    right: -2px; 
+    border-left-color: #1976D2;
+    border-right: 0;
+     transform: rotate(-200deg);
+    -ms-transform: rotate(-200deg); 
+    -webkit-transform: rotate(-200deg); 
+     
+
+  `
+        : `
+          top: 26px;
+              border: 10px solid transparent;
+    border-right: 6px solid #5C5470;
+    left: -2px; 
+    border-right-color: #B9B4C7;
+    border-left: 0;
+     transform: rotate(-285deg);
+    -ms-transform: rotate(-285deg); 
+    -webkit-transform: rotate(-285deg); 
+  `}
+  }
+`;
+
+export const MessageTime = styled.time`
+  font-size: 10px;
+  opacity: 1.4;
+  color: #B9B4C7;
+  margin-left: 8px;
+`;
+
+export const ChatFooter = styled.div`
+  font-size: 12px;
+ 
+  color: #B9B4C7;
+  margin-top: 4px;
+`;
+
+export const ChatHeader = styled.div<{ isOwnMessage?: boolean }>`
+  font-size: 10px;
+  /* font-weight: bold; */
+  display: flex;
+  align-items: center;
+  color: #352F44;
+  margin-bottom: 0px;
+  margin-left:5px;
+  margin-top:5px;
+  
+  ${({ isOwnMessage }) =>
+    isOwnMessage
+      ? "justify-content: flex-end;"
+      : "justify-content: flex-start;"}
+    
 `;

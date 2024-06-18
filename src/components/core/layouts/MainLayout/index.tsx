@@ -28,6 +28,9 @@ import NotificationModal from "@/components/modules/NotificationModal";
 
 import * as S from "./styles";
 
+interface LayoutProps {
+  readonly children: ReactNode;
+}
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -159,6 +162,20 @@ function MainLayout({ children }: LayoutProps) {
             <Link href="#" onClick={showBellModal}>
               {nav === "bell" ? <BellFilled style={{ fontSize: "22px" }} /> : <BellOutlined style={{ fontSize: "22px" }} />}
             </Link>
+{/* 
+            <Button
+              type="text"
+              onClick={(e) => {
+                handleSetNavigation("bell");
+              }}
+            >
+              {nav === "bell" ? (
+                <BellFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <BellOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Button> */}
+
           </S.IconContainer>
           {userInfo.userId === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
@@ -196,6 +213,7 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
+      
       <NotificationModal visible={bellVisible} onClose={handleBellClose} />
       <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal

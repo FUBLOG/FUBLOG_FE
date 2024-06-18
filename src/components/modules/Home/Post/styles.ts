@@ -148,10 +148,6 @@ export const CommentsWrapper = styled(Flex)`
   max-height: 220px;
   overflow-y: auto;
   padding: 10px;
-
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
 `;
 
 export const CommentBox = styled(Flex)`

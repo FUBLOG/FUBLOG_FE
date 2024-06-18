@@ -11,7 +11,7 @@ const MessageList = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  });
+  }, [messages]);
   return (
     <S.MessagesList>
       {messages.map((message) => (
@@ -21,6 +21,9 @@ const MessageList = () => {
         >
           <S.MessageContent>{message.message}</S.MessageContent>
           <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
+          {/* <S.MessageContent>
+                            <img src={message.content} alt="Uploaded" style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                        </S.MessageContent> */}
         </S.MessageItem>
       ))}
       <div ref={messagesEndRef} />

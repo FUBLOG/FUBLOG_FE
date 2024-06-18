@@ -9,6 +9,8 @@ interface ConversationProps {
   setSelectedConversation: (selectedConversation: any) => void;
   messages: any[];
   setMessages: (messages: any) => void;
+  conversations: any[];
+  setConversations: (conversations: any) => void;
 }
 const useConversation = create<ConversationProps>((set) => ({
   selectedConversation: null,
@@ -16,18 +18,20 @@ const useConversation = create<ConversationProps>((set) => ({
     set({ selectedConversation }),
   messages: [],
   setMessages: (messages) => set({ messages }),
+  conversations: [],
+  setConversations: (conversations) => set({ conversations }),
 }));
 
 const useGetConversation = () => {
   const [loading, setLoading] = useState(false);
-  const [conversation, setConversation] = useState([]);
+  const { conversations, setConversations } = useConversation();
   const { userInfo } = useAuthContext();
   useEffect(() => {
     const getConsversations = async () => {
       setLoading(true);
       getRequest(userEndpoint.USER_MESSAGES, { security: true })
         .then((res: any) => {
-          setConversation(res?.metadata);
+          setConversations(res?.metadata);
         })
         .catch((error) => {
           console.error("Get conversation failed:", error);
@@ -40,8 +44,8 @@ const useGetConversation = () => {
     if (userInfo?.userId !== "") {
       getConsversations();
     }
-  }, [userInfo]);
-  return { loading, conversation };
+  }, [userInfo, setConversations]);
+  return { loading, conversations };
 };
 
 export { useGetConversation };

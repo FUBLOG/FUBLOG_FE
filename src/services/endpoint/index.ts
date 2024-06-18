@@ -21,19 +21,22 @@ const editProfileEndpoint = {
   DISTRICT: `${prefixBase}/province/district`,
   WARD: `${prefixBase}/province/ward`,
 };
-const profileEndpoint = {
-  PROFILE_HASH: `/profile/`,
-};
-const addFriendEndpoint = {
-  SEND_FRIEND: `/friend/send`,
+const friendEndpoint = {
+  GET_REQUESTS: `/friend/request`,
+  ADD_FRIEND: `/friend/send`,
   ACCEPT_FRIEND: `/friend/accept`,
   DECLINE_FRIEND: `/friend/decline`,
-  UNFRIEND: `/friend/unFriend`,
+  REMOVE_FRIEND: `/friend/unfriend`,
   BLOCK_FRIEND: `/friend/block`,
-  ALL_BLOCKS: `/friend/block`,
-  ALL_FRIEND: `/friend/getAll`,
-  IS_REQUEST: `/friend/request/`,
-  ALL_REQUEST: `/friend/request`,
+  UNBLOCK_FRIEND: `/friend/unblock`,
+  GET_BLOCKED_FRIENDS: `/friend/block`,
+  FRIEND_LIST: `/friend`,
+  GET_REQUESTS_SENT: `/friend/request/`,
+};
+const notificationEndpoint = {
+  GET_NOTIFICATIONS: `/notification`,
+  MARK_AS_READ: `/notification/`,
+  MARK_ALL_AS_READ: `/notification/`,
 };
 //export endpoint
 export {
@@ -41,6 +44,6 @@ export {
   editProfileEndpoint,
   userEndpoint,
   messageEndpoint,
-  profileEndpoint,
-  addFriendEndpoint,
+  friendEndpoint,
+  notificationEndpoint,
 };

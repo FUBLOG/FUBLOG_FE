@@ -24,12 +24,10 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import SearchContent from "../../../modules/SearchBar/Main";
+import NotificationModal from "@/components/modules/NotificationModal";
 
 import * as S from "./styles";
 
-interface LayoutProps {
-  readonly children: ReactNode;
-}
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -45,17 +43,21 @@ function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
+  const [bellVisible, setBellVisible] = useState(false);
   const { logout } = useAuth();
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
+
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       handleCancel();
     }
   }, [webStorageClient.get(constants.IS_AUTH)]);
+
   const handleSetNavigation = (e: string) => {
     setNav(e);
-    if (e !== "home" && e != "search" && userInfo?.userId === "") {
+    if (e !== "home" && e !== "search" && userInfo?.userId === "") {
       setShowModalGuest(true);
     }
     if (e === "search") {
@@ -64,20 +66,38 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "mess" && userInfo?.userId !== "") {
       setShowMessageModal(true);
     }
+    if (e === "bell" && userInfo?.userId !== "") {
+      setBellVisible(true);
+    }
   };
 
-  const [searchVisible, setSearchVisible] = useState(false);
+  const showBellModal = () => {
+    if (userInfo?.userId !== "") {
+      setNav("bell");
+      setBellVisible(true);
+    } else {
+      setShowModalGuest(true);
+    }
+  };
+
+  const handleBellClose = () => {
+    setBellVisible(false);
+    setNav("home");
+  };
 
   const handleOk = () => {
     setSearchVisible(true);
   };
+
   const handleCancel = () => {
     setSearchVisible(false);
     setShowMessageModal(false);
     setShowModalGuest(false);
+    setBellVisible(false);
     setNav("home");
     setValueSearch("");
   };
+
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
@@ -114,7 +134,7 @@ function MainLayout({ children }: LayoutProps) {
                 <HomeOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Link href="" onClick={() => handleSetNavigation("search")}>
+            <Link href="#" onClick={() => handleSetNavigation("search")}>
               {nav === "search" ? (
                 <FontAwesomeIcon
                   style={{ fontSize: "22px" }}
@@ -124,7 +144,7 @@ function MainLayout({ children }: LayoutProps) {
                 <SearchOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Link href="" onClick={() => handleSetNavigation("create")}>
+            <Link href="#" onClick={() => handleSetNavigation("create")}>
               {nav === "create" ? (
                 <EditFilled style={{ fontSize: "22px" }} />
               ) : (
@@ -138,21 +158,15 @@ function MainLayout({ children }: LayoutProps) {
                 <MessageOutlined style={{ fontSize: "22px" }} />
               )}
             </Button>
-            <Button
-              type="text"
-              onClick={(e) => {
-                handleSetNavigation("bell");
-              }}
-            >
+            <Link href="#" onClick={showBellModal}>
               {nav === "bell" ? (
                 <BellFilled style={{ fontSize: "22px" }} />
               ) : (
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
-            </Button>
+            </Link>
           </S.IconContainer>
-
-          {userInfo?.userId === "" ? (
+          {userInfo.userId === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">
@@ -188,6 +202,7 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
+      <NotificationModal visible={bellVisible} onClose={handleBellClose} />
       <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal
         open={searchVisible}

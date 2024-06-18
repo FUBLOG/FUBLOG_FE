@@ -2,25 +2,38 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import * as S from "../styles";
 import { useSocketContext } from "@/contexts/SocketContext";
 import { useEffect, useState } from "react";
-import { Badge } from "antd";
+import { Badge, message } from "antd";
 import useConversation from "@/hooks/useConversation";
-const FriendOnline = () => {
+import _ from "lodash";
+
+interface FriendOnlineProps {
+  conversation: any;
+}
+
+const FriendOnline = ({ conversation }: FriendOnlineProps) => {
   const { userInfo } = useAuthContext();
   const { userOnline } = useSocketContext();
   const [friends, setFriends] = useState<any>([]);
   const { setSelectedConversation } = useConversation();
   const clickFriend = async (friend: any) => {
-    setSelectedConversation({
-      _id: "123",
-      participants: [
-        {
-          _id: friend?.friend_id,
-          avatar: friend.avatar === "" ? "./jos.jpg" : friend.avatar,
-          displayName: friend.displayName,
-        },
-      ],
-      messages: [],
+    const select = conversation?.filter((c: any) => {
+      return c?.participants[0]?._id === friend?.friend_id;
     });
+    if (select.length === 0) {
+      setSelectedConversation({
+        _id: _.uniqueId(),
+        participants: [
+          {
+            _id: friend?.friend_id,
+            avatar: friend?.avatar,
+            displayName: friend?.displayName,
+          },
+        ],
+        messages: [],
+      });
+    } else {
+      setSelectedConversation(select[0]);
+    }
   };
   useEffect(() => {
     const handleFriendsOnline = async () => {

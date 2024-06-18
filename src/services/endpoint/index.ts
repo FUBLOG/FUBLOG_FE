@@ -36,7 +36,7 @@ const addFriendEndpoint = {
   ALL_REQUEST: `/friend/request`,
 };
 const search = {
-  SEARCH_FRIEND: `/search/search`,
+  SEARCH_FRIEND: `/search/user`,
 };
 //export endpoint
 export {

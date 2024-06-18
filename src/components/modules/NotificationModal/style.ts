@@ -10,19 +10,25 @@ export const NotificationContainer = styled.div`
   }
 
   .custom-tabs .ant-tabs-nav .ant-tabs-tab-active {
-    color: #352F44 !important; 
+    color: #352F44 !important;
   }
 
   .notification-item, .friend-item {
-   padding:12px;
-   cursor:pointer;
-   
+    padding: 12px;
   }
 
-  .notification-item:hover, .friend-item:hover {
-    background-color: #B9B4C7; 
+  .notification-item:hover {
+    background-color: #B9B4C7;
     cursor: pointer;
-    
+  }
+
+  .friend-item .ant-list-item-meta-title {
+    font-weight: normal;
+  }
+
+  .friend-item span {
+    font-weight: bold;
+    cursor: pointer;
   }
 `;
 
@@ -33,7 +39,6 @@ export const TabContent = styled.div`
 
   .ant-list-item-meta-title {
     font-size: 16px;
-    font-weight: bold;
   }
 
   .ant-list-item-meta-description {
@@ -47,7 +52,7 @@ export const TabContent = styled.div`
     background-color: #5C5470;
     border: none;
     color: #FAF0E6;
-    padding: 6px 16px; 
+    padding: 6px 16px;
     cursor: pointer;
     border-radius: 2px;
     margin-right: 8px;
@@ -63,9 +68,8 @@ export const TabContent = styled.div`
 `;
 
 export const ActionButtons = styled.div`
- display :flex;
- gap:10px;
- margin-bottom:10px;
-
- padding:10px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
 `;

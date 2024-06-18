@@ -85,9 +85,8 @@ export const ActiveFriends = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 0.05px solid #B9B4C7;
-    box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.1);
-
+  border-bottom: 0.05px solid #b9b4c7;
+  box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.1);
 `;
 
 export const ActiveFriend = styled.div`
@@ -148,28 +147,6 @@ export const MessageAvatar = styled.img`
   object-fit: cover;
 `;
 
-export const MessageInputContainer = styled.div`
-  padding: 10px;
- 
-  display: flex;
-  align-items: center;
-  background-color: #faf0e6;
-
-  .ant-input-affix-wrapper {
-    background-color: #faf0e6;
-    border: 1px solid #5c5470;
-    border-radius: 4px;
-    margin-left: 8px;
-  }
-
-  .ant-input::placeholder {
-    color: #8c8c8c;
-  }
-
-  .anticon {
-    color: #8c8c8c;
-  }
-`;
 
 export const NoChatSelected = styled.div`
   display: flex;
@@ -181,7 +158,7 @@ export const NoChatSelected = styled.div`
 `;
 
 export const NoChatSelectedText = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   color: #352f44;
 `;
 
@@ -212,7 +189,7 @@ export const Sidebar = styled.div`
   width: 30%;
   height: 100%;
   background-color: #faf0e6;
-  border-right: 3px solid #B9B4C7;
+  border-right: 3px solid #b9b4c7;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -312,8 +289,8 @@ export const MessageContent = styled.div<{ isOwnMessage?: boolean }>`
     ${({ isOwnMessage }) =>
       isOwnMessage
         ? `
-          top: 26px;
-           border: 7px solid transparent;
+    top: 26px;
+    border: 7px solid transparent;
     border-left: 6px solid transparent;
     right: -2px; 
     border-left-color: #1976D2;
@@ -325,8 +302,8 @@ export const MessageContent = styled.div<{ isOwnMessage?: boolean }>`
 
   `
         : `
-          top: 26px;
-              border: 10px solid transparent;
+    top: 26px;
+    border: 10px solid transparent;
     border-right: 6px solid #5C5470;
     left: -2px; 
     border-right-color: #B9B4C7;
@@ -341,30 +318,94 @@ export const MessageContent = styled.div<{ isOwnMessage?: boolean }>`
 export const MessageTime = styled.time`
   font-size: 10px;
   opacity: 1.4;
-  color: #B9B4C7;
+  color: #b9b4c7;
   margin-left: 8px;
 `;
 
 export const ChatFooter = styled.div`
   font-size: 12px;
- 
-  color: #B9B4C7;
+
+  color: #b9b4c7;
   margin-top: 4px;
 `;
 
 export const ChatHeader = styled.div<{ isOwnMessage?: boolean }>`
   font-size: 10px;
-  /* font-weight: bold; */
+
   display: flex;
   align-items: center;
-  color: #352F44;
+  color: #352f44;
   margin-bottom: 0px;
-  margin-left:5px;
-  margin-top:5px;
-  
+  margin-left: 5px;
+  margin-top: 5px;
+
   ${({ isOwnMessage }) =>
     isOwnMessage
       ? "justify-content: flex-end;"
       : "justify-content: flex-start;"}
-    
+`;
+
+
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: -40px; 
+
+  .picture-upload {
+    display: flex;
+    align-items: center;
+    color: #8c8c8c;
+    margin-right: 8px;
+  }
+`;
+
+export const MessageInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #e8e8e8;
+  background-color: #faf0e6;
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+
+  .ant-input-textarea {
+    padding-right: 40px; 
+  }
+
+  .picture-upload {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #8c8c8c;
+    display: flex;
+    align-items: center;
+  }
+`;
+
+
+export const NoChatSelectedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+export const NoChatImage = styled.img`
+  width: 150px;
+  margin-bottom: 20px;
+`;
+
+
+export const IntroductionText = styled.div`
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
 `;

@@ -16,7 +16,6 @@ export const useUser = () => {
           const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
             security: true,
           });
-
           if (res) {
             webStorageClient.set(constants.IS_AUTH, true);
             await setUserInfo({

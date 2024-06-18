@@ -160,7 +160,7 @@ function MainLayout({ children }: LayoutProps) {
               {nav === "bell" ? <BellFilled style={{ fontSize: "22px" }} /> : <BellOutlined style={{ fontSize: "22px" }} />}
             </Link>
           </S.IconContainer>
-          {userInfo.userId === null ? (
+          {userInfo?.userId === null ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">

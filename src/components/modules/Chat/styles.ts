@@ -303,19 +303,19 @@ export const FriendItem = styled.div<{ isSelected: boolean }>`
 `;
 
 export const FriendName = styled.div`
-  font-size: 16px;
-  margin-left: 8px;
+  font-size:16px;
+  margin-left:8px;
  
   line-height: 1.4; 
   margin-bottom: 4px; 
 `;
 
 export const LastMessage = styled.div`
-  font-size: 12px;
-  margin-left: 8px;
+  font-size:12px;
+  margin-left:10px
   color: #888; 
   white-space: nowrap;
-  overflow: hidden;
+  pverflow:hidden
   text-overflow: ellipsis; 
 `;
 export const ActiveDot = styled.div`

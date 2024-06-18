@@ -3,10 +3,11 @@ import { Input } from "antd";
 import { PictureOutlined, SendOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useSendMessage } from "@/hooks/useMessage";
-import useConversation from "@/hooks/useConversation";
 const InputMessage = () => {
     const [inputValue, setInputValue] = useState("");
     const { sendMessage, loading } = useSendMessage();
+    const [clicked, setClicked] = useState(false); 
+
     const handleSend = async (event: any) => {
         event.preventDefault();
         if (!inputValue) return;
@@ -17,10 +18,8 @@ const InputMessage = () => {
           setTimeout(() => setClicked(false), 300);
     };
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     };
-    const handleKeyDown = (e: any) => {
-        
-    }
     return (<S.MessageInputContainer>
         <Input
             value={inputValue}

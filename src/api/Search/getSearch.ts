@@ -1,26 +1,20 @@
 import { search } from "@/services/endpoint";
-import { getRequest } from "@/services/request";
+import { getRequest, postRequest } from "@/services/request";
 
 export const getSearchUser = async (keywords: string) => {
   try {
-    await getRequest(search.SEARCH_FRIEND, {
+    await postRequest(search.SEARCH_FRIEND, {
       security: true,
-      data: keywords,
+      data: {
+        displayName: keywords,
+      },
     })
       .then((res: any) => {
+        console.log("ok vẫn phản hồi");
+
         console.log(res);
-        return true;
       })
-      .catch((error) => {
-        console.log("không tìm ra");
-
-        return false;
-      })
-
+      .catch((error) => {})
       .finally(() => {});
-  } catch (error) {
-    console.log("không tìm ra");
-
-    return false;
-  }
+  } catch (error) {}
 };

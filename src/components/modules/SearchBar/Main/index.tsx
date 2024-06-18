@@ -15,11 +15,16 @@ const SearchContent: React.FC<SearchContentProps> = ({
   setValue,
   setShowModalGuest,
 }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    getSearchUser(e?.target?.value);
-  };
   const [list, setList] = useState([]);
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e?.target?.value);
+    const result = await getSearchUser(e?.target?.value);
+    if (result) {
+      setList(result);
+    }
+  };
+
   return (
     <>
       <InputWrapper>

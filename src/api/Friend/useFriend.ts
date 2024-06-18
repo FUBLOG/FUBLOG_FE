@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 import { useProfile } from "../../hooks/useProfile";
 import { useProfileContext } from "@/contexts/ProfileContext";
-import { deleteRequest, getRequest, postRequest } from "@/services/request";
-import { addFriendEndpoint } from "@/services/endpoint";
+import { getRequest, postRequest } from "@/services/request";
+import { friendEndpoint } from "@/services/endpoint";
 
 const useFriend = () => {
   const { profileInfo } = useProfileContext();
@@ -20,7 +20,7 @@ const useFriend = () => {
 
   const sendFriend = async () => {
     const getSendFriend = async () => {
-      await postRequest(addFriendEndpoint.SEND_FRIEND, {
+      await postRequest(friendEndpoint.ADD_FRIEND, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,
@@ -51,7 +51,7 @@ const useFriend = () => {
   // };
   // const getALLBlocks = async () => {
   //   try {
-  //     await getRequest(addFriendEndpoint.ALL_BLOCKS, {
+  //     await getRequest(friendEndpoint.ALL_BLOCKS, {
   //       security: true,
   //       data: {
   //         targetID: profileInfo?.user?._id,
@@ -72,7 +72,7 @@ const useFriend = () => {
   // };
   const unFriend = async () => {
     try {
-      await postRequest(addFriendEndpoint.UNFRIEND, {
+      await postRequest(friendEndpoint.UNFRIEND, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,
@@ -93,7 +93,7 @@ const useFriend = () => {
   };
   const acceptFriend = async () => {
     try {
-      await postRequest(addFriendEndpoint.ACCEPT_FRIEND, {
+      await postRequest(friendEndpoint.ACCEPT_FRIEND, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,
@@ -118,7 +118,7 @@ const useFriend = () => {
   };
   const declineFriend = async () => {
     try {
-      await postRequest(addFriendEndpoint.DECLINE_FRIEND, {
+      await postRequest(friendEndpoint.DECLINE_FRIEND, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,
@@ -146,7 +146,7 @@ const useFriend = () => {
     console.log("sourceID: " + userInfo?.userId);
 
     try {
-      await getRequest(addFriendEndpoint.IS_REQUEST + profileInfo?.user?._id, {
+      await getRequest(friendEndpoint.IS_REQUEST + profileInfo?.user?._id, {
         security: true,
       })
         .then((res: any) => {

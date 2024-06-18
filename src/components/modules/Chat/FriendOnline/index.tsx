@@ -4,11 +4,13 @@ import { useSocketContext } from "@/contexts/SocketContext";
 import { useEffect, useState } from "react";
 import { Badge } from "antd";
 import useConversation from "@/hooks/useConversation";
+
 const FriendOnline = () => {
   const { userInfo } = useAuthContext();
   const { userOnline } = useSocketContext();
   const [friends, setFriends] = useState<any>([]);
   const { setSelectedConversation } = useConversation();
+
   const clickFriend = async (friend: any) => {
     setSelectedConversation({
       _id: "123",
@@ -17,11 +19,13 @@ const FriendOnline = () => {
           _id: friend?.friend_id,
           avatar: friend.avatar === "" ? "./jos.jpg" : friend.avatar,
           displayName: friend.displayName,
+          isActive: friend.action,  
         },
       ],
       messages: [],
     });
   };
+
   useEffect(() => {
     const handleFriendsOnline = async () => {
       const listFriends = userInfo?.userInfo?.friendList;
@@ -42,7 +46,7 @@ const FriendOnline = () => {
     if (userInfo) {
       handleFriendsOnline();
     }
-  }, [userOnline]);
+  }, [userOnline, userInfo]);
 
   return (
     <S.ActiveFriends>

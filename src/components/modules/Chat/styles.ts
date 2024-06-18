@@ -350,7 +350,7 @@ export const ChatHeader = styled.div<{ isOwnMessage?: boolean }>`
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-left: -40px; /* Đặt khoảng cách biểu tượng gần TextArea */
+  margin-left: -40px; 
 
   .picture-upload {
     display: flex;
@@ -373,7 +373,7 @@ export const InputWrapper = styled.div`
   width: 100%;
 
   .ant-input-textarea {
-    padding-right: 40px; /* Đặt khoảng trống cho biểu tượng */
+    padding-right: 40px; 
   }
 
   .picture-upload {

@@ -41,13 +41,16 @@ export const ProfileName = styled.div`
 `;
 
 export const SearchBar = styled.div`
-  width: 90%; 
+  width: 95%; 
   margin-bottom: 20px;
   .ant-input-affix-wrapper {
     background-color: #faf0e6;
     border: 1px solid #c0c0c0; 
-  margin-right:10px;
-    padding: 2px 2px; 
+  margin-right:20px;
+  margin-left:-12px;
+  
+    padding: 1px 1px; 
+
   }
   .ant-input-affix-wrapper:hover {
     border-color: #a0a0a0; 
@@ -257,7 +260,7 @@ export const Sidebar = styled.div`
   width: 30%;
   height: 100%;
   background-color: #faf0e6;
-  border-right: 1px solid #dcdcdc; 
+  border-right: 3px solid #dcdcdc; 
   display: flex;
   flex-direction: column;
   align-items: center;

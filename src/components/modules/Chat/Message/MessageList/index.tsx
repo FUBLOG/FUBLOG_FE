@@ -15,11 +15,10 @@ const MessageList = () => {
   return (
     <S.MessagesList>
       {messages.map((message) => (
-        <S.MessageItem
-          key={message?._id}
-          isOwnMessage={message?.senderId === userInfo?.userId}
-        >
-          <S.MessageContent>{message.message}</S.MessageContent>
+        <S.MessageItem key={message?._id} isOwnMessage={message.senderId === userInfo?.userId}>
+          <S.MessageContent isOwnMessage={message.senderId === userInfo?.userId}>
+            {message.message}
+          </S.MessageContent>
           <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
         </S.MessageItem>
       ))}

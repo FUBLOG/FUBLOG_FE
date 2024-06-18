@@ -14,9 +14,9 @@ export const NotificationContainer = styled.div`
   }
 
   .notification-item, .friend-item {
-    padding: 12px;
-    margin: 5px 0;
-    border-radius: 0px;
+   padding:12px;
+   cursor:pointer;
+   
   }
 
   .notification-item:hover, .friend-item:hover {
@@ -63,8 +63,9 @@ export const TabContent = styled.div`
 `;
 
 export const ActionButtons = styled.div`
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 5px;
+ display :flex;
+ gap:10px;
+ margin-bottom:10px;
+
+ padding:10px;
 `;

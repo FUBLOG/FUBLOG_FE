@@ -48,22 +48,16 @@ const FriendOnline = () => {
     }
   }, [userOnline, userInfo]);
 
-return (
-<S.ActiveFriends>
-{friends?.map((friend: any) => (
-<S.ActiveFriend key={friend._id} onClick={() => clickFriend(friend)}>
-<Badge dot={friend.action} status="success">
-<S.ActiveFriendImage
-src={friend?.avatar === "" ? "./jos.jpg" : friend?.avatar}
-alt={friend.displayName}
-isActive
-/>
-</Badge>
-<S.ActiveFriendName>{friend.displayName}</S.ActiveFriendName>
-</S.ActiveFriend>
-))}
-</S.ActiveFriends>
-);
-};
+    return (<S.ActiveFriends>
+        {friends?.map((friend: any) => (
+            <S.ActiveFriend key={friend._id} onClick={() => clickFriend(friend)}>
+                <Badge dot={friend.action} status="success">
+                    <S.ActiveFriendImage src={friend?.avatar === "" ? "./jos.jpg" : friend?.avatar} alt={friend.displayName} isActive />
+                </Badge>
+                <S.ActiveFriendName>{friend.displayName}</S.ActiveFriendName>
+            </S.ActiveFriend>
+        ))}
+    </S.ActiveFriends>);
+}
 
 export default FriendOnline;

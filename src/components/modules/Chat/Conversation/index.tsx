@@ -1,5 +1,6 @@
 import useConversation from "@/hooks/useConversation";
 import * as S from "../styles";
+import { useEffect } from "react";
 interface ConversationProps {
     key: string;
     conversation: any;

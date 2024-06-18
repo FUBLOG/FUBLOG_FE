@@ -46,7 +46,7 @@ export const TabContent = styled.div`
     background-color: #5C5470;
     border: none;
     color: #FAF0E6;
-    padding: 8px 16px; 
+    padding: 8px 16px; /* Tăng kích thước của nút */
     cursor: pointer;
     border-radius: 4px;
     margin-right: 8px;

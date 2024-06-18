@@ -4,7 +4,7 @@ import { Flex, Modal, Menu } from "antd";
 export const PostWrapper = styled.div`
   box-sizing: border-box;
   margin: 20px 0;
-  padding: 24px;cccc
+  padding: 24px;
   max-width: 700px;
   width: 100%;
   border: 1.5px solid #ccc;

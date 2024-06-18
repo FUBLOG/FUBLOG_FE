@@ -1,7 +1,8 @@
+
 import styled from 'styled-components';
 
 export const NotificationContainer = styled.div`
-  padding: 40px 0px;
+  padding: 0px;
 
   .custom-tabs .ant-tabs-nav .ant-tabs-tab {
     color: #352F44;
@@ -14,28 +15,36 @@ export const NotificationContainer = styled.div`
   }
 
   .notification-item, .friend-item {
-    padding: 12px;
+    padding: 8px 16px; 
+    border-radius: 6px; 
+    margin-bottom: 10px; 
+    transition: background-color 0.3s, box-shadow 0.3s; 
+    background-color: transparent; 
   }
 
   .notification-item:hover, .friend-item:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
+    background-color: #fff;
+   
+    opacity: 0.7;
   }
 
   .friend-item .ant-list-item-meta-title {
     display: flex;
     align-items: center;
+    font-weight: bold;
   }
 
   .friend-item .ant-list-item-meta-title span {
     display: inline;
     white-space: nowrap;
+    font-weight: normal; 
   }
 
   .friend-item .ant-list-item-meta-description {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-top: 8px; 
   }
 `;
 
@@ -45,39 +54,54 @@ export const TabContent = styled.div`
   padding: 5px;
 
   .ant-list-item-meta-title {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .ant-list-item-meta-description {
-    font-size: 10px;
+    font-size: 14px;
     display: flex;
     justify-content: space-between;
-   
+    padding: 0 10px;
   }
+  .ant-list .ant-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 15px;
+    color: rgba(0, 0, 0, 0.88);
+    margin:0px;
+}
+.ant-modal .ant-modal-content {
+    position: relative;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+    padding: 4px;
+}
+.ant-btn-default {
+    background: #B9B4C7;
+    border-color: #4C3BCF;
+    color: rgba(0, 0, 0, 0.88);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+}
 
-  button {
-    background-color: #5C5470;
-    border: none;
-    color: #FAF0E6;
-    padding: 6px 14px;
-    cursor: pointer;
-    border-radius: 2px;
-    margin-right: 8px;
-
-    &:hover {
-      background-color: #352F44;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
+  
 `;
+
+
+
+
+
 
 export const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
   justify-content: flex-end;
-  padding: 10px 0;
-  margin-top:40px;
+  padding-top: 10px; 
+  margin-top: 16px; 
+  
 `;
+

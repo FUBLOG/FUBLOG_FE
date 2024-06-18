@@ -1,6 +1,7 @@
 import { fromNow } from "@/utils";
-import { Avatar, Button, List, Skeleton } from "antd";
+import { Avatar, List, Skeleton } from "antd";
 import * as S from "../style";
+import Button from "@/components/core/common/Button";
 import { useEffect, useState } from "react";
 import useNotification, { useGetFriendRequest } from "@/hooks/useNotification";
 import { acceptFriendRequest, rejectFriendRequest } from "@/services/api/friend";
@@ -79,6 +80,7 @@ const FriendTab = () => {
                 <List.Item
                     key={item.id}
                     className="friend-item"
+                    onClick={() => window.location.href = item?.link}
                 >
                     <List.Item.Meta
                         avatar={
@@ -90,15 +92,17 @@ const FriendTab = () => {
                             </div>
                         }
                         title={
-                            <span>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <span
                                     style={{ fontWeight: 'bold', cursor: 'pointer' }}
                                     onClick={() => window.location.href = item?.link}
                                 >
                                     {getRequestName(item.sourceID._id)}
                                 </span>
-                                {" đã gửi cho bạn lời mời kết bạn"}
-                            </span>
+                                <span style={{ marginLeft: '4px' }}>
+                                    {"đã gửi cho bạn lời mời kết bạn"}
+                                </span>
+                            </div>
                         }
                     />
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -107,8 +111,8 @@ const FriendTab = () => {
                         </span>
                         {!acceptList.includes(item.sourceID._id) && (
                             <S.ActionButtons>
-                                <Button onClick={(event) => handleReject(item.sourceID._id, event)}>Hủy</Button>
-                                <Button loading={loadingButtons[index]} onClick={(event) => handleAccept(item.sourceID._id, event, index)}>Xác nhận</Button>
+                                <Button $backgroundColor={"red"} $padding={"0px px"}  $color={"#fff"} onClick={(event) => handleReject(item.sourceID._id, event)}>Hủy</Button>
+                                <Button $padding={"0px"}  $backgroundColor={"#B9B4C7"}   $color={"#000"} loading={loadingButtons[index]} onClick={(event) => handleAccept(item.sourceID._id, event, index)}>Xác nhận</Button>
                             </S.ActionButtons>
                         )}
                     </div>

@@ -47,9 +47,9 @@ const NotificationTab = () => {
                         }
                     />
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                        <span style={{ color: '#888', fontSize: '16px', margin:'0px'}}>
+                    description={ <span style={{ color: '#888', fontSize: '1px', margin:'0px'}}>
                             {fromNow(new Date(item.createdAt))}
-                        </span>
+                        </span>}
                     </div>
                 </List.Item>
             )}

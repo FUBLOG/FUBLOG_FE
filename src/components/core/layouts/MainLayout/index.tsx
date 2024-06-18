@@ -166,7 +166,7 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Link>
           </S.IconContainer>
-          {userInfo.userId === null ? (
+          {userInfo.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px">
@@ -211,7 +211,11 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent value={valueSearch} setValue={setValueSearch} />
+        <SearchContent
+          value={valueSearch}
+          setValue={setValueSearch}
+          setShowModalGuest={setShowModalGuest}
+        />
       </S.SearchModal>
     </S.LayoutWrapper>
   );

@@ -41,8 +41,12 @@ const notificationEndpoint = {
 const search = {
   SEARCH_FRIEND: `/search/user`,
 };
+const profileEndpoint = {
+  PROFILE_HASH: `/profile/`,
+};
 //export endpoint
 export {
+  profileEndpoint,
   authEndpoint,
   search,
   editProfileEndpoint,

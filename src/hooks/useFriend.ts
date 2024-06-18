@@ -3,7 +3,7 @@ import { useUser } from "./useUser";
 import { useProfile } from "./useProfile";
 import { useProfileContext } from "@/contexts/ProfileContext";
 import { deleteRequest, getRequest, postRequest } from "@/services/request";
-import { addFriendEndpoint } from "@/services/endpoint";
+import { friendEndpoint } from "@/services/endpoint";
 
 const useFriend = () => {
   const { profileInfo } = useProfileContext();
@@ -20,7 +20,7 @@ const useFriend = () => {
 
   const sendFriend = async () => {
     const getSendFriend = async () => {
-      await postRequest(addFriendEndpoint.SEND_FRIEND, {
+      await postRequest(friendEndpoint.GET_REQUESTS_SENT, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,
@@ -72,7 +72,7 @@ const useFriend = () => {
   // };
   const unFriend = async () => {
     try {
-      await postRequest(addFriendEndpoint., {
+      await postRequest(friendEndpoint.REMOVE_FRIEND, {
         security: true,
         data: {
           targetID: profileInfo?.user?._id,

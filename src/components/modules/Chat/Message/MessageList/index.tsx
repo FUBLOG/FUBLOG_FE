@@ -1,17 +1,9 @@
-// MessageList.tsx
 import React, { useEffect, useRef } from 'react';
 import { useGetMessage } from "@/hooks/useMessage";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useListenMessage } from "@/hooks/useListen";
 import { extractTime } from "@/utils";
-import {
-  MessagesList,
-  ChatContainer,
-  ChatHeader,
-  ChatTime,
-  ChatBubble,
-  ChatFooter
-} from "../../styles";
+import * as S from "../../styles";
 
 const MessageList = () => {
   const { messages } = useGetMessage();
@@ -24,24 +16,28 @@ const MessageList = () => {
   }, [messages]);
 
   return (
-    <MessagesList>
+    <S.MessagesList>
       {messages.map((message) => {
         const isOwnMessage = message.senderId === userInfo?.userId;
         return (
-          <ChatContainer key={message?._id}>
-            <ChatHeader>
-              {isOwnMessage ? userInfo?.profileHash : message.senderName}
-              <ChatTime>{extractTime(message?.createdAt)}</ChatTime>
-            </ChatHeader>
-            <ChatBubble isOwnMessage={isOwnMessage}>{message.message}</ChatBubble>
-            <ChatFooter isOwnMessage={isOwnMessage}>
-              {isOwnMessage ? 'Seen' : 'Delivered'}
-            </ChatFooter>
-          </ChatContainer>
+          <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
+            <S.ChatHeader isOwnMessage={isOwnMessage}>
+              <span>{isOwnMessage ? 'You' : message.senderName}</span>
+              <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
+            </S.ChatHeader>
+            <S.MessageContent isOwnMessage={isOwnMessage}>
+              {message.message}
+            </S.MessageContent>
+            {/* {isOwnMessage && (
+              <S.ChatFooter>
+                Seen at {extractTime(message?.createdAt)}
+              </S.ChatFooter>
+            )} */}
+          </S.MessageItem>
         );
       })}
       <div ref={messagesEndRef} />
-    </MessagesList>
+    </S.MessagesList>
   );
 };
 

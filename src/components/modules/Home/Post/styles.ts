@@ -4,7 +4,7 @@ import { Flex, Modal, Menu } from "antd";
 export const PostWrapper = styled.div`
   box-sizing: border-box;
   margin: 20px 0;
-  padding: 24px;cccc
+  padding: 24px;
   max-width: 700px;
   width: 100%;
   border: 1.5px solid #ccc;
@@ -148,10 +148,6 @@ export const CommentsWrapper = styled(Flex)`
   max-height: 220px;
   overflow-y: auto;
   padding: 10px;
-
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
 `;
 
 export const CommentBox = styled(Flex)`

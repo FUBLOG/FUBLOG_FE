@@ -33,6 +33,11 @@ const friendEndpoint = {
   FRIEND_LIST: `/friend`,
   GET_REQUESTS_SENT: `/friend/request/`,
 };
+const notificationEndpoint = {
+  GET_NOTIFICATIONS: `/notification`,
+  MARK_AS_READ: `/notification/`,
+  MARK_ALL_AS_READ: `/notification/`,
+};
 //export endpoint
 export {
   authEndpoint,
@@ -40,4 +45,5 @@ export {
   userEndpoint,
   messageEndpoint,
   friendEndpoint,
+  notificationEndpoint
 };

@@ -1,8 +1,6 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { getAllRequestFriend } from "@/services/api/friend";
-import { friendEndpoint } from "@/services/endpoint";
-import { getRequest } from "@/services/request";
-import { title } from "process";
+import { getAllNotifications } from "@/services/api/notification";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 
@@ -52,7 +50,26 @@ const useGetFriendRequest = () => {
 const useGetNotification = () => {
   const [loading, setLoading] = useState(false);
   const { notifications, setNotifications } = useNotification();
+  useEffect(() => {
+    const getNotificaton = async () => {
+      setLoading(true);
+      const res: any = await getAllNotifications();
+      if (res?.metadata) {
+        const data = res.metadata.map((item: any) => {
+          return {
+            ...item,
+            title: item?.message,
+          };
+        });
+        setNotifications(data);
+        setLoading(false);
+      }
+    };
+    getNotificaton();
+  }, []);
+
+  return { notifications, loading };
 };
 
 export default useNotification;
-export { useGetFriendRequest };
+export { useGetFriendRequest, useGetNotification };

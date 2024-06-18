@@ -33,6 +33,7 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   margin-bottom: 10px;
   object-fit: cover;
+  margin-right:10px;
 `;
 
 export const ProfileName = styled.div`

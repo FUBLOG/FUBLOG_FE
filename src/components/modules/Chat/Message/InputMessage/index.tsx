@@ -16,7 +16,7 @@ const InputMessage = () => {
     setClicked(true);
     await sendMessage(inputValue);
     setInputValue("");
-      // Đặt lại trạng thái clicked sau một khoảng thời gian (ví dụ: 300ms)
+     
       setTimeout(() => setClicked(false), 300);
 };
 const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

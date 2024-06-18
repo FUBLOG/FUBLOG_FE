@@ -26,8 +26,12 @@ export const NotificationContainer = styled.div`
     font-weight: normal;
   }
 
+  .friend-item .ant-list-item-meta-title > div {
+    display: flex;
+    align-items: center;
+  }
+
   .friend-item span {
-    font-weight: bold;
     cursor: pointer;
   }
 `;

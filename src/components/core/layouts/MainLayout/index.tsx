@@ -102,7 +102,6 @@ function MainLayout({ children }: LayoutProps) {
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
         <Link href={`/profile/${userInfo?.profileHash}`}>Xem trang cá nhân</Link>
-        <Link href={`/profile/${userInfo?.profileHash}`}>Xem trang cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
@@ -177,7 +176,6 @@ function MainLayout({ children }: LayoutProps) {
           ) : (
             <S.UserIconContainer>
               <Link href={`/profile/${userInfo?.profileHash}`}>
-              <Link href={`/profile/${userInfo?.profileHash}`}>
                 <UserOutlined
                   style={{ fontSize: "28px" }}
                   onClick={() => handleSetNavigation("")}
@@ -213,4 +211,4 @@ function MainLayout({ children }: LayoutProps) {
   );
 }
 
-export default MainLayout;
+export default MainLayout

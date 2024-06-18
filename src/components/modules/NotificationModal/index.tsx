@@ -32,7 +32,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
   ]);
 
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([
-    { id: 1, title: 'Jos Phan Ái muốn gửi cho bạn lời mời kết bạn', avatar: '/jos2.jpg', createdAt: new Date(), link: '/profile/1' },
+    { id: 1, title: 'Jos Phan Ái đã gửi cho bạn lời mời kết bạn', avatar: '/jos2.jpg', createdAt: new Date(), link: '/profile/1' },
     { id: 2, title: 'Thu Phương đã gửi cho bạn lời mời kết bạn', avatar: 'thuphuong.png', createdAt: new Date(Date.now() - 3600 * 1000), link: '/profile/2' },
     { id: 3, title: 'Pam Yêu đã gửi cho bạn lời mời kết bạn', avatar: 'pam.png', createdAt: new Date(Date.now() - 7200 * 1000), link: '/profile/3' },
     { id: 4, title: 'Thanh Thủy đã gửi cho bạn lời mời kết bạn', avatar: 'thanhthuy.png', createdAt: new Date(Date.now() - 10800 * 1000), link: '/profile/4' },
@@ -47,14 +47,14 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
     setFriendRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
   };
 
-  const handleReject = (requestId: number, event: React.MouseEvent) => {
+  const handleReject = (requestId: number, event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     updateFriendRequestTitle(requestId, `Bạn đã gỡ lời mời kết bạn từ ${getRequestName(requestId)}`);
     setRejectedRequests(prevRejected => [...prevRejected, requestId]);
     setTimeout(() => removeRequest(requestId), 3000);
   };
 
-  const handleAccept = (requestId: number, event: React.MouseEvent) => {
+  const handleAccept = (requestId: number, event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     const acceptedRequest = friendRequests.find(request => request.id === requestId);
     if (acceptedRequest) {
@@ -68,7 +68,8 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
 
   const getRequestName = (requestId: number) => {
     const request = friendRequests.find(request => request.id === requestId);
-    return request ? request.title.split(' ')[0] : '';
+    // Return the full name before 'đã gửi cho bạn lời mời kết bạn'
+    return request ? request.title.replace(' đã gửi cho bạn lời mời kết bạn', '') : '';
   };
 
   const updateFriendRequestTitle = (requestId: number, newTitle: string) => {
@@ -109,9 +110,44 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
                     onClick={() => window.location.href = item.link}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src={item.avatar} />}
-                      title={<span>{item.title}</span>}
-                      description={<span>{renderTimeAgo(new Date(item.createdAt))}</span>}
+                      avatar={
+                        <div
+                          onClick={(event: React.MouseEvent<HTMLElement>) => {
+                            event.stopPropagation();
+                            window.location.href = item.link;
+                          }}
+                          style={{ cursor: 'pointer' }} // Add cursor pointer for consistency
+                        >
+                          <Avatar src={item.avatar} />
+                        </div>
+                      }
+                      title={
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span
+                            style={{ fontWeight: 'bold', cursor: 'pointer' }}
+                            onClick={(event: React.MouseEvent<HTMLElement>) => {
+                              event.stopPropagation();
+                              window.location.href = item.link;
+                            }}
+                          >
+                            {getRequestName(item.id)}
+                          </span>
+                          <span style={{ marginLeft: '4px' }}>
+                            đã gửi cho bạn lời mời kết bạn
+                          </span>
+                        </div>
+                      }
+                      description={
+                        <>
+                          {renderTimeAgo(new Date(item.createdAt))}
+                          {!rejectedRequests.includes(item.id) && friendRequests.some(request => request.id === item.id) && (
+                            <S.ActionButtons>
+                              <button onClick={(event: React.MouseEvent<HTMLElement>) => handleReject(item.id, event)}>Hủy</button>
+                              <button onClick={(event: React.MouseEvent<HTMLElement>) => handleAccept(item.id, event)}>Xác nhận</button>
+                            </S.ActionButtons>
+                          )}
+                        </>
+                      }
                     />
                   </List.Item>
                 )}
@@ -126,27 +162,40 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
                 renderItem={item => (
                   <List.Item key={item.id} className="friend-item">
                     <List.Item.Meta
-                      avatar={<Avatar src={item.avatar} />}
-                      title={
-                        <span
-                          style={{ fontWeight: 'bold', cursor: 'pointer' }}
-                          onClick={(event) => {
+                      avatar={
+                        <div
+                          onClick={(event: React.MouseEvent<HTMLElement>) => {
                             event.stopPropagation();
                             window.location.href = item.link;
                           }}
+                          style={{ cursor: 'pointer' }}
                         >
-                          {item.title.split(' gửi cho bạn lời mời kết bạn')[0]}
-                        </span>
+                          <Avatar src={item.avatar} />
+                        </div>
+                      }
+                      title={
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span
+                            style={{ fontWeight: 'bold', cursor: 'pointer' }}
+                            onClick={(event: React.MouseEvent<HTMLElement>) => {
+                              event.stopPropagation();
+                              window.location.href = item.link;
+                            }}
+                          >
+                            {getRequestName(item.id)}
+                          </span>
+                          <span style={{ marginLeft: '4px' }}>
+                            đã gửi cho bạn lời mời kết bạn
+                          </span>
+                        </div>
                       }
                       description={
                         <>
-                          {' gửi cho bạn lời mời kết bạn'}
-                          <br />
                           {renderTimeAgo(new Date(item.createdAt))}
                           {!rejectedRequests.includes(item.id) && friendRequests.some(request => request.id === item.id) && (
                             <S.ActionButtons>
-                              <button onClick={(event) => handleReject(item.id, event)}>Hủy</button>
-                              <button onClick={(event) => handleAccept(item.id, event)}>Xác nhận</button>
+                              <button onClick={(event: React.MouseEvent<HTMLElement>) => handleReject(item.id, event)}>Hủy</button>
+                              <button onClick={(event: React.MouseEvent<HTMLElement>) => handleAccept(item.id, event)}>Xác nhận</button>
                             </S.ActionButtons>
                           )}
                         </>

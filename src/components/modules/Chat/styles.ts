@@ -33,7 +33,6 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   margin-bottom: 10px;
   object-fit: cover;
-  margin-right:10px;
 `;
 
 export const ProfileName = styled.div`
@@ -219,4 +218,112 @@ const StyledIcon = styled.div`
   &.active {
     color: #b9b4c7;
   }
+`;
+
+export const FriendList = styled.div`
+  flex: 1;
+  width: 100%; 
+  height: 100%; 
+  overflow-y: scroll; 
+  padding: 0; 
+  margin: 0;
+  position: relative;
+
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4); 
+    border-radius: 4px; 
+    cursor: pointer; 
+  }
+
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f0e4d7; /
+  }
+
+
+  scrollbar-color: rgba(0, 0, 0, 0.4) #c7c8cc; 
+  scrollbar-width: thin;
+
+  &:hover {
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.6); 
+    }
+  }
+`;
+
+export const Sidebar = styled.div`
+  width: 30%;
+  height: 100%;
+  background-color: #faf0e6;
+  border-right: 3px solid #dcdcdc; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0; 
+`;
+
+export const MessageItem = styled.div<{ isOwnMessage: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ isOwnMessage }) => (isOwnMessage ? 'flex-end' : 'flex-start')};
+  margin-bottom: 10px;
+`;
+
+export const MessageContent = styled.div<{ isOwnMessage: boolean }>`
+  max-width: 80%;
+  background-color: ${({ isOwnMessage }) => (isOwnMessage ? '#b9b4c7' : '#d3cfe2')};  
+  color: #352f44;
+  padding: 4px;
+  border-radius: ${({ isOwnMessage }) => (isOwnMessage ? '5px 0px 5px 5px' : '0px 5px 5px 5px')}; 
+`;
+
+export const FriendItem = styled.div<{ isSelected: boolean }>`
+  display: grid;
+  grid-template-columns: 40px auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  margin-right:10px;
+  padding: 4px;
+  cursor: pointer;
+  background-color: ${({ isSelected }) => (isSelected ? "#e5e5e5" : "transparent")}; 
+  border-radius: 4px;
+  grid-gap: 2px;
+  &:hover {
+    background-color: ${({ isSelected }) => (isSelected ? "#e5e5e5" : "#d3cfe2")}; 
+  
+  &:not(:hover) {
+    background-color: ${({ isSelected }) => (isSelected ? "#e5e5e5" : "transparent")};
+  }
+`;
+
+export const FriendName = styled.div`
+  font-size: 16px;
+  margin-left: 8px;
+ 
+  line-height: 1.4; 
+  margin-bottom: 4px; 
+`;
+
+export const LastMessage = styled.div`
+  font-size: 12px;
+  margin-left: 8px;
+  color: #888; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+`;
+export const ActiveDot = styled.div`
+  width: 10px;
+  height: 10px;
+  background-color: #52c41a; 
+  border-radius: 50%;
+  margin-right: 5px; 
+  margin-top:8px;
+  
 `;

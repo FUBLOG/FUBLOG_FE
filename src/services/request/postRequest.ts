@@ -9,7 +9,7 @@ const postRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
-): Promise<object> => {
+) => {
   const isSecurity = options?.security || false;
 
   let header = {};

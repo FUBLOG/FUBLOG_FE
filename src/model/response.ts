@@ -1,3 +1,5 @@
-export interface ResponseAPI<T> {
-
+export interface FriendRequestResponse {
+  metadata?: {
+    sourceID: string;
+  };
 }

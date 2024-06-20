@@ -1,44 +1,47 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-
+import React, { Dispatch, SetStateAction } from "react";
 import { SearchUser } from "../SearchedUser";
-
 import * as S from "./style";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface SearchInfoProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setShowModalGuest: Dispatch<SetStateAction<boolean>>;
+  setSearchVisible: Dispatch<SetStateAction<boolean>>;
   list: {
-    userId: string;
-    displayName: string;
-    friend: number;
     avatar: string;
+    displayName: string;
+    friendCount: number;
+    profileHash: string;
+    _id: string;
   }[];
 }
 
 const SearchInfo: React.FC<SearchInfoProps> = ({
-  value,
   setValue,
   setShowModalGuest,
+  setSearchVisible,
   list,
 }) => {
+  const { userInfo } = useAuthContext();
+
   return (
     <S.MyStyledDiv>
       <div className="searchContent">
         <ul className="list">
           {list
-            .filter((friend) =>
-              friend.displayName.toLowerCase().includes(value)
-            )
+            ?.filter((friend) => friend.profileHash !== userInfo?.profileHash)
             .map((friend) => (
-              <li key={friend.userId} className="listItem">
+              <li key={friend._id} className="listItem">
                 <SearchUser
                   setShowModalGuest={setShowModalGuest}
                   setValue={setValue}
-                  role="Friend"
+                  setSearchVisible={setSearchVisible}
                   name={friend.displayName}
-                  friends={friend.friend}
+                  friends={friend.friendCount}
                   avatar={friend.avatar}
+                  profileHash={friend.profileHash}
+                  id={friend._id}
                 />
                 <hr />
               </li>

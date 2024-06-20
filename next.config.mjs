@@ -18,6 +18,9 @@ const nextConfig = {
   // images: {
   //     unoptimized: true,
   // },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
   reactStrictMode: false,
   webpack: (config, { isServer }) => {
     // Add a rule for .mp3 files
@@ -33,6 +36,7 @@ const nextConfig = {
         },
       },
     });
+
     return config;
   },
 };

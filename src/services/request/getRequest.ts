@@ -5,11 +5,11 @@ import { message } from "antd";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const getRequest = async <T>(
+const getRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   formData?: boolean
-): Promise<T> => {
+) => {
   const isSecurity = options?.security || false;
 
   let header = {};
@@ -41,12 +41,10 @@ const getRequest = async <T>(
       },
     })
     .then((res: any) => {
-      return res as T;
+      return res;
     })
     .catch((err) => {
       message.error(errorMessage[err?.message]);
-
-      return Promise.reject(err);
     });
 };
 

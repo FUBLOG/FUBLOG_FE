@@ -1,56 +1,51 @@
+import React, { useState } from "react";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
-import { useEffect, useState } from "react";
-import { useProfileContext } from "@/contexts/ProfileContext";
-import useFriend from "@/api/Friend/useFriend";
+import useFriend from "@/hooks/useFriend";
+import { Card, Skeleton } from "antd";
+import { useProfile } from "@/hooks/useProfile";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { sendFriendRequest } from "@/services/api/friend";
 
-export default function Banner({
-  profileHash,
-}: {
-  readonly profileHash: string;
-}) {
+const Banner: React.FC = () => {
+  const { profile } = useProfile();
   const {
     isFriend,
+    isBlocked,
     isGuest,
     isMyUser,
-    sendFriend,
-    isSendFriend,
-    unFriend,
-    loading,
     isRequester,
-    declineFriend,
-    acceptFriend,
+    isSendFriend,
+    loading,
+    setIsFriend,
   } = useFriend();
   const handleFriend = (event: string) => {
-    if (event === "addFriend") {
-      sendFriend();
-    }
-
-    if (event === "unfriend") {
-      unFriend();
-    }
-    if (event === "revoke") {
-      // unFriend(profileInfo?.user?._id);
-    }
-    if (event === "decline") {
-      declineFriend();
-    }
-    if (event === "accept") {
-      acceptFriend();
+    switch (event) {
+      case "addFriend":
+        break;
+      case "unfriend":
+        break;
+      case "decline":
+        break;
+      case "accept":
+        break;
+      default:
+        break;
     }
   };
+
   return (
     <S.Wrapper>
-      <S.CoverImage src={"/images/Profile/CoverPhoto.jpg"} />
+      <S.CoverImage />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar>
-            <S.UserAvatar src={""} />
+            <S.UserAvatar src={profile?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
             <Typography variant="h2" color="#FAF0E6 !important">
-              {profileHash}
+              {profile?.user?.displayName}
             </Typography>
             <Typography
               variant="caption-small"
@@ -83,28 +78,35 @@ export default function Banner({
                 children={"Nhắn tin"}
                 $backgroundColor="#FAF0E6"
                 $width="100px"
-                loading={loading}
                 color="#352f44"
                 $hoverColor="#faf0e6"
               />
             </>
           ) : isMyUser ? (
+            <></>
+          ) : isRequester ? (
             <>
               <Button
                 type="default"
-                loading={loading}
-                children={"Tạo bài đăng"}
+                children={"Chấp nhận"}
+                onClick={() => {
+                  handleFriend("accept");
+                }}
                 $width="100px"
                 $backgroundColor="#FAF0E6"
+                loading={loading}
                 color="#352f44"
                 $hoverColor="#faf0e6"
               />
               <Button
                 type="default"
-                loading={loading}
-                children={"Chỉnh sửa"}
+                children={"Từ chối"}
+                onClick={() => {
+                  handleFriend("decline");
+                }}
                 $width="100px"
                 $backgroundColor="#FAF0E6"
+                loading={loading}
                 color="#352f44"
                 $hoverColor="#faf0e6"
               />
@@ -112,51 +114,22 @@ export default function Banner({
           ) : isSendFriend ? (
             <Button
               type="default"
-              children={"Hủy lời mời"}
-              loading={loading}
-              onClick={() => {}}
-              $width="120px"
+              children={"Đã gửi lời mời"}
               $backgroundColor="#FAF0E6"
+              $width="100px"
               color="#352f44"
               $hoverColor="#faf0e6"
             />
-          ) : isRequester ? (
-            <>
-              <Button
-                type="default"
-                children={"Chấp nhận lời mời"}
-                loading={loading}
-                onClick={() => {
-                  handleFriend("accept");
-                }}
-                $width="120px"
-                $backgroundColor="#FAF0E6"
-                color="#352f44"
-                $hoverColor="#faf0e6"
-              />
-              <Button
-                type="default"
-                children={"Từ chối lời mời"}
-                loading={loading}
-                onClick={() => {
-                  handleFriend("decline");
-                }}
-                $width="120px"
-                $backgroundColor="#FAF0E6"
-                color="#352f44"
-                $hoverColor="#faf0e6"
-              />
-            </>
           ) : (
             <Button
               type="default"
-              children={"Thêm bạn bè"}
-              loading={loading}
+              children={"Kết bạn"}
               onClick={() => {
                 handleFriend("addFriend");
               }}
-              $width="120px"
+              $width="100px"
               $backgroundColor="#FAF0E6"
+              loading={loading}
               color="#352f44"
               $hoverColor="#faf0e6"
             />
@@ -165,4 +138,5 @@ export default function Banner({
       </S.BannerUser>
     </S.Wrapper>
   );
-}
+};
+export default Banner;

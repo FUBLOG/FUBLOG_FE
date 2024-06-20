@@ -1,40 +1,46 @@
-import { useState } from "react";
-import { Info, User, useProfileContext } from "@/contexts/ProfileContext";
+import { useEffect, useState } from "react";
 import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
+import { create } from "zustand";
+interface ProfileProps {
+  profileHash: string;
+  setProfileHash: (value: string) => void;
+  profile: any;
+  setProfile: (value: any) => void;
+}
 
-export const useProfile = () => {
-  const { setProfileInfo } = useProfileContext();
+export const useProfile = create<ProfileProps>((set) => ({
+  profileHash: "",
+  setProfileHash: (value) => set({ profileHash: value }),
+  profile: null,
+  setProfile: (value) => set({ profile: value }),
+}));
+
+export const useGetProfile = (profileHash: string) => {
   const [loading, setLoading] = useState(false);
-  const [profileHash, setProfileHash] = useState("");
+  const { setProfile, setProfileHash, profile } = useProfile();
+  useEffect(() => {
+    const getUserInfo = async (hash: string) => {
+      setLoading(true);
+      try {
+        const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
-  const getUserInfo = async (profileHash: string) => {
-    setProfileHash(profileHash);
-    setLoading(true);
-    try {
-      const res = await getRequest<{
-        message: string;
-        statusCode: number;
-        metadata: {
-          user: User;
-          info: Info;
-        };
-      }>(profileEndpoint.PROFILE_HASH + profileHash);
+        const metadata = res?.metadata;
+        if (metadata) {
+          setProfileHash(hash);
+          setProfile(metadata);
+        } else {
+          throw new Error("Profile metadata not found.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile data:", error);
+      } finally {
+        setLoading(false);
+      }
+      return null;
+    };
+    getUserInfo(profileHash);
+  }, []);
 
-      const metadata = res?.metadata;
-      await setProfileInfo({
-        user: {
-          ...metadata.user,
-          profileHash: profileHash,
-        },
-        info: metadata.info,
-      });
-    } catch (error) {
-      console.error("Profile does not exist:");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { getUserInfo, loading, profileHash };
+  return { profile };
 };

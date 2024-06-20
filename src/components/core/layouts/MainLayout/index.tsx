@@ -1,10 +1,10 @@
 "use client";
+
 import { useState, ReactNode, useEffect } from "react";
-import { Flex, Menu, Dropdown } from "antd";
+import { Flex, Menu, Dropdown, Spin } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   HomeOutlined,
   SearchOutlined,
@@ -34,6 +34,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -44,7 +45,7 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
-  const { logout } = useAuth();
+  const { logout, loading } = useAuth();
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
@@ -112,8 +113,9 @@ function MainLayout({ children }: LayoutProps) {
         <button
           onClick={() => logout()}
           style={{ all: "unset", cursor: "pointer" }}
+          disabled={loading}
         >
-          Đăng xuất
+          {loading ? <Spin size="small" /> : "Đăng xuất"}
         </button>
       </Menu.Item>
     </S.CustomMenu>
@@ -169,13 +171,18 @@ function MainLayout({ children }: LayoutProps) {
           {userInfo.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
-                <Button type="default" $width="100px">
-                  Đăng nhập
+                <Button type="default" $width="100px" disabled={loading}>
+                  {loading ? <Spin size="small" /> : "Đăng nhập"}
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button color="red" type="primary" $width="100px">
-                  Đăng ký
+                <Button
+                  color="red"
+                  type="primary"
+                  $width="100px"
+                  disabled={loading}
+                >
+                  {loading ? <Spin size="small" /> : "Đăng ký"}
                 </Button>
               </Link>
             </Flex>
@@ -215,6 +222,7 @@ function MainLayout({ children }: LayoutProps) {
           value={valueSearch}
           setValue={setValueSearch}
           setShowModalGuest={setShowModalGuest}
+          setSearchVisible={setSearchVisible}
         />
       </S.SearchModal>
     </S.LayoutWrapper>

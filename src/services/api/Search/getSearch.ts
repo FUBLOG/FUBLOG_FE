@@ -1,5 +1,5 @@
 import { search } from "@/services/endpoint";
-import { getRequest, postRequest } from "@/services/request";
+import { postRequest } from "@/services/request";
 
 export const getSearchUser = async (keywords: string) => {
   try {
@@ -10,11 +10,13 @@ export const getSearchUser = async (keywords: string) => {
       },
     })
       .then((res: any) => {
-        console.log("ok vẫn phản hồi");
-
-        console.log(res);
+        return res?.metadata;
       })
-      .catch((error) => {})
+      .catch((error) => {
+        return [];
+      })
       .finally(() => {});
-  } catch (error) {}
+  } catch (error) {
+    return [];
+  }
 };

@@ -7,8 +7,6 @@ import GlobalStyle from "@/style/global";
 import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SocketProvider } from "@/contexts/SocketContext";
-import { ProfileProvider } from "@/contexts/ProfileContext";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -20,9 +18,7 @@ const ProviderComponents: React.FC<Props> = ({ children }) => {
         <GlobalStyle />
         <AntdRegistry>
           <AuthProvider>
-            <ProfileProvider>
-              <SocketProvider>{children}</SocketProvider>
-            </ProfileProvider>
+            <SocketProvider>{children}</SocketProvider>
           </AuthProvider>
         </AntdRegistry>
       </ThemeProvider>

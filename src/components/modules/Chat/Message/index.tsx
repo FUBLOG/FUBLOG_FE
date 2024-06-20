@@ -1,5 +1,5 @@
 import * as S from "../styles";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef} from "react";
 import useConversation from "@/hooks/useConversation";
 import MessageList from "./MessageList";
 import MessageHeader from "./MessageHeader";

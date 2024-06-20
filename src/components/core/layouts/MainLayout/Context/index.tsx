@@ -1,4 +1,3 @@
-// PostProvider.tsx
 import React, { createContext, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid"; 
 
@@ -6,15 +5,19 @@ import { v4 as uuidv4 } from "uuid";
 interface PostContextProps {
   posts: Post[];
   addPost: (newPost: Post) => void;
+  showSpinner: boolean;
+  setShowSpinner: (value: boolean) => void;
 }
 
 interface PostProviderProps {
-  children: React.ReactNode; // Thêm children vào các props của PostProvider
+  children: React.ReactNode;
 }
 
 export const PostContext = createContext<PostContextProps>({
-    posts: [], // Giá trị mặc định, bạn có thể thay đổi tùy theo yêu cầu của dự án
-    addPost: () => {}
+  posts: [],
+  addPost: () => {},
+  showSpinner: false,
+  setShowSpinner: () => {},
 });
 
 // Định nghĩa các interface cho Comment và Post
@@ -45,7 +48,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       avatar: "/thanhthuy.png",
       content: "Hôm nay tôi học bài ...",
       images: ["post.jpg"],
-      tag: "Học tập",
+      tag: "Học Tập",
       initialLikes: 10,
       initialComments: 5,
       initialCommentsData: [
@@ -71,15 +74,22 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     },
   ]);
 
+  const [showSpinner, setShowSpinner] = useState(false);
+
   const addPost = (newPost: Post) => {
-    const postWithId = { ...newPost, id: uuidv4() }; // Gán id duy nhất cho mỗi post
+    const postWithId = { ...newPost, id: uuidv4() };
     setPosts([postWithId, ...posts]);
-  };
-  const contextValue = useMemo(() => ({ posts, addPost }), [posts]);
+    setShowSpinner(true);
+    };
+
+  const contextValue = useMemo(
+    () => ({ posts, addPost, showSpinner, setShowSpinner }),
+    [posts, showSpinner]
+  );
 
   return (
     <PostContext.Provider value={contextValue}>
-      {children} {/* Đảm bảo rằng bạn truyền children vào đây */}
+      {children}
     </PostContext.Provider>
   );
 };

@@ -1,34 +1,41 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
 import Image, { StaticImageData } from "next/legacy/image";
-import { SettingOutlined, TagOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  SettingOutlined,
+  TagOutlined,
+} from "@ant-design/icons";
 import thanhthuy1 from "@/public/thanhthuy1.jpg";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
-import { Radio, Upload } from "antd";
+import { Radio, Upload, Spin, Space } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
-import { PostContext } from "@/components/core/layouts/MainLayout/Context"; 
-import { v4 as uuidv4 } from "uuid"; 
-
+import { PostContext } from "@/components/core/layouts/MainLayout/Context";
+import { v4 as uuidv4 } from "uuid";
+import { getRequest } from "@/services/request";
+import { tagEndpoint } from "@/services/endpoint";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
-  user : {
-    name: string; avatar: StaticImageData;
+  user: {
+    name: string;
+    avatar: StaticImageData;
   };
   onSuccess: () => void;
 }
 
+export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
+  const { showSpinner, setShowSpinner } = useContext(PostContext);
 
-export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
-    const [postContent, setPostContent] = useState("");
+  const [postContent, setPostContent] = useState("");
 
-  const {addPost} = useContext(PostContext)
-  
-  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
+  const { addPost } = useContext(PostContext);
+
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
-  }
+  };
 
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -51,6 +58,7 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
 
   const [tagValue, setTagValue] = useState("Khác");
   const [openTag, setOpenTag] = useState(false);
+  const [tags, setTags] = useState<any[]>([]);
   const handleOpenTag = () => {
     setOpenTag(true);
   };
@@ -76,17 +84,21 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
   };
 
   const CreatePost = () => {
-    addPost({
-      id: uuidv4(),
-      user: user.name,
-      avatar: user.avatar.src,
-      content: postContent,
-      images: fileList.map((file) => file.thumbUrl as string),
-      tag: tagValue,
-      initialLikes: 0,
-      initialComments: 0,
-      initialCommentsData: [],
-    });
+    setShowSpinner(true);
+    setTimeout(() => {
+      addPost({
+        id: uuidv4(),
+        user: user.name,
+        avatar: user.avatar.src,
+        content: postContent,
+        images: fileList.map((file) => file.thumbUrl as string),
+        tag: tagValue,
+        initialLikes: 0,
+        initialComments: 0,
+        initialCommentsData: [],
+      });
+      setShowSpinner(false);
+    }, 4000);
     setPostContent("");
     setFileList([]);
     setTagValue("Khác");
@@ -96,7 +108,17 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
     setOpenTag(false);
     setOpenAudience(false);
     onSuccess();
+
+    // Chỉ gọi lại useEffect khi showSpinner thay đổi
   };
+  useEffect(() => {
+    const setup = async () => {
+      const res: any = await getRequest(tagEndpoint.GET_TAG);
+      setTags(res?.metadata);
+    };
+    setup();
+  }, []);
+
   return (
     <ContentStyleDiv>
       <h2>Bài Viết Mới</h2>
@@ -106,7 +128,7 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
             <Image src={thanhthuy1} width={40} height={40} />
           </div>
           <div className="des">
-            <span>thanhthuy_2704</span>
+            <span>{user.name}</span>
             <div className="display-audience">
               <p>{audienceValue}</p>
             </div>
@@ -152,12 +174,14 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
               {fileList.length < 5 && "+ Upload"}
             </Upload>
           </ImgCrop>
-          <div className="display-Tag" style={{display: "flex", gap: "12px"}}>
-                <TagOutlined />
-                <p>{tagValue}</p>
-              </div>
+          <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
+            <TagOutlined />
+            <p>{tagValue}</p>
+          </div>
           <div className="create-btn">
-            <Button $width={"100px"} onClick={CreatePost} >Đăng</Button>
+            <Button $width={"100px"} onClick={CreatePost}>
+              Đăng
+            </Button>
           </div>
           <TagModal
             open={openTag}
@@ -172,12 +196,11 @@ export const PostContent: React.FC<PostContent> = ({user, onSuccess}) => {
               onChange={handleTextChange}
             >
               <h3>Chọn Thẻ</h3>
-              <Radio value={"Gia Đình"}>Gia Đình</Radio>
-              <Radio value={"Bạn Bè"}>Bạn Bè</Radio>
-              <Radio value={"Học Tập"}>Học Tập</Radio>
-              <Radio value={"Công Việc"}>Công Việc</Radio>
-              <Radio value={"Tình Cảm"}>Tình Cảm</Radio>
-              <Radio value={"Khác"}>Khác</Radio>
+              {tags.map((tag) => (
+                <Radio value ={tag?.postTagContent as string} key={tag?._id}>
+                  {tag?.postTagContent}
+                </Radio>
+              ))}
             </Radio.Group>
           </TagModal>
           <AudienceModal

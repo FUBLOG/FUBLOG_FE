@@ -16,10 +16,13 @@ const messageEndpoint = {
   GET_MESSAGE: `/message/`,
   SEND_MESSAGE: `/message/send/`,
 };
+const tagEndpoint = {
+  GET_TAG : `/tag`,
+}
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,
   DISTRICT: `${prefixBase}/province/district`,
   WARD: `${prefixBase}/province/ward`,
 };
 //export endpoint
-export { authEndpoint, editProfileEndpoint, userEndpoint, messageEndpoint };
+export { authEndpoint, editProfileEndpoint, userEndpoint, messageEndpoint,tagEndpoint };

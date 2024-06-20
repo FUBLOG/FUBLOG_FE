@@ -24,7 +24,7 @@ export const PostContent = styled.p`
   padding: 10px 0;
 `;
 
-export const ImagesWrapper = styled(Flex)`
+export const ImagesWrapper = styled(Flex)`  
   justify-content: flex-start; 
   padding: 0 20px;
   gap: 10px;
@@ -32,6 +32,44 @@ export const ImagesWrapper = styled(Flex)`
     max-width: 100%;
     height: auto;
     margin: 0;
+  }
+      display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  &.images-1 .post-image {
+    flex: 1 1 100%;
+  }
+
+  &.images-2 .post-image {
+    flex: 1 1 49%;
+  }
+
+  &.images-3 .post-image {
+    flex: 1 1 28%;
+  }
+
+  &.images-4 .post-image,
+  &.images-5 .post-image,
+  &.images-6 .post-image {
+    flex: 1 1 23%;
+  }
+
+  .post-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .more-images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 16px;
   }
 `;
 

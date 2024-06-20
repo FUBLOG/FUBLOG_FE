@@ -413,10 +413,15 @@ function Post({
           </Typography>
         </S.ContentWrapper>
         {images.length > 0 && (
-          <S.ImagesWrapper>
-            {images.map((src) => (
-              <img key={src} src={src} alt="Post Image" />
+          <S.ImagesWrapper className={`images-${images.length}`}>
+            {images.slice(0, 3).map((src, index) => (
+              <img key={index} src={src} alt="Post Image" className="post-image" />
             ))}
+            {images.length > 3 && (
+              <div className="more-images">
+                <span>View more {images.length - 3} images</span>
+              </div>
+            )}
           </S.ImagesWrapper>
         )}
 
@@ -441,17 +446,17 @@ function Post({
             <span>{comments}</span>
           </S.Actions>
           <S.TagWrapper>
-              <S.Tag>
-                <Typography
-                  variant="caption-small"
-                  color="#B9B4C7"
-                  fontSize="14px"
-                  lineHeight="2"
-                >
-                  <TagOutlined style={{ marginRight: "10px" }} />
-                  {tag}
-                </Typography>
-              </S.Tag>
+            <S.Tag>
+              <Typography
+                variant="caption-small"
+                color="#B9B4C7"
+                fontSize="14px"
+                lineHeight="2"
+              >
+                <TagOutlined style={{ marginRight: "10px" }} />
+                {tag}
+              </Typography>
+            </S.Tag>
           </S.TagWrapper>
         </S.PostFooter>
       </S.CustomCard>

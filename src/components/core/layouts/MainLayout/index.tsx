@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode, useEffect, useContext } from "react";
 import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,7 +35,7 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { CreateContent } from "@/components/modules/CreatePost";
-import { PostProvider } from "./Context";
+import { PostContext, PostProvider } from "./Context";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -48,6 +48,8 @@ function MainLayout({ children }: LayoutProps) {
   const { logout } = useAuth();
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
+  
+
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       handleCancel();
@@ -84,7 +86,9 @@ function MainLayout({ children }: LayoutProps) {
   };
   const handleCreatePostSuccess = () => {
     setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+    
   };
+  
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">

@@ -18,7 +18,7 @@ const MessageList = () => {
   return (
     <S.MessagesList>
       {messages.map((message) => {
-        const isOwnMessage = message.senderId === userInfo?.userId;
+        const isOwnMessage = message?.senderId === userInfo?.userId;
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
             <S.ChatHeader isOwnMessage={isOwnMessage}>
@@ -26,7 +26,7 @@ const MessageList = () => {
               <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
             </S.ChatHeader>
             <S.MessageContent isOwnMessage={isOwnMessage}>
-              {message.message}
+              {message?.message}
             </S.MessageContent>
             {/* {isOwnMessage && (
               <S.ChatFooter>

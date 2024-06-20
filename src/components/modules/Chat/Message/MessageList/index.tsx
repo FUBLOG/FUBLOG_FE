@@ -22,7 +22,7 @@ const MessageList = () => {
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
             <S.ChatHeader isOwnMessage={isOwnMessage}>
-              <span>{isOwnMessage ? 'You' : message.senderName}</span>
+              <span>{isOwnMessage ? 'You' : message?.senderName}</span>
               <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
             </S.ChatHeader>
             <S.MessageContent isOwnMessage={isOwnMessage}>

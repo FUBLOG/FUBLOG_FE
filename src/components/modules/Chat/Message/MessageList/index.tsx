@@ -28,11 +28,6 @@ const MessageList = () => {
             <S.MessageContent isOwnMessage={isOwnMessage}>
               {message?.message}
             </S.MessageContent>
-            {/* {isOwnMessage && (
-              <S.ChatFooter>
-                Seen at {extractTime(message?.createdAt)}
-              </S.ChatFooter>
-            )} */}
           </S.MessageItem>
         );
       })}

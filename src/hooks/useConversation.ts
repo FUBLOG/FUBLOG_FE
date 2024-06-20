@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/contexts/AuthContext";
+import { getConversationApi } from "@/services/api/chat";
 import { userEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { useEffect, useState } from "react";
@@ -28,8 +29,7 @@ const useGetConversation = () => {
   const { userInfo } = useAuthContext();
   useEffect(() => {
     const getConsversations = async () => {
-      setLoading(true);
-      getRequest(userEndpoint.USER_MESSAGES, { security: true })
+      await getConversationApi()
         .then((res: any) => {
           setConversations(res?.metadata);
         })

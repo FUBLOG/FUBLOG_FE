@@ -18,3 +18,8 @@ export const rejectFriendRequest = async (data: any) => {
     data: data,
   });
 };
+export const getFriendList = async () => {
+  return await getRequest(friendEndpoint.FRIEND_LIST, {
+    security: true,
+  });
+};

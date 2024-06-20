@@ -38,12 +38,20 @@ const notificationEndpoint = {
   MARK_AS_READ: `/notification/`,
   MARK_ALL_AS_READ: `/notification/`,
 };
+const search = {
+  SEARCH_FRIEND: `/search/user`,
+};
+const profileEndpoint = {
+  PROFILE_HASH: `/profile/`,
+};
 //export endpoint
 export {
+  profileEndpoint,
   authEndpoint,
+  search,
   editProfileEndpoint,
   userEndpoint,
   messageEndpoint,
   friendEndpoint,
-  notificationEndpoint
+  notificationEndpoint,
 };

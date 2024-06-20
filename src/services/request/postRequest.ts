@@ -5,13 +5,11 @@ import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const postRequest = async(
+const postRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
-): Promise<object> => {
-  // kaidophan37@gmail.com
-  // 123456
+) => {
   const isSecurity = options?.security || false;
 
   let header = {};
@@ -42,7 +40,6 @@ const postRequest = async(
     })
     .catch((err) => {
       message.error(errorMessage[err]);
-
       return Promise.reject(err);
     });
 };

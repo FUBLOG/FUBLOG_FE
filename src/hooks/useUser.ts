@@ -9,57 +9,40 @@ import { authEndpoint } from "@/services/endpoint";
 export const useUser = () => {
   const { userInfo, setUserInfo } = useAuthContext();
   useEffect(() => {
-    const isUser = async () => {
-      const token = await webStorageClient.getToken();
-      if (token) {
-        try {
-          const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-            security: true,
-          });
+    isUser();
+  }, []);
+  const isUser = async () => {
+    const token = await webStorageClient.getToken();
+    if (token) {
+      console.log("có token");
 
-          if (res) {
-            webStorageClient.set(constants.IS_AUTH, true);
-            setUserInfo({
-              userId: res?.metadata?._id,
-              dateOfBirth: res?.metadata?.dateOfBirth,
-              displayName: res?.metadata?.displayName,
-              email: res?.metadata?.email,
-              firstName: res?.metadata?.firstName,
-              lastName: res?.metadata?.lastName,
-              profileHash: res?.metadata?.profileHash,
-              sex: res?.metadata?.sex,
-              userInfo: {
-                avatar: res?.metadata?.userInfo?.avatar,
-                blockList: res?.metadata?.userInfo?.blockList,
-                friendList: res?.metadata?.userInfo?.friendList,
-              },
-            });
-          } else {
-            throw new Error("Invalid user data");
-          }
-        } catch (error) {
-          webStorageClient.set(constants.IS_AUTH, false);
-          setUserInfo({
-            userId: "",
-            dateOfBirth: "",
-            displayName: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-            profileHash: "",
-            sex: "",
+      try {
+        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
+          security: true,
+        });
+        if (res) {
+          webStorageClient.set(constants.IS_AUTH, true);
+          await setUserInfo({
+            userId: res?.metadata?._id,
+            dateOfBirth: res?.metadata?.dateOfBirth,
+            displayName: res?.metadata?.displayName,
+            email: res?.metadata?.email,
+            firstName: res?.metadata?.firstName,
+            lastName: res?.metadata?.lastName,
+            profileHash: res?.metadata?.profileHash,
+            sex: res?.metadata?.sex,
             userInfo: {
-              avatar: "",
-              blockList: [],
-              friendList: [
-                { friend_id: "", displayName: "", avatar: "", _id: "" },
-              ],
+              avatar: res?.metadata?.userInfo?.avatar,
+              blockList: res?.metadata?.userInfo?.blockList,
+              friendList: res?.metadata?.userInfo?.friendList,
             },
           });
+        } else {
+          throw new Error("Invalid user data");
         }
-      } else {
+      } catch (error) {
         webStorageClient.set(constants.IS_AUTH, false);
-        setUserInfo({
+        await setUserInfo({
           userId: "",
           dateOfBirth: "",
           displayName: "",
@@ -71,17 +54,30 @@ export const useUser = () => {
           userInfo: {
             avatar: "",
             blockList: [],
-            friendList: [
-              { friend_id: "", displayName: "", avatar: "", _id: "" },
-            ],
+            friendList: [],
           },
         });
       }
-    };
-    isUser();
-  }, []);
-
-  const addUser = (
+    } else {
+      webStorageClient.set(constants.IS_AUTH, false);
+      await setUserInfo({
+        userId: "",
+        dateOfBirth: "",
+        displayName: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        profileHash: "",
+        sex: "",
+        userInfo: {
+          avatar: "",
+          blockList: [],
+          friendList: [],
+        },
+      });
+    }
+  };
+  const addUser = async (
     user: {
       ACCESS_TOKEN: string;
       PROFILE_HASH: string;
@@ -116,16 +112,16 @@ export const useUser = () => {
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
-    setUserInfo(userInfo);
+    await setUserInfo(userInfo);
   };
 
-  const removeUser = () => {
+  const removeUser = async () => {
     webStorageClient.remove(constants.ACCESS_TOKEN);
     webStorageClient.remove(constants.PROFILE_HASH);
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
-    setUserInfo({
+    await setUserInfo({
       userId: "",
       dateOfBirth: "",
       displayName: "",
@@ -137,10 +133,10 @@ export const useUser = () => {
       userInfo: {
         avatar: "",
         blockList: [],
-        friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
+        friendList: [],
       },
     });
   };
 
-  return { userInfo, addUser, removeUser, setUserInfo };
+  return { userInfo, addUser, removeUser, setUserInfo, isUser };
 };

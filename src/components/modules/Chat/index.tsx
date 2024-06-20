@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Modal, Input, Badge, Skeleton } from "antd";
-import { SearchOutlined, PictureOutlined, SendOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  PictureOutlined,
+  SendOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import * as S from "./styles";
 import Message from "./Message";
 import FriendOnline from "./FriendOnline";

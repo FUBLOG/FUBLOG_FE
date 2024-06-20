@@ -1,10 +1,10 @@
 "use client";
+
 import { useState, ReactNode, useEffect } from "react";
-import { Flex, Menu, Dropdown } from "antd";
+import { Flex, Menu, Dropdown, Spin } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   HomeOutlined,
   SearchOutlined,
@@ -37,6 +37,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -47,7 +48,7 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
-  const { logout } = useAuth();
+  const { logout, loading } = useAuth();
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
@@ -76,7 +77,7 @@ function MainLayout({ children }: LayoutProps) {
 
   const showBellModal = () => {
     if (userInfo?.userId !== "") {
-      setNav("bell"); 
+      setNav("bell");
       setBellVisible(true);
     } else {
       setShowModalGuest(true);
@@ -85,7 +86,7 @@ function MainLayout({ children }: LayoutProps) {
 
   const handleBellClose = () => {
     setBellVisible(false);
-    setNav("home"); 
+    setNav("home");
   };
 
   const handleOk = () => {
@@ -104,7 +105,9 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href={`/profile/${userInfo?.profileHash}`}>Xem trang cá nhân</Link>
+        <Link href={`/profile/${userInfo?.profileHash}`}>
+          Xem trang cá nhân
+        </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
@@ -113,8 +116,9 @@ function MainLayout({ children }: LayoutProps) {
         <button
           onClick={() => logout()}
           style={{ all: "unset", cursor: "pointer" }}
+          disabled={loading}
         >
-          Đăng xuất
+          {loading ? <Spin size="small" /> : "Đăng xuất"}
         </button>
       </Menu.Item>
     </S.CustomMenu>
@@ -160,7 +164,11 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Button>
             <Link href="#" onClick={showBellModal}>
-              {nav === "bell" ? <BellFilled style={{ fontSize: "22px" }} /> : <BellOutlined style={{ fontSize: "22px" }} />}
+              {nav === "bell" ? (
+                <BellFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <BellOutlined style={{ fontSize: "22px" }} />
+              )}
             </Link>
 {/* 
             <Button
@@ -177,16 +185,21 @@ function MainLayout({ children }: LayoutProps) {
             </Button> */}
 
           </S.IconContainer>
-          {userInfo.userId === null ? (
+          {userInfo.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
-                <Button type="default" $width="100px">
-                  Đăng nhập
+                <Button type="default" $width="100px" disabled={loading}>
+                  {loading ? <Spin size="small" /> : "Đăng nhập"}
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button color="red" type="primary" $width="100px">
-                  Đăng ký
+                <Button
+                  color="red"
+                  type="primary"
+                  $width="100px"
+                  disabled={loading}
+                >
+                  {loading ? <Spin size="small" /> : "Đăng ký"}
                 </Button>
               </Link>
             </Flex>
@@ -223,7 +236,12 @@ function MainLayout({ children }: LayoutProps) {
         className="searchModal"
         footer={null}
       >
-        <SearchContent value={valueSearch} setValue={setValueSearch} />
+        <SearchContent
+          value={valueSearch}
+          setValue={setValueSearch}
+          setShowModalGuest={setShowModalGuest}
+          setSearchVisible={setSearchVisible}
+        />
       </S.SearchModal>
     </S.LayoutWrapper>
   );

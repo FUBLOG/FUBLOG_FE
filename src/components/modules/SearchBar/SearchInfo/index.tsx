@@ -1,52 +1,51 @@
-import React from "react";
-import {
-  Users,
-  Friends,
-} from "@/components/modules/SearchBar/SearchedUser/test";
+import React, { Dispatch, SetStateAction } from "react";
 import { SearchUser } from "../SearchedUser";
-
 import * as S from "./style";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface SearchInfoProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setShowModalGuest: Dispatch<SetStateAction<boolean>>;
+  setSearchVisible: Dispatch<SetStateAction<boolean>>;
+  list: {
+    avatar: string;
+    displayName: string;
+    friendCount: number;
+    profileHash: string;
+    _id: string;
+  }[];
 }
 
-const SearchInfo: React.FC<SearchInfoProps> = ({ value, setValue }) => {
+const SearchInfo: React.FC<SearchInfoProps> = ({
+  setValue,
+  setShowModalGuest,
+  setSearchVisible,
+  list,
+}) => {
+  const { userInfo } = useAuthContext();
+
   return (
     <S.MyStyledDiv>
       <div className="searchContent">
         <ul className="list">
-          {Friends.filter((friend) =>
-            friend.name.toLowerCase().includes(value)
-          ).map((friend) => (
-            <li key={friend.id} className="listItem">
-              <SearchUser
-                setValue={setValue}
-                role="Friend"
-                name={friend.name}
-                friends={friend.friend}
-                avatar={friend.imagelink}
-              />
-              <hr />
-            </li>
-          ))}
-        </ul>
-        <ul className="list">
-          {Users.filter((user) => user.name.toLowerCase().includes(value)).map(
-            (user) => (
-              <li key={user.id} className="listItem">
+          {list
+            ?.filter((friend) => friend.profileHash !== userInfo?.profileHash)
+            .map((friend) => (
+              <li key={friend._id} className="listItem">
                 <SearchUser
-                  role="Stranger"
-                  name={user.name}
-                  friends={user.friend}
-                  avatar={user.imagelink}
+                  setShowModalGuest={setShowModalGuest}
                   setValue={setValue}
+                  setSearchVisible={setSearchVisible}
+                  name={friend.displayName}
+                  friends={friend.friendCount}
+                  avatar={friend.avatar}
+                  profileHash={friend.profileHash}
+                  id={friend._id}
                 />
                 <hr />
               </li>
-            )
-          )}
+            ))}
         </ul>
       </div>
     </S.MyStyledDiv>

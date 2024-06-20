@@ -13,10 +13,11 @@ const NotificationTab = () => {
                 <List.Item
                     key={item.id}
                     className="notification-item"
-                    onClick={() => window.location.href = item.link}
+
+                    
                 >
                     <List.Item.Meta
-                        avatar={<Avatar src={item.avatar} />}
+                        avatar={<Avatar src={item?.image[0]} />}
                         title={<span>{item.title}</span>}
                         description={<span>{fromNow(new Date(item.createdAt))}</span>}
                     />

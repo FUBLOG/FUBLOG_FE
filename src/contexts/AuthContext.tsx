@@ -18,7 +18,7 @@ interface UserInfo {
   userInfo: {
     avatar: string;
     blockList: [];
-    friendList: [{ friend_id: ""; displayName: ""; avatar: ""; _id: "" }];
+    friendList: [];
   };
 }
 
@@ -39,7 +39,7 @@ const defaultUserInfo: UserInfo = {
   userInfo: {
     avatar: "",
     blockList: [],
-    friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
+    friendList: [],
   },
 };
 

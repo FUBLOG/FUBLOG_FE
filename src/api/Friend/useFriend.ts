@@ -78,7 +78,7 @@ const useFriend = () => {
           targetID: profileInfo?.user?._id,
         },
       })
-        .then((res: any) => {
+        .then(() => {
           setIsFriend(false);
         })
         .catch((error) => {
@@ -99,8 +99,10 @@ const useFriend = () => {
           targetID: profileInfo?.user?._id,
         },
       })
-        .then((res: any) => {
+        .then(() => {
           setIsFriend(true);
+          setLoading(false);
+          return;
         })
         .catch((error) => {
           if (error?.code === "404") {
@@ -124,8 +126,11 @@ const useFriend = () => {
           targetID: profileInfo?.user?._id,
         },
       })
-        .then((res: any) => {
+        .then(() => {
+          SetIsRequester(false);
           setIsFriend(false);
+          setLoading(false);
+          return;
         })
         .catch((error) => {
           if (error?.code === "404") {
@@ -162,7 +167,7 @@ const useFriend = () => {
             SetIsRequester(true);
           return true;
         })
-        .catch((error) => {
+        .catch(() => {
           SetIsRequester(false);
           return false;
         })
@@ -177,7 +182,6 @@ const useFriend = () => {
     const fetchData = async () => {
       isRequest();
       try {
-        console.log(userInfo);
         if (userInfo?.userId !== "") {
           setIsGuest(false);
           setIsFriend(
@@ -218,7 +222,6 @@ const useFriend = () => {
     isMyUser,
     sendFriend,
     isSendFriend,
-    // blockFriend,
     unFriend,
     loading,
     acceptFriend,

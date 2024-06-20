@@ -85,7 +85,6 @@ const ProfileContext = createContext<ProfileProps>({
   profileInfo: defaultProfileContext,
   setProfileInfo: () => {},
 });
-
 export const useProfileContext = () => useContext(ProfileContext);
 
 export const ProfileProvider: React.FC<{ children: ReactNode }> = ({

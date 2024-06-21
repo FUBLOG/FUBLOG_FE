@@ -4,6 +4,7 @@ import { useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
 import { message } from "antd";
 import { useUser } from "./useUser";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const useFriend = () => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
@@ -13,7 +14,7 @@ const useFriend = () => {
   const [loading, setLoading] = useState(false);
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
-  const { userInfo } = useUser();
+  const { userInfo } = useAuthContext();
   const { profile } = useProfile();
 
   const checkIsGuest = async () => {
@@ -29,17 +30,11 @@ const useFriend = () => {
     return false;
   };
   const checkIsFriend = async () => {
-    const result: any = userInfo?.userInfo?.friendList?.some(
-      (friend: string) => friend === profile?.user?._id
+    setIsFriend(
+      userInfo?.userInfo?.friendList?.some(
+        (friend: string) => friend === profile?.user?._id
+      )
     );
-
-    if (result) {
-      setIsFriend(true);
-
-      return true;
-    }
-
-    return false;
   };
   const handleRequest = async (request: any) => {
     console.log("request?.sourceID", request?.sourceID);

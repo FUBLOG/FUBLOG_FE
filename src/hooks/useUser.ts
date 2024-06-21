@@ -5,16 +5,17 @@ import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
 import { authEndpoint } from "@/services/endpoint";
+import { checkToken } from "@/utils/checkToken";
 
 export const useUser = () => {
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { setUserInfo } = useAuthContext();
   useEffect(() => {
     isUser();
   }, []);
 
   const isUser = async () => {
-    const token = await webStorageClient.getToken();
-    if (token) {
+    const token = await checkToken(await webStorageClient.getToken());
+    if (token !== false) {
       try {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
@@ -129,5 +130,5 @@ export const useUser = () => {
     });
   };
 
-  return { userInfo, addUser, removeUser, setUserInfo, isUser };
+  return { addUser, removeUser, isUser };
 };

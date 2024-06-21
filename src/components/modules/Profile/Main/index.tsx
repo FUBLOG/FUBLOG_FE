@@ -5,24 +5,20 @@ import Banner from "../Banner";
 import * as S from "./styles";
 import { useEffect } from "react";
 import useFriend from "@/hooks/useFriend";
+import { Spin } from "antd";
 
 function Profile({ profileHash }: { readonly profileHash: string }) {
-  const { profile } = useGetProfile(profileHash);
-
+  useGetProfile(profileHash);
+  const { loading } = useGetProfile(profileHash);
   const { checkFriend } = useFriend();
   useEffect(() => {
-    profile;
     checkFriend();
   }, [profileHash]);
-  return (
+  return loading ? (
+    <Spin size="large" />
+  ) : (
     <S.HomeWrapper>
       <Banner />
-      {/* <S.Container>
-        <S.Main>
-          <ListFriend />
-          <PostProfile />
-        </S.Main>
-      </S.Container> */}
     </S.HomeWrapper>
   );
 }

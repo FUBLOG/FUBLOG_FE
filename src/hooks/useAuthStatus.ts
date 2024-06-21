@@ -22,7 +22,7 @@ export interface UserInfo {
   };
 }
 export const useAuth = () => {
-  const { userInfo, addUser, removeUser, setUserInfo } = useUser();
+  const { addUser, removeUser } = useUser();
   const [loading, setLoading] = useState(false);
 
   const login = async (key: Key, userInfo: UserInfo) => {
@@ -47,5 +47,5 @@ export const useAuth = () => {
     }
   };
 
-  return { userInfo, login, logout, setUserInfo, loading };
+  return { login, logout, loading };
 };

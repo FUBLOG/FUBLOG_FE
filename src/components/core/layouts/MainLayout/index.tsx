@@ -170,7 +170,7 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-{/* 
+            {/* 
             <Button
               type="text"
               onClick={(e) => {
@@ -183,7 +183,6 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Button> */}
-
           </S.IconContainer>
           {userInfo.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
@@ -226,7 +225,7 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-      
+
       <NotificationModal visible={bellVisible} onClose={handleBellClose} />
       <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal

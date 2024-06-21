@@ -10,13 +10,21 @@ import {
   sendFriendRequest,
   unfriend,
 } from "@/services/api/friend";
+import { Skeleton } from "antd";
 
 const Banner: React.FC = () => {
   const { profile } = useProfile();
-  const { isFriend, isGuest, isMyUser, isRequester, isSendFriend } =
-    useFriend();
-  console.log("profile", profile);
-
+  const {
+    isFriend,
+    isGuest,
+    isMyUser,
+    isRequester,
+    isSendFriend,
+    setIsFriend,
+    loading,
+    setIsSendFriend,
+    resetStatus,
+  } = useFriend();
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser handleFriend={handleFriend} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
@@ -28,28 +36,40 @@ const Banner: React.FC = () => {
     handleDisplayButton();
   }, [profile, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
-  const handleFriend = (event: string): void => {
+  const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        sendFriendRequest(profile?.user?._id);
+        await sendFriendRequest(profile?.user?._id);
+        resetStatus();
+        setIsSendFriend(true);
         break;
       case "unfriend":
-        unfriend(profile?.user?._id);
+        await unfriend(profile?.user?._id);
+        resetStatus();
         console.log("unfriend");
         break;
       case "decline":
-        rejectFriendRequest(profile?.user?._id);
+        await rejectFriendRequest(profile?.user?._id);
+        resetStatus();
         break;
       case "accept":
-        acceptFriendRequest(profile?.user?._id);
-
+        await acceptFriendRequest(profile?.user?._id);
+        resetStatus();
+        setIsFriend(true);
         break;
+
+      case "recall":
+        resetStatus();
+        setIsFriend(false);
+        break;
+
       default:
         break;
     }
   };
-
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <S.Wrapper>
       <S.CoverImage />
       <S.BannerUser>
@@ -75,6 +95,7 @@ const Banner: React.FC = () => {
     </S.Wrapper>
   );
 };
+const Loading = () => <Skeleton active round avatar paragraph />;
 
 interface ButtonProps {
   handleFriend: Function;
@@ -100,7 +121,7 @@ const SendFriendButton: React.FC<ButtonProps> = ({
       type="default"
       $backgroundColor="#FAF0E6"
       onClick={() => {
-        handleFriend();
+        handleFriend("recall");
       }}
       $width="100px"
       color="#352f44"
@@ -158,7 +179,7 @@ const DefaultButton: React.FC<ButtonProps> = ({
       color="#352f44"
       $hoverColor="#faf0e6"
     >
-      Kết bạn
+      Thêm bạn bè
     </Button>
   );
 };

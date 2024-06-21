@@ -43,5 +43,5 @@ export const useGetProfile = (profileHash: string) => {
     getUserInfo(profileHash);
   }, [profileHash]);
 
-  return { profile, setProfile };
+  return { profile, setProfile, loading };
 };

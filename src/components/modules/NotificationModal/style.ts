@@ -21,13 +21,13 @@ export const NotificationContainer = styled.div`
     background-color: transparent; 
   }
 
-  .notification-item.unread .ant-list-item-meta-title,
-  .friend-item.unread .ant-list-item-meta-title {
+  .notification-item.unread .ant-list-item-meta-title span,
+  .friend-item.unread .ant-list-item-meta-title span {
     font-weight: bold; /* Hiển thị chữ in đậm cho thông báo chưa xem */
   }
 
-  .notification-item.read .ant-list-item-meta-title,
-  .friend-item.read .ant-list-item-meta-title {
+  .notification-item.read .ant-list-item-meta-title span,
+  .friend-item.read .ant-list-item-meta-title span {
     font-weight: normal; /* Hiển thị chữ bình thường cho thông báo đã xem */
   }
 
@@ -44,7 +44,6 @@ export const NotificationContainer = styled.div`
   .friend-item .ant-list-item-meta-title span {
     display: inline;
     white-space: nowrap;
-    font-weight: normal; 
   }
 
   .friend-item .ant-list-item-meta-description {

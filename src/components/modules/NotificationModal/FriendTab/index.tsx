@@ -12,7 +12,7 @@ const FriendTab = () => {
     const [loadingButtons, setLoadingButtons] = useState<boolean[]>([]);
 
     useEffect(() => {
-        if (friendRequest.length > 0) {
+        if (Array.isArray(friendRequest)) {
             setLoadingButtons(new Array(friendRequest.length).fill(false));
         }
     }, [friendRequest]);

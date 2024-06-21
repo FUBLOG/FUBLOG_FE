@@ -18,14 +18,7 @@ export interface UserInfo {
   userInfo: {
     avatar: string;
     blockList: [];
-    friendList: [
-      {
-        friend_id: "";
-        displayName: "";
-        avatar: "";
-        _id: "";
-      }
-    ];
+    friendList: [];
   };
 }
 export const useAuth = () => {

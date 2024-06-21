@@ -15,12 +15,15 @@ const Banner: React.FC = () => {
     isRequester,
     isSendFriend,
   } = useFriend();
+  console.log("isFriend", isFriend, "isGuest", isGuest, "isMyUser", isMyUser, "isRequester", isRequester, "isSendFriend", isSendFriend);
+
   const handleDisplayButton = () => {
     if (isGuest) return <></>
     if (isMyUser) return <>Xử lý là tôi</>
     if (isFriend) return <FriendButton handleFriend={handleFriend} />
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />
+    return <DefaultButton handleFriend={handleFriend} />
   }
   useEffect(() => {
     handleDisplayButton()

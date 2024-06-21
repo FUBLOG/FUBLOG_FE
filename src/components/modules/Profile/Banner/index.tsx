@@ -3,10 +3,7 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import useFriend from "@/hooks/useFriend";
-import { Card, Skeleton } from "antd";
 import { useProfile } from "@/hooks/useProfile";
-import { useAuthContext } from "@/contexts/AuthContext";
-import { sendFriendRequest } from "@/services/api/friend";
 
 const Banner: React.FC = () => {
 

@@ -15,31 +15,31 @@ const useFriend = () => {
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
   const { userInfo } = useAuthContext();
+  const { isAuthLoading } = useUser();
   const { profile } = useProfile();
-
-  const checkIsGuest = async () => {
-    console.log("check guest");
-    message.info(userInfo?.userId);
-
-    if ((await userInfo?.userId) === "") {
+  const [isNotFound, setIsNotFound] = useState(false);
+  const checkIsGuest = () => {
+    if (userInfo?.userId === "") {
       message.info("guest");
       setIsGuest(true);
       return true;
     }
-    message.info("user");
     return false;
   };
-  const checkIsFriend = async () => {
+  const checkIsFriend = () => {
+    console.log(
+      userInfo?.userInfo?.friendList?.some(
+        (friend: string) => friend === profile?.user?._id
+      )
+    );
+
     setIsFriend(
       userInfo?.userInfo?.friendList?.some(
         (friend: string) => friend === profile?.user?._id
       )
     );
   };
-  const handleRequest = async (request: any) => {
-    console.log("request?.sourceID", request?.sourceID);
-    console.log("userInfo?.userId", userInfo?.userId);
-    console.log(request?.sourceID === userInfo?.userId);
+  const handleRequest = (request: any) => {
     if (request?.sourceID === userInfo?.userId) {
       setIsSendFriend(true);
     } else {
@@ -55,6 +55,10 @@ const useFriend = () => {
     }
   };
   const checkFriend = async () => {
+    if (profile?.user?._id === undefined) {
+      setIsNotFound(true);
+      return;
+    }
     if (!(await checkIsGuest())) {
       console.log("setIsMyUser");
 
@@ -74,6 +78,7 @@ const useFriend = () => {
     setIsMyUser(false);
     setIsSendFriend(false);
     setIsRequester(false);
+    setIsNotFound(false);
   };
   useEffect(() => {
     setLoading(true);
@@ -105,6 +110,7 @@ const useFriend = () => {
     setIsGuest,
     resetStatus,
     setIsMyUser,
+    isNotFound,
   };
 };
 export const useGetFriendList = () => {

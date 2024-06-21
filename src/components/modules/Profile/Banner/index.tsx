@@ -24,6 +24,7 @@ const Banner: React.FC = () => {
     loading,
     setIsSendFriend,
     resetStatus,
+    isNotFound,
   } = useFriend();
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser handleFriend={handleFriend} />;
@@ -69,6 +70,8 @@ const Banner: React.FC = () => {
   };
   return loading ? (
     <Loading />
+  ) : isNotFound ? (
+    <S.Wrapper>404</S.Wrapper>
   ) : (
     <S.Wrapper>
       <S.CoverImage />

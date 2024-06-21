@@ -132,7 +132,7 @@ function MainLayout({ children }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <Link href="/home" onClick={() => handleSetNavigation("home")}>
+            <Link href="/" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
               ) : (

@@ -18,7 +18,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
     <S.LayoutWrapper>
       <S.Header>
         <S.Container>
-          <Link href="/home">
+          <Link href="/">
             <Image src={logo} alt="logo header" />
           </Link>
           <Flex gap={15} style={{ marginRight: "20px" }}>

@@ -18,7 +18,7 @@ export const useProfile = create<ProfileProps>((set) => ({
 
 export const useGetProfile = (profileHash: string) => {
   const [loading, setLoading] = useState(true);
-  const { profile, setProfile, setProfileHash } = useProfile();
+  const { setProfile, setProfileHash } = useProfile();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
       setLoading(true);
@@ -43,5 +43,5 @@ export const useGetProfile = (profileHash: string) => {
     getUserInfo(profileHash);
   }, [profileHash]);
 
-  return { profile, setProfile, loading };
+  return { setProfile, loading };
 };

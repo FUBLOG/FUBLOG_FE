@@ -1,20 +1,24 @@
 "use client";
-
-import { useGetProfile, useProfile } from "@/hooks/useProfile";
-import Banner from "../Banner";
-import * as S from "./styles";
-import { useEffect } from "react";
 import useFriend from "@/hooks/useFriend";
+import { useGetProfile } from "@/hooks/useProfile";
+import { useEffect } from "react";
+import Banner from "../Banner";
 import { Spin } from "antd";
 
+import * as S from "./styles";
+import { useUser } from "@/hooks/useUser";
 function Profile({ profileHash }: { readonly profileHash: string }) {
-  useGetProfile(profileHash);
-  const { loading } = useGetProfile(profileHash);
+  const { loading: profileLoading } = useGetProfile(profileHash);
+  const { isAuthLoading } = useUser();
   const { checkFriend } = useFriend();
+
   useEffect(() => {
-    checkFriend();
-  }, [profileHash]);
-  return loading ? (
+    if (!isAuthLoading) {
+      checkFriend();
+    }
+  }, [profileHash, isAuthLoading]);
+
+  return profileLoading || isAuthLoading ? (
     <Spin size="large" />
   ) : (
     <S.HomeWrapper>

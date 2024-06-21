@@ -1,21 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { getRequest } from "@/services/request";
 import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
 import { authEndpoint } from "@/services/endpoint";
-import { checkToken } from "@/utils/checkToken";
 
 export const useUser = () => {
-  const { setUserInfo } = useAuthContext();
+  const { userInfo, setUserInfo } = useAuthContext();
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+
   useEffect(() => {
     isUser();
   }, []);
 
   const isUser = async () => {
-    const token = await checkToken(await webStorageClient.getToken());
-    if (token !== false) {
+    const token = await webStorageClient.getToken();
+    if (token) {
       try {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
@@ -74,6 +75,7 @@ export const useUser = () => {
         },
       });
     }
+    setIsAuthLoading(false);
   };
 
   const addUser = async (
@@ -130,5 +132,5 @@ export const useUser = () => {
     });
   };
 
-  return { addUser, removeUser, isUser };
+  return { userInfo, addUser, removeUser, setUserInfo, isUser, isAuthLoading };
 };

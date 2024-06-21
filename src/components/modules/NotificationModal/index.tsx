@@ -10,6 +10,14 @@ interface NotificationModalProps {
   visible: boolean;
   onClose: () => void;
 }
+interface Notification {
+  id: number;
+  title: string;
+  avatar: string;
+  createdAt: Date;
+  link: string;
+}
+
 
 const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose }) => {
   const [activeTab, setActiveTab] = useState('1');
@@ -20,9 +28,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
       onCancel={onClose}
       destroyOnClose={true}
       footer={null}
-      bodyStyle={{
-        padding: 0
-      }}
+      bodyStyle={{ padding: 0 }}
       centered
     >
       <S.NotificationContainer>

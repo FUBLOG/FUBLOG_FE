@@ -3,7 +3,18 @@ import { getAllRequestFriend } from "@/services/api/friend";
 import { getAllNotifications } from "@/services/api/notification";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
-
+import { markNotificationAsRead } from "@/services/api/notification";
+import { markAllNotificationsAsRead } from "@/services/api/notification";
+interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  seen: boolean;
+  avatar: string;
+  createdAt: Date;
+  link: string;
+}
+ 
 interface NotificationProps {
   notifications: any;
   setNotifications: (notifications: any) => void;
@@ -70,6 +81,49 @@ const useGetNotification = () => {
 
   return { notifications, loading };
 };
+const useMarkNotificationAsRead = () => {
+  const { notifications, setNotifications } = useNotification();
 
+  const markAsRead = async (notificationId: number) => {
+    try {
+      await markNotificationAsRead(notificationId);
+      setNotifications((prevNotifications: any) =>
+        prevNotifications.map((notification: any) =>
+          notification.id === notificationId
+            ? { ...notification, seen: true }
+            : notification
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
+  return { markAsRead };
+};
+
+const useMarkAllNotificationsAsRead = () => {
+  const { setNotifications } = useNotification();
+
+  const markAllAsRead = async () => {
+    try {
+      await markAllNotificationsAsRead();
+      setNotifications((prevNotifications: any) =>
+        prevNotifications.map((notification: any) => ({
+          ...notification,
+          seen: true,
+        }))
+      );
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
+  };
+
+  return { markAllAsRead };
+};
+
+export { useMarkAllNotificationsAsRead };
+
+export { useMarkNotificationAsRead };
 export default useNotification;
 export { useGetFriendRequest, useGetNotification };

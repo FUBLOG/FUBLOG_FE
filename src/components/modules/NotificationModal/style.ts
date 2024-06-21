@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 
 export const NotificationContainer = styled.div`
@@ -22,16 +21,24 @@ export const NotificationContainer = styled.div`
     background-color: transparent; 
   }
 
+  .notification-item.unread .ant-list-item-meta-title,
+  .friend-item.unread .ant-list-item-meta-title {
+    font-weight: bold; /* Hiển thị chữ in đậm cho thông báo chưa xem */
+  }
+
+  .notification-item.read .ant-list-item-meta-title,
+  .friend-item.read .ant-list-item-meta-title {
+    font-weight: normal; /* Hiển thị chữ bình thường cho thông báo đã xem */
+  }
+
   .notification-item:hover, .friend-item:hover {
     background-color: #fff;
-   
     opacity: 0.7;
   }
 
   .friend-item .ant-list-item-meta-title {
     display: flex;
     align-items: center;
-    font-weight: bold;
   }
 
   .friend-item .ant-list-item-meta-title span {
@@ -70,8 +77,8 @@ export const TabContent = styled.div`
     padding: 6px 15px;
     color: rgba(0, 0, 0, 0.88);
     margin:0px;
-}
-.ant-modal .ant-modal-content {
+  }
+  .ant-modal .ant-modal-content {
     position: relative;
     background-color: #ffffff;
     background-clip: padding-box;
@@ -80,21 +87,14 @@ export const TabContent = styled.div`
     box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
     pointer-events: auto;
     padding: 4px;
-}
-.ant-btn-default {
+  }
+  .ant-btn-default {
     background: #B9B4C7;
     border-color: #4C3BCF;
     color: rgba(0, 0, 0, 0.88);
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
-}
-
-  
+  }
 `;
-
-
-
-
-
 
 export const ActionButtons = styled.div`
   display: flex;
@@ -102,6 +102,4 @@ export const ActionButtons = styled.div`
   justify-content: flex-end;
   padding-top: 10px; 
   margin-top: 16px; 
-  
 `;
-

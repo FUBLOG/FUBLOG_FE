@@ -35,7 +35,7 @@ const friendEndpoint = {
 };
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,
-  MARK_AS_READ: `/notification/`,
+  MARK_AS_READ: (notificationId: number) => `/notification/${notificationId}`,
   MARK_ALL_AS_READ: `/notification/`,
 };
 //export endpoint

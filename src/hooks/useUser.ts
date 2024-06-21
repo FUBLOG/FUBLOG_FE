@@ -14,8 +14,6 @@ export const useUser = () => {
   const isUser = async () => {
     const token = await webStorageClient.getToken();
     if (token) {
-      console.log("có token");
-
       try {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
@@ -96,14 +94,7 @@ export const useUser = () => {
       userInfo: {
         avatar: string;
         blockList: [];
-        friendList: [
-          {
-            friend_id: "";
-            displayName: "";
-            avatar: "";
-            _id: "";
-          }
-        ];
+        friendList: [];
       };
     }
   ) => {
@@ -112,6 +103,8 @@ export const useUser = () => {
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
+    console.log("Chỗ này in test", userInfo);
+
     await setUserInfo(userInfo);
   };
 

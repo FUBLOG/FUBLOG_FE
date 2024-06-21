@@ -1,8 +1,10 @@
 import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
 import { useProfile } from "./useProfile";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { getRequestFriend } from "@/services/api/friend";
+import { useAuthContext } from "@/contexts/AuthContext";
+import webLocalStorage from "@/utils/webLocalStorage";
+import { constants } from "@/settings";
 
 const useFriend = () => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
@@ -16,13 +18,11 @@ const useFriend = () => {
   const { profile } = useProfile();
 
   const checkIsGuest = async () => {
-    console.log(userInfo);
-    if (userInfo?.userId === "") {
-      console.log(1);
-
+    if (!(userInfo?.userId === "")) {
       setIsGuest(true);
       return true;
     }
+    setIsGuest(false);
     return false;
   };
   const checkIsFriend = async () => {
@@ -53,8 +53,13 @@ const useFriend = () => {
   };
   const checkFriend = async () => {
     if (!(await checkIsGuest())) {
-      await checkRequest();
+      if (userInfo?.userId === profile?.user?._id) setIsMyUser(true);
+      else {
+        await checkRequest();
+      }
     }
+    console.log(isGuest, "is");
+    console.log("profile", profile);
   };
   const resetStatus = () => {
     setIsFriend(false);
@@ -66,10 +71,8 @@ const useFriend = () => {
   };
   useEffect(() => {
     resetStatus();
-    if (profile !== null) {
-      checkFriend();
-    }
-  }, [profile, userInfo?.userId]);
+    checkFriend();
+  }, [profile]);
   return {
     isRequester,
     isFriend,
@@ -81,7 +84,7 @@ const useFriend = () => {
     setIsFriend,
   };
 };
-const useGetFriendList = () => {
+export const useGetFriendList = () => {
   const [friendList, setFriendList] = useState<any[]>([]);
   useEffect(() => {
     getFriendList().then((list: any) =>
@@ -90,5 +93,4 @@ const useGetFriendList = () => {
   }, []);
   return friendList;
 };
-export { useGetFriendList };
 export default useFriend;

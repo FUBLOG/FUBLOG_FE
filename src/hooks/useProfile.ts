@@ -17,8 +17,8 @@ export const useProfile = create<ProfileProps>((set) => ({
 }));
 
 export const useGetProfile = (profileHash: string) => {
-  const [loading, setLoading] = useState(false);
-  const { setProfile, setProfileHash, profile } = useProfile();
+  const [loading, setLoading] = useState(true);
+  const { profile, setProfile, setProfileHash } = useProfile();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
       setLoading(true);
@@ -29,6 +29,7 @@ export const useGetProfile = (profileHash: string) => {
         if (metadata) {
           setProfileHash(hash);
           setProfile(metadata);
+          return metadata;
         } else {
           throw new Error("Profile metadata not found.");
         }
@@ -40,7 +41,7 @@ export const useGetProfile = (profileHash: string) => {
       return null;
     };
     getUserInfo(profileHash);
-  }, []);
+  }, [profileHash]);
 
   return { profile, setProfile };
 };

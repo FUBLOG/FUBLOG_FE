@@ -6,10 +6,12 @@ import * as S from "./styles";
 import { useEffect } from "react";
 
 function Profile({ profileHash }: { readonly profileHash: string }) {
-  const { setProfile, profile } = useGetProfile(profileHash);
+  const { profile } = useGetProfile(profileHash);
+  const { setProfile } = useProfile();
+
   useEffect(() => {
-    return () => setProfile(null);
-  }, []);
+    setProfile(profile);
+  }, [profileHash]);
   return (
     <S.HomeWrapper>
       <Banner />

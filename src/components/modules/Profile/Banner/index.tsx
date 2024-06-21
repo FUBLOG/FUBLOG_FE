@@ -9,25 +9,25 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { sendFriendRequest } from "@/services/api/friend";
 
 const Banner: React.FC = () => {
-
   const { profile } = useProfile();
-  const {
-    isFriend,
-    isGuest,
-    isMyUser,
-    isRequester,
-    isSendFriend,
-  } = useFriend();
+  const { isFriend, isGuest, isMyUser, isRequester, isSendFriend } =
+    useFriend();
   const handleDisplayButton = () => {
-    if (isGuest) return <></>
-    if (isMyUser) return <>Xử lý là tôi</>
-    if (isFriend) return <FriendButton handleFriend={handleFriend} />
-    if (isRequester) return <RequesterButton handleFriend={handleFriend} />
-    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />
-  }
+    if (isGuest)
+      return (
+        <>
+          là guest
+          <DefaultButton handleFriend={handleFriend} />
+        </>
+      );
+    if (isMyUser) return <MyUser handleFriend={handleFriend} />;
+    if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
+    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+  };
   useEffect(() => {
-    handleDisplayButton()
-  }, [profile]);
+    handleDisplayButton();
+  }, [profile, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = (event: string): void => {
     switch (event) {
@@ -66,11 +66,7 @@ const Banner: React.FC = () => {
             </Typography>
           </S.Typography>
         </S.BoxUser>
-        <S.ButtonUser>
-          {
-            handleDisplayButton()
-          }
-        </S.ButtonUser>
+        <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
   );
@@ -79,24 +75,72 @@ const Banner: React.FC = () => {
 interface ButtonProps {
   handleFriend: Function;
 }
-
-const SendFriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (<Button
-    type="default"
-    $backgroundColor="#FAF0E6"
-    $width="100px"
-    color="#352f44"
-    $hoverColor="#faf0e6"
-  >
-    Đã gửi lời mời
-  </Button>)
-
-}
-
-const RequesterButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (<>
+const MyUser: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
+  return (
     <Button
       type="default"
+      children={"Chỉnh sửa"}
+      onClick={() => {}}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    />
+  );
+};
+const SendFriendButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <Button
+      type="default"
+      children={"Hủy lời mời"}
+      onClick={() => {}}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    />
+  );
+};
+
+const RequesterButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <S.ButtonWrap>
+      <Button
+        type="default"
+        children={"Chấp nhận lời mời"}
+        onClick={() => {}}
+        $width="120px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      />
+
+      <Button
+        type="default"
+        children={"Từ chối lời mời"}
+        onClick={() => {
+          handleFriend("decline");
+        }}
+        $width="120px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      />
+    </S.ButtonWrap>
+  );
+};
+
+const DefaultButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <Button
+      type="default"
+      children={"Kết bạn"}
       onClick={() => {
         handleFriend("accept");
       }}
@@ -104,65 +148,34 @@ const RequesterButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) =
       $backgroundColor="#FAF0E6"
       color="#352f44"
       $hoverColor="#faf0e6"
-    >
-      Chấp nhận
-    </Button>
-    <Button
-      type="default"
-      onClick={() => {
-        handleFriend("decline");
-      }}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Từ chối
-    </Button></>)
-}
-
-const DefaultButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (<Button
-    type="default"
-    onClick={() => {
-      handleFriend("addFriend");
-    }}
-    $width="100px"
-    $backgroundColor="#FAF0E6"
-    color="#352f44"
-    $hoverColor="#faf0e6"
-  >
-    Kết bạn
-  </Button>)
-}
+    />
+  );
+};
 
 const FriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (<>
-    <Button
-      type="default"
-      onClick={() => {
-        handleFriend("unfriend");
-      }}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Hủy kết bạn
-    </Button>
-    <Button
-      type="default"
-      onClick={() => {
-        handleFriend("chat");
-      }}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Nhắn tin
-    </Button>
-  </>)
-}
+  return (
+    <S.ButtonWrap>
+      <Button
+        type="default"
+        children={"Hủy kết bạn"}
+        onClick={() => {
+          handleFriend("unfriend");
+        }}
+        $width="100px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      />
+      <Button
+        type="default"
+        children={"Nhắn tin"}
+        $backgroundColor="#FAF0E6"
+        $width="100px"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      />
+    </S.ButtonWrap>
+  );
+};
 
 export default Banner;

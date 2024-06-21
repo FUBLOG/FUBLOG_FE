@@ -14,8 +14,11 @@ import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PostContext } from "@/components/core/layouts/MainLayout/Context";
 import { v4 as uuidv4 } from "uuid";
-import { getRequest } from "@/services/request";
-import { tagEndpoint } from "@/services/endpoint";
+import { getRequest, postRequest } from "@/services/request";
+import { postEndpoint, tagEndpoint } from "@/services/endpoint";
+import webLocalStorage from "@/utils/webLocalStorage";
+import { constants } from "@/settings";
+import { useAuthContext } from "@/contexts/AuthContext";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
@@ -33,6 +36,14 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
 
   const { addPost } = useContext(PostContext);
 
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const [tagValue, setTagValue] = useState("Khác");
+
+  const [openTag, setOpenTag] = useState(false);
+
+  const [tags, setTags] = useState<any[]>([]);
+
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
   };
@@ -40,7 +51,6 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -56,9 +66,6 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
     imgWindow?.document.write(img.outerHTML);
   };
 
-  const [tagValue, setTagValue] = useState("Khác");
-  const [openTag, setOpenTag] = useState(false);
-  const [tags, setTags] = useState<any[]>([]);
   const handleOpenTag = () => {
     setOpenTag(true);
   };
@@ -83,13 +90,44 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
-  const CreatePost = () => {
+  const { userInfo, setUserInfo } = useAuthContext();
+
+  const CreatePost = async () => {
+    try {
+      const formData = new FormData();
+      fileList.map((file) => {
+        if (file.originFileObj) {
+          const blob = file.originFileObj as Blob;
+          formData.append("image", blob);
+        }
+      });
+      formData.append("content", postContent);
+      formData.append("tagId", "66739c62f5ceba09bfa40b81");
+      const res: any = await postRequest(
+        postEndpoint.POST_POST,
+        {
+          data: formData,
+          security: true, // Nếu cần bảo mật
+        },
+        true
+      );
+      const getres: any = await getRequest(postEndpoint.GET_POSTS);
+      console.log(getres?.metadata);
+      
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Create form data
+    // console.log(userInfo);
+
     setShowSpinner(true);
     setTimeout(() => {
       addPost({
         id: uuidv4(),
-        user: user.name,
-        avatar: user.avatar.src,
+        user: userInfo.profileHash,
+        avatar: userInfo.userInfo.avatar,
         content: postContent,
         images: fileList.map((file) => file.thumbUrl as string),
         tag: tagValue,
@@ -125,10 +163,10 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
       <div className="contentHeader">
         <div className="user-wrapper">
           <div className="image-wrapper">
-            <Image src={thanhthuy1} width={40} height={40} />
+            <Image src={userInfo.userInfo.avatar} width={40} height={40} />
           </div>
           <div className="des">
-            <span>{user.name}</span>
+            <span>{userInfo.profileHash}</span>
             <div className="display-audience">
               <p>{audienceValue}</p>
             </div>
@@ -197,7 +235,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
             >
               <h3>Chọn Thẻ</h3>
               {tags.map((tag) => (
-                <Radio value ={tag?.postTagContent as string} key={tag?._id}>
+                <Radio value={tag?.postTagContent as string} key={tag?._id}>
                   {tag?.postTagContent}
                 </Radio>
               ))}

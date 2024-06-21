@@ -18,6 +18,8 @@ function Home() {
     const setup = async () => {
       const res: any = await getRequest(tagEndpoint.GET_TAG);
       setTags(res?.metadata);
+      console.log(res?.metadata);
+      
     };
     setup();
   },[])
@@ -74,8 +76,8 @@ function Home() {
             )}
 
             {posts.map(
-              (post) =>
-                (post.tag as string) === activeTag as string &&(
+              (post) => 
+                ((post.tag as string) === activeTag as string || activeTag === "Tất Cả") &&(
                   <Post
                     key={post.id}
                     user={post.user}
@@ -88,7 +90,8 @@ function Home() {
                     initialCommentsData={post.initialCommentsData}
                   />
                 )
-            )}
+            )
+            }
           </S.PostContainer>
         </S.ContentWrapper>
       </S.MainWrapper>

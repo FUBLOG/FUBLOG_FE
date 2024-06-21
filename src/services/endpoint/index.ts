@@ -19,10 +19,14 @@ const messageEndpoint = {
 const tagEndpoint = {
   GET_TAG : `/tag`,
 }
+const postEndpoint = {
+  GET_POSTS : `/post`,
+  POST_POST : `/post`,
+}
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,
   DISTRICT: `${prefixBase}/province/district`,
   WARD: `${prefixBase}/province/ward`,
 };
 //export endpoint
-export { authEndpoint, editProfileEndpoint, userEndpoint, messageEndpoint,tagEndpoint };
+export { authEndpoint, editProfileEndpoint, userEndpoint, messageEndpoint,tagEndpoint,postEndpoint };

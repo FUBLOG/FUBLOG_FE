@@ -11,16 +11,19 @@ export const useUser = () => {
   useEffect(() => {
     isUser();
   }, []);
+
   const isUser = async () => {
     const token = await webStorageClient.getToken();
     if (token) {
+      console.log("có token");
+
       try {
         const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
           security: true,
         });
         if (res) {
           webStorageClient.set(constants.IS_AUTH, true);
-          await setUserInfo({
+          setUserInfo({
             userId: res?.metadata?._id,
             dateOfBirth: res?.metadata?.dateOfBirth,
             displayName: res?.metadata?.displayName,
@@ -40,7 +43,7 @@ export const useUser = () => {
         }
       } catch (error) {
         webStorageClient.set(constants.IS_AUTH, false);
-        await setUserInfo({
+        setUserInfo({
           userId: "",
           dateOfBirth: "",
           displayName: "",
@@ -58,7 +61,7 @@ export const useUser = () => {
       }
     } else {
       webStorageClient.set(constants.IS_AUTH, false);
-      await setUserInfo({
+      setUserInfo({
         userId: "",
         dateOfBirth: "",
         displayName: "",
@@ -75,6 +78,7 @@ export const useUser = () => {
       });
     }
   };
+
   const addUser = async (
     user: {
       ACCESS_TOKEN: string;
@@ -103,9 +107,7 @@ export const useUser = () => {
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
     webStorageClient.set(constants.IS_AUTH, true);
-    console.log("Chỗ này in test", userInfo);
-
-    await setUserInfo(userInfo);
+    setUserInfo(userInfo);
   };
 
   const removeUser = async () => {
@@ -114,7 +116,7 @@ export const useUser = () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
-    await setUserInfo({
+    setUserInfo({
       userId: "",
       dateOfBirth: "",
       displayName: "",

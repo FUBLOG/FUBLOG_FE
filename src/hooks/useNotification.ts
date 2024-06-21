@@ -39,7 +39,7 @@ const useGetFriendRequest = () => {
         setLoading(false);
       }
     };
-    if (userInfo.userId !== null) {
+    if (userInfo.userId !== "") {
       getFriendRequest();
     }
   }, []);

@@ -9,55 +9,40 @@ import { authEndpoint } from "@/services/endpoint";
 export const useUser = () => {
   const { userInfo, setUserInfo } = useAuthContext();
   useEffect(() => {
-    const isUser = async () => {
-      const token = await webStorageClient.getToken();
-      if (token) {
-        try {
-          const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-            security: true,
-          });
+    isUser();
+  }, []);
 
-          if (res) {
-            webStorageClient.set(constants.IS_AUTH, true);
-            setUserInfo({
-              userId: res?.metadata?._id,
-              dateOfBirth: res?.metadata?.dateOfBirth,
-              displayName: res?.metadata?.displayName,
-              email: res?.metadata?.email,
-              firstName: res?.metadata?.firstName,
-              lastName: res?.metadata?.lastName,
-              profileHash: res?.metadata?.profileHash,
-              sex: res?.metadata?.sex,
-              userInfo: {
-                avatar: res?.metadata?.userInfo?.avatar,
-                blockList: res?.metadata?.userInfo?.blockList,
-                friendList: res?.metadata?.userInfo?.friendList,
-              },
-            });
-          } else {
-            throw new Error("Invalid user data");
-          }
-        } catch (error) {
-          webStorageClient.set(constants.IS_AUTH, false);
+  
+  const isUser = async () => {
+    const token = await webStorageClient.getToken();
+    if (token) {
+      console.log("có token");
+
+      try {
+        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
+          security: true,
+        });
+        if (res) {
+          webStorageClient.set(constants.IS_AUTH, true);
           setUserInfo({
-            userId: "",
-            dateOfBirth: "",
-            displayName: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-            profileHash: "",
-            sex: "",
+            userId: res?.metadata?._id,
+            dateOfBirth: res?.metadata?.dateOfBirth,
+            displayName: res?.metadata?.displayName,
+            email: res?.metadata?.email,
+            firstName: res?.metadata?.firstName,
+            lastName: res?.metadata?.lastName,
+            profileHash: res?.metadata?.profileHash,
+            sex: res?.metadata?.sex,
             userInfo: {
-              avatar: "",
-              blockList: [],
-              friendList: [
-                { friend_id: "", displayName: "", avatar: "", _id: "" },
-              ],
+              avatar: res?.metadata?.userInfo?.avatar,
+              blockList: res?.metadata?.userInfo?.blockList,
+              friendList: res?.metadata?.userInfo?.friendList,
             },
           });
+        } else {
+          throw new Error("Invalid user data");
         }
-      } else {
+      } catch (error) {
         webStorageClient.set(constants.IS_AUTH, false);
         setUserInfo({
           userId: "",
@@ -71,17 +56,32 @@ export const useUser = () => {
           userInfo: {
             avatar: "",
             blockList: [],
-            friendList: [
-              { friend_id: "", displayName: "", avatar: "", _id: "" },
-            ],
+            friendList: [],
           },
         });
       }
-    };
-    isUser();
-  }, []);
+    } else {
+      webStorageClient.set(constants.IS_AUTH, false);
+      setUserInfo({
+        userId: "",
+        dateOfBirth: "",
+        displayName: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        profileHash: "",
+        sex: "",
+        userInfo: {
+          avatar: "",
+          blockList: [],
+          friendList: [],
+        },
+      });
+    }
+  };
 
-  const addUser = (
+
+  const addUser = async (
     user: {
       ACCESS_TOKEN: string;
       PROFILE_HASH: string;
@@ -100,14 +100,7 @@ export const useUser = () => {
       userInfo: {
         avatar: string;
         blockList: [];
-        friendList: [
-          {
-            friend_id: "";
-            displayName: "";
-            avatar: "";
-            _id: "";
-          }
-        ];
+        friendList: [];
       };
     }
   ) => {
@@ -119,13 +112,13 @@ export const useUser = () => {
     setUserInfo(userInfo);
   };
 
-  const removeUser = () => {
+  const removeUser = async () => {
     webStorageClient.remove(constants.ACCESS_TOKEN);
     webStorageClient.remove(constants.PROFILE_HASH);
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
-    setUserInfo({
+     setUserInfo({
       userId: "",
       dateOfBirth: "",
       displayName: "",
@@ -137,10 +130,10 @@ export const useUser = () => {
       userInfo: {
         avatar: "",
         blockList: [],
-        friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
+        friendList: [],
       },
     });
   };
 
-  return { userInfo, addUser, removeUser, setUserInfo };
+  return { userInfo, addUser, removeUser, setUserInfo, isUser };
 };

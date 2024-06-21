@@ -21,36 +21,14 @@ const NotificationTab = () => {
                 <List.Item
                     key={item.id}
                     className="notification-item"
-                    onClick={() => window.location.href = item.link}
+
+                    
                 >
                     <List.Item.Meta
-                        avatar={
-                            <div
-                                onClick={() => window.location.href = item.link}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <Avatar src={item.avatar} />
-                            </div>
-                        }
-                        title={
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span
-                                    style={{ fontWeight: 'bold', cursor: 'pointer' }}
-                                    onClick={() => window.location.href = item.link}
-                                >
-                                    {item.title.split(' ')[0]}
-                                </span>
-                                <span style={{ marginLeft: '4px' }}>
-                                    {item.title.replace(item.title.split(' ')[0], '')}
-                                </span>
-                            </div>
-                        }
+                        avatar={<Avatar src={item?.image[0]} />}
+                        title={<span>{item.title}</span>}
+                        description={<span>{fromNow(new Date(item.createdAt))}</span>}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                    description={ <span style={{ color: '#888', fontSize: '1px', margin:'0px'}}>
-                            {fromNow(new Date(item.createdAt))}
-                        </span>}
-                    </div>
                 </List.Item>
             )}
         />)

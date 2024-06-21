@@ -18,3 +18,32 @@ export const rejectFriendRequest = async (data: any) => {
     data: data,
   });
 };
+
+export const sendFriendRequest = async (data: any) => {
+  return await postRequest(friendEndpoint.ADD_FRIEND, {
+    security: true,
+    data: {
+      targetID: data,
+    },
+  });
+};
+
+export const unfriend = async (data: any) => {
+  return await postRequest(friendEndpoint.REMOVE_FRIEND, {
+    security: true,
+    data: {
+      targetID: data,
+    },
+  });
+};
+
+export const getRequestFriend = async (id: string) => {
+  return await getRequest(friendEndpoint.GET_REQUESTS_SENT + id, {
+    security: true,
+  });
+};
+export const getFriendList = async () => {
+  return await getRequest(friendEndpoint.FRIEND_LIST, {
+    security: true,
+  });
+};

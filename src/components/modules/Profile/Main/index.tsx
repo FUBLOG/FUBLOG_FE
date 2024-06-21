@@ -1,21 +1,24 @@
 "use client";
 
+import { useGetProfile, useProfile } from "@/hooks/useProfile";
 import Banner from "../Banner";
-import ListFriend from "../ListFriend";
-import PostProfile from "../PostProfile";
-
 import * as S from "./styles";
+import { useEffect } from "react";
 
 function Profile({ profileHash }: { readonly profileHash: string }) {
+  const { setProfile, profile } = useGetProfile(profileHash);
+  useEffect(() => {
+    return () => setProfile(null);
+  }, []);
   return (
     <S.HomeWrapper>
-      <Banner profileHash={profileHash} />
-      <S.Container>
+      <Banner />
+      {/* <S.Container>
         <S.Main>
           <ListFriend />
           <PostProfile />
         </S.Main>
-      </S.Container>
+      </S.Container> */}
     </S.HomeWrapper>
   );
 }

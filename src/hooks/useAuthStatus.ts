@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { useUser } from "./useUser";
-
 export interface Key {
   ACCESS_TOKEN: string;
   PROFILE_HASH: string;
@@ -18,26 +18,34 @@ export interface UserInfo {
   userInfo: {
     avatar: string;
     blockList: [];
-    friendList: [
-      {
-        friend_id: "";
-        displayName: "";
-        avatar: "";
-        _id: "";
-      }
-    ];
+    friendList: [];
   };
 }
 export const useAuth = () => {
   const { userInfo, addUser, removeUser, setUserInfo } = useUser();
+  const [loading, setLoading] = useState(false);
 
-  const login = (key: Key, userInfo: UserInfo) => {
-    addUser(key, userInfo);
+  const login = async (key: Key, userInfo: UserInfo) => {
+    setLoading(true);
+    try {
+      await addUser(key, userInfo);
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const logout = () => {
-    removeUser();
+  const logout = async () => {
+    setLoading(true);
+    try {
+      await removeUser();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return { userInfo, login, logout, setUserInfo };
+  return { userInfo, login, logout, setUserInfo, loading };
 };

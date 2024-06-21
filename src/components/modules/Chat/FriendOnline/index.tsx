@@ -4,33 +4,23 @@ import { useSocketContext } from "@/contexts/SocketContext";
 import { useEffect, useState } from "react";
 import { Badge } from "antd";
 import useConversation from "@/hooks/useConversation";
+import { useGetFriendList } from "@/hooks/useFriend";
 
 const FriendOnline = () => {
   const { userInfo } = useAuthContext();
   const { userOnline } = useSocketContext();
   const [friends, setFriends] = useState<any>([]);
+  const listFriends = useGetFriendList();
   const { setSelectedConversation } = useConversation();
 
   const clickFriend = async (friend: any) => {
-    setSelectedConversation({
-      _id: "123",
-      participants: [
-        {
-          _id: friend?.friend_id,
-          avatar: friend.avatar === "" ? "./jos.jpg" : friend.avatar,
-          displayName: friend.displayName,
-          isActive: friend.action,  
-        },
-      ],
-      messages: [],
-    });
+    
   };
 
   useEffect(() => {
     const handleFriendsOnline = async () => {
-      const listFriends = userInfo?.userInfo?.friendList;
       const friendsOnline = listFriends?.map((friend: any) => {
-        if (userOnline.includes(friend?.friend_id)) {
+        if (userOnline.includes(friend?._id)) {
           return {
             ...friend,
             action: true,
@@ -48,16 +38,16 @@ const FriendOnline = () => {
     }
   }, [userOnline, userInfo]);
 
-    return (<S.ActiveFriends>
-        {friends?.map((friend: any) => (
-            <S.ActiveFriend key={friend._id} onClick={() => clickFriend(friend)}>
-                <Badge dot={friend.action} status="success">
-                    <S.ActiveFriendImage src={friend?.avatar === "" ? "./jos.jpg" : friend?.avatar} alt={friend.displayName} isActive />
-                </Badge>
-                <S.ActiveFriendName>{friend.displayName}</S.ActiveFriendName>
-            </S.ActiveFriend>
-        ))}
-    </S.ActiveFriends>);
+  return (<S.ActiveFriends>
+    {friends?.map((friend: any) => (
+      <S.ActiveFriend key={friend._id} onClick={() => clickFriend(friend)}>
+        <Badge dot={friend?.action} status="success">
+          <S.ActiveFriendImage src={friend?.userInfo?.avatar} alt={friend?.displayName} isActive />
+        </Badge>
+        <S.ActiveFriendName>{friend?.displayName}</S.ActiveFriendName>
+      </S.ActiveFriend>
+    ))}
+  </S.ActiveFriends>);
 }
 
 export default FriendOnline;

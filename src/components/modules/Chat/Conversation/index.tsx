@@ -6,14 +6,15 @@ interface ConversationProps {
     conversation: any;
 }
 
-const Conversation = ({key,conversation}:ConversationProps) => {
+const Conversation = ({ key, conversation }: ConversationProps) => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const isSelected = selectedConversation?._id === conversation._id;
-    
-    const lastMessage = conversation?.messages?.length > 0 
-    ? conversation.messages[conversation.messages.length - 1].text 
-    : 'Bắt đầu trò chuyện'; 
-    
+
+    let lastMessage = conversation?.lastMessage?.message
+    if (conversation?.lastMessage?.senderId !== conversation?.participants[0]?._id) {
+        lastMessage = 'You: ' + lastMessage;
+
+    }
     return (
         <S.FriendItem
             key={key}

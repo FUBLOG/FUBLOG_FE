@@ -28,7 +28,6 @@ const MessageList = () => {
             <S.MessageContent isOwnMessage={isOwnMessage}>
               {message.message}
             </S.MessageContent>
-          
           </S.MessageItem>
         );
       })}

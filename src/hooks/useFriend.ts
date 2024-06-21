@@ -18,48 +18,67 @@ const useFriend = () => {
   const { profile } = useProfile();
 
   const checkIsGuest = async () => {
-    if (!(userInfo?.userId === "")) {
+    setLoading(true);
+    if (userInfo?.userId === "") {
       setIsGuest(true);
       return true;
     }
-    setIsGuest(false);
+    setLoading(false);
+
     return false;
   };
   const checkIsFriend = async () => {
+    setLoading(true);
+
     const result: any = userInfo?.userInfo?.friendList.filter(
       (friend: string) => friend === profile?.user?._id
     );
 
     if (result?.length > 0) {
       setIsFriend(true);
+      setLoading(false);
+
       return true;
     }
+    setLoading(false);
+
     return false;
   };
   const handleRequest = async (request: any) => {
+    setLoading(true);
+
     if (request?.sourceID === userInfo?.userId) {
       setIsSendFriend(true);
+      setLoading(false);
     } else {
       setIsRequester(true);
+      setLoading(false);
     }
   };
   const checkRequest = async () => {
     const response = await getRequestFriend(profile?.user?._id);
+    setLoading(true);
+
     if (response?.metadata === null) {
       await checkIsFriend();
+      setLoading(false);
     } else {
       await handleRequest(response?.metadata);
+      setLoading(false);
     }
   };
   const checkFriend = async () => {
+    setLoading(true);
+
     if (!(await checkIsGuest())) {
-      if (userInfo?.userId === profile?.user?._id) setIsMyUser(true);
-      else {
+      if (userInfo?.userId === profile?.user?._id) {
+        setIsMyUser(true);
+        setLoading(false);
+      } else {
         await checkRequest();
+        setLoading(false);
       }
     }
-    console.log(isGuest, "is");
-    console.log("profile", profile);
   };
   const resetStatus = () => {
     setIsFriend(false);
@@ -81,15 +100,14 @@ const useFriend = () => {
     isMyUser,
     isSendFriend,
     loading,
+    checkFriend,
     setIsFriend,
   };
 };
 export const useGetFriendList = () => {
   const [friendList, setFriendList] = useState<any[]>([]);
   useEffect(() => {
-    getFriendList().then((list: any) =>
-      setFriendList(list?.metadata?.friendList)
-    );
+    getFriendList().then((list) => setFriendList(list?.metadata?.friendList));
   }, []);
   return friendList;
 };

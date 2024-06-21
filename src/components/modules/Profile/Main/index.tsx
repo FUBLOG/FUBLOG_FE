@@ -4,13 +4,15 @@ import { useGetProfile, useProfile } from "@/hooks/useProfile";
 import Banner from "../Banner";
 import * as S from "./styles";
 import { useEffect } from "react";
+import useFriend from "@/hooks/useFriend";
 
 function Profile({ profileHash }: { readonly profileHash: string }) {
   const { profile } = useGetProfile(profileHash);
-  const { setProfile } = useProfile();
 
+  const { checkFriend } = useFriend();
   useEffect(() => {
-    setProfile(profile);
+    profile;
+    checkFriend();
   }, [profileHash]);
   return (
     <S.HomeWrapper>

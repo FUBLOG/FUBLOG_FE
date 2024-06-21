@@ -22,6 +22,7 @@ export const useUser = () => {
           security: true,
         });
         if (res) {
+          console.log("ok nha");
           webStorageClient.set(constants.IS_AUTH, true);
           setUserInfo({
             userId: res?.metadata?._id,
@@ -42,6 +43,8 @@ export const useUser = () => {
           throw new Error("Invalid user data");
         }
       } catch (error) {
+        console.log("k ok");
+
         webStorageClient.set(constants.IS_AUTH, false);
         setUserInfo({
           userId: "",

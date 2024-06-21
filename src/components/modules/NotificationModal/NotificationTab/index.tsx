@@ -2,14 +2,6 @@ import { List, Avatar, Skeleton } from 'antd';
 import { fromNow } from '@/utils';
 import { useGetNotification } from '@/hooks/useNotification';
 
-interface Notification {
-    id: number;
-    title: string;
-    avatar: string;
-    createdAt: Date;
-    link: string;
-}
-
 const NotificationTab = () => {
     const { loading, notifications } = useGetNotification();
 
@@ -17,7 +9,7 @@ const NotificationTab = () => {
         <List
             itemLayout="horizontal"
             dataSource={notifications}
-            renderItem={(item: Notification) => (
+            renderItem={(item: any) => (
                 <List.Item
                     key={item.id}
                     className="notification-item"
@@ -33,9 +25,7 @@ const NotificationTab = () => {
             )}
         />)
 }
-
 const Loading = () => {
     return <Skeleton active round avatar title />;
 }
-
 export default NotificationTab;

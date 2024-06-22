@@ -17,39 +17,37 @@ interface AuthLayoutProps {
 function AuthLayout({ children }: AuthLayoutProps) {
   const { loading } = useAuth();
   return (
-    <Spin size="large" spinning={loading}>
-      <S.LayoutWrapper>
-        <S.Header>
-          <S.Container>
-            <Link href="/">
-              <Image src={logo} alt="logo header" />
+    <S.LayoutWrapper>
+      <S.Header>
+        <S.Container>
+          <Link href="/">
+            <Image src={logo} alt="logo header" />
+          </Link>
+          <Flex gap={15} style={{ marginRight: "20px" }}>
+            <Link href="/sign-in">
+              <Button
+                type="default"
+                children={"Đăng nhập"}
+                $width="100px"
+                disabled={loading}
+                loading={loading}
+              />
             </Link>
-            <Flex gap={15} style={{ marginRight: "20px" }}>
-              <Link href="/sign-in">
-                <Button
-                  type="default"
-                  children={"Đăng nhập"}
-                  $width="100px"
-                  disabled={loading}
-                  loading={loading}
-                />
-              </Link>
-              <Link href="/sign-up">
-                <Button
-                  color="red"
-                  type="primary"
-                  children={"Đăng ký"}
-                  $width="100px"
-                  disabled={loading}
-                  loading={loading}
-                />
-              </Link>
-            </Flex>
-          </S.Container>
-        </S.Header>
-        <S.Body>{children}</S.Body>
-      </S.LayoutWrapper>
-    </Spin>
+            <Link href="/sign-up">
+              <Button
+                color="red"
+                type="primary"
+                children={"Đăng ký"}
+                $width="100px"
+                disabled={loading}
+                loading={loading}
+              />
+            </Link>
+          </Flex>
+        </S.Container>
+      </S.Header>
+      <S.Body>{children}</S.Body>
+    </S.LayoutWrapper>
   );
 }
 

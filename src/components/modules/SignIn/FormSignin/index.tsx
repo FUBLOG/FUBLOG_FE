@@ -18,8 +18,9 @@ import { useAuth } from "@/hooks/useAuthStatus";
 
 function FormSignIn() {
   const router = useRouter();
-  const { login, loading } = useAuth();
+  const { login, loading, setLoading } = useAuth();
   const onFinish = async (values: any) => {
+    setLoading(true);
     try {
       const data = {
         email: values.mail,
@@ -40,6 +41,7 @@ function FormSignIn() {
     } catch (error) {
       console.error("Login failed:", error);
     }
+    setLoading(false);
   };
   return (
     <Spin spinning={loading}>
@@ -126,7 +128,6 @@ function FormSignIn() {
               $margin="30px 0 0 0"
               $width={"100px"}
               htmlType="submit"
-              loading={loading}
               disabled={loading}
             >
               ĐĂNG NHẬP

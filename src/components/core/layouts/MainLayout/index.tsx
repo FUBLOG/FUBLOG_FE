@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, useEffect, useContext } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Flex, Menu, Dropdown } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,7 +35,7 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { CreateContent } from "@/components/modules/CreatePost";
-import { PostContext, PostProvider } from "./Context";
+import { PostProvider } from "./Context";
 
 interface LayoutProps {
   readonly children: ReactNode;

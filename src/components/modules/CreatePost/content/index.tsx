@@ -2,22 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
 import Image, { StaticImageData } from "next/legacy/image";
 import {
-  LoadingOutlined,
   SettingOutlined,
   TagOutlined,
 } from "@ant-design/icons";
-import thanhthuy1 from "@/public/thanhthuy1.jpg";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
-import { Radio, Upload, Spin, Space } from "antd";
+import { Radio, Upload} from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PostContext } from "@/components/core/layouts/MainLayout/Context";
 import { v4 as uuidv4 } from "uuid";
 import { getRequest, postRequest } from "@/services/request";
 import { postEndpoint, tagEndpoint } from "@/services/endpoint";
-import webLocalStorage from "@/utils/webLocalStorage";
-import { constants } from "@/settings";
 import { useAuthContext } from "@/contexts/AuthContext";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -30,7 +26,7 @@ interface PostContent {
 }
 
 export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
-  const { showSpinner, setShowSpinner } = useContext(PostContext);
+  const { setShowSpinner } = useContext(PostContext);
 
   const [postContent, setPostContent] = useState("");
 
@@ -90,7 +86,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
-  const { userInfo, setUserInfo } = useAuthContext();
+  const { userInfo} = useAuthContext();
 
   const CreatePost = async () => {
     try {
@@ -201,8 +197,6 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
 
           <ImgCrop modalTitle="Chỉnh sửa" rotationSlider>
             <Upload
-              // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-              //   method
               multiple={true}
               listType="picture-card"
               fileList={fileList}

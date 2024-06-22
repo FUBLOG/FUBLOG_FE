@@ -78,7 +78,7 @@ const newpostRequest = async (
     });
   } catch (err) {
     message.error(errorMessage[err as any]);
-    return Promise.reject(err);
+    return (err);
   }
 };
 

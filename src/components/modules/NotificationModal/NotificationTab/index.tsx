@@ -25,7 +25,7 @@ const NotificationTab = () => {
         )
       );
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      console.error('Error ', error);
     }
   };
 
@@ -39,7 +39,7 @@ const NotificationTab = () => {
         }))
       );
     } catch (error) {
-      console.error('Error marking all notifications as read:', error);
+      console.error('Error ', error);
     }
   };
 

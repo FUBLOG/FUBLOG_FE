@@ -185,7 +185,7 @@ function MainLayout({ children }: LayoutProps) {
             </Button> */}
 
           </S.IconContainer>
-          {userInfo.userId === "" ? (
+          {userInfo?.userId === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px" disabled={loading}>

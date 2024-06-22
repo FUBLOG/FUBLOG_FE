@@ -5,3 +5,15 @@ export const getAllNotifications = async () => {
     security: true,
   });
 };
+export const markNotificationAsRead = async (notificationId) => {
+  return await getRequest(notificationEndpoint.MARK_AS_READ + notificationId, {
+    security: true,
+  });
+};
+
+
+export const markAllNotificationsAsRead = async () => {
+  return await patchRequest(notificationEndpoint.MARK_ALL_AS_READ,  {
+    security: true,
+  });
+};

@@ -31,6 +31,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
                   children={"Đăng nhập"}
                   $width="100px"
                   disabled={loading}
+                  loading={loading}
                 />
               </Link>
               <Link href="/sign-up">
@@ -40,6 +41,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
                   children={"Đăng ký"}
                   $width="100px"
                   disabled={loading}
+                  loading={loading}
                 />
               </Link>
             </Flex>

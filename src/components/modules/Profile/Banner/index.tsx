@@ -9,6 +9,7 @@ import {
   rejectFriendRequest,
   sendFriendRequest,
   unfriend,
+  unsentFriend,
 } from "@/services/api/friend";
 import { Skeleton } from "antd";
 
@@ -59,7 +60,8 @@ const Banner: React.FC = () => {
         setIsFriend(true);
         break;
 
-      case "recall":
+      case "unsent":
+        await unsentFriend(profile?.user?._id);
         resetStatus();
         setIsFriend(false);
         break;
@@ -124,7 +126,7 @@ const SendFriendButton: React.FC<ButtonProps> = ({
       type="default"
       $backgroundColor="#FAF0E6"
       onClick={() => {
-        handleFriend("recall");
+        handleFriend("unsent");
       }}
       $width="100px"
       color="#352f44"

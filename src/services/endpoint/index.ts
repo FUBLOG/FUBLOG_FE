@@ -32,6 +32,7 @@ const friendEndpoint = {
   GET_BLOCKED_FRIENDS: `/friend/block`,
   FRIEND_LIST: `/friend`,
   GET_REQUESTS_SENT: `/friend/request/`,
+  UNSENT_REQUEST: `/friend/request`,
 };
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,

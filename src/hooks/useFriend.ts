@@ -5,6 +5,8 @@ import { getRequestFriend } from "@/services/api/friend";
 import { message } from "antd";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "./useAuthStatus";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const useFriend = () => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
@@ -19,7 +21,7 @@ const useFriend = () => {
   const { profile } = useProfile();
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {
-    if (userInfo?.userId === "") {
+    if (!webStorageClient.get(constants.IS_AUTH)) {
       message.info("guest");
       setIsGuest(true);
       return true;

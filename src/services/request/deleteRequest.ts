@@ -33,7 +33,7 @@ const deleteRequest = async (
     .delete(url, {
       data,
       headers: {
-        headers,
+        ...headers,
       },
     })
     .then((res: any) => {

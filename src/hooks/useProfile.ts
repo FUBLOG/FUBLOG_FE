@@ -4,6 +4,8 @@ import { getRequest } from "@/services/request";
 import { create } from "zustand";
 import { useAuth } from "./useAuthStatus";
 import { ProfileRequestResponse } from "@/model/response";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 interface ProfileProps {
   profileHash: string;
   setProfileHash: (value: string) => void;
@@ -23,8 +25,8 @@ export const useGetProfile = (profileHash: string) => {
   const { setProfile, setProfileHash } = useProfile();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
-      setLoading(true);
       try {
+        setLoading(true);
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
         const metadata: ProfileRequestResponse = res?.metadata;
@@ -42,7 +44,9 @@ export const useGetProfile = (profileHash: string) => {
       }
       return null;
     };
-    getUserInfo(profileHash);
+    if (!loading) {
+      getUserInfo(profileHash);
+    }
   }, [profileHash]);
 
   return { setProfile, loading };

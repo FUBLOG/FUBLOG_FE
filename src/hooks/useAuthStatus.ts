@@ -122,8 +122,9 @@ export const useAuth = () => {
     }
   ) => {
     setLoading(true);
-
-    webStorageClient.setProfileHash(user.PROFILE_HASH, { maxAge: 7 * 24 * 60 });
+    webStorageClient.setProfileHash(user.PROFILE_HASH, {
+      maxAge: 7 * 24 * 60,
+    });
     webStorageClient.setToken(user.ACCESS_TOKEN);
     webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
     webLocalStorage.set("privateKey", user.PRIVATEKEY);
@@ -133,7 +134,7 @@ export const useAuth = () => {
   };
 
   const removeUser = async () => {
-    setLoading(false);
+    setLoading(true);
 
     webStorageClient.remove(constants.ACCESS_TOKEN);
     webStorageClient.remove(constants.PROFILE_HASH);
@@ -155,7 +156,7 @@ export const useAuth = () => {
         friendList: [],
       },
     });
-    setLoading(true);
+    setLoading(false);
   };
 
   const login = async (key: Key, userInfo: UserInfo) => {

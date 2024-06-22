@@ -28,9 +28,6 @@ import NotificationModal from "@/components/modules/NotificationModal";
 
 import * as S from "./styles";
 
-interface LayoutProps {
-  readonly children: ReactNode;
-}
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -38,6 +35,8 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { CreateContent } from "@/components/modules/CreatePost";
+import { PostProvider } from "./Context";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -73,6 +72,9 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "bell" && userInfo?.userId !== "") {
       setBellVisible(true);
     }
+    if(e=== "create" && userInfo?.userId !== ""){
+      setShowCreate(true)
+    }
   };
 
   const showBellModal = () => {
@@ -89,7 +91,9 @@ function MainLayout({ children }: LayoutProps) {
     setNav("home");
   };
 
+  const [showCreate, setShowCreate] = useState(false);
   const handleOk = () => {
+    setShowCreate(true);
     setSearchVisible(true);
   };
 
@@ -98,10 +102,14 @@ function MainLayout({ children }: LayoutProps) {
     setShowMessageModal(false);
     setShowModalGuest(false);
     setBellVisible(false);
+    setShowCreate(false);
     setNav("home");
-    setValueSearch("");
   };
-
+  const handleCreatePostSuccess = () => {
+    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+    
+  };
+  
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
@@ -125,6 +133,7 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
+  <PostProvider>
     <S.LayoutWrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
@@ -153,7 +162,9 @@ function MainLayout({ children }: LayoutProps) {
               {nav === "create" ? (
                 <EditFilled style={{ fontSize: "22px" }} />
               ) : (
-                <EditOutlined style={{ fontSize: "22px" }} />
+                <EditOutlined
+                  style={{ fontSize: "22px" }}
+                />
               )}
             </Link>
             <Button type="text" onClick={() => handleSetNavigation("mess")}>
@@ -243,7 +254,18 @@ function MainLayout({ children }: LayoutProps) {
           setSearchVisible={setSearchVisible}
         />
       </S.SearchModal>
+      {/* Create Post */}
+      <S.CreateModal
+        open={showCreate}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="createModal"
+        footer={null}
+      >
+        <CreateContent onSuccess={handleCreatePostSuccess} />
+      </S.CreateModal>
     </S.LayoutWrapper>
+  </PostProvider>
   );
 }
 

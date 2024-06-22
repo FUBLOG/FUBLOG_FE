@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { message, Dropdown, Menu, Radio } from "antd";
+import { message, Dropdown, Menu, Radio, Carousel } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -417,11 +417,10 @@ function Post({
             {images.slice(0, 2).map((src, index) => (
               <img key={src} src={src} alt="Post Image" className="post-image" />
             ))}
-            {images.length > 3 && (
-              {images.map((src) =>{
-                
-              })}
-            )}
+            {images.map((src) => (
+              <Carousel
+              <img key={src} src={src} alt="Post Image" className="post-image"/>
+            ))}
           </S.ImagesWrapper>
         )}
 

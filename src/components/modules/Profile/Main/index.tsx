@@ -1,24 +1,26 @@
 "use client";
-
-import { useGetProfile, useProfile } from "@/hooks/useProfile";
-import Banner from "../Banner";
-import * as S from "./styles";
+import useFriend from "@/hooks/useFriend";
 import { useEffect } from "react";
+import Banner from "../Banner";
+import { useAuth } from "@/hooks/useAuthStatus";
+import { Spin } from "antd";
 
+import * as S from "./styles";
+import { useGetProfile, useProfile } from "@/hooks/useProfile";
 function Profile({ profileHash }: { readonly profileHash: string }) {
-  const { setProfile, profile } = useGetProfile(profileHash);
+  useGetProfile(profileHash);
+
+  const { loading } = useAuth();
+  const { checkFriend } = useFriend();
   useEffect(() => {
-    return () => setProfile(null);
-  }, []);
+    if (!loading) {
+      checkFriend();
+    }
+  }, [profileHash, loading]);
+
   return (
     <S.HomeWrapper>
       <Banner />
-      {/* <S.Container>
-        <S.Main>
-          <ListFriend />
-          <PostProfile />
-        </S.Main>
-      </S.Container> */}
     </S.HomeWrapper>
   );
 }

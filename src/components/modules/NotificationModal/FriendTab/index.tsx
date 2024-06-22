@@ -25,10 +25,7 @@ const FriendTab = () => {
     const handleAccept = async (requestId: any, event: any, index: number) => {
         setLoadingButton(index);
         event.stopPropagation();
-        const data = {
-            targetID: requestId
-        }
-        const res: any = await acceptFriendRequest(data);
+        const res: any = await acceptFriendRequest(requestId);
         setLoadingButton(index);
         setAcceptList([...acceptList, requestId]);
         const newLists = friendRequest.map((item: any) => {

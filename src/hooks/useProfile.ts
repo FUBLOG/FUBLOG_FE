@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { create } from "zustand";
+import { useAuth } from "./useAuthStatus";
+import { ProfileRequestResponse } from "@/model/response";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 interface ProfileProps {
   profileHash: string;
   setProfileHash: (value: string) => void;
@@ -17,18 +21,19 @@ export const useProfile = create<ProfileProps>((set) => ({
 }));
 
 export const useGetProfile = (profileHash: string) => {
-  const [loading, setLoading] = useState(false);
-  const { setProfile, setProfileHash, profile } = useProfile();
+  const { loading, setLoading } = useAuth();
+  const { setProfile, setProfileHash } = useProfile();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
-      setLoading(true);
       try {
+        setLoading(true);
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
-        const metadata = res?.metadata;
+        const metadata: ProfileRequestResponse = res?.metadata;
         if (metadata) {
           setProfileHash(hash);
           setProfile(metadata);
+          return metadata;
         } else {
           throw new Error("Profile metadata not found.");
         }
@@ -39,8 +44,10 @@ export const useGetProfile = (profileHash: string) => {
       }
       return null;
     };
-    getUserInfo(profileHash);
-  }, []);
+    if (!loading) {
+      getUserInfo(profileHash);
+    }
+  }, [profileHash]);
 
-  return { profile, setProfile };
+  return { setProfile, loading };
 };

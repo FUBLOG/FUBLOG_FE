@@ -28,30 +28,38 @@ export const ImagesWrapper = styled(Flex)`
   justify-content: flex-start;
   padding: 0 20px;
   gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  
   img {
+    border-radius: 4px;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
-  flex-wrap: wrap;
-  gap: 5px;
 
   &.images-1 .post-image {
     flex: 1 1 100%;
+    width: 100%;
+    
   }
 
   &.images-2 .post-image {
     flex: 1 1 49%;
+    width: 40%;
   }
 
   &.images-3 .post-image {
     flex: 1 1 28%;
+    width: 25%;
   }
 
   &.images-4 .post-image,
   &.images-5 .post-image,
   &.images-6 .post-image {
     flex: 1 1 23%;
+    width: 23%;
+    
   }
 
   .post-image {

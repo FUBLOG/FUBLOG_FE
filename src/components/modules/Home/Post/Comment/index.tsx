@@ -22,7 +22,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const [replyComment, setReplyComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [editMode, setEditMode] = useState<any | null>(null);
-  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(
+  const [selectedCommentId, setSelectedCommentId] = useState<any | null>(
     null
   );
   const [showReportModal, setShowReportModal] = useState(false);
@@ -59,8 +59,14 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
 
       asyncGetComments();
     }
+    return () => {
+      setCommentsData([]);
+      setLoading(false);
+      setSelectedCommentId(null);
+      setEditMode(null);
 
-  }, [open,userInfo]);
+    }
+  }, [open]);
   const handleAddComment = async () => {
 
     const res: any = await addComment(newfeed?.post?._id, newComment, null);
@@ -81,8 +87,6 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     setShowReportModal(true);
   };
   const renderCommentMenu = (comment: any) => {
-    console.log(userInfo);
-    
     return (
       <Menu
         items={[
@@ -132,8 +136,21 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       setEditMode(null);
     }
   };
-  const handleReplyComment = (commentId: number) => {
+  const handleReplyComment = (commentId: any) => {
+    const parentComment = commentsData.find((comment: any) => comment._id === commentId);
+    if (parentComment) {
+      const replyContent = `@${parentComment?.comment_userId?.displayName} `;
+      setReplyComment(replyContent);
+      setSelectedCommentId(commentId);
 
+      setTimeout(() => {
+        if (editInputRef.current) {
+          editInputRef.current.focus();
+          const len = replyContent.length;
+          editInputRef.current.setSelectionRange(len, len);
+        }
+      }, 100);
+    }
   };
   const handleEditComment = (commentId: number) => {
     const commentToEdit = commentsData.find((comment: any) => comment._id === commentId);
@@ -151,85 +168,119 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     setCommentsData(updatedComments);
     icrComment(-1);
   };
+  const handleReply = async () => {
+
+    if (replyComment.trim() && selectedCommentId !== null) {
+      const replyData = await addComment(newfeed?.post?._id, replyComment, selectedCommentId);
+
+      const updatedComments = commentsData.map((comment: any) => {
+        if (comment._id === selectedCommentId) {
+          return {
+            ...comment,
+            replies: [{
+              ...replyData?.metadata,
+              comment_userId: userInfo,
+            }, ...comment?.replies || []],
+          };
+        }
+        return comment;
+      });
+
+      setCommentsData(updatedComments);
+      icrComment(1);
+      setReplyComment("");
+      setSelectedCommentId(null);
+    }
+  };
   const renderComments = (commentsArray: any, depth = 0) => {
-    return commentsArray.map((comment: any) => (
-      <Fragment key={comment._id}>
-        <S.Comment
-          style={{
-            marginLeft: `${depth * 40}px`,
-            border: editMode === comment._id ? "3px solid #5c5470" : "none",
-          }}
-        >
-          <S.CommentHeader>
-            <S.Avatar src={comment?.comment_userId?.userInfo?.avatar} alt={`${comment?.comment_userId?.displayName}'s avatar`} />
-            <S.CommentUser>{comment?.comment_userId?.displayName}</S.CommentUser>
-            <Dropdown
-              overlay={renderCommentMenu(comment)}
-              trigger={["click"]}
-            >
-              <EllipsisOutlined style={{ cursor: "pointer" }} />
-            </Dropdown>
-          </S.CommentHeader>
-          {editMode === comment._id ? (
-            <>
-              <S.TextArea
-                value={editComment}
-                onChange={(e) => setEditComment(e.target.value)}
-                autoFocus
-                ref={editInputRef}
-              />
-              <S.ButtonWrapper>
-                <Button
-                  loading={loadingUpdate}
-                  color="red"
-                  type="primary"
-                  style={{
-                    width: "80px",
-                    marginTop: "0px",
-                    padding: "5px 5px",
-                    border: "none",
-                  }}
-                  onClick={handleUpdateComment}
-                >
-                  Cập nhật
-                </Button>
-              </S.ButtonWrapper>
-            </>
-          ) : (
-            <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-          )}
-          {userInfo?.userId !== "" &&
-            !showReportModal &&
-            !isPostReport &&
-            selectedCommentId === comment.id && (
-              <S.ReplyBox>
+    return commentsArray.map((comment: any) => {
+      const childrenCount = (comment?.comment_right - comment?.comment_left - 1) / 2;
+      return ((
+        <Fragment key={comment._id}>
+          <S.Comment
+            style={{
+              marginLeft: `${depth * 40}px`,
+              border: editMode === comment._id ? "3px solid #5c5470" : "none",
+            }}
+          >
+            <S.CommentHeader>
+              <S.Avatar src={comment?.comment_userId?.userInfo?.avatar} alt={`${comment?.comment_userId?.displayName}'s avatar`} />
+              <S.CommentUser>{comment?.comment_userId?.displayName}</S.CommentUser>
+              <Dropdown
+                overlay={renderCommentMenu(comment)}
+                trigger={["click"]}
+              >
+                <EllipsisOutlined style={{ cursor: "pointer" }} />
+              </Dropdown>
+            </S.CommentHeader>
+            {editMode === comment._id ? (
+              <>
                 <S.TextArea
-                  value={replyComment}
-                  onChange={(e) => setReplyComment(e.target.value)}
-                  placeholder="Viết phản hồi..."
+                  value={editComment}
+                  onChange={(e) => setEditComment(e.target.value)}
+                  autoFocus
                   ref={editInputRef}
                 />
                 <S.ButtonWrapper>
                   <Button
+                    loading={loadingUpdate}
                     color="red"
                     type="primary"
                     style={{
                       width: "80px",
-                      marginTop: "40px",
+                      marginTop: "0px",
                       padding: "5px 5px",
                       border: "none",
                     }}
-                  // onClick={handleReply}
+                    onClick={handleUpdateComment}
                   >
-                    Phản hồi
+                    Cập nhật
                   </Button>
                 </S.ButtonWrapper>
-              </S.ReplyBox>
-            )}
-        </S.Comment>
-        {comment.replies && renderComments(comment.replies, depth + 1)}
-      </Fragment>
-    ));
+              </>
+            ) : childrenCount > 0 ? (
+              <>
+                <S.CommentContent>{comment?.comment_content}</S.CommentContent>
+                <S.CommentContent>Xem thêm {childrenCount} bình luận</S.CommentContent>
+              </>
+            ) : (
+              <S.CommentContent>{comment?.comment_content}</S.CommentContent>
+            )
+            }
+            {userInfo?.userId !== "" &&
+              !showReportModal &&
+              !isPostReport &&
+              selectedCommentId === comment._id && (
+                <S.ReplyBox>
+                  <S.TextArea
+                    value={replyComment}
+                    onChange={(e) => setReplyComment(e.target.value)}
+                    placeholder="Viết phản hồi..."
+                    ref={editInputRef}
+                  />
+                  <S.ButtonWrapper>
+                    <Button
+                      color="red"
+                      type="primary"
+                      style={{
+                        width: "80px",
+                        marginTop: "40px",
+                        padding: "5px 5px",
+                        border: "none",
+                      }}
+                      onClick={handleReply}
+                    >
+                      Phản hồi
+                    </Button>
+                  </S.ButtonWrapper>
+                </S.ReplyBox>
+              )}
+          </S.Comment>
+          {comment.replies && renderComments(comment.replies, depth + 1)}
+        </Fragment>
+      ));
+
+    })
   };
 
 
@@ -284,23 +335,3 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   );
 };
 export default CommentModal;
-function updateNestedComment(
-  comments: Comment[],
-  commentId: number | null,
-  content: string
-): Comment[] {
-  if (commentId === null) return comments;
-
-  return comments.map((comment) => {
-    if (comment.id === commentId) {
-      return { ...comment, content };
-    }
-    if (comment.replies) {
-      return {
-        ...comment,
-        replies: updateNestedComment(comment.replies, commentId, content),
-      };
-    }
-    return comment;
-  });
-}

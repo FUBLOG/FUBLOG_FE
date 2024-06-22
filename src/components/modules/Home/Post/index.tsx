@@ -80,38 +80,7 @@ const Post = ({ newfeed }: PostProps) => {
 
 
 
-  // const handleReply = () => {
-  //   if (userInfo?.userId === "") {
-  //     message.warning("Vui lòng đăng nhập để phản hồi.");
-  //     return;
-  //   }
-
-  //   if (replyComment.trim() && selectedCommentId !== null) {
-  //     const replyData: Comment = {
-  //       id: Date.now(),
-  //       user: userInfo?.displayName,
-  //       avatar: userInfo?.userInfo?.avatar,
-  //       content: replyComment,
-  //       parentId: selectedCommentId,
-  //       replies: [],
-  //     };
-
-  //     const updatedComments = commentsData.map((comment) => {
-  //       if (comment.id === selectedCommentId) {
-  //         const newReplies = comment.replies
-  //           ? [...comment.replies, replyData]
-  //           : [replyData];
-  //         return { ...comment, replies: newReplies };
-  //       }
-  //       return comment;
-  //     });
-
-  //     setCommentsData(updatedComments);
-  //     setComments(comments + 1);
-  //     setReplyComment("");
-  //     setSelectedCommentId(null);
-  //   }
-  // };
+  
 
   const handleCloseCommentsModal = () => {
     setShowCommentsModal(false);

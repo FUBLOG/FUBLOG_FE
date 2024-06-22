@@ -30,4 +30,28 @@ const useListenTyping = () => {
   return { typing };
 };
 
-export { useListenMessage, useListenTyping };
+const useListenConversation = () => {
+  const { socket } = useSocketContext();
+  const { conversations, setConversations } = useConversation();
+  useEffect(() => {
+    socket?.on("newConversation", (newConversation: any) => {
+      console.log(newConversation);
+
+      const sound = new Audio(require("../assets/sounds/notification.mp3"));
+      sound.play();
+      if (conversations.length === 0) {
+        setConversations([newConversation]);
+      } else {
+        const updatedConversations = conversations.filter(
+          (conversation) => conversation._id !== newConversation._id
+        );
+        setConversations([...updatedConversations, newConversation]);
+      }
+    });
+    return () => {
+      socket?.off("newConversation");
+    };
+  }, [socket, conversations, setConversations]);
+};
+
+export { useListenMessage, useListenTyping, useListenConversation };

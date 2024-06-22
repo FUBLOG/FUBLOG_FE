@@ -1,6 +1,8 @@
 import useConversation from "@/hooks/useConversation";
 import * as S from "../styles";
 import { useEffect } from "react";
+import { useSocketContext } from "@/contexts/SocketContext";
+import { useListenConversation } from "@/hooks/useListen";
 interface ConversationProps {
     key: string;
     conversation: any;
@@ -9,7 +11,6 @@ interface ConversationProps {
 const Conversation = ({ key, conversation }: ConversationProps) => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const isSelected = selectedConversation?._id === conversation._id;
-
     let lastMessage = conversation?.lastMessage?.message
     if (conversation?.lastMessage?.senderId !== conversation?.participants[0]?._id) {
         lastMessage = 'You: ' + lastMessage;

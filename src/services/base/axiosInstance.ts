@@ -1,4 +1,4 @@
-import {authEndpoint } from "@/services/endpoint";
+import { authEndpoint } from "@/services/endpoint";
 import axios from "axios";
 
 import { constants } from "@/settings";

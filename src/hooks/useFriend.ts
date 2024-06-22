@@ -1,42 +1,46 @@
 import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
 import { useProfile } from "./useProfile";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { getRequestFriend } from "@/services/api/friend";
+import { message } from "antd";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuth } from "./useAuthStatus";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const useFriend = () => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
   const [isMyUser, setIsMyUser] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useAuth();
+
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
   const { userInfo } = useAuthContext();
   const { profile } = useProfile();
-
-  const checkIsGuest = async () => {
-    console.log(userInfo);
-    if (userInfo?.userId === "") {
-      console.log(1);
-
+  const [isNotFound, setIsNotFound] = useState(false);
+  const checkIsGuest = () => {
+    if (!webStorageClient.get(constants.IS_AUTH)) {
       setIsGuest(true);
       return true;
     }
     return false;
   };
-  const checkIsFriend = async () => {
-    const result: any = userInfo?.userInfo?.friendList.filter(
-      (friend: string) => friend === profile?.user?._id
+  const checkIsFriend = () => {
+    console.log(
+      userInfo?.userInfo?.friendList?.some(
+        (friend: string) => friend === profile?.user?._id
+      )
     );
 
-    if (result?.length > 0) {
-      setIsFriend(true);
-      return true;
-    }
-    return false;
+    setIsFriend(
+      userInfo?.userInfo?.friendList?.some(
+        (friend: string) => friend === profile?.user?._id
+      )
+    );
   };
-  const handleRequest = async (request: any) => {
+  const handleRequest = (request: any) => {
     if (request?.sourceID === userInfo?.userId) {
       setIsSendFriend(true);
     } else {
@@ -52,8 +56,22 @@ const useFriend = () => {
     }
   };
   const checkFriend = async () => {
+    console.log("profile", profile);
+
+    if (profile?.user?._id === undefined) {
+      setIsNotFound(true);
+      return;
+    }
     if (!(await checkIsGuest())) {
-      await checkRequest();
+      console.log("setIsMyUser");
+
+      console.log(userInfo?.userId === profile?.user?._id);
+
+      if (userInfo?.userId === profile?.user?._id) {
+        setIsMyUser(true);
+      } else {
+        await checkRequest();
+      }
     }
   };
   const resetStatus = () => {
@@ -63,13 +81,22 @@ const useFriend = () => {
     setIsMyUser(false);
     setIsSendFriend(false);
     setIsRequester(false);
+    setIsNotFound(false);
   };
   useEffect(() => {
+    setLoading(true);
     resetStatus();
-    if (profile !== null) {
-      checkFriend();
-    }
-  }, [profile, userInfo?.userId]);
+    checkFriend();
+    setLoading(false);
+    console.log(
+      isRequester,
+      isFriend,
+      isBlocked,
+      isGuest,
+      isMyUser,
+      isSendFriend
+    );
+  }, [profile]);
   return {
     isRequester,
     isFriend,
@@ -78,17 +105,16 @@ const useFriend = () => {
     isMyUser,
     isSendFriend,
     loading,
+    checkFriend,
     setIsFriend,
+    setLoading,
+    setIsSendFriend,
+    setIsRequester,
+    setIsGuest,
+    resetStatus,
+    setIsMyUser,
+    isNotFound,
   };
 };
-const useGetFriendList = () => {
-  const [friendList, setFriendList] = useState<any[]>([]);
-  useEffect(() => {
-    getFriendList().then((list: any) =>
-      setFriendList(list?.metadata?.friendList)
-    );
-  }, []);
-  return friendList;
-};
-export { useGetFriendList };
+
 export default useFriend;

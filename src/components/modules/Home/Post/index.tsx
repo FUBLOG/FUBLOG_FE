@@ -415,7 +415,7 @@ function Post({
         {images.length > 0 && (
           <S.ImagesWrapper className={`images-${images.length}`}>
             {images.slice(0, 3).map((src, index) => (
-              <img src={src} alt="Post Image" className="post-image" />
+              <img key={src} src={src} alt="Post Image" className="post-image" />
             ))}
             {images.length > 3 && (
               <div className="more-images">

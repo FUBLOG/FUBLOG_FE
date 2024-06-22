@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/core/common/Button";
 import * as S from "./style";
 import useFriend from "@/hooks/useFriend";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+  sendFriendRequest,
+  unfriend,
+  unsentFriend,
+} from "@/services/api/friend";
 import { Skeleton } from "antd";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface SearchUserProp {
   name: string;
@@ -26,40 +34,63 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   setShowModalGuest,
   setSearchVisible,
 }) => {
+  const profile = getUserInfo(profileHash);
   const {
     isFriend,
     isGuest,
-    sendFriend,
-    unFriend,
-    isSendFriend,
-    declineFriend,
-    acceptFriend,
-    loading,
+    isMyUser,
     isRequester,
-  } = useFriend(profileHash);
+    isSendFriend,
+    setIsFriend,
 
-  const handleFriend = (event: string) => {
+    setIsSendFriend,
+    resetStatus,
+    isNotFound,
+  } = useFriend();
+  const { loading } = useAuthContext();
+
+  const handleDisplayButton = () => {
+    if (isMyUser) return <MyUser handleFriend={handleFriend} />;
+    if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
+    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+    return <DefaultButton handleFriend={handleFriend} />;
+  };
+  useEffect(() => {
+    handleDisplayButton();
+  }, [profile, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
+
+  const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        sendFriend();
+        await sendFriendRequest(profile?.user?._id);
+        resetStatus();
+        setIsSendFriend(true);
         break;
       case "unfriend":
-        unFriend();
+        await unfriend(profile?.user?._id);
+        resetStatus();
+        console.log("unfriend");
         break;
       case "decline":
-        declineFriend();
+        await rejectFriendRequest(profile?.user?._id);
+        resetStatus();
         break;
       case "accept":
-        acceptFriend();
+        await acceptFriendRequest(profile?.user?._id);
+        resetStatus();
+        setIsFriend(true);
         break;
+
+      case "unsent":
+        await unsentFriend(profile?.user?._id);
+        resetStatus();
+        setIsFriend(false);
+        break;
+
       default:
         break;
     }
-  };
-
-  const handleProfileClick = () => {
-    setValue("");
-    setSearchVisible(false);
   };
 
   const Loading = () => <Skeleton active round avatar paragraph />;
@@ -70,7 +101,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     <S.Usersearch>
       <div className="user-wrapper">
         <Link href={`/profile/${profileHash}`} passHref>
-          <div className="image-wrapper" onClick={handleProfileClick}>
+          <div className="image-wrapper">
             <Image src={avatar} width={40} height={40} alt={name} />
           </div>
         </Link>
@@ -166,3 +197,123 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     </S.Usersearch>
   );
 };
+interface ButtonProps {
+  handleFriend: Function;
+}
+const MyUser: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
+  return (
+    <Button
+      type="default"
+      children={"Chỉnh sửa"}
+      onClick={() => {}}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    />
+  );
+};
+const SendFriendButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <Button
+      type="default"
+      $backgroundColor="#FAF0E6"
+      onClick={() => {
+        handleFriend("unsent");
+      }}
+      $width="100px"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    >
+      Hủy lời mời
+    </Button>
+  );
+};
+
+const RequesterButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <>
+      <Button
+        type="default"
+        onClick={() => {
+          handleFriend("accept");
+        }}
+        $width="100px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      >
+        Chấp nhận
+      </Button>
+      <Button
+        type="default"
+        onClick={() => {
+          handleFriend("decline");
+        }}
+        $width="100px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      >
+        Từ chối
+      </Button>
+    </>
+  );
+};
+
+const DefaultButton: React.FC<ButtonProps> = ({
+  handleFriend,
+}: ButtonProps) => {
+  return (
+    <Button
+      type="default"
+      onClick={() => {
+        handleFriend("addFriend");
+      }}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    >
+      Thêm bạn bè
+    </Button>
+  );
+};
+
+const FriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
+  return (
+    <>
+      <Button
+        type="default"
+        onClick={() => {
+          handleFriend("unfriend");
+        }}
+        $width="100px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      >
+        Hủy kết bạn
+      </Button>
+      <Button
+        type="default"
+        onClick={() => {
+          handleFriend("chat");
+        }}
+        $width="100px"
+        $backgroundColor="#FAF0E6"
+        color="#352f44"
+        $hoverColor="#faf0e6"
+      >
+        Nhắn tin
+      </Button>
+    </>
+  );
+};
+function getUserInfo(profileHash: string) {
+  throw new Error("Function not implemented.");
+}

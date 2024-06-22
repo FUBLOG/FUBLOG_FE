@@ -25,15 +25,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
   setShowModalGuest,
   setSearchVisible,
 }) => {
-  const [list, setList] = useState<
-    {
-      avatar: string;
-      displayName: string;
-      friendCount: number;
-      profileHash: string;
-      _id: string;
-    }[]
-  >([]);
+  const [list, setList] = useState<ProfileRequestResponse["metadata"]>([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +38,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
 
     if (newValue.trim()) {
       try {
-        const searchResults: ProfileRequestResponse = await getSearchUser(
-          newValue
-        );
+        const searchResults = await getSearchUser(newValue);
         setList(searchResults);
       } catch (error) {
         console.error("Error fetching search results:", error);

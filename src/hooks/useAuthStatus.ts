@@ -28,9 +28,7 @@ export interface UserInfo {
   };
 }
 export const useAuth = () => {
-  const { setUserInfo } = useAuthContext();
-
-  const [loading, setLoading] = useState(false);
+  const { setUserInfo, loading, setLoading } = useAuthContext();
   useEffect(() => {
     isUser();
   }, []);

@@ -5,6 +5,13 @@ export interface FriendRequestResponse {
   };
 }
 export interface ProfileRequestResponse {
+  avatar: string;
+  displayName: string;
+  friendCount: number;
+  profileHash: string;
+  _id: string;
+}
+export interface ProfileRequestResponseList {
   message: string;
   statusCode: number;
   metadata?: {

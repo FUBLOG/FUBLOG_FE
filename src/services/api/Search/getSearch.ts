@@ -1,17 +1,23 @@
-import { ProfileRequestResponse } from "@/model/response";
+import {
+  ProfileRequestResponse,
+  ProfileRequestResponseList,
+} from "@/model/response";
 import { search } from "@/services/endpoint";
-import { postRequest } from "@/services/request";
+import { getRequest, postRequest } from "@/services/request";
 
 export const getSearchUser = async (
+  profileHash: string,
   keywords: string
-): Promise<ProfileRequestResponse["metadata"]> => {
+): Promise<ProfileRequestResponseList["metadata"]> => {
   try {
     const res = await postRequest(search.SEARCH_FRIEND, {
       security: true,
       data: {
+        profileHash: profileHash,
         displayName: keywords,
       },
     });
+
     return res?.metadata;
   } catch (error) {
     return [];

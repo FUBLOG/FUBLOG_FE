@@ -1,16 +1,11 @@
 "use client";
 
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
 import { getSearchUser } from "@/services/api/Search/getSearch";
-import { ProfileRequestResponse } from "@/model/response";
+import { ProfileRequestResponseList } from "@/model/response";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface SearchContentProps {
   value: string;
@@ -25,7 +20,9 @@ const SearchContent: React.FC<SearchContentProps> = ({
   setShowModalGuest,
   setSearchVisible,
 }) => {
-  const [list, setList] = useState<ProfileRequestResponse["metadata"]>([]);
+  const { userInfo } = useAuthContext();
+
+  const [list, setList] = useState<ProfileRequestResponseList["metadata"]>([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,10 +32,12 @@ const SearchContent: React.FC<SearchContentProps> = ({
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
-
     if (newValue.trim()) {
       try {
-        const searchResults = await getSearchUser(newValue);
+        const searchResults = await getSearchUser(
+          userInfo?.profileHash,
+          newValue
+        );
         setList(searchResults);
       } catch (error) {
         console.error("Error fetching search results:", error);

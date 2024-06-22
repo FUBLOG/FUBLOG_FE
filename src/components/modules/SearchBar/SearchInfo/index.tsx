@@ -8,13 +8,15 @@ interface SearchInfoProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setShowModalGuest: Dispatch<SetStateAction<boolean>>;
   setSearchVisible: Dispatch<SetStateAction<boolean>>;
-  list: {
-    avatar: string;
-    displayName: string;
-    friendCount: number;
-    profileHash: string;
-    _id: string;
-  }[];
+  list:
+    | {
+        avatar: string;
+        displayName: string;
+        friendCount: number;
+        profileHash: string;
+        _id: string;
+      }[]
+    | undefined;
 }
 
 const SearchInfo: React.FC<SearchInfoProps> = ({

@@ -12,7 +12,7 @@ import {
   unsentFriend,
 } from "@/services/api/friend";
 import { Skeleton } from "antd";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useGetProfile } from "@/hooks/useProfile";
 
 interface SearchUserProp {
   name: string;
@@ -34,7 +34,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   setShowModalGuest,
   setSearchVisible,
 }) => {
-  const profile = getUserInfo(profileHash);
+  const { profileSearch } = useGetProfile(profileHash);
   const {
     isFriend,
     isGuest,
@@ -42,13 +42,11 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     isRequester,
     isSendFriend,
     setIsFriend,
-
+    loading,
     setIsSendFriend,
     resetStatus,
     isNotFound,
   } = useFriend();
-  const { loading } = useAuthContext();
-
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser handleFriend={handleFriend} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
@@ -58,32 +56,32 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   };
   useEffect(() => {
     handleDisplayButton();
-  }, [profile, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
+  }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        await sendFriendRequest(profile?.user?._id);
+        await sendFriendRequest(profileSearch?._id);
         resetStatus();
         setIsSendFriend(true);
         break;
       case "unfriend":
-        await unfriend(profile?.user?._id);
+        await unfriend(profileSearch?._id);
         resetStatus();
         console.log("unfriend");
         break;
       case "decline":
-        await rejectFriendRequest(profile?.user?._id);
+        await rejectFriendRequest(profileSearch?._id);
         resetStatus();
         break;
       case "accept":
-        await acceptFriendRequest(profile?.user?._id);
+        await acceptFriendRequest(profileSearch?._id);
         resetStatus();
         setIsFriend(true);
         break;
 
       case "unsent":
-        await unsentFriend(profile?.user?._id);
+        await unsentFriend(profileSearch?._id);
         resetStatus();
         setIsFriend(false);
         break;
@@ -314,6 +312,3 @@ const FriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
     </>
   );
 };
-function getUserInfo(profileHash: string) {
-  throw new Error("Function not implemented.");
-}

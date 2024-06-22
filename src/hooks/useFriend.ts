@@ -63,8 +63,6 @@ const useFriend = () => {
       return;
     }
     if (!(await checkIsGuest())) {
-      console.log("setIsMyUser");
-
       console.log(userInfo?.userId === profile?.user?._id);
 
       if (userInfo?.userId === profile?.user?._id) {

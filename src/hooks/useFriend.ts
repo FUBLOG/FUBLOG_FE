@@ -55,6 +55,8 @@ const useFriend = () => {
     }
   };
   const checkFriend = async () => {
+    console.log("profile", profile);
+
     if (profile?.user?._id === undefined) {
       setIsNotFound(true);
       return;

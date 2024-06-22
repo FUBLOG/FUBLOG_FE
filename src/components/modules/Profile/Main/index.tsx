@@ -6,10 +6,12 @@ import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";
 
 import * as S from "./styles";
+import { useGetProfile, useProfile } from "@/hooks/useProfile";
 function Profile({ profileHash }: { readonly profileHash: string }) {
+  useGetProfile(profileHash);
+
   const { loading } = useAuth();
   const { checkFriend } = useFriend();
-
   useEffect(() => {
     if (!loading) {
       checkFriend();
@@ -17,11 +19,9 @@ function Profile({ profileHash }: { readonly profileHash: string }) {
   }, [profileHash, loading]);
 
   return (
-    <Spin size="large" spinning={loading}>
-      <S.HomeWrapper>
-        <Banner />
-      </S.HomeWrapper>
-    </Spin>
+    <S.HomeWrapper>
+      <Banner />
+    </S.HomeWrapper>
   );
 }
 

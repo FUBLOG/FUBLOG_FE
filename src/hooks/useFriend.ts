@@ -22,7 +22,6 @@ const useFriend = () => {
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {
     if (!webStorageClient.get(constants.IS_AUTH)) {
-      message.info("guest");
       setIsGuest(true);
       return true;
     }

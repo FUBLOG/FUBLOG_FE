@@ -5,6 +5,7 @@ import { useState } from "react";
 import Post from "../Post";
 
 import * as S from "./styles";
+import TagRender from "./Tag";
 
 function Home() {
   const [activeTag, setActiveTag] = useState("Tất cả");
@@ -23,23 +24,7 @@ function Home() {
       <S.MainWrapper>
         <S.ContentWrapper>
           <S.PostContainer>
-            <S.TagsContainer>
-              {tags.map((tag) => (
-                <Button
-                  key={tag}
-                  type="default"
-                  $hoverBackgroundColor="#FAF0E6"
-                  $hoverColor="#352F44"
-                  $width={"84px"}
-                  onClick={() => setActiveTag(tag)}
-                  $backgroundColor={
-                    activeTag === tag ? "#FAF0E6 " : "transparent"
-                  }
-                >
-                  {tag}
-                </Button>
-              ))}
-            </S.TagsContainer>
+            <TagRender />
             <Post
               user="Thanh Thủy"
               avatar="/thanhthuy.png"

@@ -107,10 +107,6 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
         },
         true
       );
-      const getres: any = await getRequest(postEndpoint.GET_POSTS);
-      console.log(getres?.metadata);
-      
-      console.log(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -145,13 +141,6 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
 
     // Chỉ gọi lại useEffect khi showSpinner thay đổi
   };
-  useEffect(() => {
-    const setup = async () => {
-      const res: any = await getRequest(tagEndpoint.GET_TAG);
-      setTags(res?.metadata);
-    };
-    setup();
-  }, []);
 
   return (
     <ContentStyleDiv>

@@ -414,13 +414,13 @@ function Post({
         </S.ContentWrapper>
         {images.length > 0 && (
           <S.ImagesWrapper className={`images-${images.length}`}>
-            {images.slice(0, 3).map((src, index) => (
+            {images.slice(0, 2).map((src, index) => (
               <img key={src} src={src} alt="Post Image" className="post-image" />
             ))}
             {images.length > 3 && (
-              <div className="more-images">
-                <span>View more {images.length - 3} images</span>
-              </div>
+              {images.map((src) =>{
+                
+              })}
             )}
           </S.ImagesWrapper>
         )}

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { create } from "zustand";
+import { useAuth } from "./useAuthStatus";
+import { ProfileRequestResponse } from "@/model/response";
 interface ProfileProps {
   profileHash: string;
   setProfileHash: (value: string) => void;
@@ -17,7 +19,7 @@ export const useProfile = create<ProfileProps>((set) => ({
 }));
 
 export const useGetProfile = (profileHash: string) => {
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading } = useAuth();
   const { setProfile, setProfileHash } = useProfile();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
@@ -25,7 +27,7 @@ export const useGetProfile = (profileHash: string) => {
       try {
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
-        const metadata = res?.metadata;
+        const metadata: ProfileRequestResponse = res?.metadata;
         if (metadata) {
           setProfileHash(hash);
           setProfile(metadata);

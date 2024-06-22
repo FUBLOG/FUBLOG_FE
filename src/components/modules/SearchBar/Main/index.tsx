@@ -10,6 +10,7 @@ import React, {
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
 import { getSearchUser } from "@/services/api/Search/getSearch";
+import { ProfileRequestResponse } from "@/model/response";
 
 interface SearchContentProps {
   value: string;
@@ -24,10 +25,18 @@ const SearchContent: React.FC<SearchContentProps> = ({
   setShowModalGuest,
   setSearchVisible,
 }) => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<
+    {
+      avatar: string;
+      displayName: string;
+      friendCount: number;
+      profileHash: string;
+      _id: string;
+    }[]
+  >([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
 
@@ -35,21 +44,19 @@ const SearchContent: React.FC<SearchContentProps> = ({
       clearTimeout(timeoutId);
     }
 
-    const newTimeoutId = setTimeout(async () => {
-      if (newValue.trim()) {
-        try {
-          const searchResults = await getSearchUser(newValue);
-          setList(searchResults);
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-          setList([]);
-        }
-      } else {
+    if (newValue.trim()) {
+      try {
+        const searchResults: ProfileRequestResponse = await getSearchUser(
+          newValue
+        );
+        setList(searchResults);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
         setList([]);
       }
-    }, 500);
-
-    setTimeoutId(newTimeoutId);
+    } else {
+      setList([]);
+    }
   };
 
   return (

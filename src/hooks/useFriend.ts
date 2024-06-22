@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 import { useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
 import { message } from "antd";
-import { useUser } from "./useUser";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuth } from "./useAuthStatus";
 
 const useFriend = () => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
   const [isMyUser, setIsMyUser] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useAuth();
+
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
   const { userInfo } = useAuthContext();
-  const { isAuthLoading } = useUser();
   const { profile } = useProfile();
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {

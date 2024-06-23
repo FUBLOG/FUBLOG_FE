@@ -3,7 +3,7 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import useFriend from "@/hooks/useFriend";
-import { useProfile } from "@/hooks/useProfile";
+import { useGetProfile, useProfile } from "@/hooks/useProfile";
 import {
   acceptFriendRequest,
   rejectFriendRequest,
@@ -12,9 +12,13 @@ import {
   unsentFriend,
 } from "@/services/api/friend";
 import { Skeleton } from "antd";
+import ModalGuest from "../../ModalGuest";
 
-const Banner: React.FC = () => {
-  const { profile } = useProfile();
+interface BannerProps {
+  profileHash: string;
+}
+
+const Banner: React.FC<BannerProps> = ({ profileHash }) => {
   const {
     isFriend,
     isGuest,
@@ -26,42 +30,48 @@ const Banner: React.FC = () => {
     setIsSendFriend,
     resetStatus,
     isNotFound,
-  } = useFriend();
+  } = useFriend(profileHash);
+  const [showModalGuest, setShowModalGuest] = useState(false);
+  const handleCancel = () => {
+    setShowModalGuest(false);
+  };
+  const { profileSearch } = useGetProfile(profileHash);
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser handleFriend={handleFriend} />;
+    if (isMyUser) return <MyUser />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+    if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
     handleDisplayButton();
-  }, [profile, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
+  }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        await sendFriendRequest(profile?.user?._id);
+        await sendFriendRequest(profileSearch?.user?._id);
         resetStatus();
         setIsSendFriend(true);
         break;
       case "unfriend":
-        await unfriend(profile?.user?._id);
+        await unfriend(profileSearch?.user?._id);
         resetStatus();
         console.log("unfriend");
         break;
       case "decline":
-        await rejectFriendRequest(profile?.user?._id);
+        await rejectFriendRequest(profileSearch?.user?._id);
         resetStatus();
         break;
       case "accept":
-        await acceptFriendRequest(profile?.user?._id);
+        await acceptFriendRequest(profileSearch?.user?._id);
         resetStatus();
         setIsFriend(true);
         break;
 
       case "unsent":
-        await unsentFriend(profile?.user?._id);
+        await unsentFriend(profileSearch?.user?._id);
         resetStatus();
         setIsFriend(false);
         break;
@@ -70,21 +80,19 @@ const Banner: React.FC = () => {
         break;
     }
   };
-  return loading ? (
-    <Loading />
-  ) : isNotFound ? (
-    <S.Wrapper>404</S.Wrapper>
-  ) : (
+
+  return !isNotFound ? (
     <S.Wrapper>
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.CoverImage />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar>
-            <S.UserAvatar src={profile?.info?.avatar} />
+            <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
             <Typography variant="h2" color="#FAF0E6 !important">
-              {profile?.user?.displayName}
+              {profileSearch?.user?.displayName}
             </Typography>
             <Typography
               variant="caption-small"
@@ -98,6 +106,8 @@ const Banner: React.FC = () => {
         <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
+  ) : (
+    <S.Wrapper>404</S.Wrapper>
   );
 };
 const Loading = () => <Skeleton active round avatar paragraph />;
@@ -105,7 +115,7 @@ const Loading = () => <Skeleton active round avatar paragraph />;
 interface ButtonProps {
   handleFriend: Function;
 }
-const MyUser: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
+const MyUser = () => {
   return (
     <Button
       type="default"
@@ -179,6 +189,23 @@ const DefaultButton: React.FC<ButtonProps> = ({
       onClick={() => {
         handleFriend("addFriend");
       }}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    >
+      Thêm bạn bè
+    </Button>
+  );
+};
+
+const GuestButton: React.FC<{
+  setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setShowModalGuest }) => {
+  return (
+    <Button
+      type="default"
+      onClick={() => setShowModalGuest(true)}
       $width="100px"
       $backgroundColor="#FAF0E6"
       color="#352f44"

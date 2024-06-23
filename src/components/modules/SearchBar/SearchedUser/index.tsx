@@ -22,7 +22,7 @@ interface SearchUserProp {
   profileHash: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClose: () => void;
 }
 
 export const SearchUser: React.FC<SearchUserProp> = ({
@@ -30,58 +30,57 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   friends,
   avatar,
   profileHash,
-  setValue,
+  handleClose,
+  id,
   setShowModalGuest,
-  setSearchVisible,
 }) => {
   const { profileSearch } = useGetProfile(profileHash);
+
   const {
     isFriend,
     isGuest,
-    isMyUser,
     isRequester,
     isSendFriend,
     setIsFriend,
     loading,
     setIsSendFriend,
     resetStatus,
-    isNotFound,
-  } = useFriend();
+  } = useFriend(profileHash);
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser handleFriend={handleFriend} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
     handleDisplayButton();
-  }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
+  }, [profileSearch, isFriend, isGuest, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        await sendFriendRequest(profileSearch?._id);
+        await sendFriendRequest(id);
         resetStatus();
         setIsSendFriend(true);
         break;
       case "unfriend":
-        await unfriend(profileSearch?._id);
+        await unfriend(id);
         resetStatus();
         console.log("unfriend");
         break;
       case "decline":
-        await rejectFriendRequest(profileSearch?._id);
+        await rejectFriendRequest(id);
         resetStatus();
         break;
       case "accept":
-        await acceptFriendRequest(profileSearch?._id);
+        await acceptFriendRequest(id);
         resetStatus();
         setIsFriend(true);
         break;
 
       case "unsent":
-        await unsentFriend(profileSearch?._id);
+        await unsentFriend(id);
         resetStatus();
         setIsFriend(false);
         break;
@@ -98,7 +97,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   ) : (
     <S.Usersearch>
       <div className="user-wrapper">
-        <Link href={`/profile/${profileHash}`} passHref>
+        <Link href={`/profile/${profileHash}`} onClick={handleClose} passHref>
           <div className="image-wrapper">
             <Image src={avatar} width={40} height={40} alt={name} />
           </div>
@@ -108,109 +107,14 @@ export const SearchUser: React.FC<SearchUserProp> = ({
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      {isGuest ? (
-        <Button
-          type="primary"
-          children={"Thêm bạn bè"}
-          $color="#352F44"
-          $backgroundColor="#fff"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-          $width={"120px"}
-          onClick={() => setShowModalGuest(true)}
-        />
-      ) : isFriend ? (
-        <S.ButtonWrap>
-          <Button
-            type="primary"
-            children={"Hủy kết bạn"}
-            onClick={() => handleFriend("unfriend")}
-            $width="120px"
-            $backgroundColor="#fff"
-            loading={loading}
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-          <Button
-            type="primary"
-            children={"Nhắn tin"}
-            $backgroundColor="#fff"
-            $width="120px"
-            loading={loading}
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-        </S.ButtonWrap>
-      ) : isSendFriend ? (
-        <Button
-          type="primary"
-          children={"Hủy lời mời"}
-          loading={loading}
-          $width="120px"
-          $backgroundColor="#fff"
-          $color="#352F44"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-        />
-      ) : isRequester ? (
-        <S.ButtonWrap>
-          <Button
-            type="primary"
-            children={"Chấp nhận lời mời"}
-            loading={loading}
-            onClick={() => handleFriend("accept")}
-            $width="120px"
-            $backgroundColor="#fff"
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-          <Button
-            type="primary"
-            children={"Từ chối lời mời"}
-            loading={loading}
-            onClick={() => handleFriend("decline")}
-            $width="120px"
-            $backgroundColor="#fff"
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-        </S.ButtonWrap>
-      ) : (
-        <Button
-          type="primary"
-          children={"Thêm bạn bè"}
-          loading={loading}
-          onClick={() => handleFriend("addFriend")}
-          $width="120px"
-          $backgroundColor="#fff"
-          $color="#352F44"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-        />
-      )}
+      <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
     </S.Usersearch>
   );
 };
 interface ButtonProps {
   handleFriend: Function;
 }
-const MyUser: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (
-    <Button
-      type="default"
-      children={"Chỉnh sửa"}
-      onClick={() => {}}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    />
-  );
-};
+
 const SendFriendButton: React.FC<ButtonProps> = ({
   handleFriend,
 }: ButtonProps) => {
@@ -310,5 +214,22 @@ const FriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
         Nhắn tin
       </Button>
     </>
+  );
+};
+
+const GuestButton: React.FC<{
+  setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setShowModalGuest }) => {
+  return (
+    <Button
+      type="default"
+      onClick={() => setShowModalGuest(true)}
+      $width="100px"
+      $backgroundColor="#FAF0E6"
+      color="#352f44"
+      $hoverColor="#faf0e6"
+    >
+      Thêm bạn bè
+    </Button>
   );
 };

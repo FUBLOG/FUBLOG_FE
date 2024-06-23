@@ -5,11 +5,31 @@ import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
 import { getSearchUser } from "@/services/api/Search/getSearch";
 import { ProfileRequestResponseList } from "@/model/response";
-import { useAuthContext } from "@/contexts/AuthContext";
 
 interface SearchContentProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  list:
+    | {
+        avatar: string;
+        displayName: string;
+        friendCount: number;
+        profileHash: string;
+        _id: string;
+      }[]
+    | undefined;
+  setList: Dispatch<
+    SetStateAction<
+      | {
+          avatar: string;
+          displayName: string;
+          friendCount: number;
+          profileHash: string;
+          _id: string;
+        }[]
+      | undefined
+    >
+  >;
   setShowModalGuest: Dispatch<SetStateAction<boolean>>;
   setSearchVisible: Dispatch<SetStateAction<boolean>>;
 }
@@ -17,14 +37,13 @@ interface SearchContentProps {
 const SearchContent: React.FC<SearchContentProps> = ({
   value,
   setValue,
+  setList,
+  list,
   setShowModalGuest,
   setSearchVisible,
 }) => {
-  const { userInfo } = useAuthContext();
-
-  const [list, setList] = useState<ProfileRequestResponseList["metadata"]>([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
@@ -34,20 +53,25 @@ const SearchContent: React.FC<SearchContentProps> = ({
     }
     if (newValue.trim()) {
       try {
-        const searchResults = await getSearchUser(
-          userInfo?.profileHash,
-          newValue
-        );
+        setLoading(true);
+        const searchResults = await getSearchUser(newValue);
         setList(searchResults);
       } catch (error) {
         console.error("Error fetching search results:", error);
         setList([]);
       }
+      setLoading(false);
     } else {
+      setLoading(false);
+
       setList([]);
     }
   };
-
+  const handleClose = () => {
+    setSearchVisible(false);
+    setValue("");
+    setList([]);
+  };
   return (
     <>
       <InputWrapper>
@@ -59,11 +83,12 @@ const SearchContent: React.FC<SearchContentProps> = ({
         />
       </InputWrapper>
       <SearchInfo
+        loading={loading}
         list={list}
         value={value}
         setValue={setValue}
         setShowModalGuest={setShowModalGuest}
-        setSearchVisible={setSearchVisible}
+        handleClose={handleClose}
       />
     </>
   );

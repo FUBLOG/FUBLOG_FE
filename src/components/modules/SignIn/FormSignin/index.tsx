@@ -44,7 +44,8 @@ function FormSignIn() {
     setLoading(false);
   };
   return (
-    <Spin spinning={loading}>
+    <>
+      <Spin spinning={loading} fullscreen />
       <S.HomeWrapper>
         <Typography
           variant="h1"
@@ -156,7 +157,7 @@ function FormSignIn() {
           </S.Typography>
         </Form>
       </S.HomeWrapper>
-    </Spin>
+    </>
   );
 }
 

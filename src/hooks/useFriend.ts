@@ -1,6 +1,6 @@
 import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
-import { useProfile } from "./useProfile";
+import { useGetProfile, useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
 import { message } from "antd";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -8,7 +8,7 @@ import { useAuth } from "./useAuthStatus";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const useFriend = () => {
+const useFriend = (profileHash: string) => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
@@ -18,7 +18,8 @@ const useFriend = () => {
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
   const { userInfo } = useAuthContext();
-  const { profile } = useProfile();
+  const { profileSearch } = useGetProfile(profileHash);
+
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {
     if (!webStorageClient.get(constants.IS_AUTH)) {
@@ -30,13 +31,13 @@ const useFriend = () => {
   const checkIsFriend = () => {
     console.log(
       userInfo?.userInfo?.friendList?.some(
-        (friend: string) => friend === profile?.user?._id
+        (friend: string) => friend === profileSearch?.user?._id
       )
     );
 
     setIsFriend(
       userInfo?.userInfo?.friendList?.some(
-        (friend: string) => friend === profile?.user?._id
+        (friend: string) => friend === profileSearch?.user?._id
       )
     );
   };
@@ -48,7 +49,7 @@ const useFriend = () => {
     }
   };
   const checkRequest = async () => {
-    const response = await getRequestFriend(profile?.user?._id);
+    const response = await getRequestFriend(profileSearch?.user?._id);
     if (response?.metadata === null) {
       await checkIsFriend();
     } else {
@@ -56,16 +57,16 @@ const useFriend = () => {
     }
   };
   const checkFriend = async () => {
-    console.log("profile", profile);
+    console.log("profile", profileSearch);
 
-    if (profile?.user?._id === undefined) {
+    if (profileSearch?.user?._id === undefined) {
       setIsNotFound(true);
       return;
     }
     if (!(await checkIsGuest())) {
-      console.log(userInfo?.userId === profile?.user?._id);
+      console.log(userInfo?.userId === profileSearch?.user?._id);
 
-      if (userInfo?.userId === profile?.user?._id) {
+      if (userInfo?.userId === profileSearch?.user?._id) {
         setIsMyUser(true);
       } else {
         await checkRequest();
@@ -94,7 +95,7 @@ const useFriend = () => {
       isMyUser,
       isSendFriend
     );
-  }, [profile]);
+  }, [profileSearch]);
   return {
     isRequester,
     isFriend,

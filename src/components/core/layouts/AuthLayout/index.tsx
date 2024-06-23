@@ -10,12 +10,16 @@ import logo from "@/public/logo.png";
 
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
 function AuthLayout({ children }: AuthLayoutProps) {
   const { loading } = useAuth();
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -30,7 +34,6 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 children={"Đăng nhập"}
                 $width="100px"
                 disabled={loading}
-                loading={loading}
               />
             </Link>
             <Link href="/sign-up">
@@ -40,7 +43,6 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 children={"Đăng ký"}
                 $width="100px"
                 disabled={loading}
-                loading={loading}
               />
             </Link>
           </Flex>

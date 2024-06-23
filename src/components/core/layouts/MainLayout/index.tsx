@@ -38,6 +38,7 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { ProfileRequestResponseList } from "@/model/response";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -45,6 +46,8 @@ interface LayoutProps {
 
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [list, setList] = useState<ProfileRequestResponseList["metadata"]>([]);
+
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
@@ -99,6 +102,7 @@ function MainLayout({ children }: LayoutProps) {
     setShowModalGuest(false);
     setBellVisible(false);
     setNav("home");
+    setList([]);
     setValueSearch("");
   };
 
@@ -112,11 +116,12 @@ function MainLayout({ children }: LayoutProps) {
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
-      <Menu.Item key="logout" className="custom-menu-item">
-        <button
-          onClick={() => logout()}
-          style={{ all: "unset", cursor: "pointer" }}
-        >
+      <Menu.Item
+        key="logout"
+        className="custom-menu-item"
+        onClick={() => logout()}
+      >
+        <button style={{ all: "unset", cursor: "pointer" }}>
           {loading ? <Spin size="small" /> : "Đăng xuất"}
         </button>
       </Menu.Item>
@@ -222,8 +227,10 @@ function MainLayout({ children }: LayoutProps) {
         footer={null}
       >
         <SearchContent
-          value={valueSearch}
           setValue={setValueSearch}
+          value={valueSearch}
+          list={list}
+          setList={setList}
           setShowModalGuest={setShowModalGuest}
           setSearchVisible={setSearchVisible}
         />

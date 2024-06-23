@@ -9,13 +9,17 @@ export const getAllRequestFriend = async () => {
 export const acceptFriendRequest = async (data: any) => {
   return await postRequest(friendEndpoint.ACCEPT_FRIEND, {
     security: true,
-    data: data,
+    data: {
+      targetID: data,
+    },
   });
 };
 export const rejectFriendRequest = async (data: any) => {
   return await postRequest(friendEndpoint.DECLINE_FRIEND, {
     security: true,
-    data: data,
+    data: {
+      targetID: data,
+    },
   });
 };
 
@@ -48,7 +52,7 @@ export const getFriendList = async () => {
   });
 };
 export const unsentFriend = async (data: any) => {
-  return await deleteRequest(friendEndpoint.UNSEND_REQUEST, {
+  return await deleteRequest(friendEndpoint.UNSENT_REQUEST, {
     security: true,
     data: {
       targetID: data,

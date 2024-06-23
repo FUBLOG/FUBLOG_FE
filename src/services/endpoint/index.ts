@@ -32,7 +32,7 @@ const friendEndpoint = {
   GET_BLOCKED_FRIENDS: `/friend/block`,
   FRIEND_LIST: `/friend`,
   GET_REQUESTS_SENT: `/friend/request/`,
-  UNSEND_REQUEST: `/friend/request`,
+  UNSENT_REQUEST: `/friend/request`,
 };
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,
@@ -40,7 +40,7 @@ const notificationEndpoint = {
   MARK_ALL_AS_READ: `/notification/`,
 };
 const search = {
-  SEARCH_FRIEND: `/search/searchUser`,
+  SEARCH_FRIEND: `/search/user`,
 };
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,

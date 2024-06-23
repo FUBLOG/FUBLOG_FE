@@ -20,7 +20,7 @@ export const useProfile = create<ProfileProps>((set) => ({
 export const useGetProfile = (profileHash: string) => {
   const [loading, setLoading] = useState(false);
   const { setProfile, setProfileHash, profile } = useProfile();
-  const [profileSearch, setProfileSearch] = useState<ProfileRequestResponse>();
+  const [profileSearch, setProfileSearch] = useState<any>();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
       setLoading(true);
@@ -28,6 +28,8 @@ export const useGetProfile = (profileHash: string) => {
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
         const metadata = res?.metadata;
+        console.log(res);
+
         if (metadata) {
           setProfileHash(hash);
           setProfile(metadata);

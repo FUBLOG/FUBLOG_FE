@@ -7,11 +7,14 @@ import { Spin } from "antd";
 
 import * as S from "./styles";
 import { useGetProfile, useProfile } from "@/hooks/useProfile";
-function Profile({ profileHash }: { readonly profileHash: string }) {
+interface ProfileProps {
+  profileHash: string;
+}
+const Profile: React.FC<ProfileProps> = ({ profileHash }) => {
   useGetProfile(profileHash);
 
   const { loading } = useAuth();
-  const { checkFriend } = useFriend();
+  const { checkFriend } = useFriend(profileHash);
   useEffect(() => {
     if (!loading) {
       checkFriend();
@@ -20,9 +23,11 @@ function Profile({ profileHash }: { readonly profileHash: string }) {
 
   return (
     <S.HomeWrapper>
-      <Banner />
+      <Spin spinning={loading} fullscreen />
+
+      <Banner profileHash={profileHash} />
     </S.HomeWrapper>
   );
-}
+};
 
 export default Profile;

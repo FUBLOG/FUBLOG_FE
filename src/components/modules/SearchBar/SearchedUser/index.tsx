@@ -13,6 +13,7 @@ import {
 } from "@/services/api/friend";
 import { Skeleton } from "antd";
 import { useGetProfile } from "@/hooks/useProfile";
+import ButtonFriend from "../../ButtonFriend";
 
 interface SearchUserProp {
   name: string;
@@ -35,7 +36,14 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   setShowModalGuest,
 }) => {
   const { profileSearch } = useGetProfile(profileHash);
-
+  const {
+    MyUser,
+    FriendButton,
+    RequesterButton,
+    SendFriendButton,
+    GuestButton,
+    DefaultButton,
+  } = ButtonFriend();
   const {
     isFriend,
     isGuest,
@@ -45,6 +53,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     loading,
     setIsSendFriend,
     resetStatus,
+    checkFriend,
   } = useFriend(profileHash);
   const handleDisplayButton = () => {
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
@@ -88,6 +97,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
       default:
         break;
     }
+    checkFriend();
   };
 
   const Loading = () => <Skeleton active round avatar paragraph />;
@@ -109,127 +119,5 @@ export const SearchUser: React.FC<SearchUserProp> = ({
       </div>
       <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
     </S.Usersearch>
-  );
-};
-interface ButtonProps {
-  handleFriend: Function;
-}
-
-const SendFriendButton: React.FC<ButtonProps> = ({
-  handleFriend,
-}: ButtonProps) => {
-  return (
-    <Button
-      type="default"
-      $backgroundColor="#FAF0E6"
-      onClick={() => {
-        handleFriend("unsent");
-      }}
-      $width="100px"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Hủy lời mời
-    </Button>
-  );
-};
-
-const RequesterButton: React.FC<ButtonProps> = ({
-  handleFriend,
-}: ButtonProps) => {
-  return (
-    <>
-      <Button
-        type="default"
-        onClick={() => {
-          handleFriend("accept");
-        }}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
-      >
-        Chấp nhận
-      </Button>
-      <Button
-        type="default"
-        onClick={() => {
-          handleFriend("decline");
-        }}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
-      >
-        Từ chối
-      </Button>
-    </>
-  );
-};
-
-const DefaultButton: React.FC<ButtonProps> = ({
-  handleFriend,
-}: ButtonProps) => {
-  return (
-    <Button
-      type="default"
-      onClick={() => {
-        handleFriend("addFriend");
-      }}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Thêm bạn bè
-    </Button>
-  );
-};
-
-const FriendButton: React.FC<ButtonProps> = ({ handleFriend }: ButtonProps) => {
-  return (
-    <>
-      <Button
-        type="default"
-        onClick={() => {
-          handleFriend("unfriend");
-        }}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
-      >
-        Hủy kết bạn
-      </Button>
-      <Button
-        type="default"
-        onClick={() => {
-          handleFriend("chat");
-        }}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
-      >
-        Nhắn tin
-      </Button>
-    </>
-  );
-};
-
-const GuestButton: React.FC<{
-  setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setShowModalGuest }) => {
-  return (
-    <Button
-      type="default"
-      onClick={() => setShowModalGuest(true)}
-      $width="100px"
-      $backgroundColor="#FAF0E6"
-      color="#352f44"
-      $hoverColor="#faf0e6"
-    >
-      Thêm bạn bè
-    </Button>
   );
 };

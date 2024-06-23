@@ -24,7 +24,6 @@ const Profile: React.FC<ProfileProps> = ({ profileHash }) => {
   return (
     <S.HomeWrapper>
       <Spin spinning={loading} fullscreen />
-
       <Banner profileHash={profileHash} />
     </S.HomeWrapper>
   );

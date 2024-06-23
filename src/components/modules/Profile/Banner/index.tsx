@@ -26,10 +26,10 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     isRequester,
     isSendFriend,
     setIsFriend,
-    loading,
     setIsSendFriend,
     resetStatus,
     isNotFound,
+    loading,
   } = useFriend(profileHash);
   const [showModalGuest, setShowModalGuest] = useState(false);
   const handleCancel = () => {
@@ -81,7 +81,9 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     }
   };
 
-  return !isNotFound ? (
+  return loading ? (
+    <Loading />
+  ) : !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.CoverImage />
@@ -107,7 +109,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
       </S.BannerUser>
     </S.Wrapper>
   ) : (
-    <S.Wrapper>404</S.Wrapper>
+    loading && <S.Wrapper>404</S.Wrapper>
   );
 };
 const Loading = () => <Skeleton active round avatar paragraph />;

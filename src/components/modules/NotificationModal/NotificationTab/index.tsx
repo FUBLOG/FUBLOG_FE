@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
-import { List, Avatar, Skeleton, Button } from 'antd';
-import { CheckOutlined } from '@ant-design/icons';
-import { fromNow } from '@/utils';
-import { useGetNotification } from '@/hooks/useNotification';
-import { markNotificationAsRead, markAllNotificationsAsRead } from '@/services/api/notification';
-import * as S from '../style';
+import { useState, useEffect } from "react";
+import { List, Avatar, Skeleton, Button } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
+import { fromNow } from "@/utils";
+import { useGetNotification } from "@/hooks/useNotification";
+import {
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+} from "@/services/api/notification";
+import * as S from "../style";
 
 const NotificationTab = () => {
-  const { loading, notifications } = useGetNotification();
+  const { loading, notifications, setNotifications } = useGetNotification();
   const [localNotifications, setLocalNotifications] = useState<any[]>([]);
 
   useEffect(() => {
@@ -19,13 +22,14 @@ const NotificationTab = () => {
       await markNotificationAsRead(notificationId);
       setLocalNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>
-          notification._id === notificationId 
+          notification._id === notificationId
             ? { ...notification, isRead: true }
             : notification
         )
       );
+      setNotifications(localNotifications);
     } catch (error) {
-      console.error('Error ', error);
+      console.error("Error ", error);
     }
   };
 
@@ -39,7 +43,7 @@ const NotificationTab = () => {
         }))
       );
     } catch (error) {
-      console.error('Error ', error);
+      console.error("Error ", error);
     }
   };
 
@@ -62,7 +66,11 @@ const NotificationTab = () => {
         renderItem={(item: any) => (
           <List.Item
             key={item.id}
-            className={`notification-item ${item.isRead ? 'read' : 'unread'}`}
+            className={` ${
+              item.isRead
+                ? " notification-read .ant-list-item-meta "
+                : "notification-unread .ant-list-item-meta"
+            }`}
             onClick={() => handleMarkRead(item._id)}
           >
             <List.Item.Meta

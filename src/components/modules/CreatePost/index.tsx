@@ -1,6 +1,5 @@
 import React from "react"
-import { PostContent } from "./Content"
-import {user1} from "./test";
+import { PostContent } from "./content";
 
 interface CreateContentProps {
     onSuccess: () => void; // Prop callback để thông báo tạo bài viết thành công
@@ -9,6 +8,6 @@ interface CreateContentProps {
 
 export const CreateContent: React.FC<CreateContentProps> = ({onSuccess})=> {
     return(
-        <PostContent user = {user1} onSuccess={onSuccess}/>
+        <PostContent onSuccess={onSuccess}/>
     )
 }

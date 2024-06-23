@@ -12,6 +12,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const isSelected = selectedConversation?._id === conversation._id;
     let lastMessage = conversation?.lastMessage?.message
+    let unreadCount = conversation?.unreadCount;
     if (conversation?.lastMessage?.senderId !== conversation?.participants[0]?._id) {
         lastMessage = 'You: ' + lastMessage;
 

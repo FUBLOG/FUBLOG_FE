@@ -45,7 +45,7 @@ const useListenConversation = () => {
         const updatedConversations = conversations.filter(
           (conversation) => conversation._id !== newConversation._id
         );
-        setConversations([...updatedConversations, newConversation]);
+        setConversations([ newConversation,...updatedConversations,]);
       }
     });
     return () => {

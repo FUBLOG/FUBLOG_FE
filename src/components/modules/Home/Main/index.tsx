@@ -1,11 +1,6 @@
 "use client";
-import Button from "@/components/core/common/Button";
-import { useState, useContext, useEffect } from "react";
-import Post from "../Post";
+import { useState, useEffect } from "react";
 import * as S from "./styles";
-import { PostContext } from "@/components/core/layouts/MainLayout/Context";
-import { Space, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { getRequest } from "@/services/request";
 import { tagEndpoint } from "@/services/endpoint";
 import TagRender from "./Tag";
@@ -13,7 +8,6 @@ import PostsRender from "./PostRender";
 
 function Home() {
   const [activeTag, setActiveTag] = useState("Tất cả");
-  const { posts, showSpinner } = useContext(PostContext);
 
   useEffect(() => {
     const setup = async () => {

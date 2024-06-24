@@ -14,6 +14,8 @@ export const PostWrapper = styled.div`
 export const ContentWrapper = styled(Flex)`
   align-items: flex-start;
   padding: 0 20px;
+  align-items: flex-start;
+  padding: 0 20px;
 `;
 
 export const PostContent = styled.p`
@@ -26,12 +28,14 @@ export const PostContent = styled.p`
 
 export const ImagesWrapper = styled(Flex)`
   justify-content: flex-start;
+  justify-content: flex-start;
   padding: 0 20px;
   gap: 10px;
   flex-wrap: wrap;
   gap: 8px;
 
   img {
+    border-radius: 4px;
     border-radius: 4px;
     max-width: 100%;
     height: auto;

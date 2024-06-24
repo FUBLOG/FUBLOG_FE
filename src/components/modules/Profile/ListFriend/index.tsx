@@ -5,10 +5,10 @@ import Typography from "@/components/core/common/Typography";
 
 import * as S from "./styles";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useFriend from "@/hooks/useFriend";
 
 function ListFriend() {
   const { userInfo } = useAuthContext();
-
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
     { id: 2, name: "Thu Phương", image: "/thuphuong.png" },

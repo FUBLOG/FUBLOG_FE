@@ -7,16 +7,13 @@ import TagRender from "./Tag";
 import PostsRender from "./PostRender";
 
 function Home() {
-  const [activeTag, setActiveTag] = useState("Tất cả");
-
   useEffect(() => {
     const setup = async () => {
       const res: any = await getRequest(tagEndpoint.GET_TAG);
       console.log(res?.metadata);
-
     };
     setup();
-  }, [])
+  }, []);
   return (
     <S.HomeWrapper>
       <S.MainWrapper>

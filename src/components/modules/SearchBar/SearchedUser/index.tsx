@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/core/common/Button";
 import * as S from "./style";
 import useFriend from "@/hooks/useFriend";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+  sendFriendRequest,
+  unfriend,
+  unsentFriend,
+} from "@/services/api/friend";
 import { Skeleton } from "antd";
+import { useGetProfile } from "@/hooks/useProfile";
+import ButtonFriend from "../../ButtonFriend";
 
 interface SearchUserProp {
   name: string;
@@ -14,7 +23,7 @@ interface SearchUserProp {
   profileHash: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearchVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClose: () => void;
 }
 
 export const SearchUser: React.FC<SearchUserProp> = ({
@@ -22,55 +31,91 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   friends,
   avatar,
   profileHash,
-  setValue,
+  handleClose,
+  id,
   setShowModalGuest,
-  setSearchVisible,
 }) => {
+  const { profileSearch } = useGetProfile(profileHash);
+  const [buttonDisplay, setButton] = useState<any>(<></>);
+  const [loadingSusses, setLoadingSusscess] = useState(true);
   const {
     isFriend,
     isGuest,
-    sendFriend,
-    unFriend,
-    isSendFriend,
-    declineFriend,
-    acceptFriend,
-    loading,
     isRequester,
+    isSendFriend,
+    setIsFriend,
+    loading,
+    setIsSendFriend,
+    resetStatus,
+    checkFriend,
   } = useFriend(profileHash);
+  const {
+    FriendButton,
+    RequesterButton,
+    SendFriendButton,
+    GuestButton,
+    DefaultButton,
+  } = ButtonFriend();
+  const handleDisplayButton = () => {
+    if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
+    if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
+    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+    return <DefaultButton handleFriend={handleFriend} />;
+  };
+  useEffect(() => {
+    if (!loading) {
+      setLoadingSusscess(true);
+      const a = handleDisplayButton();
+      setButton(a);
+      setLoadingSusscess(false);
+    }
+  }, [profileSearch, isFriend, isGuest, isRequester, isSendFriend]);
 
-  const handleFriend = (event: string) => {
+  const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        sendFriend();
+        await sendFriendRequest(id);
+        resetStatus();
+        setIsSendFriend(true);
         break;
       case "unfriend":
-        unFriend();
+        await unfriend(id);
+        resetStatus();
+        console.log("unfriend");
         break;
       case "decline":
-        declineFriend();
+        await rejectFriendRequest(id);
+        resetStatus();
         break;
       case "accept":
-        acceptFriend();
+        await acceptFriendRequest(id);
+        resetStatus();
+        setIsFriend(true);
         break;
+
+      case "unsent":
+        await unsentFriend(id);
+        resetStatus();
+        setIsFriend(false);
+        break;
+
       default:
         break;
     }
+    checkFriend();
   };
 
-  const handleProfileClick = () => {
-    setValue("");
-    setSearchVisible(false);
+  const Loading = () => {
+    return <Skeleton active round avatar paragraph />;
   };
-
-  const Loading = () => <Skeleton active round avatar paragraph />;
-
-  return loading ? (
+  return loadingSusses ? (
     <Loading />
   ) : (
     <S.Usersearch>
       <div className="user-wrapper">
-        <Link href={`/profile/${profileHash}`} passHref>
-          <div className="image-wrapper" onClick={handleProfileClick}>
+        <Link href={`/profile/${profileHash}`} onClick={handleClose} passHref>
+          <div className="image-wrapper">
             <Image src={avatar} width={40} height={40} alt={name} />
           </div>
         </Link>
@@ -79,90 +124,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      {isGuest ? (
-        <Button
-          type="primary"
-          children={"Thêm bạn bè"}
-          $color="#352F44"
-          $backgroundColor="#fff"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-          $width={"120px"}
-          onClick={() => setShowModalGuest(true)}
-        />
-      ) : isFriend ? (
-        <S.ButtonWrap>
-          <Button
-            type="primary"
-            children={"Hủy kết bạn"}
-            onClick={() => handleFriend("unfriend")}
-            $width="120px"
-            $backgroundColor="#fff"
-            loading={loading}
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-          <Button
-            type="primary"
-            children={"Nhắn tin"}
-            $backgroundColor="#fff"
-            $width="120px"
-            loading={loading}
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-        </S.ButtonWrap>
-      ) : isSendFriend ? (
-        <Button
-          type="primary"
-          children={"Hủy lời mời"}
-          loading={loading}
-          $width="120px"
-          $backgroundColor="#fff"
-          $color="#352F44"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-        />
-      ) : isRequester ? (
-        <S.ButtonWrap>
-          <Button
-            type="primary"
-            children={"Chấp nhận lời mời"}
-            loading={loading}
-            onClick={() => handleFriend("accept")}
-            $width="120px"
-            $backgroundColor="#fff"
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-          <Button
-            type="primary"
-            children={"Từ chối lời mời"}
-            loading={loading}
-            onClick={() => handleFriend("decline")}
-            $width="120px"
-            $backgroundColor="#fff"
-            $color="#352F44"
-            $hoverBackgroundColor="#ccc"
-            $hoverColor="#000"
-          />
-        </S.ButtonWrap>
-      ) : (
-        <Button
-          type="primary"
-          children={"Thêm bạn bè"}
-          loading={loading}
-          onClick={() => handleFriend("addFriend")}
-          $width="120px"
-          $backgroundColor="#fff"
-          $color="#352F44"
-          $hoverBackgroundColor="#ccc"
-          $hoverColor="#000"
-        />
-      )}
+      <S.ButtonUser>{buttonDisplay}</S.ButtonUser>
     </S.Usersearch>
   );
 };

@@ -3,6 +3,7 @@
 import Image from "next/legacy/image";
 import { Flex, Spin } from "antd";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 import Button from "../../common/Button";
 
@@ -16,6 +17,7 @@ interface AuthLayoutProps {
 }
 function AuthLayout({ children }: AuthLayoutProps) {
   const { loading } = useAuth();
+
   return (
     <S.LayoutWrapper>
       <S.Header>
@@ -30,7 +32,6 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 children={"Đăng nhập"}
                 $width="100px"
                 disabled={loading}
-                loading={loading}
               />
             </Link>
             <Link href="/sign-up">
@@ -40,7 +41,6 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 children={"Đăng ký"}
                 $width="100px"
                 disabled={loading}
-                loading={loading}
               />
             </Link>
           </Flex>

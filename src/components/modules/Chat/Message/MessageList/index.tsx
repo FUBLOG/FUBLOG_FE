@@ -10,15 +10,18 @@ const MessageList = () => {
   const { userInfo } = useAuthContext();
   useListenMessage();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  console.log(userInfo);
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages,userInfo?.userId]);
 
   return (
     <S.MessagesList>
       {messages.map((message) => {
-        const isOwnMessage = message?.senderId === userInfo?.userId;
+        let isOwnMessage = message?.senderId === userInfo?.userId;
+        console.log(isOwnMessage);
+        
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
             <S.ChatHeader isOwnMessage={isOwnMessage}>

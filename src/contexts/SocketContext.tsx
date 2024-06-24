@@ -22,9 +22,11 @@ export const SocketContext = createContext<SocketContextProps>({
   userOnline: [],
   setUserOnline: () => { }
 });
+
 export const useSocketContext = () => {
   return useContext(SocketContext);
 };
+
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -42,8 +44,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       socket.on("getOnlineUsers", async (data: string[]) => {
         setUserOnline(data);
       })
-
-
       return () => {
         if (socket) {
           socket.close();
@@ -64,3 +64,5 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
     </SocketContext.Provider>
   );
 };
+
+

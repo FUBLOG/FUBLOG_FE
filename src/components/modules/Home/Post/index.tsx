@@ -8,10 +8,10 @@ import {
   TagOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
-import Button from "@/components/core/common/Button";
 import { useAuthContext } from "@/contexts/AuthContext";
-import * as S from "./styles";
 import CommentModal from "./Comment";
+
+import * as S from "./styles";
 
 interface PostProps {
   newfeed: any;
@@ -25,7 +25,7 @@ const Post = ({ newfeed }: PostProps) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
-  const [isPostReport] = useState(false);
+  const [isPostReport, setIsPostReport] = useState(false);
   const { userInfo } = useAuthContext();
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");

@@ -1,6 +1,7 @@
 import { useSocketContext } from "@/contexts/SocketContext";
 import useConversation from "./useConversation";
 import { useEffect, useState } from "react";
+import useSidebarBadge from "./useSidebarBadge";
 const useListenMessage = () => {
   const { socket } = useSocketContext();
   const { messages, setMessages } = useConversation();
@@ -33,25 +34,25 @@ const useListenTyping = () => {
 const useListenConversation = () => {
   const { socket } = useSocketContext();
   const { conversations, setConversations } = useConversation();
+  const { setMessageCount, messageCount } = useSidebarBadge();
   useEffect(() => {
     socket?.on("newConversation", (newConversation: any) => {
-      console.log(newConversation);
-
       const sound = new Audio(require("../assets/sounds/notification.mp3"));
       sound.play();
+      setMessageCount(messageCount + 1);
       if (conversations.length === 0) {
         setConversations([newConversation]);
       } else {
         const updatedConversations = conversations.filter(
           (conversation) => conversation._id !== newConversation._id
         );
-        setConversations([ newConversation,...updatedConversations,]);
+        setConversations([newConversation, ...updatedConversations]);
       }
     });
     return () => {
       socket?.off("newConversation");
     };
-  }, [socket, conversations, setConversations]);
+  }, [socket, conversations]);
 };
 
 export { useListenMessage, useListenTyping, useListenConversation };

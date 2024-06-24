@@ -1,4 +1,5 @@
 
+
 // @ts-check
 
 /**
@@ -22,6 +23,9 @@ const nextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
   reactStrictMode: false,
   webpack: (config, { isServer }) => {
     // Add a rule for .mp3 files
@@ -38,10 +42,8 @@ const nextConfig = {
       },
     });
 
+
     return config;
-  },
-  images: {
-    domains: ['res.cloudinary.com'],
   },
 };
 

@@ -35,8 +35,7 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { CreateContent } from "@/components/modules/CreatePost";
-import { PostProvider } from "./Context";
+import { ProfileRequestResponseList } from "@/model/response";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -44,6 +43,8 @@ interface LayoutProps {
 
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [list, setList] = useState<ProfileRequestResponseList["metadata"]>([]);
+
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
@@ -72,9 +73,6 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "bell" && userInfo?.userId !== "") {
       setBellVisible(true);
     }
-    if(e=== "create" && userInfo?.userId !== ""){
-      setShowCreate(true)
-    }
   };
 
   const showBellModal = () => {
@@ -91,7 +89,6 @@ function MainLayout({ children }: LayoutProps) {
     setNav("home");
   };
 
-  const [showCreate, setShowCreate] = useState(false);
   const handleOk = () => {
     setShowCreate(true);
     setSearchVisible(true);
@@ -102,14 +99,11 @@ function MainLayout({ children }: LayoutProps) {
     setShowMessageModal(false);
     setShowModalGuest(false);
     setBellVisible(false);
-    setShowCreate(false);
     setNav("home");
+    setList([]);
+    setValueSearch("");
   };
-  const handleCreatePostSuccess = () => {
-    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
-    
-  };
-  
+
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
@@ -120,11 +114,12 @@ function MainLayout({ children }: LayoutProps) {
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
-      <Menu.Item key="logout" className="custom-menu-item">
-        <button
-          onClick={() => logout()}
-          style={{ all: "unset", cursor: "pointer" }}
-        >
+      <Menu.Item
+        key="logout"
+        className="custom-menu-item"
+        onClick={() => logout()}
+      >
+        <button style={{ all: "unset", cursor: "pointer" }}>
           {loading ? <Spin size="small" /> : "Đăng xuất"}
         </button>
       </Menu.Item>
@@ -132,125 +127,113 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
-    <Spin size="large" spinning={loading}>
-      <S.LayoutWrapper>
-        <ModalGuest
-          showModalGuest={showModalGuest}
-          handleCancel={handleCancel}
-        />
-        <S.Header>
-          <S.GlobalStyle />
-          <S.Container>
-            <Image src={logo} alt="logo header" />
-            <S.IconContainer>
-              <Link href="/" onClick={() => handleSetNavigation("home")}>
-                {nav === "home" ? (
-                  <HomeFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <HomeOutlined style={{ fontSize: "22px" }} />
-                )}
+    <S.LayoutWrapper>
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <S.Header>
+        <S.GlobalStyle />
+        <S.Container>
+          <Image src={logo} alt="logo header" />
+          <S.IconContainer>
+            <Link href="/" onClick={() => handleSetNavigation("home")}>
+              {nav === "home" ? (
+                <HomeFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <HomeOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+            <Link href="#" onClick={() => handleSetNavigation("search")}>
+              {nav === "search" ? (
+                <FontAwesomeIcon
+                  style={{ fontSize: "22px" }}
+                  icon={faMagnifyingGlass}
+                />
+              ) : (
+                <SearchOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+            <Link href="#" onClick={() => handleSetNavigation("create")}>
+              {nav === "create" ? (
+                <EditFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <EditOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+            <Button type="text" onClick={() => handleSetNavigation("mess")}>
+              {nav === "mess" ? (
+                <MessageFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <MessageOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Button>
+            <Link href="#" onClick={showBellModal}>
+              {nav === "bell" ? (
+                <BellFilled style={{ fontSize: "22px" }} />
+              ) : (
+                <BellOutlined style={{ fontSize: "22px" }} />
+              )}
+            </Link>
+          </S.IconContainer>
+          {userInfo?.userId === "" ? (
+            <Flex gap={15} style={{ marginRight: "20px" }}>
+              <Link href="/sign-in">
+                <Button type="default" $width="100px" disabled={loading}>
+                  Đăng nhập
+                </Button>
               </Link>
-              <Link href="#" onClick={() => handleSetNavigation("search")}>
-                {nav === "search" ? (
-                  <FontAwesomeIcon
-                    style={{ fontSize: "22px" }}
-                    icon={faMagnifyingGlass}
-                  />
-                ) : (
-                  <SearchOutlined style={{ fontSize: "22px" }} />
-                )}
+              <Link href="/sign-up">
+                <Button
+                  color="red"
+                  type="primary"
+                  $width="100px"
+                  disabled={loading}
+                >
+                  Đăng ký
+                </Button>
               </Link>
-              <Link href="#" onClick={() => handleSetNavigation("create")}>
-                {nav === "create" ? (
-                  <EditFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <EditOutlined style={{ fontSize: "22px" }} />
-                )}
+            </Flex>
+          ) : (
+            <S.UserIconContainer>
+              <Link href={`/profile/${userInfo?.profileHash}`}>
+                <UserOutlined
+                  style={{ fontSize: "28px" }}
+                  onClick={() => handleSetNavigation("")}
+                />
               </Link>
-              <Button type="text" onClick={() => handleSetNavigation("mess")}>
-                {nav === "mess" ? (
-                  <MessageFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <MessageOutlined style={{ fontSize: "22px" }} />
-                )}
-              </Button>
-              <Link href="#" onClick={showBellModal}>
-                {nav === "bell" ? (
-                  <BellFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <BellOutlined style={{ fontSize: "22px" }} />
-                )}
-              </Link>
-            </S.IconContainer>
-            {userInfo?.userId === "" ? (
-              <Flex gap={15} style={{ marginRight: "20px" }}>
-                <Link href="/sign-in">
-                  <Button type="default" $width="100px" disabled={loading}>
-                    Đăng nhập
-                  </Button>
-                </Link>
-                <Link href="/sign-up">
-                  <Button
-                    color="red"
-                    type="primary"
-                    $width="100px"
-                    disabled={loading}
-                  >
-                    Đăng ký
-                  </Button>
-                </Link>
-              </Flex>
-            ) : (
-              <S.UserIconContainer>
-                <Link href={`/profile/${userInfo?.profileHash}`}>
-                  <UserOutlined
-                    style={{ fontSize: "28px" }}
-                    onClick={() => handleSetNavigation("")}
-                  />
-                </Link>
 
-                <Dropdown overlay={menuItems} trigger={["click"]}>
-                  <CaretDownOutlined
-                    style={{
-                      fontSize: "18px",
-                      marginLeft: "0px",
-                      cursor: "pointer",
-                    }}
-                  />
-                </Dropdown>
-              </S.UserIconContainer>
-            )}
-          </S.Container>
-        </S.Header>
-        <S.Body>{children}</S.Body>
+              <Dropdown overlay={menuItems} trigger={["click"]}>
+                <CaretDownOutlined
+                  style={{
+                    fontSize: "18px",
+                    marginLeft: "0px",
+                    cursor: "pointer",
+                  }}
+                />
+              </Dropdown>
+            </S.UserIconContainer>
+          )}
+        </S.Container>
+      </S.Header>
+      <S.Body>{children}</S.Body>
 
-        <NotificationModal visible={bellVisible} onClose={handleBellClose} />
-        <Chat visible={showMessageModal} onClose={handleCancel} />
-        <S.SearchModal
-          open={searchVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="searchModal"
-          footer={null}
-        >
-          <SearchContent
-            value={valueSearch}
-            setValue={setValueSearch}
-            setShowModalGuest={setShowModalGuest}
-            setSearchVisible={setSearchVisible}
-          />
-        </S.SearchModal>
-        <S.CreateModal
-        open={showCreate}
+      <NotificationModal visible={bellVisible} onClose={handleBellClose} />
+      <Chat visible={showMessageModal} onClose={handleCancel} />
+      <S.SearchModal
+        open={searchVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        className="createModal"
+        className="searchModal"
         footer={null}
       >
-        <CreateContent onSuccess={handleCreatePostSuccess} />
-      </S.CreateModal>
-      </S.LayoutWrapper>
-    </Spin>
+        <SearchContent
+          setValue={setValueSearch}
+          value={valueSearch}
+          list={list}
+          setList={setList}
+          setShowModalGuest={setShowModalGuest}
+          setSearchVisible={setSearchVisible}
+        />
+      </S.SearchModal>
+    </S.LayoutWrapper>
   );
 }
 

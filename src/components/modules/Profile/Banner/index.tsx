@@ -92,9 +92,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     checkFriend();
   };
 
-  return loading ? (
-    <Loading />
-  ) : !isNotFound ? (
+  return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.CoverImage />

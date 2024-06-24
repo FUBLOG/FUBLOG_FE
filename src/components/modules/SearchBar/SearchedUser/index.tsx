@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/core/common/Button";
@@ -36,14 +36,8 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   setShowModalGuest,
 }) => {
   const { profileSearch } = useGetProfile(profileHash);
-  const {
-    MyUser,
-    FriendButton,
-    RequesterButton,
-    SendFriendButton,
-    GuestButton,
-    DefaultButton,
-  } = ButtonFriend();
+  const [buttonDisplay, setButton] = useState<any>(<></>);
+  const [loadingSusses, setLoadingSusscess] = useState(true);
   const {
     isFriend,
     isGuest,
@@ -55,6 +49,13 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     resetStatus,
     checkFriend,
   } = useFriend(profileHash);
+  const {
+    FriendButton,
+    RequesterButton,
+    SendFriendButton,
+    GuestButton,
+    DefaultButton,
+  } = ButtonFriend();
   const handleDisplayButton = () => {
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
@@ -63,7 +64,12 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
-    handleDisplayButton();
+    if (!loading) {
+      setLoadingSusscess(true);
+      const a = handleDisplayButton();
+      setButton(a);
+      setLoadingSusscess(false);
+    }
   }, [profileSearch, isFriend, isGuest, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
@@ -102,7 +108,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
 
   const Loading = () => <Skeleton active round avatar paragraph />;
 
-  return loading ? (
+  return loadingSusses ? (
     <Loading />
   ) : (
     <S.Usersearch>
@@ -117,7 +123,7 @@ export const SearchUser: React.FC<SearchUserProp> = ({
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
+      <S.ButtonUser>{buttonDisplay}</S.ButtonUser>
     </S.Usersearch>
   );
 };

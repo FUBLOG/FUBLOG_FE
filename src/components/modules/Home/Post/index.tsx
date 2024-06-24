@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import { message, Dropdown, Menu, Radio } from "antd";
+import React, { useState } from "react";
+import { message, Radio } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
   ExclamationCircleOutlined,
-  EllipsisOutlined,
   TagOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
-import Button from "@/components/core/common/Button";
 import { useAuthContext } from "@/contexts/AuthContext";
-import * as S from "./styles";
 import CommentModal from "./Comment";
 
-
+import * as S from "./styles";
 
 interface PostProps {
   newfeed: any;
@@ -31,14 +28,10 @@ const Post = ({ newfeed }: PostProps) => {
   const [isPostReport, setIsPostReport] = useState(false);
   const { userInfo } = useAuthContext();
 
-
-
   const toggleLike = () => {
     setLiked(!liked);
     setLikes(liked ? likes - 1 : likes + 1);
   };
-
-
 
   // const handlePostReportClick = () => {
   //   setIsPostReport(true);
@@ -78,31 +71,23 @@ const Post = ({ newfeed }: PostProps) => {
     message.warning("Vui lòng đăng nhập để bình luận.");
   };
 
-
-
-  
-
   const handleCloseCommentsModal = () => {
     setShowCommentsModal(false);
-
   };
 
   const icrComment = (number: number) => {
     setComments(comments + number);
-  }
-
-
-
-
-
-
+  };
 
   return (
     <S.PostWrapper>
       <S.CustomCard>
         <S.PostHeader>
           <S.UserInfo>
-            <S.Avatar src={newfeed?.userId?.userInfo?.avatar} alt={`${newfeed?.userId?.displayName}'s avatar`} />
+            <S.Avatar
+              src={newfeed?.userId?.userInfo?.avatar}
+              alt={`${newfeed?.userId?.displayName}'s avatar`}
+            />
             <Typography
               variant="caption-normal"
               color="#B9B4C7"
@@ -127,13 +112,17 @@ const Post = ({ newfeed }: PostProps) => {
           </Typography>
         </S.ContentWrapper>
         {newfeed?.post?.postLinkToImages.length > 0 && (
-          <S.ImagesWrapper className={`images-${newfeed?.post?.postLinkToImages.length}`}>
+          <S.ImagesWrapper
+            className={`images-${newfeed?.post?.postLinkToImages.length}`}
+          >
             {newfeed?.post?.postLinkToImages.slice(0, 3).map((src: any) => (
               <img key={src} src={src} alt="" className="post-image" />
             ))}
             {newfeed?.post?.postLinkToImages.length > 3 && (
               <div className="more-images">
-                <span>View more {newfeed?.post?.postLinkToImages.length - 3} images</span>
+                <span>
+                  View more {newfeed?.post?.postLinkToImages.length - 3} images
+                </span>
               </div>
             )}
           </S.ImagesWrapper>
@@ -142,13 +131,9 @@ const Post = ({ newfeed }: PostProps) => {
         <S.PostFooter>
           <S.Actions>
             {liked ? (
-              <HeartFilled
-                style={{ color: "white", cursor: "pointer" }}
-              />
+              <HeartFilled style={{ color: "white", cursor: "pointer" }} />
             ) : (
-              <HeartOutlined
-                style={{ color: "white", cursor: "pointer" }}
-              />
+              <HeartOutlined style={{ color: "white", cursor: "pointer" }} />
             )}
             <span>{likes}</span>
             <CommentOutlined
@@ -217,10 +202,14 @@ const Post = ({ newfeed }: PostProps) => {
             : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
-      <CommentModal close={handleCloseCommentsModal} open={showCommentsModal} newfeed={newfeed} icrComment={icrComment} />
+      <CommentModal
+        close={handleCloseCommentsModal}
+        open={showCommentsModal}
+        newfeed={newfeed}
+        icrComment={icrComment}
+      />
     </S.PostWrapper>
   );
-}
-
+};
 
 export default Post;

@@ -23,9 +23,6 @@ const nextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
   },
-  images: {
-    domains: ['res.cloudinary.com'],
-  },
   reactStrictMode: false,
   webpack: (config, { isServer }) => {
     // Add a rule for .mp3 files

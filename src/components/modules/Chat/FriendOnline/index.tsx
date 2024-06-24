@@ -2,7 +2,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import * as S from "../styles";
 import { useSocketContext } from "@/contexts/SocketContext";
 import { useEffect, useState } from "react";
-import { Badge } from "antd";
+import { Badge, message } from "antd";
 import useConversation from "@/hooks/useConversation";
 import { getFriendList } from "@/services/api/friend";
 import { getConversation } from "@/services/api/chat";

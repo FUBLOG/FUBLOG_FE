@@ -42,7 +42,7 @@ const useFriend = (profileHash: string) => {
     );
   };
   const handleRequest = (request: any) => {
-    if (request?.sourceID === userInfo?.userId) {
+    if (request?.sourceID === userInfo?._id) {
       setIsSendFriend(true);
     } else {
       setIsRequester(true);
@@ -64,9 +64,9 @@ const useFriend = (profileHash: string) => {
       return;
     }
     if (!(await checkIsGuest())) {
-      console.log(userInfo?.userId === profileSearch?.user?._id);
+      console.log(userInfo?._id === profileSearch?.user?._id);
 
-      if (userInfo?.userId === profileSearch?.user?._id) {
+      if (userInfo?._id === profileSearch?.user?._id) {
         setIsMyUser(true);
       } else {
         await checkRequest();

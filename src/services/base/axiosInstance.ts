@@ -43,6 +43,7 @@ axiosInstance.interceptors.response.use(
         deleteStorage();
       }
     }
+    return error?.response?.data;
   }
 );
 

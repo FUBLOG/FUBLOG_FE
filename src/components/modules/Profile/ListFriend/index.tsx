@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -10,7 +9,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 
 function ListFriend() {
   const { userInfo } = useAuthContext();
-  const [modalVisible, setModalVisible] = useState(false); 
+  const [modalVisible, setModalVisible] = useState(false);
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
@@ -22,7 +21,6 @@ function ListFriend() {
     { id: 7, name: "Thanhthuy", image: "/thanhthuy.png", friendCount: 12 },
     { id: 8, name: "Văn Mạnh", image: "/vanmanh.png", friendCount: 8 },
     { id: 9, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
-    
   ];
 
   const handleOpenModal = () => {
@@ -62,7 +60,6 @@ function ListFriend() {
         ))}
       </S.FriendContainer>
 
-      
       <TotalFriend
         visible={modalVisible}
         onClose={handleCloseModal}

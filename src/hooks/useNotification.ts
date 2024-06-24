@@ -23,6 +23,8 @@ const useGetFriendRequest = () => {
   const { friendRequest, setFriendRequest } = useNotification();
   const { userInfo } = useAuthContext();
   useEffect(() => {
+    console.log("noti", userInfo?._id);
+
     const getFriendRequest = async () => {
       setLoading(true);
       const res: any = await getAllRequestFriend();
@@ -39,7 +41,7 @@ const useGetFriendRequest = () => {
         setLoading(false);
       }
     };
-    if (userInfo.userId !== "") {
+    if (userInfo?._id !== "") {
       getFriendRequest();
     }
   }, []);

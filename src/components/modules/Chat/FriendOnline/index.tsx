@@ -13,7 +13,6 @@ const FriendOnline = () => {
   const { setSelectedConversation } = useConversation();
   useEffect(() => {
     const handleFriendsOnline = async () => {
-      console.log("userOnline", userOnline);
       const friendList = await getFriendList().then(
         (res) => res?.metadata?.friendList
       );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ReactNode, useEffect } from "react";
-import { Flex, Menu, Dropdown, Spin } from "antd";
+import { Flex, Menu, Dropdown, Spin, Badge } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -36,7 +36,8 @@ import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { CreateContent } from "@/components/modules/CreatePost";
-import { PostProvider } from "./Context";
+import useSidebarBadge from "@/hooks/useSidebarBadge";
+import { useListenConversation } from "@/hooks/useListen";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -48,15 +49,16 @@ function MainLayout({ children }: LayoutProps) {
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
   const { logout, loading } = useAuth();
-  const { userInfo } = useAuthContext();
+  const { userInfo, setUserInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
-
+  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
+  useListenConversation();
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       handleCancel();
     }
-  }, [webStorageClient.get(constants.IS_AUTH)]);
+  }, [webStorageClient.get(constants.IS_AUTH), setUserInfo]);
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -72,7 +74,7 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "bell" && userInfo?.userId !== "") {
       setBellVisible(true);
     }
-    if(e=== "create" && userInfo?.userId !== ""){
+    if (e === "create" && userInfo?.userId !== "") {
       setShowCreate(true)
     }
   };
@@ -107,9 +109,9 @@ function MainLayout({ children }: LayoutProps) {
   };
   const handleCreatePostSuccess = () => {
     setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
-    
+
   };
-  
+
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
@@ -167,20 +169,28 @@ function MainLayout({ children }: LayoutProps) {
                   <EditOutlined style={{ fontSize: "22px" }} />
                 )}
               </Link>
-              <Button type="text" onClick={() => handleSetNavigation("mess")}>
-                {nav === "mess" ? (
-                  <MessageFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <MessageOutlined style={{ fontSize: "22px" }} />
-                )}
-              </Button>
-              <Link href="#" onClick={showBellModal}>
-                {nav === "bell" ? (
-                  <BellFilled style={{ fontSize: "22px" }} />
-                ) : (
-                  <BellOutlined style={{ fontSize: "22px" }} />
-                )}
-              </Link>
+              <Badge count={messageCount} style={{
+                marginTop: "10px",
+                marginRight: "8px",
+              }}>
+                <Button type="text" onClick={() => handleSetNavigation("mess")}>
+                  {nav === "mess" ? (
+                    <MessageFilled style={{ fontSize: "22px" }} />
+                  ) : (
+                    <MessageOutlined style={{ fontSize: "22px" }} />
+                  )}
+                </Button>
+              </Badge>
+              <Badge count={notificationCount+friendRequestCount} style={{
+              }}>
+                <Link href="#" onClick={showBellModal}>
+                  {nav === "bell" ? (
+                    <BellFilled style={{ fontSize: "22px" }} />
+                  ) : (
+                    <BellOutlined style={{ fontSize: "22px" }} />
+                  )}
+                </Link>
+              </Badge>
             </S.IconContainer>
             {userInfo?.userId === "" ? (
               <Flex gap={15} style={{ marginRight: "20px" }}>
@@ -241,14 +251,14 @@ function MainLayout({ children }: LayoutProps) {
           />
         </S.SearchModal>
         <S.CreateModal
-        open={showCreate}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="createModal"
-        footer={null}
-      >
-        <CreateContent onSuccess={handleCreatePostSuccess} />
-      </S.CreateModal>
+          open={showCreate}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          className="createModal"
+          footer={null}
+        >
+          <CreateContent onSuccess={handleCreatePostSuccess} />
+        </S.CreateModal>
       </S.LayoutWrapper>
     </Spin>
   );

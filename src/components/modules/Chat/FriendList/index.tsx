@@ -6,6 +6,7 @@ import { useListenConversation } from "@/hooks/useListen";
 const FriendList = () => {
     const { loading, conversations } = useGetConversation();
     useListenConversation();
+   
     return loading ? (
         <Skeleton active round avatar />
     ) : (

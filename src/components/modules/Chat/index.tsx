@@ -19,6 +19,7 @@ interface PageProps {
 
 const Chat = ({ visible, onClose }: PageProps) => {
   const { userInfo } = useAuthContext();
+  console.log(userInfo);
   
 
   return (

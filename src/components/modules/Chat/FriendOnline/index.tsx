@@ -2,7 +2,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import * as S from "../styles";
 import { useSocketContext } from "@/contexts/SocketContext";
 import { useEffect, useState } from "react";
-import { Badge, message } from "antd";
+import { Badge } from "antd";
 import useConversation from "@/hooks/useConversation";
 import { getFriendList } from "@/services/api/friend";
 import { getConversation } from "@/services/api/chat";
@@ -12,6 +12,26 @@ const FriendOnline = () => {
   const { userOnline } = useSocketContext();
   const [friends, setFriends] = useState<any>([]);
   const { setSelectedConversation } = useConversation();
+  useEffect(() => {
+    const handleFriendsOnline = async () => {
+      console.log("userOnline", userOnline);
+      const friendList = await getFriendList().then((res) => res?.metadata?.friendList);
+      const friendsOnline = friendList?.map((friend: any) => {
+        if (userOnline.includes(friend?._id)) {
+          return {
+            ...friend,
+            action: true,
+          };
+        }
+        return {
+          ...friend,
+          action: false,
+        };
+      });
+      setFriends(friendsOnline);
+    };
+    handleFriendsOnline();
+  }, [userOnline]);
 
   const clickFriend = async (friend: any) => {
     const conversation = await getConversation(friend._id).then((res: any) => res?.metadata);
@@ -31,27 +51,6 @@ const FriendOnline = () => {
     }
   };
 
-  useEffect(() => {
-    const handleFriendsOnline = async () => {
-      const friendList = await getFriendList().then((res) => res?.metadata?.friendList);
-      const friendsOnline = friendList?.map((friend: any) => {
-        if (userOnline.includes(friend?._id)) {
-          return {
-            ...friend,
-            action: true,
-          };
-        }
-        return {
-          ...friend,
-          action: false,
-        };
-      });
-      setFriends(friendsOnline);
-    };
-    if (userInfo?.userId) {
-      handleFriendsOnline();
-    }
-  }, [userOnline]);
 
   return (<S.ActiveFriends>
     {friends?.map((friend: any) => (

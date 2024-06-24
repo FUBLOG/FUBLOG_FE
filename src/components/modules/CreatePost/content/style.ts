@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Upload } from "antd";
 import React from "react";
 import styled from "styled-components";
 
@@ -70,4 +70,9 @@ export const TagModal = styled(Modal)`
 `;
 export const AudienceModal = styled(Modal)`
 
+`;
+export const CustomUploadStyled = styled(Upload)`
+  .ant-upload-list  {
+    padding: 10px;
+  }
 `;

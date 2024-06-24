@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/legacy/image";
-import { SettingOutlined, TagOutlined } from "@ant-design/icons";
+import {
+  SettingOutlined,
+  TagOutlined,
+} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
 import { Radio, Upload } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
-import { getRequest, postRequest } from "@/services/request";
-import { postEndpoint, tagEndpoint } from "@/services/endpoint";
+import { postRequest } from "@/services/request";
+import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
 import useCreatePost from "@/hooks/useCreatePost";
+import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
@@ -18,9 +21,10 @@ interface PostContent {
 }
 
 export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
-  const { setShowSpinner, setPost } = useCreatePost();
+  const { setShowSpinner, setPost } = useCreatePost()
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState("");
+
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -28,7 +32,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
 
   const [openTag, setOpenTag] = useState(false);
 
-  const [tags, setTags] = useState<any[]>([]);
+  const [tags] = useState<any[]>([]);
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
@@ -76,10 +80,12 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
+
   const CreatePost = async () => {
     setOpenTag(false);
     setOpenAudience(false);
     setShowSpinner(true);
+    onSuccess();
     try {
       const formData = new FormData();
       fileList.map((file) => {
@@ -106,18 +112,11 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       setFileList([]);
       setTagValue("Khác");
       setAudienceValue("Công Khai");
-      onSuccess();
+
     } catch (error) {
       console.error(error);
     }
   };
-  useEffect(() => {
-    const setup = async () => {
-      const res: any = await getRequest(tagEndpoint.GET_TAG);
-      setTags(res?.metadata);
-    };
-    setup();
-  }, []);
 
   return (
     <ContentStyleDiv>
@@ -162,7 +161,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
           />
 
           <ImgCrop modalTitle="Chỉnh sửa" rotationSlider>
-            <Upload
+            <CustomUploadStyled
               multiple={true}
               listType="picture-card"
               fileList={fileList}
@@ -170,7 +169,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
               onPreview={onPreview}
             >
               {fileList.length < 5 && "+ Upload"}
-            </Upload>
+            </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
             <TagOutlined />

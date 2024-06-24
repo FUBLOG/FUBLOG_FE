@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { message, Radio } from "antd";
+import React, { useState } from "react";
+import { message, Radio, Carousel, Modal } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -27,38 +27,13 @@ const Post = ({ newfeed }: PostProps) => {
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [isPostReport, setIsPostReport] = useState(false);
   const { userInfo } = useAuthContext();
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
-  const toggleLike = () => {
-    setLiked(!liked);
-    setLikes(liked ? likes - 1 : likes + 1);
-  };
-
-  // const handlePostReportClick = () => {
-  //   setIsPostReport(true);
-  //   setShowReportModal(true);
-  //   setShowCommentsModal(false);
+  // const toggleLike = () => {
+  //   setLiked(!liked);
+  //   setLikes(liked ? likes - 1 : likes + 1);
   // };
-
-  // const handleConfirmReport = () => {
-  //   if (!reportReason) {
-  //     message.error("Vui lòng chọn vấn đề để báo cáo.");
-  //     return;
-  //   }
-  //   setShowReportModal(false);
-  //   setShowConfirmModal(true);
-  // };
-
-  // const handleFinalReport = () => {
-  //   setShowConfirmModal(false);
-  //   message.success(
-  //     isPostReport
-  //       ? "Báo cáo bài viết thành công"
-  //       : "Báo cáo bình luận thành công"
-  //   );
-  //   setReportReason(null);
-  //   setSelectedCommentId(null);
-  // };
-
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
@@ -78,6 +53,11 @@ const Post = ({ newfeed }: PostProps) => {
   const icrComment = (number: number) => {
     setComments(comments + number);
   };
+  const onPreview = (src: any) => {
+    setSelectedImage(src);
+    setOpen(true);
+  };
+
   return (
     <S.PostWrapper>
       <S.CustomCard>
@@ -110,21 +90,32 @@ const Post = ({ newfeed }: PostProps) => {
             {newfeed?.post?.postContent}
           </Typography>
         </S.ContentWrapper>
-        {newfeed?.post?.postLinkToImages.length > 0 && (
+        {newfeed?.post?.postLinkToImages.length === 1 && (
           <S.ImagesWrapper
             className={`images-${newfeed?.post?.postLinkToImages.length}`}
           >
-            {newfeed?.post?.postLinkToImages.slice(0, 3).map((src: any) => (
-              <img key={src} src={src} alt="" className="post-image" />
-            ))}
-            {newfeed?.post?.postLinkToImages.length > 3 && (
-              <div className="more-images">
-                <span>
-                  View more {newfeed?.post?.postLinkToImages.length - 3} images
-                </span>
-              </div>
-            )}
+            <img
+              src={newfeed?.post?.postLinkToImages[0]}
+              alt=""
+              className="post-image"
+              onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
+            />
           </S.ImagesWrapper>
+        )}
+        {newfeed?.post?.postLinkToImages.length > 1 && (
+          <S.ImagesWrapper2>
+            <Carousel arrows={true}>
+              {newfeed?.post?.postLinkToImages.map((src: any) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="Post Image"
+                  className="post-image"
+                  onClick={() => onPreview(src)}
+                />
+              ))}
+            </Carousel>
+          </S.ImagesWrapper2>
         )}
 
         <S.PostFooter>
@@ -207,6 +198,25 @@ const Post = ({ newfeed }: PostProps) => {
         newfeed={newfeed}
         icrComment={icrComment}
       />
+      {/* Modal của preview ảnh */}
+      <div className="imgWrapper">
+        <S.ImageModal
+          visible={open}
+          footer={null}
+          onCancel={() => setOpen(false)}
+          centered
+          styles={{ content: { padding: "0" } }}
+          closable={false}
+        >
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={selectedImage}
+              alt="Preview"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          </div>
+        </S.ImageModal>
+      </div>
     </S.PostWrapper>
   );
 };

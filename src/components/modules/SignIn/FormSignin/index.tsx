@@ -41,10 +41,7 @@ function FormSignIn(showModalGuest: any) {
           REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
           PRIVATEKEY: res?.metadata?.tokens?.privateKey,
         },
-        {
-          ...res?.metadata?.user,
-          userId: res?.metadata?.user?._id,
-        }
+        res?.metadata?.user
       );
       router.push("/");
       showModalGuest(false);

@@ -14,7 +14,7 @@ const PostsRender = () => {
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
-      if (userInfo?.userId === "") {
+      if (userInfo?._id === "") {
         await getPostForGuest().then((res: any) => {
           setListPosts(res?.metadata);
           setLoading(false);
@@ -37,7 +37,9 @@ const PostsRender = () => {
       ]);
       setPost(null);
     }
-  }, [userInfo?.userId, post]);
+    console.log("list", listPosts);
+    console.log(userInfo?._id, "userInfo?._id");
+  }, [userInfo?._id, post]);
 
   return loading ? (
     <Loading />

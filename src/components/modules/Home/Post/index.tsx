@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Radio } from "antd";
 import {
   HeartOutlined,
@@ -64,7 +64,7 @@ const Post = ({ newfeed }: PostProps) => {
   };
 
   const handleCommentClick = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setShowCommentsModal(true);
       return;
     }
@@ -78,7 +78,6 @@ const Post = ({ newfeed }: PostProps) => {
   const icrComment = (number: number) => {
     setComments(comments + number);
   };
-
   return (
     <S.PostWrapper>
       <S.CustomCard>

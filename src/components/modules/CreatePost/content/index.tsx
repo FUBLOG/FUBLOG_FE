@@ -1,36 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AudienceModal, ContentStyleDiv, TagModal } from "./style";
-import Image, { StaticImageData } from "next/legacy/image";
+import React, { useState } from "react";
+import Image from "next/legacy/image";
 import {
   SettingOutlined,
   TagOutlined,
 } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
-import { Radio, Upload} from "antd";
+import { Radio, Upload } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
-import { PostContext } from "@/components/core/layouts/MainLayout/Context";
-import { v4 as uuidv4 } from "uuid";
-import { getRequest, postRequest } from "@/services/request";
-import { postEndpoint, tagEndpoint } from "@/services/endpoint";
+import { postRequest } from "@/services/request";
+import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useCreatePost from "@/hooks/useCreatePost";
+import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
-  user: {
-    name: string;
-    avatar: StaticImageData;
-  };
   onSuccess: () => void;
 }
 
-export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
-  const { setShowSpinner } = useContext(PostContext);
-
+export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
+  const { setShowSpinner, setPost } = useCreatePost()
+  const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState("");
 
-  const { addPost } = useContext(PostContext);
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -38,7 +32,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
 
   const [openTag, setOpenTag] = useState(false);
 
-  const [tags, setTags] = useState<any[]>([]);
+  const [tags] = useState<any[]>([]);
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
@@ -86,60 +80,42 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
-  const { userInfo} = useAuthContext();
 
   const CreatePost = async () => {
-    // try {
-    //   const formData = new FormData();
-    //   fileList.map((file) => {
-    //     if (file.originFileObj) {
-    //       const blob = file.originFileObj as Blob;
-    //       formData.append("image", blob);
-    //     }
-    //   });
-    //   formData.append("content", postContent);
-    //   formData.append("tagId", "66739c62f5ceba09bfa40b81");
-    //   const res: any = await postRequest(
-    //     postEndpoint.POST_POST,
-    //     {
-    //       data: formData,
-    //       security: true, // Nếu cần bảo mật
-    //     },
-    //     true
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
-    // Create form data
-    // console.log(userInfo);
-
-    setShowSpinner(true);
-    setTimeout(() => {
-      addPost({
-        id: uuidv4(),
-        user: userInfo.profileHash,
-        avatar: userInfo.userInfo.avatar,
-        content: postContent,
-        images: fileList.map((file) => file.thumbUrl as string),
-        tag: tagValue,
-        initialLikes: 0,
-        initialComments: 0,
-        initialCommentsData: [],
-      });
-      setShowSpinner(false);
-    }, 4000);
-    setPostContent("");
-    setFileList([]);
-    setTagValue("Khác");
-    setAudienceValue("Công Khai");
-
-    // Đóng các modal
     setOpenTag(false);
     setOpenAudience(false);
-    onSuccess();
+    setShowSpinner(true);
+    try {
+      const formData = new FormData();
+      fileList.map((file) => {
+        if (file.originFileObj) {
+          const blob = file.originFileObj as Blob;
+          formData.append("image", blob);
+        }
+      });
+      formData.append("content", postContent);
+      formData.append("tagId", "66739c62f5ceba09bfa40b81");
+      const res: any = await postRequest(
+        postEndpoint.POST_POST,
+        {
+          data: formData,
+          security: true, // Nếu cần bảo mật
+        },
+        true
+      );
+      setTimeout(() => {
+        setPost(res?.metadata);
+        setShowSpinner(false);
+      }, 3000);
+      setPostContent("");
+      setFileList([]);
+      setTagValue("Khác");
+      setAudienceValue("Công Khai");
+      onSuccess();
 
-    // Chỉ gọi lại useEffect khi showSpinner thay đổi
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -151,7 +127,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
             <Image src={userInfo.userInfo.avatar} width={40} height={40} />
           </div>
           <div className="des">
-            <span>{userInfo.profileHash}</span>
+            <span>{userInfo?.displayName}</span>
             <div className="display-audience">
               <p>{audienceValue}</p>
             </div>
@@ -185,7 +161,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
           />
 
           <ImgCrop modalTitle="Chỉnh sửa" rotationSlider>
-            <Upload
+            <CustomUploadStyled
               multiple={true}
               listType="picture-card"
               fileList={fileList}
@@ -193,7 +169,7 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
               onPreview={onPreview}
             >
               {fileList.length < 5 && "+ Upload"}
-            </Upload>
+            </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
             <TagOutlined />

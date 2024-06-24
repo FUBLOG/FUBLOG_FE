@@ -1,17 +1,64 @@
 "use client";
-import React from "react";
+
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { InputWrapper, SearchIcon, StyledInput } from "./style";
 import SearchInfo from "../SearchInfo";
+import { getSearchUser } from "@/services/api/Search/getSearch";
+import { ProfileRequestResponse } from "@/model/response";
 
 interface SearchContentProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setShowModalGuest: Dispatch<SetStateAction<boolean>>;
+  setSearchVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchContent: React.FC<SearchContentProps> = ({ value, setValue }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+const SearchContent: React.FC<SearchContentProps> = ({
+  value,
+  setValue,
+  setShowModalGuest,
+  setSearchVisible,
+}) => {
+  const [list, setList] = useState<
+    {
+      avatar: string;
+      displayName: string;
+      friendCount: number;
+      profileHash: string;
+      _id: string;
+    }[]
+  >([]);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    if (newValue.trim()) {
+      try {
+        const searchResults: ProfileRequestResponse = await getSearchUser(
+          newValue
+        );
+        setList(searchResults);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        setList([]);
+      }
+    } else {
+      setList([]);
+    }
   };
+
   return (
     <>
       <InputWrapper>
@@ -22,8 +69,15 @@ const SearchContent: React.FC<SearchContentProps> = ({ value, setValue }) => {
           onChange={handleChange}
         />
       </InputWrapper>
-      <SearchInfo value={value} setValue={setValue} />
+      <SearchInfo
+        list={list}
+        value={value}
+        setValue={setValue}
+        setShowModalGuest={setShowModalGuest}
+        setSearchVisible={setSearchVisible}
+      />
     </>
   );
 };
+
 export default SearchContent;

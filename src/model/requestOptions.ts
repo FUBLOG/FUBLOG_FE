@@ -3,4 +3,6 @@ export interface RequestOptionsInterface {
   params?: any;
   token?: any;
   security?: boolean;
+  profileHash?: string;
+  keywords?: string;
 }

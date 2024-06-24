@@ -1,4 +1,4 @@
-// Profile/ListFriend/index.tsx
+
 "use client";
 
 import React, { useState } from "react";
@@ -10,7 +10,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 
 function ListFriend() {
   const { userInfo } = useAuthContext();
-  const [modalVisible, setModalVisible] = useState(false); // State quản lý modal
+  const [modalVisible, setModalVisible] = useState(false); 
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
@@ -36,11 +36,11 @@ function ListFriend() {
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="h6" color="#FAF0E6 !important">
+        <Typography variant="caption-normal" color="#FAF0E6 !important">
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
-          <Typography variant="caption-small" color="#B9B4C7">
+          <Typography variant="body-text-small-normal" color="#B9B4C7">
             Xem tất cả bạn bè
           </Typography>
         </S.ViewAllButton>
@@ -62,7 +62,7 @@ function ListFriend() {
         ))}
       </S.FriendContainer>
 
-      {/* Modal hiển thị tất cả bạn bè */}
+      
       <TotalFriend
         visible={modalVisible}
         onClose={handleCloseModal}

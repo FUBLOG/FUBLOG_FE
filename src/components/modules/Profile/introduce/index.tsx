@@ -1,4 +1,4 @@
-// Profile/Introduce/index.tsx
+
 "use client";
 
 import React from "react";
@@ -6,7 +6,7 @@ import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
 
 function Introduce() {
-  // Dữ liệu giả cho giới thiệu
+
   const profileSearch = {
     info: {
       maritalStatus: "Độc thân",
@@ -17,7 +17,7 @@ function Introduce() {
 
   return (
     <S.Wrapper>
-      <Typography variant="h6" color="#FAF0E6 !important">
+      <Typography variant="caption-normal" color="#FAF0E6 !important">
         Giới thiệu
       </Typography>
       <S.InfoContainer>

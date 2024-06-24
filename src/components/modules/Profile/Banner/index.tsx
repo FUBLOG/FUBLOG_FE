@@ -1,24 +1,109 @@
+import React, { useEffect, useState } from "react";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-
 import * as S from "./styles";
+import useFriend from "@/hooks/useFriend";
+import { useGetProfile, useProfile } from "@/hooks/useProfile";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+  sendFriendRequest,
+  unfriend,
+  unsentFriend,
+} from "@/services/api/friend";
+import { Skeleton } from "antd";
+import ModalGuest from "../../ModalGuest";
+import ButtonFriend from "../../ButtonFriend";
 
-export default function Banner({
-  profileHash,
-}: {
-  readonly profileHash: string;
-}) {
-  return (
+interface BannerProps {
+  profileHash: string;
+}
+
+const Banner: React.FC<BannerProps> = ({ profileHash }) => {
+  const {
+    isFriend,
+    isGuest,
+    isMyUser,
+    isRequester,
+    isSendFriend,
+    setIsFriend,
+    setIsSendFriend,
+    resetStatus,
+    isNotFound,
+    loading,
+    checkFriend,
+  } = useFriend(profileHash);
+  const {
+    MyUser,
+    FriendButton,
+    RequesterButton,
+    SendFriendButton,
+    GuestButton,
+    DefaultButton,
+  } = ButtonFriend();
+  const [showModalGuest, setShowModalGuest] = useState(false);
+  const handleCancel = () => {
+    setShowModalGuest(false);
+  };
+  const { profileSearch } = useGetProfile(profileHash);
+  const handleDisplayButton = () => {
+    if (isMyUser) return <MyUser />;
+    if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
+    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+    if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
+    return <DefaultButton handleFriend={handleFriend} />;
+  };
+  useEffect(() => {
+    handleDisplayButton();
+  }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
+
+  const handleFriend = async (event: string): Promise<void> => {
+    switch (event) {
+      case "addFriend":
+        await sendFriendRequest(profileSearch?.user?._id);
+        resetStatus();
+        setIsSendFriend(true);
+        break;
+      case "unfriend":
+        await unfriend(profileSearch?.user?._id);
+        resetStatus();
+        console.log("unfriend");
+        break;
+      case "decline":
+        await rejectFriendRequest(profileSearch?.user?._id);
+        resetStatus();
+        break;
+      case "accept":
+        await acceptFriendRequest(profileSearch?.user?._id);
+        resetStatus();
+        setIsFriend(true);
+        break;
+
+      case "unsent":
+        await unsentFriend(profileSearch?.user?._id);
+        resetStatus();
+        setIsFriend(false);
+        break;
+
+      default:
+        break;
+    }
+    checkFriend();
+  };
+
+  return !isNotFound ? (
     <S.Wrapper>
-      <S.CoverImage src={"/images/Profile/CoverPhoto.jpg"} />
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <S.CoverImage />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar>
-            <S.UserAvatar src={""} />
+            <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
             <Typography variant="h2" color="#FAF0E6 !important">
-              {profileHash}
+              {profileSearch?.user?.displayName}
             </Typography>
             <Typography
               variant="caption-small"
@@ -29,25 +114,13 @@ export default function Banner({
             </Typography>
           </S.Typography>
         </S.BoxUser>
-        <S.ButtonUser>
-          <Button
-            type="default"
-            children={"Bạn bè"}
-            $width="100px"
-            $backgroundColor="#FAF0E6"
-            color="#352f44"
-            $hoverColor="#faf0e6"
-          />
-          <Button
-            type="default"
-            children={"Nhắn tin"}
-            $backgroundColor="#FAF0E6"
-            $width="100px"
-            color="#352f44"
-            $hoverColor="#faf0e6"
-          />
-        </S.ButtonUser>
+        <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
+  ) : (
+    loading && <S.Wrapper>404</S.Wrapper>
   );
-}
+};
+const Loading = () => <Skeleton active round avatar paragraph />;
+
+export default Banner;

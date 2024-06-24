@@ -7,7 +7,6 @@ import GlobalStyle from "@/style/global";
 import StyledComponentsRegistry from "@/services/base/styledComponentsRegistry";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SocketProvider } from "@/contexts/SocketContext";
-
 type Props = {
   children: React.ReactNode;
 };

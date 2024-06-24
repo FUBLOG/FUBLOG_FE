@@ -1,3 +1,4 @@
+import { Flex } from "antd";
 import styled from "styled-components";
 
 export const Usersearch = styled.div`
@@ -26,4 +27,14 @@ export const Usersearch = styled.div`
       }
     }
   }
+`;
+export const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+`;
+export const ButtonUser = styled(Flex)`
+  align-items: flex-end;
+  gap: 10px;
 `;

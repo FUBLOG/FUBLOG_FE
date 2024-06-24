@@ -1,52 +1,60 @@
-import React from "react";
-import {
-  Users,
-  Friends,
-} from "@/components/modules/SearchBar/SearchedUser/test";
+import React, { Dispatch, SetStateAction } from "react";
 import { SearchUser } from "../SearchedUser";
-
 import * as S from "./style";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { Skeleton } from "antd";
 
 interface SearchInfoProps {
   value: string;
+  loading: boolean;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setShowModalGuest: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
+  list:
+    | {
+        avatar: string;
+        displayName: string;
+        friendCount: number;
+        profileHash: string;
+        _id: string;
+      }[]
+    | undefined;
 }
 
-const SearchInfo: React.FC<SearchInfoProps> = ({ value, setValue }) => {
-  return (
+const SearchInfo: React.FC<SearchInfoProps> = ({
+  setValue,
+  setShowModalGuest,
+  handleClose,
+  list,
+  loading,
+}) => {
+  const { userInfo } = useAuthContext();
+
+  const Loading = () => <Skeleton active round avatar paragraph />;
+
+  return loading ? (
+    <Loading />
+  ) : (
     <S.MyStyledDiv>
       <div className="searchContent">
         <ul className="list">
-          {Friends.filter((friend) =>
-            friend.name.toLowerCase().includes(value)
-          ).map((friend) => (
-            <li key={friend.id} className="listItem">
-              <SearchUser
-                setValue={setValue}
-                role="Friend"
-                name={friend.name}
-                friends={friend.friend}
-                avatar={friend.imagelink}
-              />
-              <hr />
-            </li>
-          ))}
-        </ul>
-        <ul className="list">
-          {Users.filter((user) => user.name.toLowerCase().includes(value)).map(
-            (user) => (
-              <li key={user.id} className="listItem">
+          {list
+            ?.filter((friend) => friend.profileHash !== userInfo?.profileHash)
+            .map((friend) => (
+              <li key={friend._id} className="listItem">
                 <SearchUser
-                  role="Stranger"
-                  name={user.name}
-                  friends={user.friend}
-                  avatar={user.imagelink}
+                  setShowModalGuest={setShowModalGuest}
                   setValue={setValue}
+                  handleClose={handleClose}
+                  name={friend.displayName}
+                  friends={friend.friendCount}
+                  avatar={friend.avatar}
+                  profileHash={friend.profileHash}
+                  id={friend._id}
                 />
                 <hr />
               </li>
-            )
-          )}
+            ))}
         </ul>
       </div>
     </S.MyStyledDiv>

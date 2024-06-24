@@ -18,13 +18,15 @@ interface UserInfo {
   userInfo: {
     avatar: string;
     blockList: [];
-    friendList: [{ friend_id: ""; displayName: ""; avatar: ""; _id: "" }];
+    friendList: [];
   };
 }
 
 interface AuthContextProps {
   userInfo: UserInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const defaultUserInfo: UserInfo = {
@@ -39,30 +41,34 @@ const defaultUserInfo: UserInfo = {
   userInfo: {
     avatar: "",
     blockList: [],
-    friendList: [{ friend_id: "", displayName: "", avatar: "", _id: "" }],
+    friendList: [],
   },
 };
 
 export const AuthContext = createContext<AuthContextProps>({
   userInfo: defaultUserInfo,
   setUserInfo: () => {},
+  loading: false,
+  setLoading: () => {},
 });
 
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const authContextValue = useMemo(
     () => ({
       userInfo,
       setUserInfo,
+      loading,
+      setLoading,
     }),
-    [userInfo, setUserInfo]
+    [userInfo, loading]
   );
 
   return (

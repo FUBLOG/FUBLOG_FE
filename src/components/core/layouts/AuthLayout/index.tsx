@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/legacy/image";
-import { Flex } from "antd";
+import { Flex, Spin } from "antd";
 import Link from "next/link";
 
 import Button from "../../common/Button";
@@ -9,21 +9,32 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+import { useAuth } from "@/hooks/useAuthStatus";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
 function AuthLayout({ children }: AuthLayoutProps) {
+  const { loading } = useAuth();
+
   return (
     <S.LayoutWrapper>
       <S.Header>
         <S.Container>
-          <Link href="/home">
+          <Link href="/">
             <Image src={logo} alt="logo header" />
           </Link>
           <Flex gap={15} style={{ marginRight: "20px" }}>
             <Link href="/sign-in">
-              <Button type="default" children={"Đăng nhập"} $width="100px" />
+              <Button
+                type="default"
+                children={"Đăng nhập"}
+                $width="100px"
+                disabled={loading}
+              />
             </Link>
             <Link href="/sign-up">
               <Button
@@ -31,6 +42,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 type="primary"
                 children={"Đăng ký"}
                 $width="100px"
+                disabled={loading}
               />
             </Link>
           </Flex>

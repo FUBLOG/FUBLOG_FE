@@ -79,3 +79,9 @@ export const ButtonUser = styled(Flex)`
   align-items: flex-end;
   gap: 10px;
 `;
+export const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+`;

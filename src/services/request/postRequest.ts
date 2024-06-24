@@ -36,7 +36,7 @@ const postRequest = async (
       withCredentials: true,
     })
     .then((res: any) => {
-      if (res?.code >= 200 && res?.code < 300) {
+      if (res?.statusCode >= 200 && res?.statusCode < 300) {
         return res;
       } else {
         return Promise.reject(res);

@@ -6,4 +6,5 @@ export const errorMessage: any = {
   "Email already exists": "Email đã tồn tại trong hệ thống",
   "response status is 404": "Mã xác thực không tồn tại hoặc hết hạn",
   "Invalid email": "Email không hợp lệ",
+  "User is already friend": "Tài khoản đã kết bạn với người này",
 };

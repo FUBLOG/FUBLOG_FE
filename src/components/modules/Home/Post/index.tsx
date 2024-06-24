@@ -412,16 +412,29 @@ function Post({
             {content}
           </Typography>
         </S.ContentWrapper>
-        {images.length > 0 && (
+        {images.length > 0 && images.length <3 && (
           <S.ImagesWrapper className={`images-${images.length}`}>
             {images.slice(0, 2).map((src, index) => (
-              <img key={src} src={src} alt="Post Image" className="post-image" />
-            ))}
-            {images.map((src) => (
-              <Carousel
-              <img key={src} src={src} alt="Post Image" className="post-image"/>
+              <img
+                key={src}
+                src={src}
+                alt="Post Image"
+                className="post-image"
+              />
             ))}
           </S.ImagesWrapper>
+        )}
+        {images.length >= 3 && (
+          <Carousel >
+            {images.map((src) => (
+              <img
+                key={src}
+                src={src}
+                alt="Post Image"
+                className="post-image"
+              />
+            ))}
+          </Carousel>
         )}
 
         <S.PostFooter>

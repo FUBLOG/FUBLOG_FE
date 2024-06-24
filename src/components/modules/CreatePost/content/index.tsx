@@ -89,27 +89,27 @@ export const PostContent: React.FC<PostContent> = ({ user, onSuccess }) => {
   const { userInfo} = useAuthContext();
 
   const CreatePost = async () => {
-    try {
-      const formData = new FormData();
-      fileList.map((file) => {
-        if (file.originFileObj) {
-          const blob = file.originFileObj as Blob;
-          formData.append("image", blob);
-        }
-      });
-      formData.append("content", postContent);
-      formData.append("tagId", "66739c62f5ceba09bfa40b81");
-      const res: any = await postRequest(
-        postEndpoint.POST_POST,
-        {
-          data: formData,
-          security: true, // Nếu cần bảo mật
-        },
-        true
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   const formData = new FormData();
+    //   fileList.map((file) => {
+    //     if (file.originFileObj) {
+    //       const blob = file.originFileObj as Blob;
+    //       formData.append("image", blob);
+    //     }
+    //   });
+    //   formData.append("content", postContent);
+    //   formData.append("tagId", "66739c62f5ceba09bfa40b81");
+    //   const res: any = await postRequest(
+    //     postEndpoint.POST_POST,
+    //     {
+    //       data: formData,
+    //       security: true, // Nếu cần bảo mật
+    //     },
+    //     true
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
 
     // Create form data
     // console.log(userInfo);

@@ -78,13 +78,12 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "bell" && userInfo?._id !== "") {
       setBellVisible(true);
     }
-    if(e=== "create" && userInfo?.userId !== ""){
-      setShowCreate(true)
+    if (e === "create" && userInfo?._id !== "") {
+      setShowCreate(true);
     }
   };
   const handleCreatePostSuccess = () => {
     setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
-    
   };
   const showBellModal = () => {
     if (userInfo?._id !== "") {
@@ -244,7 +243,12 @@ function MainLayout({ children }: LayoutProps) {
           setSearchVisible={setSearchVisible}
         />
       </S.SearchModal>
-      <S.CreateModal open={showCreate} onOk={handleOk} onCancel={handleCancel} footer={false}>
+      <S.CreateModal
+        open={showCreate}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={false}
+      >
         <CreateContent onSuccess={handleCreatePostSuccess} />
       </S.CreateModal>
     </S.LayoutWrapper>

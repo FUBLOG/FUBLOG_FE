@@ -40,6 +40,7 @@ const nextConfig = {
 
     return config;
   },
+  // @ts-ignore
   images: {
     domains: ['res.cloudinary.com'],
   },

@@ -85,6 +85,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     setOpenTag(false);
     setOpenAudience(false);
     setShowSpinner(true);
+    onSuccess();
     try {
       const formData = new FormData();
       fileList.map((file) => {
@@ -111,7 +112,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       setFileList([]);
       setTagValue("Khác");
       setAudienceValue("Công Khai");
-      onSuccess();
 
     } catch (error) {
       console.error(error);

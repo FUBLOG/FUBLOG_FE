@@ -18,7 +18,7 @@ const ModalGuest = ({ showModalGuest, handleCancel }: PageProps) => {
       footer={null}
     >
       <S.ModalContent>
-        <FormSignIn />
+        <FormSignIn showModalGuest={showModalGuest} />
       </S.ModalContent>
     </S.ModalWrap>
   );

@@ -28,76 +28,7 @@ export interface UserInfo {
   };
 }
 export const useAuth = () => {
-  const { setUserInfo } = useAuthContext();
-
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    isUser();
-  }, []);
-
-  const isUser = async () => {
-    setLoading(true);
-    const token = await webStorageClient.getToken();
-    if (token) {
-      try {
-        const res: any = await getRequest(authEndpoint.AUTH_TOKEN, {
-          security: true,
-        });
-        webStorageClient.set(constants.IS_AUTH, true);
-        setUserInfo({
-          userId: res?.metadata?._id,
-          dateOfBirth: res?.metadata?.dateOfBirth,
-          displayName: res?.metadata?.displayName,
-          email: res?.metadata?.email,
-          firstName: res?.metadata?.firstName,
-          lastName: res?.metadata?.lastName,
-          profileHash: res?.metadata?.profileHash,
-          sex: res?.metadata?.sex,
-          userInfo: {
-            avatar: res?.metadata?.userInfo?.avatar,
-            blockList: res?.metadata?.userInfo?.blockList,
-            friendList: res?.metadata?.userInfo?.friendList,
-          },
-        });
-      } catch (error) {
-        webStorageClient.set(constants.IS_AUTH, false);
-        setUserInfo({
-          userId: "",
-          dateOfBirth: "",
-          displayName: "",
-          email: "",
-          firstName: "",
-          lastName: "",
-          profileHash: "",
-          sex: "",
-          userInfo: {
-            avatar: "",
-            blockList: [],
-            friendList: [],
-          },
-        });
-      }
-    } else {
-      webStorageClient.set(constants.IS_AUTH, false);
-      setUserInfo({
-        userId: "",
-        dateOfBirth: "",
-        displayName: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        profileHash: "",
-        sex: "",
-        userInfo: {
-          avatar: "",
-          blockList: [],
-          friendList: [],
-        },
-      });
-    }
-    setLoading(false);
-  };
-
+  const { setUserInfo,setLoading,loading} = useAuthContext();
   const addUser = async (
     user: {
       ACCESS_TOKEN: string;
@@ -161,6 +92,8 @@ export const useAuth = () => {
 
   const login = async (key: Key, userInfo: UserInfo) => {
     setLoading(true);
+    console.log(userInfo);
+    
     try {
       await addUser(key, userInfo);
     } catch (error) {

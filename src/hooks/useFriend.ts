@@ -118,11 +118,5 @@ const useFriend = (profileHash: string) => {
     isNotFound,
   };
 };
-export const useGetFriendList = () => {
-  const [friendList, setFriendList] = useState<any[]>([]);
-  useEffect(() => {
-    getFriendList().then((list) => setFriendList(list?.metadata?.friendList));
-  }, []);
-  return friendList;
-};
+
 export default useFriend;

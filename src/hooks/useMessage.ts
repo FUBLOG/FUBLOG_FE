@@ -27,7 +27,10 @@ const useSendMessage = () => {
 
       setMessages([...messages, res?.metadata]);
       const updatedConversations = [
-        selectedConversation,
+        {
+          ...selectedConversation,
+          lastMessage: res?.metadata,
+        },
         ...conversations.filter(
           (conversation: any) => conversation._id !== selectedConversation._id
         ),

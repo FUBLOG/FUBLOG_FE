@@ -11,10 +11,20 @@ const authEndpoint = {
 };
 const userEndpoint = {
   USER_MESSAGES: `/user/getUserMessages`,
+  GET_CONVERSATION: `/conversation/`,
 };
 const messageEndpoint = {
   GET_MESSAGE: `/message/`,
   SEND_MESSAGE: `/message/send/`,
+};
+const tagEndpoint = {
+  GET_TAG: `/tag`,
+};
+const postEndpoint = {
+  GET_POSTS: `/post`,
+  POST_POST: `/post`,
+  GET_POSTS_FOR_GUEST: `/newfeed/guest`,
+  GET_POSTS_FOR_USER: `/newfeed/user`,
 };
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,
@@ -45,6 +55,12 @@ const search = {
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
 };
+const commentEndpoint = {
+  GET_POST_COMMENTS: `/comment/getCommentPost`,
+  POST_COMMENT: `/comment/addComment`,
+  DELETE_COMMENT: `/comment/deleteComment`,
+  EDIT_COMMENT: `/comment/updateComments`,
+}
 //export endpoint
 export {
   profileEndpoint,
@@ -53,6 +69,9 @@ export {
   editProfileEndpoint,
   userEndpoint,
   messageEndpoint,
+  tagEndpoint,
+  postEndpoint,
   friendEndpoint,
   notificationEndpoint,
+  commentEndpoint
 };

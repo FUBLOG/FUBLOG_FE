@@ -43,7 +43,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ visible, onClose 
         >
           <TabPane tab="Thông báo" key="1">
             <S.TabContent>
-              <NotificationTab />
+              <NotificationTab onClose />
             </S.TabContent>
           </TabPane>
           <TabPane tab="Bạn bè" key="2">

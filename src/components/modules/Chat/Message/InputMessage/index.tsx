@@ -10,12 +10,12 @@ import { useSocketContext } from "@/contexts/SocketContext";
 
 const InputMessage = () => {
   const [inputValue, setInputValue] = useState("");
-  const { sendMessage, loading } = useSendMessage();
-  const [clicked, setClicked] = useState(false);
-  const { setConversations, conversations, selectedConversation } = useConversation();
+  const { sendMessage } = useSendMessage();
+  const [_, setClicked] = useState(false);
+  const { setConversations, conversations, selectedConversation } =
+    useConversation();
   const { userInfo } = useAuthContext();
   const { socket } = useSocketContext();
-  const [focus, setFocus] = useState(false);
   const handleSend = async (event: any) => {
     event.preventDefault();
     if (!inputValue) return;
@@ -25,15 +25,15 @@ const InputMessage = () => {
     // Đặt lại trạng thái clicked sau một khoảng thời gian (ví dụ: 300ms)
     setTimeout(() => setClicked(false), 300);
   };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-  };
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {};
   const handleFocus = () => {
     console.log("focus");
 
     if (selectedConversation?.lastMessage?.senderId !== userInfo?.userId) {
       const newConversations = conversations.map((conversation) => {
-        if (conversation.conversationId === selectedConversation.conversationId) {
+        if (
+          conversation.conversationId === selectedConversation.conversationId
+        ) {
           return { ...conversation, unReadCount: 0 };
         }
         return conversation;
@@ -43,7 +43,7 @@ const InputMessage = () => {
         socket.emit("ping", selectedConversation.conversationId);
       }
     }
-  }
+  };
   return (
     <S.MessageInputContainer>
       <S.InputWrapper>
@@ -54,7 +54,11 @@ const InputMessage = () => {
           onFocus={handleFocus}
           placeholder="Nhập tin nhắn của bạn"
           autoSize={{ minRows: 1, maxRows: 6 }}
-          style={{ backgroundColor: "#FAF0E6", borderColor: "#5C5470", paddingRight: "50px" }}
+          style={{
+            backgroundColor: "#FAF0E6",
+            borderColor: "#5C5470",
+            paddingRight: "50px",
+          }}
         />
         <label htmlFor="upload" className="picture-upload">
           <input
@@ -67,7 +71,10 @@ const InputMessage = () => {
           <PictureOutlined style={{ cursor: "pointer", color: "#8c8c8c" }} />
         </label>
       </S.InputWrapper>
-      <SendOutlined onClick={handleSend} style={{ cursor: "pointer", marginLeft: 8 }} />
+      <SendOutlined
+        onClick={handleSend}
+        style={{ cursor: "pointer", marginLeft: 8 }}
+      />
     </S.MessageInputContainer>
   );
 };

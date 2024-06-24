@@ -30,7 +30,9 @@ const SearchInfo: React.FC<SearchInfoProps> = ({
 }) => {
   const { userInfo } = useAuthContext();
 
-  const Loading = () => <Skeleton active round avatar paragraph />;
+  const Loading = () => {
+    return <Skeleton active round avatar paragraph />;
+  };
 
   return loading ? (
     <Loading />

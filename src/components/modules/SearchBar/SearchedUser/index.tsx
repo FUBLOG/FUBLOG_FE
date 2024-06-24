@@ -106,8 +106,9 @@ export const SearchUser: React.FC<SearchUserProp> = ({
     checkFriend();
   };
 
-  const Loading = () => <Skeleton active round avatar paragraph />;
-
+  const Loading = () => {
+    return <Skeleton active round avatar paragraph />;
+  };
   return loadingSusses ? (
     <Loading />
   ) : (

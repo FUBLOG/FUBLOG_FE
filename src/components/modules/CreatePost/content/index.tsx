@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Image, { StaticImageData } from "next/legacy/image";
-import {
-  SettingOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
+import Image from "next/legacy/image";
+import { SettingOutlined, TagOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
 import { Radio, Upload } from "antd";
@@ -21,10 +18,9 @@ interface PostContent {
 }
 
 export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
-  const { setShowSpinner, setPost } = useCreatePost()
+  const { setShowSpinner, setPost } = useCreatePost();
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState("");
-
 
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
@@ -80,7 +76,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
-
   const CreatePost = async () => {
     setOpenTag(false);
     setOpenAudience(false);
@@ -112,7 +107,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       setTagValue("Khác");
       setAudienceValue("Công Khai");
       onSuccess();
-
     } catch (error) {
       console.error(error);
     }

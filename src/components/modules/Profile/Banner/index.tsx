@@ -68,7 +68,6 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
       case "unfriend":
         await unfriend(profileSearch?.user?._id);
         resetStatus();
-        console.log("unfriend");
         break;
       case "decline":
         await rejectFriendRequest(profileSearch?.user?._id);

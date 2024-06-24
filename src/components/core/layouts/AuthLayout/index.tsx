@@ -10,10 +10,6 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
-import { useAuth } from "@/hooks/useAuthStatus";
-import webStorageClient from "@/utils/webStorageClient";
-import { constants } from "@/settings";
-import { useAuthContext } from "@/contexts/AuthContext";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;

@@ -89,7 +89,6 @@ export const useAuth = () => {
 
   const login = async (key: Key, userInfo: UserInfo) => {
     setLoading(true);
-    console.log("userInfo", userInfo);
 
     try {
       await addUser(key, userInfo);

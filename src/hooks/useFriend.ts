@@ -29,12 +29,6 @@ const useFriend = (profileHash: string) => {
     return false;
   };
   const checkIsFriend = () => {
-    console.log(
-      userInfo?.userInfo?.friendList?.some(
-        (friend: string) => friend === profileSearch?.user?._id
-      )
-    );
-
     setIsFriend(
       userInfo?.userInfo?.friendList?.some(
         (friend: string) => friend === profileSearch?.user?._id
@@ -57,15 +51,11 @@ const useFriend = (profileHash: string) => {
     }
   };
   const checkFriend = async () => {
-    console.log("profile", profileSearch);
-
     if (profileSearch?.user?._id === undefined) {
       setIsNotFound(true);
       return;
     }
     if (!(await checkIsGuest())) {
-      console.log(userInfo?._id === profileSearch?.user?._id);
-
       if (userInfo?._id === profileSearch?.user?._id) {
         setIsMyUser(true);
       } else {
@@ -90,14 +80,6 @@ const useFriend = (profileHash: string) => {
       setLoading(false);
     };
     asyncFn();
-    console.log(
-      isRequester,
-      isFriend,
-      isBlocked,
-      isGuest,
-      isMyUser,
-      isSendFriend
-    );
   }, [profileSearch]);
   return {
     isRequester,

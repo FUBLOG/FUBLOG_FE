@@ -37,7 +37,6 @@ const useSendMessage = () => {
       ];
       setConversations(updatedConversations);
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -63,7 +62,6 @@ const useGetMessage = () => {
         });
         setMessages(listMessage);
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }

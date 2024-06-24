@@ -28,7 +28,6 @@ export const useGetProfile = (profileHash: string) => {
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
         const metadata = res?.metadata;
-        console.log(res);
 
         if (metadata) {
           setProfileHash(hash);

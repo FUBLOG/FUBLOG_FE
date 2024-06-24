@@ -32,8 +32,6 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
     if (unreadCount > 0) {
       setUnreadCount(0);
       if (socket) {
-        console.log("ping");
-
         socket.emit("ping", conversation._id);
       }
     }

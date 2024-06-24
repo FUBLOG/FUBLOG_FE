@@ -68,8 +68,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (webStorageClient.get(constants.IS_AUTH)) {
       setLoading(true);
       checkAuth().then((res) => {
-        console.log("res");
-        console.log(res);
         setUserInfo(res.metadata);
 
         setLoading(false);

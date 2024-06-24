@@ -13,7 +13,7 @@ const useFriend = (profileHash: string) => {
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
   const [isMyUser, setIsMyUser] = useState(false);
-  const { loading, setLoading } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
@@ -73,7 +73,7 @@ const useFriend = (profileHash: string) => {
       }
     }
   };
-  const resetStatus = () => {
+  const resetStatus = async () => {
     setIsFriend(false);
     setIsBlocked(false);
     setIsGuest(false);
@@ -83,10 +83,13 @@ const useFriend = (profileHash: string) => {
     setIsNotFound(false);
   };
   useEffect(() => {
-    setLoading(true);
-    resetStatus();
-    checkFriend();
-    setLoading(false);
+    const asyncFn = async () => {
+      setLoading(true);
+      await resetStatus();
+      await checkFriend();
+      setLoading(false);
+    };
+    asyncFn();
     console.log(
       isRequester,
       isFriend,
@@ -115,11 +118,5 @@ const useFriend = (profileHash: string) => {
     isNotFound,
   };
 };
-export const useGetFriendList = () => {
-  const [friendList, setFriendList] = useState<any[]>([]);
-  useEffect(() => {
-    getFriendList().then((list) => setFriendList(list?.metadata?.friendList));
-  }, []);
-  return friendList;
-};
+
 export default useFriend;

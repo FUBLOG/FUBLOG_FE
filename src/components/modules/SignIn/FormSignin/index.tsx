@@ -28,14 +28,17 @@ function FormSignIn() {
         isRemember: values.isRemember,
       };
       const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
-      login(
+      await login(
         {
           ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
           PROFILE_HASH: res?.metadata?.user?.profileHash,
           REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
           PRIVATEKEY: res?.metadata?.tokens?.privateKey,
         },
-        res?.metadata?.user
+        {
+          ...res?.metadata?.user,
+          userId: res?.metadata?.user?._id,
+        }
       );
       router.push("/");
     } catch (error) {

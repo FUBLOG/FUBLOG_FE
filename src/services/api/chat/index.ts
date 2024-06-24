@@ -17,3 +17,8 @@ export const getMessageApi = async (id: string) => {
 export const getConversationApi = async () => {
   return await getRequest(userEndpoint.USER_MESSAGES, { security: true });
 };
+export const getConversation = async (id: string) => {
+  return await getRequest(userEndpoint.GET_CONVERSATION + id, {
+    security: true,
+  });
+};

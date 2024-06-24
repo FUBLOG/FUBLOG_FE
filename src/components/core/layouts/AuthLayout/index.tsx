@@ -3,6 +3,7 @@
 import Image from "next/legacy/image";
 import { Flex, Spin } from "antd";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 import Button from "../../common/Button";
 

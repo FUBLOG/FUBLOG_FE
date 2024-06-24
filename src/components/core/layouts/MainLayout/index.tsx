@@ -28,6 +28,9 @@ import NotificationModal from "@/components/modules/NotificationModal";
 
 import * as S from "./styles";
 
+interface LayoutProps {
+  readonly children: ReactNode;
+}
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -36,6 +39,7 @@ import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
+import { CreateContent } from "@/components/modules/CreatePost";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -52,6 +56,7 @@ function MainLayout({ children }: LayoutProps) {
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
@@ -73,8 +78,14 @@ function MainLayout({ children }: LayoutProps) {
     if (e === "bell" && userInfo?.userId !== "") {
       setBellVisible(true);
     }
+    if(e=== "create" && userInfo?.userId !== ""){
+      setShowCreate(true)
+    }
   };
-
+  const handleCreatePostSuccess = () => {
+    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+    
+  };
   const showBellModal = () => {
     if (userInfo?.userId !== "") {
       setNav("bell");
@@ -90,11 +101,11 @@ function MainLayout({ children }: LayoutProps) {
   };
 
   const handleOk = () => {
-    setShowCreate(true);
     setSearchVisible(true);
   };
 
   const handleCancel = () => {
+    setShowCreate(false);
     setSearchVisible(false);
     setShowMessageModal(false);
     setShowModalGuest(false);
@@ -233,6 +244,9 @@ function MainLayout({ children }: LayoutProps) {
           setSearchVisible={setSearchVisible}
         />
       </S.SearchModal>
+      <S.CreateModal open={showCreate} onOk={handleOk} onCancel={handleCancel} footer={false}>
+        <CreateContent onSuccess={handleCreatePostSuccess} />
+      </S.CreateModal>
     </S.LayoutWrapper>
   );
 }

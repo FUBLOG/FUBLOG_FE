@@ -10,7 +10,6 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
-import { useAuth } from "@/hooks/useAuthStatus";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;

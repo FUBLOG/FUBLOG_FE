@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, Form, Spin } from "antd";
+import { Checkbox, Form, Spin, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -15,8 +15,9 @@ import { authEndpoint } from "@/services/endpoint";
 
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
+import { errorMessage } from "@/services/errorMessage";
 
-function FormSignIn() {
+function FormSignIn(showModalGuest: any) {
   const router = useRouter();
   const { login, loading, setLoading } = useAuth();
   const onFinish = async (values: any) => {
@@ -27,7 +28,12 @@ function FormSignIn() {
         password: values.password,
         isRemember: values.isRemember,
       };
-      const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
+
+      const res = await postRequest(authEndpoint.SIGN_IN, {
+        data: data,
+        security: true,
+      });
+
       await login(
         {
           ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
@@ -35,15 +41,11 @@ function FormSignIn() {
           REFRESH_TOKEN: res?.metadata?.tokens?.refreshToken,
           PRIVATEKEY: res?.metadata?.tokens?.privateKey,
         },
-        {
-          ...res?.metadata?.user,
-          userId: res?.metadata?.user?._id,
-        }
+        res?.metadata?.user
       );
       router.push("/");
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+      showModalGuest(false);
+    } catch (err) {}
     setLoading(false);
   };
   return (

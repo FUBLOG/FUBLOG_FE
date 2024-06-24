@@ -20,7 +20,7 @@ function ListFriend() {
   return (
     <S.Wrapper>
       <S.SidebarWrapper
-        style={{ display: userInfo?.userId === "" ? "none" : "block" }}
+        style={{ display: userInfo?._id === "" ? "none" : "block" }}
       >
         <Typography variant="h3" color="#B9B4C7">
           Bạn bè

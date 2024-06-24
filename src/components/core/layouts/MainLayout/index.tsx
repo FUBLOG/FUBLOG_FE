@@ -66,16 +66,16 @@ function MainLayout({ children }: LayoutProps) {
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
-    if (e !== "home" && e !== "search" && userInfo?.userId === "") {
+    if (e !== "home" && e !== "search" && userInfo?._id === "") {
       setShowModalGuest(true);
     }
     if (e === "search") {
       setSearchVisible(true);
     }
-    if (e === "mess" && userInfo?.userId !== "") {
+    if (e === "mess" && userInfo?._id !== "") {
       setShowMessageModal(true);
     }
-    if (e === "bell" && userInfo?.userId !== "") {
+    if (e === "bell" && userInfo?._id !== "") {
       setBellVisible(true);
     }
     if(e=== "create" && userInfo?.userId !== ""){
@@ -87,7 +87,7 @@ function MainLayout({ children }: LayoutProps) {
     
   };
   const showBellModal = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setNav("bell");
       setBellVisible(true);
     } else {
@@ -184,7 +184,7 @@ function MainLayout({ children }: LayoutProps) {
               )}
             </Link>
           </S.IconContainer>
-          {userInfo?.userId === "" ? (
+          {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px" disabled={loading}>

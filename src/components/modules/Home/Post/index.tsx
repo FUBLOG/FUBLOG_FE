@@ -39,7 +39,7 @@ const Post = ({ newfeed }: PostProps) => {
   };
 
   const handleCommentClick = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setShowCommentsModal(true);
       return;
     }
@@ -91,8 +91,15 @@ const Post = ({ newfeed }: PostProps) => {
           </Typography>
         </S.ContentWrapper>
         {newfeed?.post?.postLinkToImages.length === 1 && (
-          <S.ImagesWrapper className={`images-${newfeed?.post?.postLinkToImages.length}`}>
-              <img src={newfeed?.post?.postLinkToImages[0]} alt="" className="post-image" onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])} />
+          <S.ImagesWrapper
+            className={`images-${newfeed?.post?.postLinkToImages.length}`}
+          >
+            <img
+              src={newfeed?.post?.postLinkToImages[0]}
+              alt=""
+              className="post-image"
+              onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
+            />
           </S.ImagesWrapper>
         )}
         {newfeed?.post?.postLinkToImages.length > 1 && (
@@ -193,22 +200,22 @@ const Post = ({ newfeed }: PostProps) => {
       />
       {/* Modal của preview ảnh */}
       <div className="imgWrapper">
-      <S.ImageModal
-        visible={open}
-        footer={null}
-        onCancel={() => setOpen(false)}
-        centered
-        styles={{content : {padding : "0"}}}
-        closable={false}
-      >
-        <div style={{ textAlign: "center"}}>
-          <img
-            src={selectedImage}
-            alt="Preview"
-            style={{ maxWidth: "100%", height: "auto" }}
-          />
-        </div>
-      </S.ImageModal>
+        <S.ImageModal
+          visible={open}
+          footer={null}
+          onCancel={() => setOpen(false)}
+          centered
+          styles={{ content: { padding: "0" } }}
+          closable={false}
+        >
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={selectedImage}
+              alt="Preview"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          </div>
+        </S.ImageModal>
       </div>
     </S.PostWrapper>
   );

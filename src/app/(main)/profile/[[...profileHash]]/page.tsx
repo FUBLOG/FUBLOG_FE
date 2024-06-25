@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Profile from "@/components/modules/Profile/Main";
 

@@ -66,7 +66,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
   };
 
   const handleCommentClick = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setShowCommentsModal(true);
       return;
     }
@@ -113,7 +113,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
               {data.userId.displayName}
             </Typography>
           </S.UserInfo>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={["click"]}>
             <EllipsisOutlined
               style={{ color: "#FAF0E6", cursor: "pointer" }}
               onClick={(e) => e.stopPropagation()}

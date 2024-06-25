@@ -9,6 +9,7 @@ import { getConversation } from "@/services/api/chat";
 
 const FriendOnline = () => {
   const { userOnline } = useSocketContext();
+  const { userInfo } = useAuthContext();
   const [friends, setFriends] = useState<any>([]);
   const { setSelectedConversation } = useConversation();
   useEffect(() => {
@@ -16,18 +17,21 @@ const FriendOnline = () => {
       const friendList = await getFriendList().then(
         (res) => res?.metadata?.friendList
       );
-      const friendsOnline = friendList?.map((friend: any) => {
-        if (userOnline.includes(friend?._id)) {
+
+      const friendsOnline = friendList
+        ?.filter((friend: any) => friend._id !== userInfo?._id)
+        ?.map((friend: any) => {
+          if (userOnline.includes(friend?._id)) {
+            return {
+              ...friend,
+              action: true,
+            };
+          }
           return {
             ...friend,
-            action: true,
+            action: false,
           };
-        }
-        return {
-          ...friend,
-          action: false,
-        };
-      });
+        });
       setFriends(friendsOnline);
     };
     handleFriendsOnline();

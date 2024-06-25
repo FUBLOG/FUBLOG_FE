@@ -22,7 +22,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
     lastMessage = "You: " + lastMessage;
   }
   useEffect(() => {
-    if (conversation?.lastMessage?.senderId === userInfo?.userId) {
+    if (conversation?.lastMessage?.senderId === userInfo?._id) {
       setUnreadCount(0);
     } else {
       setUnreadCount(conversation?.unReadCount);
@@ -61,7 +61,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
           style={{
             fontWeight: unreadCount > 0 ? "bold" : "normal",
             color:
-              conversation?.lastMessage?.senderId !== userInfo?.userId
+              conversation?.lastMessage?.senderId !== userInfo?._id
                 ? "black"
                 : "#888",
           }}

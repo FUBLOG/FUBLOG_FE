@@ -36,7 +36,7 @@ function FormVerification(props: PageProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const socket = io("https://18.141.212.253.io.vn");
+    const socket = io("https://has.io.vn");
 
     socket.on(`${props?.formData?.email}`, handleEmailVerify);
     return () => {

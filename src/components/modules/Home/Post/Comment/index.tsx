@@ -83,7 +83,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     return (
       <Menu
         items={[
-          ...(comment?.comment_userId?._id === userInfo?.userId
+          ...(comment?.comment_userId?._id === userInfo?._id
             ? [
                 {
                   key: "edit",
@@ -257,7 +257,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {userInfo?.userId !== "" &&
+            {userInfo?._id !== "" &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (

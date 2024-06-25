@@ -15,7 +15,6 @@ const deleteRequest = async (
   let header = {};
   if (isSecurity) {
     const profileHash = await webStorageClient.getProfileHash();
-    console.log(profileHash);
     header = {
       "x-client-id": profileHash,
     };

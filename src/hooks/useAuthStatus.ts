@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { getRequest } from "@/services/request";
 import { constants } from "@/settings";
 import webLocalStorage from "@/utils/webLocalStorage";
 import webStorageClient from "@/utils/webStorageClient";
-import { authEndpoint } from "@/services/endpoint";
 
 export interface Key {
   ACCESS_TOKEN: string;
@@ -13,7 +10,7 @@ export interface Key {
   PRIVATEKEY?: string;
 }
 export interface UserInfo {
-  userId: string;
+  _id: string;
   dateOfBirth: string;
   displayName: string;
   email: string;
@@ -28,7 +25,7 @@ export interface UserInfo {
   };
 }
 export const useAuth = () => {
-  const { setUserInfo,setLoading,loading} = useAuthContext();
+  const { setUserInfo, setLoading, loading } = useAuthContext();
   const addUser = async (
     user: {
       ACCESS_TOKEN: string;
@@ -37,7 +34,7 @@ export const useAuth = () => {
       PRIVATEKEY?: string;
     },
     userInfo: {
-      userId: string;
+      _id: string;
       dateOfBirth: string;
       displayName: string;
       email: string;
@@ -73,7 +70,7 @@ export const useAuth = () => {
     localStorage.removeItem("privateKey");
     webStorageClient.set(constants.IS_AUTH, false);
     setUserInfo({
-      userId: "",
+      _id: "",
       dateOfBirth: "",
       displayName: "",
       email: "",
@@ -92,8 +89,7 @@ export const useAuth = () => {
 
   const login = async (key: Key, userInfo: UserInfo) => {
     setLoading(true);
-    console.log(userInfo);
-    
+
     try {
       await addUser(key, userInfo);
     } catch (error) {

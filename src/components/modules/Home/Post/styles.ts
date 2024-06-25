@@ -7,6 +7,8 @@ interface PostWrapperProps {
 export const ContentWrapper = styled(Flex)`
   align-items: flex-start;
   padding: 0 20px;
+  align-items: flex-start;
+  padding: 0 20px;
 `;
 
 export const PostContent = styled.p`
@@ -19,60 +21,29 @@ export const PostContent = styled.p`
 
 export const ImagesWrapper = styled(Flex)`
   justify-content: flex-start;
+  justify-content: flex-start;
   padding: 0 20px;
   gap: 10px;
   flex-wrap: wrap;
   gap: 8px;
-  
+
   img {
+    border-radius: 4px;
     border-radius: 4px;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
-
-  &.images-1 .post-image {
-    flex: 1 1 100%;
+.post-image {
+    border-radius: 4px;
     width: 100%;
-    
-  }
-
-  &.images-2 .post-image {
-    flex: 1 1 49%;
-    width: 40%;
-  }
-
-  &.images-3 .post-image {
-    flex: 1 1 28%;
-    width: 25%;
-  }
-
-  &.images-4 .post-image,
-  &.images-5 .post-image,
-  &.images-6 .post-image {
-    flex: 1 1 23%;
-    width: 23%;
-    
-  }
-
-  .post-image {
-    width: 100%;
-    height: auto;
+    height: 450px;
+    margin: 0;
+    cursor : pointer;
     object-fit: cover;
   }
 
-  .more-images {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1 1 100%;
-    height: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 16px;
-  }
 `;
-
 export const PostHeader = styled(Flex)`
   align-items: center;
   justify-content: space-between;
@@ -288,36 +259,51 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   padding-top: 5px;
 `;
+export const ImagesWrapper2 = styled.div`
 
+    img {
+    border-radius: 4px;
+    max-width: 100%;
+    height: 450px;
+    margin: 0;
+    cursor : pointer;
+    
+  }
 
+  .ant-carousel .slick-prev, .ant-carousel .slick-next {
+    color: black;
+    
+  }
+    .ant-carousel .slick-prev::after, .ant-carousel .slick-next::after{
+      width: 15px;
+      height: 15px;
+      top: -50px;
+      border-inline-width: 4px 0;
+      border-block-width: 4px 0;
+      inset-inline-start: -1.342291px;
+    }
 
+  .ant-carousel .slick-dots li{
+    margin-inline: 30px;
+  }
 
+  .ant-carousel .slick-dots li button {
+    background-color: aqua;
+    width: 50px;
+  }
 
-interface PostWrapperProps {
-  showComments: boolean;
+  .ant-carousel .slick-dots li.slick-active button {
+    background-color: #000;
+  }
+  .post-image {
+    object-fit: cover;
+  }
+
+`;
+export const ImageModal = styled(Modal)`
+  max-width: 100%;
+  height: auto;
+  .ant-layout-content {
+    padding: 0 !important;
 }
-
-export const PostWrapper = styled.div<PostWrapperProps>`
-  display: flex;
-  flex-direction: ${({ showComments }) => (showComments ? "row" : "column")};
-  box-sizing: border-box;
-  margin: 20px 0;
-  padding: 24px;
-  max-width: 700px;
-  width: 100%;
-  border: 1.5px solid #ccc;
-  border-radius: 30px;
-  background-color: transparent;
-`;
-
-export const PostContentWrapper = styled.div`
-  flex: 1;
-`;
-
-export const CommentsSection = styled.div`
-  flex: 1;
-  max-width: 400px;
-  overflow-y: auto;
-  background-color: #faf0e6;
-  border-left: 1.5px solid #ccc;
-`;
+`

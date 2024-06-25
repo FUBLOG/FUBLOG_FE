@@ -15,7 +15,7 @@ import Button from "@/components/core/common/Button";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import { postRequest } from "@/services/request";
-
+import moment from "moment";
 import * as S from "./styles";
 
 interface PageProps {
@@ -61,6 +61,17 @@ function FormSignUp(props: PageProps) {
     "Nội dung phù hợp: Mọi nội dung được chia sẻ trên HaS phải tuân thủ các nguyên tắc đạo đức và pháp luật. Nội dung bạo lực, đồi trụy, kích động, hay vi phạm bản quyền sẽ bị xóa và người đăng có thể bị khóa tài khoản.",
     "HaS không chấp nhận bất kỳ hình thức kích động hoặc chủ trương cụ thể nào, bao gồm cả sự phân biệt đối xử dựa trên tôn giáo, chủng tộc, giới tính, hoặc quốc gia.",
   ];
+  const validateAge = (_: any, value: any) => {
+    if (!value) {
+      return Promise.reject(new Error("Vui lòng nhập ngày tháng năm sinh"));
+    }
+    console.log(value.$y === 2024);
+
+    if (2024 - value.$y < 16) {
+      return Promise.reject(new Error("Bạn phải từ 16 tuổi trở lên!"));
+    }
+    return Promise.resolve();
+  };
 
   const onFinish = async (values: any) => {
     try {
@@ -73,7 +84,11 @@ function FormSignUp(props: PageProps) {
         sex: sex!,
       };
       props.setFormData(data);
-      await postRequest(constants.API_SERVER + authEndpoint.SIGN_UP, { data });
+
+      await postRequest(authEndpoint.SIGN_UP, {
+        data: data,
+        security: true,
+      });
       props.setNextStep("verification");
     } catch (error) {}
   };
@@ -162,6 +177,9 @@ function FormSignUp(props: PageProps) {
                   {
                     required: true,
                     message: "Vui lòng nhập ngày tháng năm sinh",
+                  },
+                  {
+                    validator: validateAge,
                   },
                 ]}
                 initialValue={props?.formData?.dateOfBirth}

@@ -82,7 +82,6 @@ export const SearchUser: React.FC<SearchUserProp> = ({
       case "unfriend":
         await unfriend(id);
         resetStatus();
-        console.log("unfriend");
         break;
       case "decline":
         await rejectFriendRequest(id);

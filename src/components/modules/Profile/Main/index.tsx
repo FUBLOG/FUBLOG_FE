@@ -1,4 +1,4 @@
-
+// Profile/index.tsx
 "use client";
 import useFriend from "@/hooks/useFriend";
 import { useEffect } from "react";

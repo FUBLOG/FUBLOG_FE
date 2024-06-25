@@ -1,11 +1,11 @@
-
+// Profile/PostProfile/index.tsx
 import React, { useState } from "react";
 import { Dropdown, Menu, message, Radio } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
-  EllipsisOutlined, 
+  EllipsisOutlined, // Thêm icon ba chấm
   TagOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
@@ -66,7 +66,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
   };
 
   const handleCommentClick = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setShowCommentsModal(true);
       return;
     }
@@ -113,7 +113,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
               {data.userId.displayName}
             </Typography>
           </S.UserInfo>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={["click"]}>
             <EllipsisOutlined
               style={{ color: "#FAF0E6", cursor: "pointer" }}
               onClick={(e) => e.stopPropagation()}

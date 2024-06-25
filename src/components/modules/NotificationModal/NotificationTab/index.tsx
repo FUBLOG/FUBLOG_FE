@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 const NotificationTab = ({onclose}:any) => {
     const { loading, notifications } = useGetNotification();
-    console.log(notifications);
     const handleClick = () => {
         onclose()
     }

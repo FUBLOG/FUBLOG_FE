@@ -9,8 +9,7 @@ import PostsRender from "./PostRender";
 function Home() {
   useEffect(() => {
     const setup = async () => {
-      const res: any = await getRequest(tagEndpoint.GET_TAG);
-      console.log(res?.metadata);
+      await getRequest(tagEndpoint.GET_TAG);
     };
     setup();
   }, []);

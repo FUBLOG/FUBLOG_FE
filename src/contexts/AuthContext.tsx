@@ -1,13 +1,17 @@
+import { checkAuth } from "@/services/api/auth";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 import React, {
   createContext,
   useState,
   ReactNode,
   useMemo,
   useContext,
+  useEffect,
 } from "react";
 
 interface UserInfo {
-  userId: string;
+  _id: string;
   dateOfBirth: string;
   displayName: string;
   email: string;
@@ -30,7 +34,7 @@ interface AuthContextProps {
 }
 
 const defaultUserInfo: UserInfo = {
-  userId: "",
+  _id: "",
   dateOfBirth: "",
   displayName: "",
   email: "",
@@ -60,7 +64,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
   const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (webStorageClient.get(constants.IS_AUTH)) {
+      setLoading(true);
+      checkAuth().then((res) => {
+        setUserInfo(res.metadata);
 
+        setLoading(false);
+      });
+    }
+  }, []);
   const authContextValue = useMemo(
     () => ({
       userInfo,

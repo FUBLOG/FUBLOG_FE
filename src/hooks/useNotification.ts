@@ -68,7 +68,7 @@ const useGetNotification = () => {
     getNotificaton();
   }, []);
 
-  return { notifications, loading };
+  return { notifications, loading, setNotifications };
 };
 
 export default useNotification;

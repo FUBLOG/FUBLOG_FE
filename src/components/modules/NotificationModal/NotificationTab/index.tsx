@@ -8,8 +8,9 @@ import {
   markAllNotificationsAsRead,
 } from "@/services/api/notification";
 import * as S from "../style";
+import Link from "next/link";
 
-const NotificationTab = () => {
+const NotificationTab = ({ onclose }: any) => {
   const { loading, notifications, setNotifications } = useGetNotification();
   const [localNotifications, setLocalNotifications] = useState<any[]>([]);
 
@@ -46,7 +47,9 @@ const NotificationTab = () => {
       console.error("Error ", error);
     }
   };
-
+  function handleClick() {
+    onclose();
+  }
   return loading ? (
     <Loading />
   ) : (
@@ -64,21 +67,23 @@ const NotificationTab = () => {
         itemLayout="horizontal"
         dataSource={notifications}
         renderItem={(item: any) => (
-          <List.Item
-            key={item.id}
-            className={` ${
-              item.isRead
-                ? " notification-read .ant-list-item-meta "
-                : "notification-unread .ant-list-item-meta"
-            }`}
-            onClick={() => handleMarkRead(item._id)}
-          >
-            <List.Item.Meta
-              avatar={<Avatar src={item?.image[0]} />}
-              title={<span>{item.title}</span>}
-              description={<span>{fromNow(new Date(item.createdAt))}</span>}
-            />
-          </List.Item>
+          <Link href={item?.link} onClick={handleClick}>
+            <List.Item
+              key={item.id}
+              className={` ${
+                item.isRead
+                  ? "notification-read .ant-list-item-meta "
+                  : "notification-unread .ant-list-item-meta"
+              }`}
+              onClick={() => handleMarkRead(item._id)}
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={item?.image[0]} />}
+                title={<span>{item.title}</span>}
+                description={<span>{fromNow(new Date(item.createdAt))}</span>}
+              />
+            </List.Item>
+          </Link>
         )}
       />
     </S.NotificationContainer>

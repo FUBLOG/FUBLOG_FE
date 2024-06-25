@@ -18,6 +18,22 @@ export const NotificationContainer = styled.div`
     background-color: #b9b4c7;
     cursor: pointer;
   }
+  .notification-item,
+  .friend-item {
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: transparent;
+  }
+
+  .notification-unread .ant-list-item-meta span {
+    font-weight: bold;
+  }
+
+  .notification-read .ant-list-item-meta span {
+    font-weight: normal;
+  }
 `;
 
 export const TabContent = styled.div`
@@ -65,4 +81,13 @@ export const TabContent = styled.div`
 export const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
+  justify-content: flex-end;
+  padding-top: 10px;
+  margin-top: 16px;
+`;
+export const MarkButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 16px;
+  margin-bottom: 10px;
 `;

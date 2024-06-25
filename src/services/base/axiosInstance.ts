@@ -1,4 +1,4 @@
-import { addFriendEndpoint, authEndpoint } from "@/services/endpoint";
+import { authEndpoint } from "@/services/endpoint";
 import axios from "axios";
 
 import { constants } from "@/settings";
@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
   timeout: 600000,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(async function (config: any) {
@@ -42,6 +43,7 @@ axiosInstance.interceptors.response.use(
         deleteStorage();
       }
     }
+    return error?.response?.data;
   }
 );
 

@@ -1,26 +1,44 @@
+// Profile/index.tsx
 "use client";
-
-import { useGetProfile, useProfile } from "@/hooks/useProfile";
-import Banner from "../Banner";
-import * as S from "./styles";
+import useFriend from "@/hooks/useFriend";
 import { useEffect } from "react";
+import Banner from "../Banner";
+import Introduce from "../introduce";
+import PostProfile from "../PostProfile";
+import { useAuth } from "@/hooks/useAuthStatus";
+import { Spin } from "antd";
+import * as S from "./styles";
+import ListFriend from "../ListFriend";
 
-function Profile({ profileHash }: { readonly profileHash: string }) {
-  const { setProfile, profile } = useGetProfile(profileHash);
+interface ProfileProps {
+  profileHash: string;
+}
+
+const Profile: React.FC<ProfileProps> = ({ profileHash }) => {
+  const { loading } = useAuth();
+  const { checkFriend } = useFriend(profileHash);
+
   useEffect(() => {
-    return () => setProfile(null);
-  }, []);
+    if (!loading) {
+      checkFriend();
+    }
+  }, [profileHash, loading]);
+
   return (
     <S.HomeWrapper>
-      <Banner />
-      {/* <S.Container>
-        <S.Main>
+      <Spin spinning={loading} fullscreen />
+      <Banner profileHash={profileHash} />
+      <S.Main>
+        <S.Sidebar>
+          <Introduce />
           <ListFriend />
+        </S.Sidebar>
+        <S.Content>
           <PostProfile />
-        </S.Main>
-      </S.Container> */}
+        </S.Content>
+      </S.Main>
     </S.HomeWrapper>
   );
-}
+};
 
 export default Profile;

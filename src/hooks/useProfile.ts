@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { create } from "zustand";
+import { ProfileRequestResponse } from "@/model/response";
 interface ProfileProps {
   profileHash: string;
   setProfileHash: (value: string) => void;
@@ -19,6 +20,7 @@ export const useProfile = create<ProfileProps>((set) => ({
 export const useGetProfile = (profileHash: string) => {
   const [loading, setLoading] = useState(false);
   const { setProfile, setProfileHash, profile } = useProfile();
+  const [profileSearch, setProfileSearch] = useState<any>();
   useEffect(() => {
     const getUserInfo = async (hash: string) => {
       setLoading(true);
@@ -26,9 +28,11 @@ export const useGetProfile = (profileHash: string) => {
         const res = await getRequest(profileEndpoint.PROFILE_HASH + hash);
 
         const metadata = res?.metadata;
+
         if (metadata) {
           setProfileHash(hash);
           setProfile(metadata);
+          setProfileSearch(metadata);
         } else {
           throw new Error("Profile metadata not found.");
         }
@@ -42,5 +46,5 @@ export const useGetProfile = (profileHash: string) => {
     getUserInfo(profileHash);
   }, []);
 
-  return { profile, setProfile };
+  return { profile, setProfile, profileSearch };
 };

@@ -18,8 +18,8 @@ interface PageProps {
 }
 
 const Chat = ({ visible, onClose }: PageProps) => {
-
   const { userInfo } = useAuthContext();
+
   return (
     <Modal
       open={visible}

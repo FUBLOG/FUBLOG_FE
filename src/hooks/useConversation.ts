@@ -41,7 +41,7 @@ const useGetConversation = () => {
         });
     };
 
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       getConsversations();
     }
   }, [userInfo, setConversations]);

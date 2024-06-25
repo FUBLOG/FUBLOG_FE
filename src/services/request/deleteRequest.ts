@@ -15,11 +15,11 @@ const deleteRequest = async (
   let header = {};
   if (isSecurity) {
     const profileHash = await webStorageClient.getProfileHash();
-
     header = {
       "x-client-id": profileHash,
     };
   }
+
   const data = options?.data;
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
@@ -33,7 +33,7 @@ const deleteRequest = async (
     .delete(url, {
       data,
       headers: {
-        headers,
+        ...headers,
       },
     })
     .then((res: any) => {

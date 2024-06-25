@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { useUser } from "./useUser";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { constants } from "@/settings";
+import webLocalStorage from "@/utils/webLocalStorage";
+import webStorageClient from "@/utils/webStorageClient";
+
 export interface Key {
   ACCESS_TOKEN: string;
   PROFILE_HASH: string;
@@ -7,7 +10,7 @@ export interface Key {
   PRIVATEKEY?: string;
 }
 export interface UserInfo {
-  userId: string;
+  _id: string;
   dateOfBirth: string;
   displayName: string;
   email: string;
@@ -22,11 +25,71 @@ export interface UserInfo {
   };
 }
 export const useAuth = () => {
-  const { userInfo, addUser, removeUser, setUserInfo } = useUser();
-  const [loading, setLoading] = useState(false);
+  const { setUserInfo, setLoading, loading } = useAuthContext();
+  const addUser = async (
+    user: {
+      ACCESS_TOKEN: string;
+      PROFILE_HASH: string;
+      REFRESH_TOKEN?: string;
+      PRIVATEKEY?: string;
+    },
+    userInfo: {
+      _id: string;
+      dateOfBirth: string;
+      displayName: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      profileHash: string;
+      sex: string;
+      userInfo: {
+        avatar: string;
+        blockList: [];
+        friendList: [];
+      };
+    }
+  ) => {
+    setLoading(true);
+    webStorageClient.setProfileHash(user.PROFILE_HASH, {
+      maxAge: 7 * 24 * 60,
+    });
+    webStorageClient.setToken(user.ACCESS_TOKEN);
+    webLocalStorage.set("refreshToken", user.REFRESH_TOKEN);
+    webLocalStorage.set("privateKey", user.PRIVATEKEY);
+    webStorageClient.set(constants.IS_AUTH, true);
+    setUserInfo(userInfo);
+    setLoading(false);
+  };
+
+  const removeUser = async () => {
+    setLoading(true);
+
+    webStorageClient.remove(constants.ACCESS_TOKEN);
+    webStorageClient.remove(constants.PROFILE_HASH);
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("privateKey");
+    webStorageClient.set(constants.IS_AUTH, false);
+    setUserInfo({
+      _id: "",
+      dateOfBirth: "",
+      displayName: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      profileHash: "",
+      sex: "",
+      userInfo: {
+        avatar: "",
+        blockList: [],
+        friendList: [],
+      },
+    });
+    setLoading(false);
+  };
 
   const login = async (key: Key, userInfo: UserInfo) => {
     setLoading(true);
+
     try {
       await addUser(key, userInfo);
     } catch (error) {
@@ -47,5 +110,5 @@ export const useAuth = () => {
     }
   };
 
-  return { userInfo, login, logout, setUserInfo, loading };
+  return { login, logout, loading, setLoading };
 };

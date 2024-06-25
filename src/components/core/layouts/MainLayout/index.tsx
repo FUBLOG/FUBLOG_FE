@@ -38,6 +38,8 @@ import ModalGuest from "@/components/modules/ModalGuest";
 import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { ProfileRequestResponseList } from "@/model/response";
+import { CreateContent } from "@/components/modules/CreatePost";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -45,6 +47,8 @@ interface LayoutProps {
 
 function MainLayout({ children }: LayoutProps) {
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [list, setList] = useState<ProfileRequestResponseList["metadata"]>([]);
+
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
@@ -52,6 +56,7 @@ function MainLayout({ children }: LayoutProps) {
   const { userInfo } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
@@ -61,22 +66,27 @@ function MainLayout({ children }: LayoutProps) {
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
-    if (e !== "home" && e !== "search" && userInfo?.userId === "") {
+    if (e !== "home" && e !== "search" && userInfo?._id === "") {
       setShowModalGuest(true);
     }
     if (e === "search") {
       setSearchVisible(true);
     }
-    if (e === "mess" && userInfo?.userId !== "") {
+    if (e === "mess" && userInfo?._id !== "") {
       setShowMessageModal(true);
     }
-    if (e === "bell" && userInfo?.userId !== "") {
+    if (e === "bell" && userInfo?._id !== "") {
       setBellVisible(true);
     }
+    if (e === "create" && userInfo?._id !== "") {
+      setShowCreate(true);
+    }
   };
-
+  const handleCreatePostSuccess = () => {
+    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+  };
   const showBellModal = () => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       setNav("bell");
       setBellVisible(true);
     } else {
@@ -94,11 +104,13 @@ function MainLayout({ children }: LayoutProps) {
   };
 
   const handleCancel = () => {
+    setShowCreate(false);
     setSearchVisible(false);
     setShowMessageModal(false);
     setShowModalGuest(false);
     setBellVisible(false);
     setNav("home");
+    setList([]);
     setValueSearch("");
   };
 
@@ -112,12 +124,12 @@ function MainLayout({ children }: LayoutProps) {
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
       </Menu.Item>
-      <Menu.Item key="logout" className="custom-menu-item">
-        <button
-          onClick={() => logout()}
-          style={{ all: "unset", cursor: "pointer" }}
-          disabled={loading}
-        >
+      <Menu.Item
+        key="logout"
+        className="custom-menu-item"
+        onClick={() => logout()}
+      >
+        <button style={{ all: "unset", cursor: "pointer" }}>
           {loading ? <Spin size="small" /> : "Đăng xuất"}
         </button>
       </Menu.Item>
@@ -132,7 +144,7 @@ function MainLayout({ children }: LayoutProps) {
         <S.Container>
           <Image src={logo} alt="logo header" />
           <S.IconContainer>
-            <Link href="/home" onClick={() => handleSetNavigation("home")}>
+            <Link href="/" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
               ) : (
@@ -170,26 +182,12 @@ function MainLayout({ children }: LayoutProps) {
                 <BellOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-{/* 
-            <Button
-              type="text"
-              onClick={(e) => {
-                handleSetNavigation("bell");
-              }}
-            >
-              {nav === "bell" ? (
-                <BellFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <BellOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Button> */}
-
           </S.IconContainer>
-          {userInfo?.userId === "" ? (
+          {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
                 <Button type="default" $width="100px" disabled={loading}>
-                  {loading ? <Spin size="small" /> : "Đăng nhập"}
+                  Đăng nhập
                 </Button>
               </Link>
               <Link href="/sign-up">
@@ -199,7 +197,7 @@ function MainLayout({ children }: LayoutProps) {
                   $width="100px"
                   disabled={loading}
                 >
-                  {loading ? <Spin size="small" /> : "Đăng ký"}
+                  Đăng ký
                 </Button>
               </Link>
             </Flex>
@@ -226,7 +224,7 @@ function MainLayout({ children }: LayoutProps) {
         </S.Container>
       </S.Header>
       <S.Body>{children}</S.Body>
-      
+
       <NotificationModal visible={bellVisible} onClose={handleBellClose} />
       <Chat visible={showMessageModal} onClose={handleCancel} />
       <S.SearchModal
@@ -237,14 +235,24 @@ function MainLayout({ children }: LayoutProps) {
         footer={null}
       >
         <SearchContent
-          value={valueSearch}
           setValue={setValueSearch}
+          value={valueSearch}
+          list={list}
+          setList={setList}
           setShowModalGuest={setShowModalGuest}
           setSearchVisible={setSearchVisible}
         />
       </S.SearchModal>
+      <S.CreateModal
+        open={showCreate}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={false}
+      >
+        <CreateContent onSuccess={handleCreatePostSuccess} />
+      </S.CreateModal>
     </S.LayoutWrapper>
   );
 }
 
-export default MainLayout
+export default MainLayout;

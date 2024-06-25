@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import { useGetMessage } from "@/hooks/useMessage";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useListenMessage } from "@/hooks/useListen";
@@ -13,16 +13,17 @@ const MessageList = () => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, userInfo?._id]);
 
   return (
     <S.MessagesList>
       {messages.map((message) => {
-        const isOwnMessage = message.senderId === userInfo?.userId;
+        let isOwnMessage = message?.senderId === userInfo?._id;
+
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
             <S.ChatHeader isOwnMessage={isOwnMessage}>
-              <span>{isOwnMessage ? 'You' : message.senderName}</span>
+              <span>{isOwnMessage ? "You" : <></>}</span>
               <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
             </S.ChatHeader>
             <S.MessageContent isOwnMessage={isOwnMessage}>

@@ -2,30 +2,41 @@ import React, { Dispatch, SetStateAction } from "react";
 import { SearchUser } from "../SearchedUser";
 import * as S from "./style";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { Skeleton } from "antd";
 
 interface SearchInfoProps {
   value: string;
+  loading: boolean;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   setShowModalGuest: Dispatch<SetStateAction<boolean>>;
-  setSearchVisible: Dispatch<SetStateAction<boolean>>;
-  list: {
-    avatar: string;
-    displayName: string;
-    friendCount: number;
-    profileHash: string;
-    _id: string;
-  }[];
+  handleClose: () => void;
+  list:
+    | {
+        avatar: string;
+        displayName: string;
+        friendCount: number;
+        profileHash: string;
+        _id: string;
+      }[]
+    | undefined;
 }
 
 const SearchInfo: React.FC<SearchInfoProps> = ({
   setValue,
   setShowModalGuest,
-  setSearchVisible,
+  handleClose,
   list,
+  loading,
 }) => {
   const { userInfo } = useAuthContext();
 
-  return (
+  const Loading = () => {
+    return <Skeleton active round avatar paragraph />;
+  };
+
+  return loading ? (
+    <Loading />
+  ) : (
     <S.MyStyledDiv>
       <div className="searchContent">
         <ul className="list">
@@ -36,7 +47,7 @@ const SearchInfo: React.FC<SearchInfoProps> = ({
                 <SearchUser
                   setShowModalGuest={setShowModalGuest}
                   setValue={setValue}
-                  setSearchVisible={setSearchVisible}
+                  handleClose={handleClose}
                   name={friend.displayName}
                   friends={friend.friendCount}
                   avatar={friend.avatar}

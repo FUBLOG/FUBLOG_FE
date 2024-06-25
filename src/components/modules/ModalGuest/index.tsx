@@ -14,10 +14,11 @@ const ModalGuest = ({ showModalGuest, handleCancel }: PageProps) => {
       min-width={"30%"}
       open={showModalGuest}
       onCancel={handleCancel}
+      destroyOnClose={true}
       footer={null}
     >
       <S.ModalContent>
-        <FormSignIn />
+        <FormSignIn showModalGuest={showModalGuest} />
       </S.ModalContent>
     </S.ModalWrap>
   );

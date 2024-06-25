@@ -12,8 +12,10 @@ export const PostWrapper = styled.div`
   background-color: transparent;
 `;
 export const ContentWrapper = styled(Flex)`
-  align-items: flex-start; 
-  padding: 0 20px; 
+  align-items: flex-start;
+  padding: 0 20px;
+  align-items: flex-start;
+  padding: 0 20px;
 `;
 
 export const PostContent = styled.p`
@@ -25,17 +27,30 @@ export const PostContent = styled.p`
 `;
 
 export const ImagesWrapper = styled(Flex)`
-  justify-content: flex-start; 
+  justify-content: flex-start;
+  justify-content: flex-start;
   padding: 0 20px;
   gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+
   img {
+    border-radius: 4px;
+    border-radius: 4px;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
+.post-image {
+    border-radius: 4px;
+    width: 100%;
+    height: 450px;
+    margin: 0;
+    cursor : pointer;
+    object-fit: cover;
+  }
+
 `;
-
-
 export const PostHeader = styled(Flex)`
   align-items: center;
   justify-content: space-between;
@@ -58,7 +73,6 @@ export const UserName = styled.span`
   color: #352f44;
   font-size: 18px;
 `;
-
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
@@ -252,3 +266,51 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   padding-top: 5px;
 `;
+export const ImagesWrapper2 = styled.div`
+
+    img {
+    border-radius: 4px;
+    max-width: 100%;
+    height: 450px;
+    margin: 0;
+    cursor : pointer;
+    
+  }
+
+  .ant-carousel .slick-prev, .ant-carousel .slick-next {
+    color: black;
+    
+  }
+    .ant-carousel .slick-prev::after, .ant-carousel .slick-next::after{
+      width: 15px;
+      height: 15px;
+      top: -50px;
+      border-inline-width: 4px 0;
+      border-block-width: 4px 0;
+      inset-inline-start: -1.342291px;
+    }
+
+  .ant-carousel .slick-dots li{
+    margin-inline: 30px;
+  }
+
+  .ant-carousel .slick-dots li button {
+    background-color: aqua;
+    width: 50px;
+  }
+
+  .ant-carousel .slick-dots li.slick-active button {
+    background-color: #000;
+  }
+  .post-image {
+    object-fit: cover;
+  }
+
+`;
+export const ImageModal = styled(Modal)`
+  max-width: 100%;
+  height: auto;
+  .ant-layout-content {
+    padding: 0 !important;
+}
+`

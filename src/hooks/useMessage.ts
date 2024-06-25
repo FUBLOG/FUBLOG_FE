@@ -27,14 +27,16 @@ const useSendMessage = () => {
 
       setMessages([...messages, res?.metadata]);
       const updatedConversations = [
-        selectedConversation,
+        {
+          ...selectedConversation,
+          lastMessage: res?.metadata,
+        },
         ...conversations.filter(
           (conversation: any) => conversation._id !== selectedConversation._id
         ),
       ];
       setConversations(updatedConversations);
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -60,7 +62,6 @@ const useGetMessage = () => {
         });
         setMessages(listMessage);
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }

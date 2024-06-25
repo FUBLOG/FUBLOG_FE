@@ -1,50 +1,49 @@
 import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
-import { useProfile } from "./useProfile";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useGetProfile, useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
+import { message } from "antd";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useAuth } from "./useAuthStatus";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
-const useFriend = () => {
+const useFriend = (profileHash: string) => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
   const [isMyUser, setIsMyUser] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [isSendFriend, setIsSendFriend] = useState(false);
   const [isRequester, setIsRequester] = useState(false);
   const { userInfo } = useAuthContext();
-  const { profile } = useProfile();
+  const { profileSearch } = useGetProfile(profileHash);
 
-  const checkIsGuest = async () => {
-    console.log(userInfo);
-    if (userInfo?.userId === "") {
-      console.log(1);
-
+  const [isNotFound, setIsNotFound] = useState(false);
+  const checkIsGuest = () => {
+    if (!webStorageClient.get(constants.IS_AUTH)) {
       setIsGuest(true);
       return true;
     }
     return false;
   };
-  const checkIsFriend = async () => {
-    const result: any = userInfo?.userInfo?.friendList.filter(
-      (friend: string) => friend === profile?.user?._id
+  const checkIsFriend = () => {
+    setIsFriend(
+      userInfo?.userInfo?.friendList?.some(
+        (friend: string) => friend === profileSearch?.user?._id
+      )
     );
-
-    if (result?.length > 0) {
-      setIsFriend(true);
-      return true;
-    }
-    return false;
   };
-  const handleRequest = async (request: any) => {
-    if (request?.sourceID === userInfo?.userId) {
+  const handleRequest = (request: any) => {
+    if (request?.sourceID === userInfo?._id) {
       setIsSendFriend(true);
     } else {
       setIsRequester(true);
     }
   };
   const checkRequest = async () => {
-    const response = await getRequestFriend(profile?.user?._id);
+    const response = await getRequestFriend(profileSearch?.user?._id);
     if (response?.metadata === null) {
       await checkIsFriend();
     } else {
@@ -52,24 +51,36 @@ const useFriend = () => {
     }
   };
   const checkFriend = async () => {
+    if (profileSearch?.user?._id === undefined) {
+      setIsNotFound(true);
+      return;
+    }
     if (!(await checkIsGuest())) {
-      await checkRequest();
+      if (userInfo?._id === profileSearch?.user?._id) {
+        setIsMyUser(true);
+      } else {
+        await checkRequest();
+      }
     }
   };
-  const resetStatus = () => {
+  const resetStatus = async () => {
     setIsFriend(false);
     setIsBlocked(false);
     setIsGuest(false);
     setIsMyUser(false);
     setIsSendFriend(false);
     setIsRequester(false);
+    setIsNotFound(false);
   };
   useEffect(() => {
-    resetStatus();
-    if (profile !== null) {
-      checkFriend();
-    }
-  }, [profile, userInfo?.userId]);
+    const asyncFn = async () => {
+      setLoading(true);
+      await resetStatus();
+      await checkFriend();
+      setLoading(false);
+    };
+    asyncFn();
+  }, [profileSearch]);
   return {
     isRequester,
     isFriend,
@@ -78,17 +89,16 @@ const useFriend = () => {
     isMyUser,
     isSendFriend,
     loading,
+    checkFriend,
     setIsFriend,
+    setLoading,
+    setIsSendFriend,
+    setIsRequester,
+    setIsGuest,
+    resetStatus,
+    setIsMyUser,
+    isNotFound,
   };
 };
-const useGetFriendList = () => {
-  const [friendList, setFriendList] = useState<any[]>([]);
-  useEffect(() => {
-    getFriendList().then((list: any) =>
-      setFriendList(list?.metadata?.friendList)
-    );
-  }, []);
-  return friendList;
-};
-export { useGetFriendList };
+
 export default useFriend;

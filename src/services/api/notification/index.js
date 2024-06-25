@@ -13,7 +13,7 @@ export const markNotificationAsRead = async (notificationId) => {
 
 
 export const markAllNotificationsAsRead = async () => {
-  return await patchRequest(notificationEndpoint.MARK_ALL_AS_READ,  {
+  return await patchRequest(notificationEndpoint.MARK_ALL_AS_READ, {
     security: true,
   });
 };

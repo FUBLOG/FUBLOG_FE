@@ -1,15 +1,19 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, use, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { EllipsisOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, message } from "antd";
-import {
-  addComment,
-  deleteComment,
-  editCommentApi,
-  getCommentPost,
-} from "@/services/api/comment";
+import { addComment, deleteComment, editCommentApi, getCommentPost } from "@/services/api/comment";
+import { set } from "lodash";
 
+interface Comment {
+  id: number;
+  user: string;
+  avatar: string;
+  content: string;
+  parentId?: number | null;
+  replies?: Comment[];
+}
 const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
@@ -18,7 +22,9 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const [replyComment, setReplyComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [editMode, setEditMode] = useState<any | null>(null);
-  const [selectedCommentId, setSelectedCommentId] = useState<any | null>(null);
+  const [selectedCommentId, setSelectedCommentId] = useState<any | null>(
+    null
+  );
   const [showReportModal, setShowReportModal] = useState(false);
   const [isPostReport, setIsPostReport] = useState(false);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -42,13 +48,15 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   }, [commentsData]);
   useEffect(() => {
     const asyncGetComments = async () => {
+
       setLoading(true);
       await getCommentPost(newfeed?.post?._id).then((res: any) => {
         setCommentsData(res?.metadata);
         setLoading(false);
       });
-    };
+    }
     if (open) {
+
       asyncGetComments();
     }
     return () => {
@@ -56,19 +64,18 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       setLoading(false);
       setSelectedCommentId(null);
       setEditMode(null);
-    };
+
+    }
   }, [open]);
   const handleAddComment = async () => {
+
     const res: any = await addComment(newfeed?.post?._id, newComment, null);
 
-    const updatedComments = [
-      {
-        comment_content: newComment,
-        comment_userId: userInfo,
-        _id: res?.metadata?._id,
-      },
-      ...commentsData,
-    ];
+    const updatedComments = [{
+      comment_content: newComment,
+      comment_userId: userInfo,
+      _id: res?.metadata?._id,
+    }, ...commentsData];
 
     setCommentsData(updatedComments);
     setNewComment("");
@@ -83,40 +90,40 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     return (
       <Menu
         items={[
-          ...(comment?.comment_userId?._id === userInfo?._id
+          ...(comment?.comment_userId?._id === userInfo?.userId
             ? [
-                {
-                  key: "edit",
-                  label: "Chỉnh sửa",
-                  onClick: () => handleEditComment(comment?._id),
-                },
-                {
-                  key: "delete",
-                  label: "Xóa",
-                  onClick: () => handleDeleteComment(comment?._id),
-                },
-              ]
+              {
+                key: "edit",
+                label: "Chỉnh sửa",
+                onClick: () => handleEditComment(comment?._id),
+              },
+              {
+                key: "delete",
+                label: "Xóa",
+                onClick: () => handleDeleteComment(comment?._id),
+              },
+            ]
             : [
-                {
-                  key: "reply",
-                  label: "Phản hồi",
-                  onClick: () => handleReplyComment(comment?._id),
-                },
-                {
-                  key: "report",
-                  label: "Báo cáo",
-                  onClick: () => handleReportClick(comment?._id),
-                },
-              ]),
+              {
+                key: "reply",
+                label: "Phản hồi",
+                onClick: () => handleReplyComment(comment?._id),
+              },
+              {
+                key: "report",
+                label: "Báo cáo",
+                onClick: () => handleReportClick(comment?._id),
+              },
+            ]),
         ]}
       />
     );
-  };
+  }
 
   const handleUpdateComment = async () => {
     if (editMode !== null) {
       setLoadingUpdate(true);
-      await editCommentApi(editMode, editComment);
+      await editCommentApi(editMode, editComment)
       const updatedComments = commentsData.map((comment: any) => {
         if (comment._id === editMode) {
           return { ...comment, comment_content: editComment };
@@ -130,9 +137,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     }
   };
   const handleReplyComment = (commentId: any) => {
-    const parentComment = commentsData.find(
-      (comment: any) => comment._id === commentId
-    );
+    const parentComment = commentsData.find((comment: any) => comment._id === commentId);
     if (parentComment) {
       const replyContent = `@${parentComment?.comment_userId?.displayName} `;
       setReplyComment(replyContent);
@@ -148,9 +153,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     }
   };
   const handleEditComment = (commentId: number) => {
-    const commentToEdit = commentsData.find(
-      (comment: any) => comment._id === commentId
-    );
+    const commentToEdit = commentsData.find((comment: any) => comment._id === commentId);
     if (commentToEdit) {
       setEditMode(commentId);
       setEditComment(commentToEdit?.comment_content);
@@ -166,24 +169,18 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     icrComment(-1);
   };
   const handleReply = async () => {
+
     if (replyComment.trim() && selectedCommentId !== null) {
-      const replyData = await addComment(
-        newfeed?.post?._id,
-        replyComment,
-        selectedCommentId
-      );
+      const replyData = await addComment(newfeed?.post?._id, replyComment, selectedCommentId);
 
       const updatedComments = commentsData.map((comment: any) => {
         if (comment._id === selectedCommentId) {
           return {
             ...comment,
-            replies: [
-              {
-                ...replyData?.metadata,
-                comment_userId: userInfo,
-              },
-              ...(comment?.replies || []),
-            ],
+            replies: [{
+              ...replyData?.metadata,
+              comment_userId: userInfo,
+            }, ...comment?.replies || []],
           };
         }
         return comment;
@@ -197,9 +194,8 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   };
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray.map((comment: any) => {
-      const childrenCount =
-        (comment?.comment_right - comment?.comment_left - 1) / 2;
-      return (
+      const childrenCount = (comment?.comment_right - comment?.comment_left - 1) / 2;
+      return ((
         <Fragment key={comment._id}>
           <S.Comment
             style={{
@@ -208,13 +204,8 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             }}
           >
             <S.CommentHeader>
-              <S.Avatar
-                src={comment?.comment_userId?.userInfo?.avatar}
-                alt={`${comment?.comment_userId?.displayName}'s avatar`}
-              />
-              <S.CommentUser>
-                {comment?.comment_userId?.displayName}
-              </S.CommentUser>
+              <S.Avatar src={comment?.comment_userId?.userInfo?.avatar} alt={`${comment?.comment_userId?.displayName}'s avatar`} />
+              <S.CommentUser>{comment?.comment_userId?.displayName}</S.CommentUser>
               <Dropdown
                 overlay={renderCommentMenu(comment)}
                 trigger={["click"]}
@@ -250,14 +241,13 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             ) : childrenCount > 0 ? (
               <>
                 <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-                <S.CommentContent>
-                  Xem thêm {childrenCount} bình luận
-                </S.CommentContent>
+                <S.CommentContent>Xem thêm {childrenCount} bình luận</S.CommentContent>
               </>
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-            )}
-            {userInfo?._id !== "" &&
+            )
+            }
+            {userInfo?.userId !== "" &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (
@@ -288,9 +278,11 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
           </S.Comment>
           {comment.replies && renderComments(comment.replies, depth + 1)}
         </Fragment>
-      );
-    });
+      ));
+
+    })
   };
+
 
   return (
     <S.CustomModal
@@ -337,6 +329,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             </Button>
           </S.ButtonWrapper>
         </S.CommentBox>
+
       </S.CommentSection>
     </S.CustomModal>
   );

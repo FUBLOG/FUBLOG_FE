@@ -5,13 +5,16 @@ import {
   HeartFilled,
   CommentOutlined,
   ExclamationCircleOutlined,
+  EllipsisOutlined,
   TagOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
+import Button from "@/components/core/common/Button";
 import { useAuthContext } from "@/contexts/AuthContext";
+import * as S from "./styles";
 import CommentModal from "./Comment";
 
-import * as S from "./styles";
+
 
 interface PostProps {
   newfeed: any;
@@ -21,57 +24,97 @@ const Post = ({ newfeed }: PostProps) => {
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [comments, setComments] = useState(newfeed?.post?.commentCount);
   const [liked, setLiked] = useState(false);
-  const [showComments, setShowComments] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [reportReason, setReportReason] = useState<string | null>(null);
+  const [isPostReport, setIsPostReport] = useState(false);
   const { userInfo } = useAuthContext();
-  const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
 
-  // const toggleLike = () => {
-  //   setLiked(!liked);
-  //   setLikes(liked ? likes - 1 : likes + 1);
+
+
+  const toggleLike = () => {
+    setLiked(!liked);
+    setLikes(liked ? likes - 1 : likes + 1);
+  };
+
+
+
+  // const handlePostReportClick = () => {
+  //   setIsPostReport(true);
+  //   setShowReportModal(true);
+  //   setShowCommentsModal(false);
   // };
+
+  // const handleConfirmReport = () => {
+  //   if (!reportReason) {
+  //     message.error("Vui lòng chọn vấn đề để báo cáo.");
+  //     return;
+  //   }
+  //   setShowReportModal(false);
+  //   setShowConfirmModal(true);
+  // };
+
+  // const handleFinalReport = () => {
+  //   setShowConfirmModal(false);
+  //   message.success(
+  //     isPostReport
+  //       ? "Báo cáo bài viết thành công"
+  //       : "Báo cáo bình luận thành công"
+  //   );
+  //   setReportReason(null);
+  //   setSelectedCommentId(null);
+  // };
+
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
 
   const handleCommentClick = () => {
-    if (userInfo?._id !== "") {
+    if (userInfo?.userId !== "") {
       setShowCommentsModal(true);
       return;
     }
     message.warning("Vui lòng đăng nhập để bình luận.");
   };
 
-  const incrementCommentCount = (number: number) => {
-    setComments(comments + number);
-  };
-  const onPreview = (src: any) => {
-    setSelectedImage(src);
-    setOpen(true);
+
+
+  
+
+  const handleCloseCommentsModal = () => {
+    setShowCommentsModal(false);
+
   };
 
+  const icrComment = (number: number) => {
+    setComments(comments + number);
+  }
+
+
+
+
+
+
+
   return (
-    <S.PostWrapper showComments={showComments}>
-      <S.PostContentWrapper>
-        <S.CustomCard>
-          <S.PostHeader>
-            <S.UserInfo>
-              <S.Avatar
-                src={newfeed?.userId?.userInfo?.avatar}
-                alt={`${newfeed?.userId?.displayName}'s avatar`}
-              />
-              <Typography
-                variant="caption-normal"
-                color="#B9B4C7"
-                fontSize="18px"
-              >
-                {newfeed?.userId?.displayName}
-              </Typography>
-            </S.UserInfo>
-            <ExclamationCircleOutlined
-              style={{ color: "#FAF0E6", cursor: "pointer" }}
-            />
-          </S.PostHeader>
+    <S.PostWrapper>
+      <S.CustomCard>
+        <S.PostHeader>
+          <S.UserInfo>
+            <S.Avatar src={newfeed?.userId?.userInfo?.avatar} alt={`${newfeed?.userId?.displayName}'s avatar`} />
+            <Typography
+              variant="caption-normal"
+              color="#B9B4C7"
+              fontSize="18px"
+            >
+              {newfeed?.userId?.displayName}
+            </Typography>
+          </S.UserInfo>
+          <ExclamationCircleOutlined
+            style={{ color: "#FAF0E6", cursor: "pointer" }}
+          />
+        </S.PostHeader>
 
         <S.ContentWrapper>
           <Typography
@@ -83,40 +126,29 @@ const Post = ({ newfeed }: PostProps) => {
             {newfeed?.post?.postContent}
           </Typography>
         </S.ContentWrapper>
-        {newfeed?.post?.postLinkToImages.length === 1 && (
-          <S.ImagesWrapper
-            className={`images-${newfeed?.post?.postLinkToImages.length}`}
-          >
-            <img
-              src={newfeed?.post?.postLinkToImages[0]}
-              alt=""
-              className="post-image"
-              onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
-            />
+        {newfeed?.post?.postLinkToImages.length > 0 && (
+          <S.ImagesWrapper className={`images-${newfeed?.post?.postLinkToImages.length}`}>
+            {newfeed?.post?.postLinkToImages.slice(0, 3).map((src: any) => (
+              <img key={src} src={src} alt="" className="post-image" />
+            ))}
+            {newfeed?.post?.postLinkToImages.length > 3 && (
+              <div className="more-images">
+                <span>View more {newfeed?.post?.postLinkToImages.length - 3} images</span>
+              </div>
+            )}
           </S.ImagesWrapper>
-        )}
-        {newfeed?.post?.postLinkToImages.length > 1 && (
-          <S.ImagesWrapper2>
-            <Carousel arrows={true}>
-              {newfeed?.post?.postLinkToImages.map((src: any) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt="Post Image"
-                  className="post-image"
-                  onClick={() => onPreview(src)}
-                />
-              ))}
-            </Carousel>
-          </S.ImagesWrapper2>
         )}
 
         <S.PostFooter>
           <S.Actions>
             {liked ? (
-              <HeartFilled style={{ color: "white", cursor: "pointer" }} />
+              <HeartFilled
+                style={{ color: "white", cursor: "pointer" }}
+              />
             ) : (
-              <HeartOutlined style={{ color: "white", cursor: "pointer" }} />
+              <HeartOutlined
+                style={{ color: "white", cursor: "pointer" }}
+              />
             )}
             <span>{likes}</span>
             <CommentOutlined
@@ -185,33 +217,10 @@ const Post = ({ newfeed }: PostProps) => {
             : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
-      <CommentModal
-        close={handleCloseCommentsModal}
-        open={showCommentsModal}
-        newfeed={newfeed}
-        icrComment={icrComment}
-      />
-      {/* Modal của preview ảnh */}
-      <div className="imgWrapper">
-        <S.ImageModal
-          visible={open}
-          footer={null}
-          onCancel={() => setOpen(false)}
-          centered
-          styles={{ content: { padding: "0" } }}
-          closable={false}
-        >
-          <div style={{ textAlign: "center" }}>
-            <img
-              src={selectedImage}
-              alt="Preview"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-          </div>
-        </S.ImageModal>
-      </div>
+      <CommentModal close={handleCloseCommentsModal} open={showCommentsModal} newfeed={newfeed} icrComment={icrComment} />
     </S.PostWrapper>
   );
-};
+}
+
 
 export default Post;

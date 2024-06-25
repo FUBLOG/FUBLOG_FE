@@ -10,18 +10,19 @@ import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
 import { useSearchParams } from "next/navigation";
-
-// interface ProfileProps {
-//   profileHash: string;
-// }
+import { useGetProfile } from "@/hooks/useProfile";
 
 const Profile = () => {
   const searchParams = useSearchParams();
   const profileHash = searchParams.get("pId");
   const { loading } = useAuth();
   const { checkFriend } = useFriend(profileHash);
+  const { profileSearch } = useGetProfile(profileHash);
 
   useEffect(() => {
+    console.log(profileHash);
+    profileSearch;
+
     if (!loading) {
       checkFriend();
     }

@@ -113,7 +113,11 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   ) : (
     <S.Usersearch>
       <div className="user-wrapper">
-        <Link href={`/profile/${profileHash}`} onClick={handleClose} passHref>
+        <Link
+          href={`/profile?pId=${profileHash}`}
+          onClick={handleClose}
+          passHref
+        >
           <div className="image-wrapper">
             <Image src={avatar} width={40} height={40} alt={name} />
           </div>

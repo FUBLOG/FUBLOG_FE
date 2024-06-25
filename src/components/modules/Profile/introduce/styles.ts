@@ -1,4 +1,4 @@
-// Profile/Introduce/styles.ts
+
 import styled from "styled-components";
 import { Flex } from "antd";
 

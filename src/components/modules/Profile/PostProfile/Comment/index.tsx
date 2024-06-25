@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import * as S from "../styles";
+import * as S from "../styles"
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, message } from "antd";

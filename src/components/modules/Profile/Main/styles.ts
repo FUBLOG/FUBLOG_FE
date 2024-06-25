@@ -1,4 +1,4 @@
-// Profile/styles.ts
+
 import styled from "styled-components";
 import { Flex } from "antd";
 
@@ -28,7 +28,7 @@ export const Main = styled(Flex)`
 
 export const Sidebar = styled(Flex)`
   flex-direction: column;
-  width: 30%; /* Chỉnh chiều rộng của Sidebar */
+  width: 30%; 
   background-color: #352f44;
   padding: 20px;
   gap: 20px;
@@ -36,7 +36,7 @@ export const Sidebar = styled(Flex)`
 
 export const Content = styled(Flex)`
   flex-direction: column;
-  width: 75%; /* Chỉnh chiều rộng của Content */
+  width: 75%; 
   background-color: #352f44;
   padding: 20px;
   gap: 20px;

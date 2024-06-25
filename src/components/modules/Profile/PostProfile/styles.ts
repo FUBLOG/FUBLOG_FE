@@ -1,4 +1,4 @@
-// Profile/PostProfile/styles.ts
+
 import styled from "styled-components";
 import { Flex, Modal,Menu } from "antd";
 

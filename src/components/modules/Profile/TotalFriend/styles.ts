@@ -1,4 +1,4 @@
-// Profile/TotalFriend/styles.ts
+
 import styled from "styled-components";
 import Typography from "@/components/core/common/Typography";
 
@@ -14,7 +14,7 @@ export const ModalContent = styled.div`
 
 export const FriendsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 2fr); /* Để một cột, sau đó chia cột với CSS */
+  grid-template-columns: repeat(2, 2fr); 
   gap: 10px;
   width: 100%;
   padding: 10px 0;

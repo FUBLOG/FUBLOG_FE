@@ -1,16 +1,9 @@
 import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
-export const PostWrapper = styled.div`
-  box-sizing: border-box;
-  margin: 20px 0;
-  padding: 24px;
-  max-width: 700px;
-  width: 100%;
-  border: 1.5px solid #ccc;
-  border-radius: 30px;
-  background-color: transparent;
-`;
+interface PostWrapperProps {
+  showComments: boolean;
+}
 export const ContentWrapper = styled(Flex)`
   align-items: flex-start;
   padding: 0 20px;
@@ -294,4 +287,37 @@ export const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   padding-top: 5px;
+`;
+
+
+
+
+
+interface PostWrapperProps {
+  showComments: boolean;
+}
+
+export const PostWrapper = styled.div<PostWrapperProps>`
+  display: flex;
+  flex-direction: ${({ showComments }) => (showComments ? "row" : "column")};
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 24px;
+  max-width: 700px;
+  width: 100%;
+  border: 1.5px solid #ccc;
+  border-radius: 30px;
+  background-color: transparent;
+`;
+
+export const PostContentWrapper = styled.div`
+  flex: 1;
+`;
+
+export const CommentsSection = styled.div`
+  flex: 1;
+  max-width: 400px;
+  overflow-y: auto;
+  background-color: #faf0e6;
+  border-left: 1.5px solid #ccc;
 `;

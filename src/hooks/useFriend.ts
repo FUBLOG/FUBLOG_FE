@@ -8,7 +8,7 @@ import { useAuth } from "./useAuthStatus";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const useFriend = (profileHash: string) => {
+const useFriend = (profileHash: any) => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);

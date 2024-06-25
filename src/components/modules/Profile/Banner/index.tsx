@@ -16,7 +16,7 @@ import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
 
 interface BannerProps {
-  profileHash: string;
+  profileHash: any;
 }
 
 const Banner: React.FC<BannerProps> = ({ profileHash }) => {

@@ -9,12 +9,15 @@ import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
+import { useSearchParams } from "next/navigation";
 
-interface ProfileProps {
-  profileHash: string;
-}
+// interface ProfileProps {
+//   profileHash: string;
+// }
 
-const Profile: React.FC<ProfileProps> = ({ profileHash }) => {
+const Profile = () => {
+  const searchParams = useSearchParams();
+  const profileHash = searchParams.get("pId");
   const { loading } = useAuth();
   const { checkFriend } = useFriend(profileHash);
 

@@ -36,16 +36,21 @@ const NotificationTab = ({ onclose }: any) => {
 
   const handleAllMarkRead = async () => {
     try {
-      await markAllNotificationsAsRead();
-      setLocalNotifications((prevNotifications) =>
-        prevNotifications.map((notification) => ({
-          ...notification,
-          isRead: true,
-        }))
-      );
-    } catch (error) {
-      console.error("Error ", error);
-    }
+      await markAllNotificationsAsRead()
+        .then((res) => {
+          console.log("resAll noti", res);
+
+          setLocalNotifications((prevNotifications) =>
+            prevNotifications.map((notification) => ({
+              ...notification,
+              isRead: true,
+            }))
+          );
+          setNotifications(localNotifications);
+          console.log("localNotifications", localNotifications);
+        })
+        .catch((error) => console.log("error nè", error));
+    } catch (error) {}
   };
   function handleClick() {
     onclose();
@@ -58,7 +63,7 @@ const NotificationTab = ({ onclose }: any) => {
         <Button
           type="primary"
           icon={<CheckOutlined />}
-          onClick={handleAllMarkRead}
+          onClick={() => handleAllMarkRead()}
         >
           Đánh dấu tất cả đã đọc
         </Button>

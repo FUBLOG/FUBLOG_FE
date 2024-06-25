@@ -122,7 +122,9 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
+        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+          Chỉnh sửa trang cá nhân
+        </Link>
       </Menu.Item>
       <Menu.Item
         key="logout"

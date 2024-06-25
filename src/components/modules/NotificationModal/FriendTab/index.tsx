@@ -7,8 +7,12 @@ import {
   acceptFriendRequest,
   rejectFriendRequest,
 } from "@/services/api/friend";
+import Link from "next/link";
 
-const FriendTab = () => {
+const FriendTab = ({ onclose }: any) => {
+  function handleClick() {
+    onclose();
+  }
   const { loading, friendRequest } = useGetFriendRequest();
   const [acceptList, setAcceptList] = useState<any>([]);
   const { setFriendRequest } = useNotification();
@@ -28,23 +32,26 @@ const FriendTab = () => {
   const handleAccept = async (requestId: any, event: any, index: number) => {
     setLoadingButton(index);
     event.stopPropagation();
-    const res: any = await acceptFriendRequest(requestId);
-    setLoadingButton(index);
-    setAcceptList([...acceptList, requestId]);
-    const newLists = friendRequest.map((item: any) => {
-      if (item.sourceID._id === requestId) {
-        return {
-          ...item,
-          title: `Bạn và ${item?.sourceID?.displayName} đã là bạn bè`,
-        };
-      }
-      return item;
-    });
-    setFriendRequest(newLists);
+    await acceptFriendRequest(requestId)
+      .then(() => {
+        setLoadingButton(index);
+        setAcceptList([...acceptList, requestId]);
+        const newLists = friendRequest.map((item: any) => {
+          if (item.sourceID._id === requestId) {
+            return {
+              ...item,
+              title: `Bạn và ${item?.sourceID?.displayName} đã là bạn bè`,
+            };
+          }
+          return item;
+        });
+        setFriendRequest(newLists);
+      })
+      .catch((err) => {});
   };
   const handleReject = async (requestId: number, event: React.MouseEvent) => {
     event.stopPropagation();
-    const res: any = await rejectFriendRequest({ targetID: requestId });
+    await rejectFriendRequest({ targetID: requestId });
     const newLists = friendRequest.filter(
       (item: any) => item.sourceID._id !== requestId
     );
@@ -58,20 +65,21 @@ const FriendTab = () => {
       itemLayout="horizontal"
       dataSource={friendRequest}
       renderItem={(item: any, index) => (
-        <List.Item
-          key={item?._id}
-          className="friend-item"
-          onClick={() => (window.location.href = item?.link)}
-        >
+        <List.Item key={item?._id} className="friend-item">
           <List.Item.Meta
             avatar={
-              <Avatar
-                src={
-                  item?.sourceID?.userInfo?.avatar === ""
-                    ? "./default-avatar.png"
-                    : item?.sourceID?.userInfo?.avatar
-                }
-              />
+              <Link
+                onClick={handleClick}
+                href={`/profile?pId=${item?.sourceID?.profileHash}`}
+              >
+                <Avatar
+                  src={
+                    item?.sourceID?.userInfo?.avatar === ""
+                      ? "./default-avatar.png"
+                      : item?.sourceID?.userInfo?.avatar
+                  }
+                />
+              </Link>
             }
             title={<span>{item.title}</span>}
             description={

@@ -7,7 +7,7 @@
  */
 const nextConfig = {
   /* config options here */
-  // output: 'export', // force app to be static -> full ssr
+  output: 'export', // force app to be static -> full ssr
 
   // Optional: Change links /me -> /me/ and emit /me.html -> /me/index.html
   // trailingSlash: true,

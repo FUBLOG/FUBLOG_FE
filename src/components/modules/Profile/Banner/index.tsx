@@ -68,23 +68,23 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
       case "unfriend":
         await unfriend(profileSearch?.user?._id);
         resetStatus();
+        setIsSendFriend(false);
         break;
       case "decline":
         await rejectFriendRequest(profileSearch?.user?._id);
         resetStatus();
+        setIsSendFriend(false);
         break;
       case "accept":
         await acceptFriendRequest(profileSearch?.user?._id);
         resetStatus();
         setIsFriend(true);
         break;
-
       case "unsent":
         await unsentFriend(profileSearch?.user?._id);
         resetStatus();
         setIsFriend(false);
         break;
-
       default:
         break;
     }

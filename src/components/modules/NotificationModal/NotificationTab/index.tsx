@@ -9,6 +9,7 @@ import {
 } from "@/services/api/notification";
 import * as S from "../style";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const NotificationTab = ({ onclose }: any) => {
   const { loading, notifications, setNotifications } = useGetNotification();
@@ -17,10 +18,11 @@ const NotificationTab = ({ onclose }: any) => {
   useEffect(() => {
     setLocalNotifications(notifications);
   }, [notifications]);
-
+  const router = useRouter();
   const handleMarkRead = async (notificationId: string) => {
     try {
       await markNotificationAsRead(notificationId);
+      router.refresh();
       setLocalNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>
           notification._id === notificationId
@@ -30,6 +32,7 @@ const NotificationTab = ({ onclose }: any) => {
       );
       setNotifications(localNotifications);
     } catch (error) {
+      router.refresh();
       console.error("Error ", error);
     }
   };
@@ -39,6 +42,7 @@ const NotificationTab = ({ onclose }: any) => {
       await markAllNotificationsAsRead()
         .then((res) => {
           console.log("resAll noti", res);
+          router.refresh();
 
           setLocalNotifications((prevNotifications) =>
             prevNotifications.map((notification) => ({
@@ -49,7 +53,7 @@ const NotificationTab = ({ onclose }: any) => {
           setNotifications(localNotifications);
           console.log("localNotifications", localNotifications);
         })
-        .catch((error) => console.log("error nè", error));
+        .catch((error) => router.refresh());
     } catch (error) {}
   };
   function handleClick() {

@@ -76,7 +76,7 @@ const Post = ({ newfeed }: PostProps) => {
             </Typography>
           </S.UserInfo>
           <ExclamationCircleOutlined
-            style={{ color: "#FAF0E6", cursor: "pointer"}}
+            style={{ color: "#FAF0E6", cursor: "pointer"} }
           />
         </S.PostHeader>
 

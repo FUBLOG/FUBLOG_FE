@@ -236,7 +236,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
                 overlay={renderCommentMenu(comment)}
                 trigger={["click"]}
               >
-                <EllipsisOutlined style={{ cursor: "pointer" }} />
+                <EllipsisOutlined style={{ cursor: "pointer", margin:"10px" }} />
               </Dropdown>
             </S.CommentHeader>
             {editMode === comment._id ? (
@@ -321,14 +321,14 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   width={800}
 >
   <S.PostContentWrapper>
-    <S.PostHeader>
+    <S.PostHeaderModal>
       <S.Avatar
         src={newfeed?.userId?.userInfo?.avatar}
         alt={`${newfeed?.userId?.displayName}'s avatar`}
       />
       <S.UserName>{newfeed?.userId?.displayName}</S.UserName>
-    </S.PostHeader>
-    <Typography variant="caption-small" color="#352f44" fontSize="14px" lineHeight="2">
+    </S.PostHeaderModal>
+    <Typography variant="caption-small" color="#352f44" fontSize="16px" lineHeight="2" margin="5px 20px" >
       {newfeed?.post?.postContent}
     </Typography>
 
@@ -337,7 +337,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
         <img
           src={newfeed?.post?.postLinkToImages[0]}
           alt="Post Image"
-          className="post-image"
+          className="post-image image-modal"
         />
       </S.ImagesWrapper>
     )}
@@ -345,7 +345,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       <S.ImagesWrapper2>
         <Carousel arrows={true}>
           {newfeed?.post?.postLinkToImages.map((src: any) => (
-            <img key={src} src={src} alt="Post Image" className="post-image" />
+            <img key={src} src={src} alt="Post Image" className="post-image image-modal" />
           ))}
         </Carousel>
       </S.ImagesWrapper2>

@@ -48,7 +48,7 @@ export const ImagesWrapper = styled(Flex)`
   }
 .image-modal{
   width: 100%;
-  height:200px;
+  height:300px;
 
 }
 `;
@@ -56,8 +56,13 @@ export const ImagesWrapper = styled(Flex)`
 
 export const PostHeader = styled(Flex)`
   align-items: center;
-  gap: 10px;
+  gap: 2px;
   justify-content: space-between;
+`;
+export const PostHeaderModal = styled(Flex)`
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-start;
 `;
 
 export const UserInfo = styled(Flex)`
@@ -288,20 +293,14 @@ export const Comment = styled.div`
   padding-bottom: 10px;
 `;
 
-export const CommentHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
+
 
 export const CommentUser = styled.span`
   margin-left: 10px;
   font-weight: bold;
 `;
 
-export const CommentContent = styled.div`
-  padding: 5px 0;
-`;
+
 
 export const Divider = styled.div`
   height: 1px;
@@ -325,6 +324,7 @@ export const CustomModal = styled(Modal)`
   .ant-modal-title {
     color: #352f44;
     text-align: center;
+    font-size: 22px !important;
   }
   .ant-btn-primary {
     background-color: #5c5470 !important;
@@ -353,7 +353,8 @@ export const CustomModal = styled(Modal)`
 
 
 export const PostContentWrapper = styled.div`
-  padding: 20px;
+  
+  padding: 20px 20px 20px 60px; 
   border-bottom: 1px solid #ccc;
 `;
 
@@ -370,7 +371,7 @@ export const CommentBox = styled.div`
   width: 100%; /* Chiếm toàn bộ chiều rộng */
   background-color: #faf0e6;
   padding: 10px;
-  border-top: 1px solid #ccc;
+  border-top: 2px solid #ccc;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -383,4 +384,17 @@ export const UserName = styled.span`
   margin-left: 10px;
   color: #352f44;
   font-size: 18px;
+  display: flex;
+  justify-content: flex-start;
+`;
+export const CommentHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+ 
+  width: 100%;
+`;
+
+export const CommentContent = styled.div`
+  padding: 5px 0 5px 40px; /* Thụt vào để ngang hàng với tên người dùng */
 `;

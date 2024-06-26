@@ -13,12 +13,12 @@ const MessageList = () => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, userInfo?._id]);
+  }, [messages, userInfo?.userId]);
 
   return (
     <S.MessagesList>
       {messages.map((message) => {
-        let isOwnMessage = message?.senderId === userInfo?._id;
+        let isOwnMessage = message?.senderId === userInfo?.userId;
 
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>

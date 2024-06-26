@@ -22,10 +22,10 @@ interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
   readonly setFormData: Dispatch<SetStateAction<any>>;
   readonly formData: any;
+  readonly setEmail: Dispatch<SetStateAction<string>>;
 }
 function FormSignUp(props: PageProps) {
   const modalState = useModal();
-
   const [sex, setSex] = useState("Nam");
   const items: MenuProps["items"] = [
     {
@@ -74,6 +74,7 @@ function FormSignUp(props: PageProps) {
 
   const onFinish = async (values: any) => {
     try {
+      props.setEmail(values?.email);
       const data = {
         firstName: values?.firstName!,
         lastName: values?.lastName!,
@@ -173,10 +174,6 @@ function FormSignUp(props: PageProps) {
               <FormItem
                 name="dateOfBirth"
                 rules={[
-                  {
-                    required: true,
-                    message: "Vui lòng nhập ngày tháng năm sinh",
-                  },
                   {
                     validator: validateAge,
                   },

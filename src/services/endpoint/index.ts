@@ -12,6 +12,7 @@ const authEndpoint = {
 const userEndpoint = {
   USER_MESSAGES: `/user/getUserMessages`,
   GET_CONVERSATION: `/conversation/`,
+  CHANGE_PASSWORD: `/access/changePassword`,
 };
 const messageEndpoint = {
   GET_MESSAGE: `/message/`,

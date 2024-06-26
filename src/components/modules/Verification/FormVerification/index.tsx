@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Statistic, message } from "antd";
+import { Spin, Statistic, message } from "antd";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,8 @@ interface PageProps {
 }
 
 function FormVerification(props: PageProps) {
+  const [loading, setLoading] = useState(false);
+
   const handleClick = () => {
     props.setStatus("forgot");
   };
@@ -58,6 +60,7 @@ function FormVerification(props: PageProps) {
   };
 
   const resend = async () => {
+    setLoading(true);
     setFinish(false);
     setTargetTime(Date.now() + 60 * 1000);
     try {
@@ -69,86 +72,90 @@ function FormVerification(props: PageProps) {
       });
       props.setStatus("verification");
     } catch (error) {}
+    setLoading(false);
   };
   return (
-    <S.HomeWrapper>
-      <Typography
-        variant="h1"
-        color="#B9B4C7"
-        fontSize="x-large"
-        align="center"
-      >
-        QUÊN MẬT KHẨU
-      </Typography>
-      <S.Infor>
-        <Image src={verImg} alt="logo verification" />
+    <>
+      <Spin spinning={loading} fullscreen></Spin>
+      <S.HomeWrapper>
+        <Typography
+          variant="h1"
+          color="#B9B4C7"
+          fontSize="x-large"
+          align="center"
+        >
+          QUÊN MẬT KHẨU
+        </Typography>
+        <S.Infor>
+          <Image src={verImg} alt="logo verification" />
+          <Typography
+            style="italic"
+            variant="body-text-small-normal"
+            color="#B9B4C7"
+            fontSize="xx-small"
+          >
+            Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui
+            lòng kiểm tra hộp thư đến và nhấn xác nhận theo hướng dẫn.
+          </Typography>
+        </S.Infor>
         <Typography
           style="italic"
           variant="body-text-small-normal"
           color="#B9B4C7"
           fontSize="xx-small"
+          margin="30px 0px 0px 0px"
         >
-          Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui lòng
-          kiểm tra hộp thư đến và nhấn xác nhận theo hướng dẫn.
+          Không nhận được mail xác nhận? {finish === true ? "" : "Gửi lại sau"}
         </Typography>
-      </S.Infor>
-      <Typography
-        style="italic"
-        variant="body-text-small-normal"
-        color="#B9B4C7"
-        fontSize="xx-small"
-        margin="30px 0px 0px 0px"
-      >
-        Không nhận được mail xác nhận? {finish === true ? "" : "Gửi lại sau"}
-      </Typography>
-      {finish === true ? (
-        <>
-          <Button
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
-            $width={"100px"}
-            $margin="10px 0px"
-            onClick={resend}
-          >
-            GỬI LẠI
-          </Button>
-          <Link href="/verification">
-            <S.Typography
-              style={{
-                justifyContent: "center",
-                margin: "0px 0px 10px 0px",
-                color: "#B9B4C7",
-              }}
+        {finish === true ? (
+          <>
+            <Button
+              className="ButtonWrapper"
+              type="default"
+              $backgroundColor="#FAF0E6"
+              $width={"100px"}
+              $margin="10px 0px"
+              onClick={resend}
             >
-              <Button
-                className="ButtonWrapper"
-                type="default"
-                $backgroundColor="#B9B4C7"
-                onClick={handleClick}
+              GỬI LẠI
+            </Button>
+            <Link href="/verification">
+              <S.Typography
+                style={{
+                  justifyContent: "center",
+                  margin: "0px 0px 10px 0px",
+                  color: "#B9B4C7",
+                }}
               >
-                <ArrowLeftOutlined style={{ fontSize: "10px" }} />
-              </Button>
-              <Typography
-                style="italic"
-                variant="body-text-normal"
-                color="#B9B4C7"
-                fontSize="xx-small"
-              >
-                Thay đổi email
-              </Typography>
-            </S.Typography>
-          </Link>
-        </>
-      ) : (
-        <Countdown
-          onFinish={onFinish}
-          className="countdown-item"
-          format="mm:ss"
-          value={targetTime}
-        />
-      )}
-    </S.HomeWrapper>
+                <Button
+                  className="ButtonWrapper"
+                  type="default"
+                  $backgroundColor="#B9B4C7"
+                  onClick={handleClick}
+                >
+                  <ArrowLeftOutlined style={{ fontSize: "10px" }} />
+                </Button>
+                <Typography
+                  style="italic"
+                  variant="body-text-normal"
+                  color="#B9B4C7"
+                  fontSize="xx-small"
+                >
+                  Thay đổi email
+                </Typography>
+              </S.Typography>
+            </Link>
+          </>
+        ) : (
+          <Countdown
+            onFinish={onFinish}
+            className="countdown-item"
+            format="mm:ss"
+            value={targetTime}
+          />
+        )}
+      </S.HomeWrapper>
+    </>
   );
 }
 

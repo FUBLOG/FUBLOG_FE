@@ -1,8 +1,8 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
-import { Form } from "antd";
+import { Form, Spin } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Image from "next/legacy/image";
 import Link from "next/link";
@@ -23,7 +23,9 @@ interface PageProps {
 }
 
 function FormForgot({ setStatus, setEmail }: PageProps) {
+  const [loading, setLoading] = useState(false);
   const onFinish = async (values: any) => {
+    setLoading(true);
     const data = {
       email: values?.email!,
     };
@@ -35,105 +37,109 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
         setStatus("verification");
       })
       .catch(() => {});
+    setLoading(false);
   };
   const [form] = Form.useForm();
   return (
-    <S.HomeWrapper>
-      <Typography
-        variant="h1"
-        color="#B9B4C7"
-        fontSize="x-large"
-        align="center"
-      >
-        QUÊN MẬT KHẨU
-      </Typography>
-      <S.Infor>
-        <Image src={verImg} alt="logo verification" />
+    <>
+      <Spin spinning={loading} fullscreen></Spin>
+      <S.HomeWrapper>
         <Typography
-          style="italic"
-          variant="body-text-small-normal"
+          variant="h1"
           color="#B9B4C7"
-          fontSize="xx-small"
+          fontSize="x-large"
+          align="center"
         >
-          Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một mail
-          để bạn xác thực người dùng.
+          QUÊN MẬT KHẨU
         </Typography>
-      </S.Infor>
-      <Form
-        form={form}
-        onFinish={onFinish}
-        style={{ width: "100%" }}
-        name="basic"
-        initialValues={{ remember: true }}
-        autoComplete="off"
-      >
-        <FormItem
-          name="email"
-          rules={[{ required: true, message: "Vui lòng nhập email" }]}
-        >
-          <Input
-            placeholder="Nhập email"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Email"
-          />
-        </FormItem>
-        <Link href="/sign-in">
-          <S.Typography
-            style={{
-              justifyContent: "left",
-              margin: "0px 0px 10px 0px",
-              color: "#B9B4C7",
-            }}
-          >
-            <Button
-              className="ButtonWrapper"
-              type="default"
-              $backgroundColor="#B9B4C7"
-            >
-              <ArrowLeftOutlined style={{ fontSize: "10px" }} />
-            </Button>
-            Quay lại đăng nhập
-          </S.Typography>
-        </Link>
-        <FormItem
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            htmlType="submit"
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
-            $width={"100px"}
-          >
-            GỬI
-          </Button>
-        </FormItem>
-        <S.Typography>
+        <S.Infor>
+          <Image src={verImg} alt="logo verification" />
           <Typography
+            style="italic"
             variant="body-text-small-normal"
             color="#B9B4C7"
             fontSize="xx-small"
           >
-            Tạo tài khoản mới?
+            Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một
+            mail để bạn xác thực người dùng.
           </Typography>
-          <Link href="/sign-up">
+        </S.Infor>
+        <Form
+          form={form}
+          onFinish={onFinish}
+          style={{ width: "100%" }}
+          name="basic"
+          initialValues={{ remember: true }}
+          autoComplete="off"
+        >
+          <FormItem
+            name="email"
+            rules={[{ required: true, message: "Vui lòng nhập email" }]}
+          >
+            <Input
+              placeholder="Nhập email"
+              prefix={<UserOutlined />}
+              isRequired
+              label="Email"
+            />
+          </FormItem>
+          <Link href="/sign-in">
+            <S.Typography
+              style={{
+                justifyContent: "left",
+                margin: "0px 0px 10px 0px",
+                color: "#B9B4C7",
+              }}
+            >
+              <Button
+                className="ButtonWrapper"
+                type="default"
+                $backgroundColor="#B9B4C7"
+              >
+                <ArrowLeftOutlined style={{ fontSize: "10px" }} />
+              </Button>
+              Quay lại đăng nhập
+            </S.Typography>
+          </Link>
+          <FormItem
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              htmlType="submit"
+              className="ButtonWrapper"
+              type="default"
+              $backgroundColor="#FAF0E6"
+              $width={"100px"}
+            >
+              GỬI
+            </Button>
+          </FormItem>
+          <S.Typography>
             <Typography
-              variant="caption-small"
+              variant="body-text-small-normal"
               color="#B9B4C7"
               fontSize="xx-small"
-              textDecoration="underline"
             >
-              Đăng ký
+              Tạo tài khoản mới?
             </Typography>
-          </Link>
-        </S.Typography>
-      </Form>
-    </S.HomeWrapper>
+            <Link href="/sign-up">
+              <Typography
+                variant="caption-small"
+                color="#B9B4C7"
+                fontSize="xx-small"
+                textDecoration="underline"
+              >
+                Đăng ký
+              </Typography>
+            </Link>
+          </S.Typography>
+        </Form>
+      </S.HomeWrapper>
+    </>
   );
 }
 

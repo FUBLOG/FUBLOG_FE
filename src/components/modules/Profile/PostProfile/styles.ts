@@ -8,7 +8,7 @@ export const PostWrapper = styled.div`
   padding: 24px;
   max-width: 620px;
   width: 100%;
-  border: 1.5px solid #ccc;
+  border: 1.5px solid #fff;
   border-radius: 30px;
   background-color: transparent;
   margin-top:42px;

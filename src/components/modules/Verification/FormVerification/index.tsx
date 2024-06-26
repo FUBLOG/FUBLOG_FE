@@ -51,8 +51,8 @@ function FormVerification(props: PageProps) {
     };
   });
   const handleEmailVerify = async (...arg: any[]) => {
-    if (arg[0] === "Signup successfully") {
-      message.success("Xác thực thành công");
+    if (arg[0] === "Reset password successfully") {
+      message.success("Đặt lại mật khẩu thành công");
       router.push("/sign-in");
     }
   };

@@ -9,8 +9,10 @@ export const errorMessage: any = {
   "User is already friend": "Tài khoản đã kết bạn với người này",
   "Token is not found": "Mã xác thực đã hết hạn, vui lòng nhấn gửi lại",
   "User not found": "Email không tồn tại trong hệ thống",
-  "Wrong password": "Sai mật khẩu",
+  "Wrong password": "Sai mật khẩu cũ",
   "Duplicate password": "Mật khẩu đã trùng với mật khẩu trước",
   "Password not match":
+    "Mật khẩu được nhập lại không trùng khớp với mật khẩu mới",
+  "New Password not match":
     "Mật khẩu được nhập lại không trùng khớp với mật khẩu mới",
 };

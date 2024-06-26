@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined } from "@ant-design/icons";
-import { CheckboxProps, Form, message } from "antd";
+import { Form, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 import InputPassword from "@/components/core/common/form/InputPassword";
@@ -12,10 +12,12 @@ import * as S from "./styles";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 function FormReset() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const [_, setCountdown] = useState(3);
 
   async function onFinish(values: any): Promise<void> {
     const data = {
@@ -27,7 +29,16 @@ function FormReset() {
       data,
     }).then(() => {
       message.success("Đặt lại mật khẩu thành công");
-      window.location.href = "/sign-in";
+      const intervalId = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          message.info(`Trang xác thực sẽ đóng trong ${prevCountdown} giây.`);
+          if (prevCountdown < 1) {
+            window.close();
+            clearInterval(intervalId);
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
     });
   }
 

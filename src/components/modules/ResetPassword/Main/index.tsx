@@ -5,7 +5,7 @@ import FormReset from "../FormReset";
 
 import * as S from "./styles";
 
-function ResetPassword(otp: string) {
+function ResetPassword() {
   return (
     <S.HomeWrapper>
       <Intro />

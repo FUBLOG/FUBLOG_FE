@@ -48,7 +48,7 @@ export const ImagesWrapper = styled(Flex)`
   }
 .image-modal{
   width: 100%;
-  height:300px;
+  height:350px;
 
 }
 `;
@@ -128,24 +128,6 @@ export const ModalContent = styled.span`
 `;
 
 
-
-// export const CommentBox = styled(Flex)`
-//   flex-direction: column;
-//     align-items: flex-start;
-//     margin-top: 10px;
-//     flex-direction: column;
-//     align-items: flex-start;
-//     margin-top: 10px;
-//     align-items: flex-start;
-//     position: fixed;
-//     bottom: 55px;
-//     background-color: #faf0e6;
-//     width: 554px;
-//     padding: 8px 0;
-//     border-top: 1.4px solid #ccc;
-//     position: fixed;
-
-// `;
 
 
 
@@ -314,8 +296,8 @@ export const CustomModal = styled(Modal)`
     background-color: #faf0e6 !important;
     padding: 0;
     border-radius: 10px;
-    position: relative; /* Để CommentBox cố định trong modal */
-    overflow: hidden; /* Ẩn phần dư */
+    position: relative; 
+    overflow: hidden; 
   }
   .ant-modal-header {
     background-color: #faf0e6;
@@ -341,9 +323,9 @@ export const CustomModal = styled(Modal)`
     background: #faf0e6;
   }
   .ant-modal-body {
-    max-height: 70vh; /* Giới hạn chiều cao cho phần thân modal */
-    overflow-y: auto; /* Kích hoạt cuộn dọc khi nội dung vượt quá chiều cao */
-    padding-bottom: 100px; /* Tạo khoảng trống cho phần nhập bình luận cố định */
+    max-height: 70vh; 
+    overflow-y: auto; 
+    padding-bottom: 100px; 
   }
   .ant-modal {
     top: 10%;
@@ -366,16 +348,16 @@ export const CommentsWrapper = styled.div`
   padding: 10px;
 `;
 export const CommentBox = styled.div`
-  position: absolute; /* Cố định vị trí */
-  bottom: 0; /* Đặt ở dưới cùng */
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  position: absolute;
+  bottom: 0; 
+  width: 100%;
   background-color: #faf0e6;
   padding: 10px;
   border-top: 2px solid #ccc;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+  z-index: 1000; 
 `;
 
 
@@ -396,5 +378,5 @@ export const CommentHeader = styled.div`
 `;
 
 export const CommentContent = styled.div`
-  padding: 5px 0 5px 40px; /* Thụt vào để ngang hàng với tên người dùng */
+  padding: 5px 0 5px 40px; 
 `;

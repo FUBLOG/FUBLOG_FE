@@ -17,14 +17,14 @@ function Introduce() {
 
   return (
     <S.Wrapper>
-      <Typography variant="body-text-small-bold" fontSize="18px" color="#FAF0E6 !important">
+      <Typography variant="body-text-small-bold" fontSize="18px" color="#fff !important">
         Giới thiệu
       </Typography>
       <S.InfoContainer>
         <S.InfoItem>
           <Typography
             variant="body-text-small-bold"
-            color="#FAF0E6 !important"
+            color="#fff !important"
             fontSize="12px"
           >
             Tình trạng hôn nhân: {profileSearch.info.maritalStatus}
@@ -33,7 +33,7 @@ function Introduce() {
         <S.InfoItem>
           <Typography
             variant="caption-small"
-            color="#FAF0E6 !important"
+            color="#fff !important"
             fontSize="12px"
           >
             Công việc: {profileSearch.info.job}
@@ -42,7 +42,7 @@ function Introduce() {
         <S.InfoItem>
           <Typography
             variant="caption-small"
-            color="#FAF0E6 !important"
+            color="#fff !important"
             fontSize="12px"
           >
             Sống tại: {profileSearch.info.location}

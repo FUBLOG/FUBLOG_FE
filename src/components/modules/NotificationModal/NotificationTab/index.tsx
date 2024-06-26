@@ -41,7 +41,6 @@ const NotificationTab = ({ onclose }: any) => {
     try {
       await markAllNotificationsAsRead()
         .then((res) => {
-          console.log("resAll noti", res);
           router.refresh();
 
           setLocalNotifications((prevNotifications) =>
@@ -51,7 +50,6 @@ const NotificationTab = ({ onclose }: any) => {
             }))
           );
           setNotifications(localNotifications);
-          console.log("localNotifications", localNotifications);
         })
         .catch((error) => router.refresh());
     } catch (error) {}

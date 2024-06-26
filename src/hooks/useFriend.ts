@@ -44,7 +44,6 @@ const useFriend = (profileHash: any) => {
   };
   const checkRequest = async () => {
     const response = await getRequestFriend(profileSearch?.user?._id);
-    console.log("response check request", response);
 
     if (response?.metadata === null) {
       await checkIsFriend();

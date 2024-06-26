@@ -65,7 +65,6 @@ function FormSignUp(props: PageProps) {
     if (!value) {
       return Promise.reject(new Error("Vui lòng nhập ngày tháng năm sinh"));
     }
-    console.log(value.$y === 2024);
 
     if (2024 - value.$y < 16) {
       return Promise.reject(new Error("Bạn phải từ 16 tuổi trở lên!"));

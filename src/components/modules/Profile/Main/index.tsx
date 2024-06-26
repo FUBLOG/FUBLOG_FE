@@ -12,16 +12,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useGetProfile } from "@/hooks/useProfile";
 
 const Profile = () => {
-  // const pathName = usePathname();
-  // console.log(pathName);
-
   const searchParams = useSearchParams();
   const profileHash = searchParams.get("pId");
 
-  // if (pathName !== "/profile") {
-  //   const router = useRouter();
-  //   router.replace(`/profile?pId=${profileHash}`);
-  // }
   const { loading } = useAuth();
   const { checkFriend } = useFriend(profileHash);
   const { profileSearch } = useGetProfile(profileHash);

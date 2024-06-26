@@ -29,20 +29,21 @@ const TotalFriend: React.FC<TotalFriendProps> = ({ visible, onClose, friends, to
   };
 
   return (
-    <Modal
+    <S.CustomModal
       open={visible}
       onCancel={onClose}
       footer={null}
       width={600} 
       centered
+      
       bodyStyle={{ padding: 0 }}
     >
       <S.ModalContent>
         <Typography variant="h5" color="#352f44" align="center" fontSize="26px" >
           Tất cả bạn bè
         </Typography>
-        <Typography variant="h6" color="#352f44" align="center"  >
-          {totalFriends} bạn bè
+        <Typography variant="body-text-small-bold" color="#9b98af" align="center" fontSize="20px"  margin="0px" padding="0px" >
+          {totalFriends} Bạn bè
         </Typography>
         <S.FriendsGrid>
           {friends.map((friend) => (
@@ -51,10 +52,10 @@ const TotalFriend: React.FC<TotalFriendProps> = ({ visible, onClose, friends, to
                 <S.FriendAvatar src={friend.image} alt={friend.name} />
               </S.FriendImageContainer>
               <S.FriendInfo>
-                <S.FriendName variant="caption-normal">
+                <S.FriendName variant="caption-small" fontSize="14px" style="oblique" >
                   {friend.name}
                 </S.FriendName>
-                <S.FriendCount variant="caption-small">
+                <S.FriendCount variant="caption-small" style="italic">
                   {friend.friendCount} bạn bè
                 </S.FriendCount>
               </S.FriendInfo>
@@ -62,7 +63,7 @@ const TotalFriend: React.FC<TotalFriendProps> = ({ visible, onClose, friends, to
           ))}
         </S.FriendsGrid>
       </S.ModalContent>
-    </Modal>
+    </S.CustomModal>
   );
 };
 

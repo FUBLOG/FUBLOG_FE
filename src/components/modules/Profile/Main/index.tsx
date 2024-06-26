@@ -13,7 +13,6 @@ import { useSearchParams } from "next/navigation";
 const Profile = () => {
   const searchParams = useSearchParams();
   const profileHash = searchParams.get("pId");
-
   const { loading } = useAuth();
   const { checkFriend } = useFriend(profileHash);
 
@@ -21,6 +20,7 @@ const Profile = () => {
     const checkIsFriend = async () => {
       await checkFriend();
     };
+
     checkIsFriend();
   }, [profileHash, loading]);
 

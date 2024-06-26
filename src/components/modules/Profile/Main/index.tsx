@@ -1,4 +1,3 @@
-// Profile/index.tsx
 "use client";
 import useFriend from "@/hooks/useFriend";
 import { useEffect } from "react";
@@ -9,19 +8,20 @@ import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
+import { useSearchParams } from "next/navigation";
 
-interface ProfileProps {
-  profileHash: string;
-}
+const Profile = () => {
+  const searchParams = useSearchParams();
+  const profileHash = searchParams.get("pId");
 
-const Profile: React.FC<ProfileProps> = ({ profileHash }) => {
   const { loading } = useAuth();
   const { checkFriend } = useFriend(profileHash);
 
   useEffect(() => {
-    if (!loading) {
-      checkFriend();
-    }
+    const checkIsFriend = async () => {
+      await checkFriend();
+    };
+    checkIsFriend();
   }, [profileHash, loading]);
 
   return (

@@ -8,7 +8,7 @@ import { useAuth } from "./useAuthStatus";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const useFriend = (profileHash: string) => {
+const useFriend = (profileHash: any) => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
@@ -44,6 +44,7 @@ const useFriend = (profileHash: string) => {
   };
   const checkRequest = async () => {
     const response = await getRequestFriend(profileSearch?.user?._id);
+
     if (response?.metadata === null) {
       await checkIsFriend();
     } else {
@@ -57,7 +58,8 @@ const useFriend = (profileHash: string) => {
     }
     if (!(await checkIsGuest())) {
       if (userInfo?._id === profileSearch?.user?._id) {
-        setIsMyUser(true);
+        await setIsMyUser(true);
+        return;
       } else {
         await checkRequest();
       }

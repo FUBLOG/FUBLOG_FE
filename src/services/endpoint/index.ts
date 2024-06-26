@@ -5,8 +5,8 @@ const authEndpoint = {
   SIGN_UP: `/user/newUser`,
   VERIFY_TOKEN: `/access/verifyToken`,
   REFRESH_TOKEN: `/access/refreshToken`,
-  FORGOT_PASSWORD: `/auth/forgot-password`,
-  RESET_PASSWORD: `/auth/reset-password-with-otp-code`,
+  FORGOT_PASSWORD: `/auth/forgotPassword`,
+  RESET_PASSWORD: `/auth/resetPassword`,
   AUTH_TOKEN: `/auth/checkToken`,
 };
 const userEndpoint = {
@@ -60,7 +60,7 @@ const commentEndpoint = {
   POST_COMMENT: `/comment/addComment`,
   DELETE_COMMENT: `/comment/deleteComment`,
   EDIT_COMMENT: `/comment/updateComments`,
-}
+};
 //export endpoint
 export {
   profileEndpoint,
@@ -73,5 +73,5 @@ export {
   postEndpoint,
   friendEndpoint,
   notificationEndpoint,
-  commentEndpoint
+  commentEndpoint,
 };

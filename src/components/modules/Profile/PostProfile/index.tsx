@@ -1,11 +1,10 @@
-// Profile/PostProfile/index.tsx
 import React, { useState } from "react";
 import { Dropdown, Menu, message, Radio } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
-  EllipsisOutlined, // Thêm icon ba chấm
+  EllipsisOutlined,
   TagOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";

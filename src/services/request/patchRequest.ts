@@ -1,14 +1,14 @@
-import axiosInstance from "../base/axiosInstance";
+import { message } from "antd";
 import { RequestOptionsInterface } from "@/model/requestOptions";
 import webStorageClient from "@/utils/webStorageClient";
-import { message } from "antd";
+import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const getRequest = async (
+const patchRequest = async (
   url: string,
   options?: RequestOptionsInterface,
-  formData?: boolean
+  fomrData?: boolean
 ) => {
   const isSecurity = options?.security || false;
 
@@ -21,24 +21,19 @@ const getRequest = async (
     };
   }
 
-  const params = options?.params;
-
+  const data = options?.data;
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
-    "Content-Type": formData ? "multipart/form-data" : "application/json",
+    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
     ...header,
   };
 
   if (tokenClient) headers.Authorization = `Bearer ${tokenClient}`;
 
   return axiosInstance
-    .get(url, {
-      params: {
-        ...params,
-      },
-      headers: {
-        ...headers,
-      },
+    .patch(url, data, {
+      headers: headers,
+      withCredentials: true,
     })
     .then((res: any) => {
       if (res?.statusCode >= 400 || res?.code >= 400) {
@@ -53,4 +48,4 @@ const getRequest = async (
     });
 };
 
-export { getRequest };
+export { patchRequest };

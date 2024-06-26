@@ -1,21 +1,38 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const NotificationContainer = styled.div`
   padding: 5px;
 
   .custom-tabs .ant-tabs-nav .ant-tabs-tab {
-    color: #352F44;
+    color: #352f44;
     font-size: 20px;
     font-weight: bold;
   }
 
   .custom-tabs .ant-tabs-nav .ant-tabs-tab-active {
-    color: #352F44 !important; 
+    color: #352f44 !important;
   }
 
-  .notification-item:hover, .friend-item:hover {
-    background-color: #B9B4C7; 
+  .notification-item:hover,
+  .friend-item:hover {
+    background-color: #b9b4c7;
     cursor: pointer;
+  }
+  .notification-item,
+  .friend-item {
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: transparent;
+  }
+
+  .notification-unread .ant-list-item-meta span {
+    font-weight: bold;
+  }
+
+  .notification-read .ant-list-item-meta span {
+    font-weight: normal;
   }
 `;
 
@@ -43,16 +60,16 @@ export const TabContent = styled.div`
   }
 
   button {
-    background-color: #5C5470;
+    background-color: #5c5470;
     border: none;
-    color: #FAF0E6;
+    color: #faf0e6;
     padding: 8px 16px; /* Tăng kích thước của nút */
     cursor: pointer;
     border-radius: 4px;
     margin-right: 8px;
 
     &:hover {
-      background-color: #352F44;
+      background-color: #352f44;
     }
 
     &:last-child {
@@ -64,4 +81,13 @@ export const TabContent = styled.div`
 export const ActionButtons = styled.div`
   display: flex;
   gap: 10px;
+  justify-content: flex-end;
+  padding-top: 10px;
+  margin-top: 16px;
+`;
+export const MarkButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 16px;
+  margin-bottom: 10px;
 `;

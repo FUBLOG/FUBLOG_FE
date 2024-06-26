@@ -28,7 +28,7 @@ const Welcome = () => {
   useEffect(() => {
     handleVerify();
   });
-  return <></>;
+  return <>Hello verification</>;
 };
 
 export default Welcome;

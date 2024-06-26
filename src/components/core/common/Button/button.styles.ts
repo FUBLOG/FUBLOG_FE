@@ -8,7 +8,7 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
   justify-content: center;
   align-items: center;
 
-  padding: 8px 10px !important;
+  padding: 8px 10px;
   gap: 8px;
   color: ${(props) =>
     props?.$color || props?.theme?.colors?.primary} !important;

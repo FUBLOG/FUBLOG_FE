@@ -34,11 +34,11 @@ function ListFriend() {
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="caption-small" fontSize="18px"  color="#FAF0E6   !important">
+        <Typography variant="caption-small" fontSize="18px"  color="#fff   !important">
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
-          <Typography variant="body-text-small-bold" color="#B9B4C7"  style="oblique" margin="0px 34px" fontSize="14px"> 
+          <Typography variant="body-text-small-bold" color="#fff"  style="oblique" margin="0px 34px" fontSize="14px"> 
             Xem tất cả bạn bè
           </Typography>
         </S.ViewAllButton>

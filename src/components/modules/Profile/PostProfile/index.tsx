@@ -107,7 +107,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
             />
             <Typography
               variant="body-text-small-bold"
-              color="#B9B4C7"
+              color="#fff"
               fontSize="16px"
             >
               {data.userId.displayName}
@@ -124,9 +124,10 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
         <S.ContentWrapper>
           <Typography
             variant="caption-small"
-            color="#B9B4C7"
+            color="#fff"
             fontSize="14px"
             lineHeight="2"
+            margin="0px 20px"
           >
             {data.post.postContent}
           </Typography>

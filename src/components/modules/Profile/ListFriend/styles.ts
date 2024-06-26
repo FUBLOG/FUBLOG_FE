@@ -16,11 +16,11 @@ export const Title = styled(Flex)`
 
 export const ViewAllButton = styled.div`
   cursor: pointer;
-  color: #b9b4c7;
+  color: #fff;
 
   &:hover {
     text-decoration: underline;
-    text-decoration-color: #b9b4c7;
+    text-decoration-color: #fff;
   }
 `;
 

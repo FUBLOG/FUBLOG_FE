@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import { Flex } from "antd";
 import Typography from "@/components/core/common/Typography";
@@ -16,19 +15,19 @@ export const Title = styled(Flex)`
 `;
 
 export const ViewAllButton = styled.div`
- cursor: pointer;
-  color: #b9b4c7; 
-  
+  cursor: pointer;
+  color: #b9b4c7;
+
   &:hover {
     text-decoration: underline;
-    text-decoration-color: #b9b4c7; 
+    text-decoration-color: #b9b4c7;
   }
 `;
 
 export const FriendContainer = styled(Flex)`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;  
+  gap: 10px;
   padding: 5px;
   background-color: transparent;
 `;
@@ -37,7 +36,7 @@ export const Friend = styled(Flex)`
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  width: 80px; 
+  width: 80px;
 `;
 
 export const FriendImageContainer = styled.div`
@@ -51,5 +50,5 @@ export const FriendName = styled(Typography)`
   color: #faf0e6;
   font-weight: normal;
   text-align: center;
-  font-size: 12px; 
+  font-size: 12px;
 `;

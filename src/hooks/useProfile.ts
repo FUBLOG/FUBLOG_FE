@@ -17,7 +17,7 @@ export const useProfile = create<ProfileProps>((set) => ({
   setProfile: (value) => set({ profile: value }),
 }));
 
-export const useGetProfile = (profileHash: string) => {
+export const useGetProfile = (profileHash: any) => {
   const [loading, setLoading] = useState(false);
   const { setProfile, setProfileHash, profile } = useProfile();
   const [profileSearch, setProfileSearch] = useState<any>();
@@ -44,7 +44,7 @@ export const useGetProfile = (profileHash: string) => {
       return null;
     };
     getUserInfo(profileHash);
-  }, []);
+  }, [profileHash]);
 
   return { profile, setProfile, profileSearch };
 };

@@ -75,34 +75,36 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   const handleFriend = async (event: string): Promise<void> => {
     switch (event) {
       case "addFriend":
-        await sendFriendRequest(id);
-        resetStatus();
-        setIsSendFriend(true);
+        await sendFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsSendFriend(true);
         break;
       case "unfriend":
-        await unfriend(id);
-        resetStatus();
+        await unfriend(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(false);
+
         break;
       case "decline":
-        await rejectFriendRequest(id);
-        resetStatus();
+        await rejectFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsSendFriend(false);
         break;
       case "accept":
-        await acceptFriendRequest(id);
-        resetStatus();
-        setIsFriend(true);
+        await acceptFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(true);
         break;
-
       case "unsent":
-        await unsentFriend(id);
-        resetStatus();
-        setIsFriend(false);
+        await unsentFriend(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(false);
         break;
-
       default:
+        await checkFriend();
+
         break;
     }
-    checkFriend();
   };
 
   const Loading = () => {
@@ -113,7 +115,11 @@ export const SearchUser: React.FC<SearchUserProp> = ({
   ) : (
     <S.Usersearch>
       <div className="user-wrapper">
-        <Link href={`/profile/${profileHash}`} onClick={handleClose} passHref>
+        <Link
+          href={`/profile?pId=${profileHash}`}
+          onClick={handleClose}
+          passHref
+        >
           <div className="image-wrapper">
             <Image src={avatar} width={40} height={40} alt={name} />
           </div>

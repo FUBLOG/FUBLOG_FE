@@ -65,11 +65,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    if (webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) !== "" &&
+      webStorageClient.get(constants.PROFILE_HASH) !== ""
+    ) {
       setLoading(true);
       checkAuth().then((res) => {
         setUserInfo(res.metadata);
-
         setLoading(false);
       });
     }

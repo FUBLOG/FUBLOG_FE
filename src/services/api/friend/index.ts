@@ -18,7 +18,7 @@ export const rejectFriendRequest = async (data: any) => {
   return await postRequest(friendEndpoint.DECLINE_FRIEND, {
     security: true,
     data: {
-      targetID: data,
+      targetID: data?.targetID,
     },
   });
 };

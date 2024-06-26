@@ -83,7 +83,7 @@ function MainLayout({ children }: LayoutProps) {
     }
   };
   const handleCreatePostSuccess = () => {
-    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+    setShowCreate(false);
   };
   const showBellModal = () => {
     if (userInfo?._id !== "") {
@@ -117,12 +117,14 @@ function MainLayout({ children }: LayoutProps) {
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href={`/profile/${userInfo?.profileHash}`}>
+        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
           Xem trang cá nhân
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
+        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+          Chỉnh sửa trang cá nhân
+        </Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
@@ -203,7 +205,7 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href={`/profile/${userInfo?.profileHash}`}>
+              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                 <UserOutlined
                   style={{ fontSize: "28px" }}
                   onClick={() => handleSetNavigation("")}

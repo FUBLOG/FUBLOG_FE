@@ -55,8 +55,11 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
-    checkFriend();
-    handleDisplayButton();
+    const updateInfor = async () => {
+      await checkFriend();
+      handleDisplayButton();
+    };
+    updateInfor();
   }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {

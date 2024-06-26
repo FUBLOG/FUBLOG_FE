@@ -175,10 +175,6 @@ function FormSignUp(props: PageProps) {
                 name="dateOfBirth"
                 rules={[
                   {
-                    required: true,
-                    message: "Vui lòng nhập ngày tháng năm sinh",
-                  },
-                  {
                     validator: validateAge,
                   },
                 ]}

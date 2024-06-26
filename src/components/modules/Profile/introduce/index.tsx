@@ -17,13 +17,13 @@ function Introduce() {
 
   return (
     <S.Wrapper>
-      <Typography variant="caption-normal" color="#FAF0E6 !important">
+      <Typography variant="body-text-small-bold" fontSize="18px" color="#FAF0E6 !important">
         Giới thiệu
       </Typography>
       <S.InfoContainer>
         <S.InfoItem>
           <Typography
-            variant="caption-small"
+            variant="body-text-small-bold"
             color="#FAF0E6 !important"
             fontSize="12px"
           >

@@ -31,6 +31,7 @@ export const FriendContainer = styled(Flex)`
   gap: 10px;  
   padding: 5px;
   background-color: transparent;
+  width:300px;
 `;
 
 export const Friend = styled(Flex)`

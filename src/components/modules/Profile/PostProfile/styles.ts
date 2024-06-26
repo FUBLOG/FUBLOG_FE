@@ -4,13 +4,14 @@ import { Flex, Modal,Menu } from "antd";
 
 export const PostWrapper = styled.div`
   box-sizing: border-box;
-  margin: 20px 0;
+  margin: 24px 0;
   padding: 24px;
-  max-width: 700px;
+  max-width: 620px;
   width: 100%;
   border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
+  margin-top:42px;
 `;
 
 export const ContentWrapper = styled(Flex)`

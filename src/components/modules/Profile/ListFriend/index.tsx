@@ -34,11 +34,11 @@ function ListFriend() {
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="caption-normal" color="#FAF0E6 !important">
+        <Typography variant="caption-small" fontSize="18px"  color="#FAF0E6   !important">
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
-          <Typography variant="body-text-small-normal" color="#B9B4C7">
+          <Typography variant="body-text-small-bold" color="#B9B4C7"  style="oblique" margin="0px 34px" fontSize="14px"> 
             Xem tất cả bạn bè
           </Typography>
         </S.ViewAllButton>
@@ -55,7 +55,7 @@ function ListFriend() {
                 objectFit="cover"
               />
             </S.FriendImageContainer>
-            <S.FriendName variant="caption-normal">{friend.name}</S.FriendName>
+            <S.FriendName variant="caption-small">{friend.name} </S.FriendName>
           </S.Friend>
         ))}
       </S.FriendContainer>

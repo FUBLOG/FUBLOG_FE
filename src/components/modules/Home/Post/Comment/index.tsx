@@ -380,6 +380,8 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
           marginTop: "0px",
           padding: "5px 5px",
           border: "none",
+          marginRight:"50px"
+        
         }}
         onClick={handleAddComment}
       >

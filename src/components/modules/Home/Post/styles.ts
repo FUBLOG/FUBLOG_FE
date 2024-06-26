@@ -259,6 +259,8 @@ export const PostModalHeader = styled(Flex)`
 
 export const ButtonWrapper = styled.div`
   margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 
@@ -308,14 +310,13 @@ export const Divider = styled.div`
 `;
 
 
-
-
-
 export const CustomModal = styled(Modal)`
   .ant-modal-content {
     background-color: #faf0e6 !important;
-    padding: 0px 0px;
+    padding: 0;
     border-radius: 10px;
+    position: relative; /* Để CommentBox cố định trong modal */
+    overflow: hidden; /* Ẩn phần dư */
   }
   .ant-modal-header {
     background-color: #faf0e6;
@@ -340,15 +341,16 @@ export const CustomModal = styled(Modal)`
     background: #faf0e6;
   }
   .ant-modal-body {
-    max-height: 70vh; /* Đặt chiều cao tối đa cho thân modal */
+    max-height: 70vh; /* Giới hạn chiều cao cho phần thân modal */
     overflow-y: auto; /* Kích hoạt cuộn dọc khi nội dung vượt quá chiều cao */
-    padding: 10px;
+    padding-bottom: 100px; /* Tạo khoảng trống cho phần nhập bình luận cố định */
   }
   .ant-modal {
     top: 10%;
     transform: translateY(0%);
   }
 `;
+
 
 export const PostContentWrapper = styled.div`
   padding: 20px;
@@ -362,12 +364,19 @@ export const CommentSection = styled.div`
 export const CommentsWrapper = styled.div`
   padding: 10px;
 `;
-
 export const CommentBox = styled.div`
-  padding: 10px;
+  position: absolute; /* Cố định vị trí */
+  bottom: 0; /* Đặt ở dưới cùng */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
   background-color: #faf0e6;
+  padding: 10px;
   border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
 `;
+
 
 export const UserName = styled.span`
   font-weight: bold;

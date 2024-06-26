@@ -12,7 +12,7 @@ import { message } from "antd";
 const Welcome = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [countdown, setCountdown] = useState(3);
+  const [_, setCountdown] = useState(3);
 
   const handleVerify = async () => {
     try {

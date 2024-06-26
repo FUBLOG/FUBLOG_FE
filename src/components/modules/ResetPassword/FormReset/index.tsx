@@ -12,7 +12,7 @@ import * as S from "./styles";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 function FormReset() {
   const searchParams = useSearchParams();
@@ -25,23 +25,44 @@ function FormReset() {
       confirmPassword: values?.confirmPassword!,
       otp: token,
     };
-    await postRequest(authEndpoint.RESET_PASSWORD, {
-      data,
-    }).then(() => {
+    try {
+      await postRequest(authEndpoint.RESET_PASSWORD, { data });
       message.success("Đặt lại mật khẩu thành công");
-      const intervalId = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          message.info(`Trang xác thực sẽ đóng trong ${prevCountdown} giây.`);
-          if (prevCountdown < 1) {
-            window.close();
-            clearInterval(intervalId);
-          }
-          return prevCountdown - 1;
-        });
-      }, 1000);
-    });
+      startCountdown(3);
+    } catch (error) {
+      message.error("Đặt lại mật khẩu thất bại");
+    }
   }
 
+  const startCountdown = (initialCountdown: SetStateAction<number>) => {
+    setCountdown(initialCountdown);
+    const intervalId = setInterval(() => {
+      updateCountdown(intervalId);
+    }, 1000);
+  };
+
+  const updateCountdown = (
+    intervalId: string | number | NodeJS.Timeout | undefined
+  ) => {
+    setCountdown((prevCountdown) => {
+      if (prevCountdown > 1) {
+        showCountdownMessage(prevCountdown - 1);
+        return prevCountdown - 1;
+      } else {
+        clearInterval(intervalId);
+        closeWindow();
+        return prevCountdown - 1;
+      }
+    });
+  };
+
+  const showCountdownMessage = (seconds: number) => {
+    message.info(`Trang xác thực sẽ đóng trong ${seconds} giây.`);
+  };
+
+  const closeWindow = () => {
+    window.close();
+  };
   return (
     <S.HomeWrapper>
       <Typography

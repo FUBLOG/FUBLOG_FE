@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined } from "@ant-design/icons";
-import { CheckboxProps, Form, Spin, message } from "antd";
+import { Form, Spin, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 import InputPassword from "@/components/core/common/form/InputPassword";

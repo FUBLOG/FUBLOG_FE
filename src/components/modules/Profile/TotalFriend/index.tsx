@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -18,14 +17,19 @@ interface TotalFriendProps {
   visible: boolean;
   onClose: () => void;
   friends: Friend[];
-  totalFriends: number; 
+  totalFriends: number;
 }
 
-const TotalFriend: React.FC<TotalFriendProps> = ({ visible, onClose, friends, totalFriends }) => {
+const TotalFriend: React.FC<TotalFriendProps> = ({
+  visible,
+  onClose,
+  friends,
+  totalFriends,
+}) => {
   const router = useRouter();
 
   const handleProfileClick = (id: number) => {
-    router.push(`/profile/${id}`);
+    router.push(`/profile?pId=${id}`);
   };
 
   return (
@@ -33,20 +37,23 @@ const TotalFriend: React.FC<TotalFriendProps> = ({ visible, onClose, friends, to
       open={visible}
       onCancel={onClose}
       footer={null}
-      width={600} 
+      width={600}
       centered
       bodyStyle={{ padding: 0 }}
     >
       <S.ModalContent>
-        <Typography variant="h5" color="#352f44" align="center" fontSize="26px" >
+        <Typography variant="h5" color="#352f44" align="center" fontSize="26px">
           Tất cả bạn bè
         </Typography>
-        <Typography variant="h6" color="#352f44" align="center"  >
+        <Typography variant="h6" color="#352f44" align="center">
           {totalFriends} bạn bè
         </Typography>
         <S.FriendsGrid>
           {friends.map((friend) => (
-            <S.FriendCard key={friend.id} onClick={() => handleProfileClick(friend.id)}>
+            <S.FriendCard
+              key={friend.id}
+              onClick={() => handleProfileClick(friend.id)}
+            >
               <S.FriendImageContainer>
                 <S.FriendAvatar src={friend.image} alt={friend.name} />
               </S.FriendImageContainer>

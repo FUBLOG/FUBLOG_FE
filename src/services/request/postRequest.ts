@@ -36,13 +36,13 @@ const postRequest = async (
       withCredentials: true,
     })
     .then((res: any) => {
-      if (res?.statusCode >= 200 && res?.statusCode < 300) {
-        return res;
-      } else {
+      if (res?.statusCode >= 400 || res?.code >= 400) {
         return Promise.reject(res);
+      } else {
+        return res;
       }
     })
-    .catch((err) => {
+    .catch((err: any) => {
       message.error(errorMessage[err?.message]);
       return Promise.reject(err);
     });

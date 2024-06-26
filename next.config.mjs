@@ -41,9 +41,16 @@ const nextConfig = {
       },
     });
 
-
     return config;
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:profile/:second',
+  //       destination: '/:profile?second=:second',
+  //     },
+  //   ]
+  // }
 };
 
 export default nextConfig;

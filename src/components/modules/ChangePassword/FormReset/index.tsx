@@ -11,24 +11,22 @@ import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
-import { useSearchParams } from "next/navigation";
 
 function FormReset() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-
   async function onFinish(values: any): Promise<void> {
     const data = {
+      oldPassword: values?.oldPassword!,
       password: values?.newPassword!,
       confirmPassword: values?.confirmPassword!,
-      otp: token,
     };
-    await postRequest(authEndpoint.RESET_PASSWORD, {
+    await postRequest(authEndpoint.CHANGE_PASSWORD, {
       data,
+      security: true,
     }).then(() => {
-      message.success("Đặt lại mật khẩu thành công");
+      message.success("Thay đổi mật khẩu thành công");
       window.location.href = "/sign-in";
     });
+    throw new Error("Function not implemented.");
   }
 
   return (
@@ -39,7 +37,7 @@ function FormReset() {
         fontSize="x-large"
         align="center"
       >
-        ĐẶT LẠI MẬT KHẨU
+        THAY ĐỔI MẬT KHẨU
       </Typography>
 
       <Form
@@ -49,6 +47,17 @@ function FormReset() {
         autoComplete="off"
         onFinish={onFinish}
       >
+        <FormItem
+          name="oldPassword"
+          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+        >
+          <InputPassword
+            placeholder="Nhập mật khẩu"
+            prefix={<LockOutlined />}
+            isRequired
+            label="Mật khẩu cũ"
+          />
+        </FormItem>
         <FormItem
           name="newPassword"
           rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}

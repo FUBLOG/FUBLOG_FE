@@ -5,4 +5,5 @@ export interface RequestOptionsInterface {
   security?: boolean;
   profileHash?: string;
   keywords?: string;
+  email?: any;
 }

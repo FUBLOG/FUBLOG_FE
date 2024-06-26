@@ -14,15 +14,27 @@ import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
 
 import * as S from "./styles";
+import { postRequest } from "@/services/request";
+import { authEndpoint } from "@/services/endpoint";
 
 interface PageProps {
-  readonly status: string;
   readonly setStatus: Dispatch<SetStateAction<string>>;
+  readonly setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function FormForgot({ status, setStatus }: PageProps) {
-  const onFinish = () => {
-    setStatus("verification");
+function FormForgot({ setStatus, setEmail }: PageProps) {
+  const onFinish = async (values: any) => {
+    const data = {
+      email: values?.email!,
+    };
+    setEmail(values?.email);
+    await postRequest(authEndpoint.FORGOT_PASSWORD, {
+      data,
+    })
+      .then(() => {
+        setStatus("verification");
+      })
+      .catch(() => {});
   };
   const [form] = Form.useForm();
   return (
@@ -56,7 +68,7 @@ function FormForgot({ status, setStatus }: PageProps) {
         autoComplete="off"
       >
         <FormItem
-          name="mail"
+          name="email"
           rules={[{ required: true, message: "Vui lòng nhập email" }]}
         >
           <Input

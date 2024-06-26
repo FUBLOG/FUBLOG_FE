@@ -18,11 +18,12 @@ const Welcome = () => {
           token,
         },
       };
-      await getRequest(
+      const res = await getRequest(
         constants.API_SERVER + authEndpoint.VERIFY_TOKEN,
         options
       );
       window.close();
+      return res;
     } catch (error) {}
   };
   useEffect(() => {

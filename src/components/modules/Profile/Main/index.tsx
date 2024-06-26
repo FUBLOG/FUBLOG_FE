@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useGetProfile } from "@/hooks/useProfile";
 
 const Profile = () => {
@@ -16,14 +16,15 @@ const Profile = () => {
   const profileHash = searchParams.get("pId");
 
   const { loading } = useAuth();
-  const { checkFriend } = useFriend(profileHash);
-  const { profileSearch } = useGetProfile(profileHash);
+  const { checkFriend, isMyUser } = useFriend(profileHash);
+  const { getUserInfo } = useGetProfile(profileHash);
 
   useEffect(() => {
-    profileSearch;
-    if (!loading) {
-      checkFriend();
-    }
+    const checkIsFriend = async () => {
+      await checkFriend();
+      console.log("isMyUser", isMyUser);
+    };
+    checkIsFriend();
   }, [profileHash, loading]);
 
   return (

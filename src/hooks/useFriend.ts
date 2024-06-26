@@ -58,7 +58,10 @@ const useFriend = (profileHash: any) => {
     }
     if (!(await checkIsGuest())) {
       if (userInfo?._id === profileSearch?.user?._id) {
-        setIsMyUser(true);
+        console.log("check2");
+
+        await setIsMyUser(true);
+        return;
       } else {
         await checkRequest();
       }

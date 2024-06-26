@@ -55,6 +55,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
+    checkFriend();
     handleDisplayButton();
   }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 

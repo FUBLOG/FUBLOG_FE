@@ -149,6 +149,7 @@ export const CustomCard = styled(Flex)`
 `;
 
 export const CustomModal = styled(Modal)`
+border-radius: 20px;
   .ant-modal-content {
     background-color: #faf0e6 !important;
     padding: 0px 0px;
@@ -204,12 +205,12 @@ export const CommentBox = styled(Flex)`
 `;
 
 export const TextArea = styled.textarea`
-  width: 100%;
+  width: 95%;
   max-height: 150px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   border: none;
-  background-color: #faf0e6;
+  background-color: #fff !important;
   overflow-y: auto;
   resize: none;
   box-sizing: border-box;

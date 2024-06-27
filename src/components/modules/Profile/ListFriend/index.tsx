@@ -34,7 +34,7 @@ function ListFriend() {
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="caption-small" fontSize="18px"  color="#fff   !important">
+        <Typography variant="body-text-small-bold" fontSize="18px"  color="#fff   !important">
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
@@ -55,7 +55,7 @@ function ListFriend() {
                 objectFit="cover"
               />
             </S.FriendImageContainer>
-            <S.FriendName variant="caption-small">{friend.name} </S.FriendName>
+            <S.FriendName variant="body-text-small-normal">{friend.name} </S.FriendName>
           </S.Friend>
         ))}
       </S.FriendContainer>

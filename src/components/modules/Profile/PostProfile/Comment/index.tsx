@@ -300,6 +300,9 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       onCancel={close}
       destroyOnClose={true}
       footer={null}
+      
+    
+      
     >
       <S.CommentSection>
         <S.CommentsWrapper ref={commentsWrapperRef}>
@@ -320,6 +323,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             placeholder="Viết bình luận..."
             ref={editInputRef}
             className="comment-textarea"
+            
           />
           <S.ButtonWrapper>
             <Button
@@ -327,7 +331,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
               type="primary"
               style={{
                 width: "100px",
-                marginTop: "0px",
+                marginTop: "5px",
                 padding: "5px 5px",
                 border: "none",
               }}

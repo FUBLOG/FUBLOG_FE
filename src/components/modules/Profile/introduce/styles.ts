@@ -6,7 +6,7 @@ export const Wrapper = styled(Flex)`
   flex-direction: column;
   gap: 10px;
   width: 90%;
-  margin-top: 50px;;
+  margin-top: 50px;
 `;
 
 export const InfoContainer = styled(Flex)`
@@ -19,7 +19,8 @@ export const InfoContainer = styled(Flex)`
 `;
 
 export const InfoItem = styled(Flex)`
-  flex-direction: column;
+  flex-direction: row;  
+  align-items: center; 
   gap: 5px;
   padding: 5px 0;
 `;

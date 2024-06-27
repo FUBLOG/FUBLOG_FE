@@ -51,5 +51,5 @@ export const FriendName = styled(Typography)`
   color: #faf0e6;
   font-weight: normal;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
 `;

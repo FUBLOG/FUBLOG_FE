@@ -108,7 +108,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
             <Typography
               variant="body-text-small-bold"
               color="#fff"
-              fontSize="16px"
+              fontSize="18px"
             >
               {data.userId.displayName}
             </Typography>

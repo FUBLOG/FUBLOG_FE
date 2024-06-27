@@ -10,36 +10,21 @@ import Link from "next/link";
 import { getRequest } from "@/services/request";
 import { friendEndpoint } from "@/services/endpoint";
 
-function ListFriend() {
+function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
   const [modalVisible, setModalVisible] = useState(false);
-  const { profile } = useProfile();
-
-  // const [friends, setFriend] = useState({  _id: "",
-  //   displayName: "",
-  //   firstName: "",
-  //   lastName: "",
-  //   profileHash: "", });
   useEffect(() => {
     const getFriendByID = async () => {
-      profile.info?.friendList.map(async (friend: string) => {
-        console.log("friend", friend);
-
-        await getRequest(friendEndpoint.GET_FRIEND_ID + friend).then((res) => {
-          console.log("res", res);
-          // setFriend({
-          //   id: friend,
-          //   profileHash: res?.metadata?.friend,
-          //   name: res?.metadata?.friend?.name,
-          //   image: res?.metadata?.friend?.image,
-          //   friendCount: res?.metadata?.friend?.friendCount,
-          // });
-          // return res;
-        });
-      });
+      setLoading(true);
+      await getRequest(friendEndpoint.GET_FRIEND_ID + profileHash).then(
+        (res) => {
+          setFriend(res?.metadata);
+          return res;
+        }
+      );
     };
     getFriendByID();
-    console.log(profile?.info?.friendList);
-  }, []);
+    setLoading(false);
+  }, [profileHash]);
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -70,21 +55,21 @@ function ListFriend() {
           </Typography>
         </S.ViewAllButton>
       </S.Title>
-      {/* <S.FriendContainer>
+      <S.FriendContainer>
         {friends?.slice(0, 9).map((friend: any) => (
-          <Link href={`${friend.profileHash}`}>
-            <S.Friend key={friend.id}>
+          <Link href={`profile?pId=${friend?.profileHash}`}>
+            <S.Friend key={friend._id}>
               <S.FriendImageContainer>
                 <Image
-                  alt={friend.name}
-                  src={friend.image}
+                  alt={friend?.displayName}
+                  src={friend?.userInfo?.avatar}
                   width={50}
                   height={50}
                   objectFit="cover"
                 />
               </S.FriendImageContainer>
               <S.FriendName variant="body-text-small-normal">
-                {friend.name}
+                {friend?.displayName}
               </S.FriendName>
             </S.Friend>
           </Link>
@@ -95,8 +80,8 @@ function ListFriend() {
         visible={modalVisible}
         onClose={handleCloseModal}
         friends={friends}
-        totalFriends={friends.length}
-      /> */}
+        totalFriends={friends?.length}
+      />
     </S.Wrapper>
   );
 }

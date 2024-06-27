@@ -10,15 +10,10 @@ import {
   unfriend,
   unsentFriend,
 } from "@/services/api/friend";
-import { Skeleton } from "antd";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
 
-interface BannerProps {
-  profileHash: any;
-}
-
-const Banner: React.FC<BannerProps> = ({ profileHash }) => {
+const Banner = ({ profileHash, setLoading }: any) => {
   const {
     isFriend,
     isGuest,
@@ -54,11 +49,13 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
+    setLoading(true);
     const updateInfor = async () => {
       await checkFriend();
       handleDisplayButton();
     };
     updateInfor();
+    setLoading(false);
   }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
@@ -93,9 +90,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     }
     checkFriend();
   };
-  useEffect(() => {
-    console.log(profileSearch);
-  }, []);
+
   return !isNotFound ? (
     <S.Wrapper
       style={{ backgroundImage: `url(${profileSearch?.info?.cover_photo})` }}
@@ -131,6 +126,5 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     loading && <S.Wrapper>404</S.Wrapper>
   );
 };
-const Loading = () => <Skeleton active round avatar paragraph />;
 
 export default Banner;

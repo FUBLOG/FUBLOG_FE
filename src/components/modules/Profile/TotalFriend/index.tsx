@@ -1,11 +1,8 @@
 "use client";
 
 import React from "react";
-import { Modal } from "antd";
-import { useRouter } from "next/navigation";
 import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
-import fontWeight from "@/style/themes/default/fontWeight";
 import Link from "next/link";
 
 interface TotalFriendProps {

@@ -125,7 +125,7 @@ export const Actions = styled(Flex)`
 
 export const Tag = styled.span`
   background-color: transparent;
-  color: #b9b4c7;
+  color: #fff !important;
   cursor: pointer;
   padding: 2px 8px;
   display: flex;

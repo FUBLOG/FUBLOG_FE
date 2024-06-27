@@ -173,7 +173,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
             <S.Tag>
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color="#fff"
                 fontSize="14px"
                 lineHeight="2"
               >

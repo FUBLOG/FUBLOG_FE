@@ -46,6 +46,8 @@ function FormSignIn(showModalGuest: any) {
         .then(() => {
           if (showModalGuest?.showModalGuest === false) {
             router.push("/");
+          } else {
+            router.refresh();
           }
         })
         .finally(() => {

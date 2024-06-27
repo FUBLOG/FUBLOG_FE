@@ -40,9 +40,7 @@ const NotificationTab = ({ onclose }: any) => {
   const handleAllMarkRead = async () => {
     try {
       await markAllNotificationsAsRead()
-        .then((res) => {
-          router.refresh();
-
+        .then(() => {
           setLocalNotifications((prevNotifications) =>
             prevNotifications.map((notification) => ({
               ...notification,
@@ -50,8 +48,9 @@ const NotificationTab = ({ onclose }: any) => {
             }))
           );
           setNotifications(localNotifications);
+          router.refresh();
         })
-        .catch((error) => router.refresh());
+        .catch(() => router.refresh());
     } catch (error) {}
   };
   function handleClick() {

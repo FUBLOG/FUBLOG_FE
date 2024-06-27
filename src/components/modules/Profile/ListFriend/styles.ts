@@ -16,11 +16,11 @@ export const Title = styled(Flex)`
 
 export const ViewAllButton = styled.div`
   cursor: pointer;
-  color: #b9b4c7;
+  color: #fff;
 
   &:hover {
     text-decoration: underline;
-    text-decoration-color: #b9b4c7;
+    text-decoration-color: #fff;
   }
 `;
 
@@ -30,6 +30,7 @@ export const FriendContainer = styled(Flex)`
   gap: 10px;
   padding: 5px;
   background-color: transparent;
+  width:300px;
 `;
 
 export const Friend = styled(Flex)`
@@ -50,5 +51,5 @@ export const FriendName = styled(Typography)`
   color: #faf0e6;
   font-weight: normal;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
 `;

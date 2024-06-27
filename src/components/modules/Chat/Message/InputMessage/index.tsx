@@ -27,7 +27,7 @@ const InputMessage = () => {
   };
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {};
   const handleFocus = () => {
-    if (selectedConversation?.lastMessage?.senderId !== userInfo?._id) {
+    if (selectedConversation?.lastMessage?.senderId !== userInfo?.userId) {
       const newConversations = conversations.map((conversation) => {
         if (
           conversation.conversationId === selectedConversation.conversationId

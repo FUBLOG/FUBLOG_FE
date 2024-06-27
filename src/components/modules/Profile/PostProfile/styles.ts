@@ -4,13 +4,14 @@ import { Flex, Modal,Menu } from "antd";
 
 export const PostWrapper = styled.div`
   box-sizing: border-box;
-  margin: 20px 0;
+  margin: 24px 0;
   padding: 24px;
-  max-width: 700px;
+  max-width: 620px;
   width: 100%;
-  border: 1.5px solid #ccc;
+  border: 1.5px solid #fff;
   border-radius: 30px;
   background-color: transparent;
+  margin-top:42px;
 `;
 
 export const ContentWrapper = styled(Flex)`
@@ -124,7 +125,7 @@ export const Actions = styled(Flex)`
 
 export const Tag = styled.span`
   background-color: transparent;
-  color: #b9b4c7;
+  color: #fff !important;
   cursor: pointer;
   padding: 2px 8px;
   display: flex;
@@ -148,6 +149,7 @@ export const CustomCard = styled(Flex)`
 `;
 
 export const CustomModal = styled(Modal)`
+border-radius: 20px;
   .ant-modal-content {
     background-color: #faf0e6 !important;
     padding: 0px 0px;
@@ -203,12 +205,12 @@ export const CommentBox = styled(Flex)`
 `;
 
 export const TextArea = styled.textarea`
-  width: 100%;
+  width: 95%;
   max-height: 150px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   border: none;
-  background-color: #faf0e6;
+  background-color: #fff !important;
   overflow-y: auto;
   resize: none;
   box-sizing: border-box;

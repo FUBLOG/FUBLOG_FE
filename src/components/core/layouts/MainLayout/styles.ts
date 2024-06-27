@@ -11,6 +11,7 @@ export const LayoutWrapper = styled.main`
 export const GlobalStyle = createGlobalStyle`
   .ant-modal-content {
     background-color: #faf0e6 !important;
+  }
   .ant-modal-title {
     background-color: #faf0e6 !important;
   }

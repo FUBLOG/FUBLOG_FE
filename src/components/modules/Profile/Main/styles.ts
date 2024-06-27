@@ -23,15 +23,17 @@ export const Main = styled(Flex)`
   max-width: 1200px;
   padding: 20px;
   box-sizing: border-box;
-  gap: 20px;
+  gap: 0px;
 `;
 
 export const Sidebar = styled(Flex)`
   flex-direction: column;
-  width: 30%; /* Chỉnh chiều rộng của Sidebar */
+  width: 30%;
   background-color: #352f44;
   padding: 20px;
   gap: 20px;
+  margin-left:86px;
+  margin-top: 20px;
 `;
 
 export const Content = styled(Flex)`

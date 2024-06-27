@@ -11,9 +11,8 @@ export const PostWrapper = styled.div`
   border-radius: 30px;
   background-color: transparent;
 `;
+
 export const ContentWrapper = styled(Flex)`
-  align-items: flex-start;
-  padding: 0 20px;
   align-items: flex-start;
   padding: 0 20px;
 `;
@@ -28,7 +27,6 @@ export const PostContent = styled.p`
 
 export const ImagesWrapper = styled(Flex)`
   justify-content: flex-start;
-  justify-content: flex-start;
   padding: 0 20px;
   gap: 10px;
   flex-wrap: wrap;
@@ -36,24 +34,35 @@ export const ImagesWrapper = styled(Flex)`
 
   img {
     border-radius: 4px;
-    border-radius: 4px;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
-.post-image {
+  .post-image {
     border-radius: 4px;
     width: 100%;
-    height: 450px;
+    height: 400px;
     margin: 0;
-    cursor : pointer;
+    cursor: pointer;
     object-fit: cover;
   }
+.image-modal{
+  width: 100%;
+  height:350px;
 
+}
 `;
+
+
 export const PostHeader = styled(Flex)`
   align-items: center;
+  gap: 2px;
   justify-content: space-between;
+`;
+export const PostHeaderModal = styled(Flex)`
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-start;
 `;
 
 export const UserInfo = styled(Flex)`
@@ -67,12 +76,7 @@ export const Avatar = styled.img`
   border-radius: 50%;
 `;
 
-export const UserName = styled.span`
-  font-weight: bold;
-  margin-left: 10px;
-  color: #352f44;
-  font-size: 18px;
-`;
+
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
@@ -116,106 +120,16 @@ export const CustomCard = styled(Flex)`
   border-radius: 30px;
 `;
 
-export const CustomModal = styled(Modal)`
-  .ant-modal-content {
-    background-color: #faf0e6 !important;
-    padding: 0px 0px;
-    border-radius: 50px;
-  }
-  .ant-modal-header {
-    background-color: #faf0e6;
-  }
-  .ant-modal-title {
-    background-color: #faf0e6;
-  }
-  .ant-btn-primary {
-    background-color: #5c5470 !important;
-  }
-  .ant-btn-primary:hover {
-    background-color: #352f44 !important;
-  }
-  .ant-btn-default:hover {
-    background: #faf0e6 !important;
-    color: #352f44 !important;
-    border-color: #352f44 !important;
-  }
-  .ant-btn-default {
-    background: #faf0e6;
-  }
-`;
+
 
 export const ModalContent = styled.span`
   color: #b9b4c7;
   font-size: 14px;
 `;
 
-export const CommentSection = styled(Flex)`
-  flex-direction: column;
-  gap: 0px;
-  margin-top: 5px;
-  background-color: #faf0e6;
-`;
 
-export const CommentsWrapper = styled(Flex)`
-  flex-direction: column;
-  gap: 5px;
-  max-height: 220px;
-  overflow-y: auto;
-  padding: 10px;
-`;
 
-export const CommentBox = styled(Flex)`
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 10px;
-  align-items: flex-start;
-`;
 
-export const TextArea = styled.textarea`
-  width: 100%;
-  max-height: 150px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background-color: #faf0e6;
-  overflow-y: auto;
-  resize: none;
-  box-sizing: border-box;
-  &::placeholder {
-    color: #5c5470;
-  }
-`;
-
-export const Comment = styled(Flex)`
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: transparent;
-  padding: 10px;
-  gap: 5px;
-`;
-
-export const CommentHeader = styled(Flex)`
-  align-items: center;
-  gap: 10px;
-`;
-
-export const CommentUser = styled.span`
-  font-weight: bold;
-  color: #352f44;
-  font-size: 14px;
-`;
-
-export const CommentContent = styled.span`
-  color: #352f44;
-  font-size: 14px;
-  margin-left: 40px;
-`;
-
-export const Divider = styled.div`
-  height: 1px;
-  background-color: #ccc;
-  margin: 10px 0;
-`;
 
 export const Stroke = styled.div`
   width: 2px;
@@ -260,37 +174,32 @@ export const ReplyBox = styled(Flex)`
   width: 100%;
 `;
 
-export const ButtonWrapper = styled.div`
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  padding-top: 5px;
-`;
-export const ImagesWrapper2 = styled.div`
 
-    img {
+
+export const ImagesWrapper2 = styled.div`
+  img {
     border-radius: 4px;
     max-width: 100%;
     height: 450px;
     margin: 0;
-    cursor : pointer;
-    
+    cursor: pointer;
   }
 
-  .ant-carousel .slick-prev, .ant-carousel .slick-next {
+  .ant-carousel .slick-prev,
+  .ant-carousel .slick-next {
     color: black;
-    
   }
-    .ant-carousel .slick-prev::after, .ant-carousel .slick-next::after{
-      width: 15px;
-      height: 15px;
-      top: -50px;
-      border-inline-width: 4px 0;
-      border-block-width: 4px 0;
-      inset-inline-start: -1.342291px;
-    }
+  .ant-carousel .slick-prev::after,
+  .ant-carousel .slick-next::after {
+    width: 15px;
+    height: 15px;
+    top: -50px;
+    border-inline-width: 4px 0;
+    border-block-width: 4px 0;
+    inset-inline-start: -1.342291px;
+  }
 
-  .ant-carousel .slick-dots li{
+  .ant-carousel .slick-dots li {
     margin-inline: 30px;
   }
 
@@ -305,12 +214,169 @@ export const ImagesWrapper2 = styled.div`
   .post-image {
     object-fit: cover;
   }
-
 `;
+
 export const ImageModal = styled(Modal)`
   max-width: 100%;
   height: auto;
   .ant-layout-content {
     padding: 0 !important;
-}
-`
+  }
+`;
+
+
+
+export const PostBody = styled.div`
+  margin-top: 10px;
+`;
+
+export const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+export const PostModalHeader = styled(Flex)`
+  align-items: center;
+  gap: 10px;
+  justify-content: start;
+`;
+
+
+
+
+export const ButtonWrapper = styled.div`
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+
+
+export const TextArea = styled.textarea`
+  width: 100%;
+  max-height: 100px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #faf0e6;
+  overflow-y: auto;
+  resize: none;
+  box-sizing: border-box;
+  &::placeholder {
+    color: #5c5470;
+  }
+`;
+
+export const Comment = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+`;
+
+
+
+export const CommentUser = styled.span`
+  margin-left: 10px;
+  font-weight: bold;
+`;
+
+
+
+export const Divider = styled.div`
+  height: 1px;
+  background-color: #ccc;
+  margin: 10px 0;
+`;
+
+
+export const CustomModal = styled(Modal)`
+  .ant-modal-content {
+    background-color: #faf0e6 !important;
+    padding: 0;
+    border-radius: 10px;
+    position: relative; 
+    overflow: hidden; 
+  }
+  .ant-modal-header {
+    background-color: #faf0e6;
+    border-bottom: none;
+  }
+  .ant-modal-title {
+    color: #352f44;
+    text-align: center;
+    font-size: 22px !important;
+  }
+  .ant-btn-primary {
+    background-color: #5c5470 !important;
+  }
+  .ant-btn-primary:hover {
+    background-color: #352f44 !important;
+  }
+  .ant-btn-default:hover {
+    background: #faf0e6 !important;
+    color: #352f44 !important;
+    border-color: #352f44 !important;
+  }
+  .ant-btn-default {
+    background: #faf0e6;
+  }
+  .ant-modal-body {
+    max-height: 70vh; 
+    overflow-y: auto; 
+    padding-bottom: 100px; 
+  }
+  .ant-modal {
+    top: 10%;
+    transform: translateY(0%);
+  }
+`;
+
+
+export const PostContentWrapper = styled.div`
+  
+  padding: 20px 20px 20px 60px; 
+  border-bottom: 1px solid #ccc;
+`;
+
+export const CommentSection = styled.div`
+  padding: 10px;
+`;
+
+export const CommentsWrapper = styled.div`
+  padding: 10px;
+`;
+export const CommentBox = styled.div`
+  position: absolute;
+  bottom: 0; 
+  width: 100%;
+  background-color: #faf0e6;
+  padding: 10px;
+  border-top: 2px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1000; 
+`;
+
+
+export const UserName = styled.span`
+  font-weight: bold;
+  margin-left: 10px;
+  color: #352f44;
+  font-size: 18px;
+  display: flex;
+  justify-content: flex-start;
+`;
+export const CommentHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+ 
+  width: 100%;
+`;
+
+export const CommentContent = styled.div`
+  padding: 5px 0 5px 40px; 
+`;

@@ -105,13 +105,13 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
             <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
-            <Typography variant="h2" color="#FAF0E6 !important">
+            <Typography variant="body-text-small-bold" color="#fff !important" fontSize="34px">
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
-              variant="caption-small"
-              color="#FAF0E6 !important"
-              fontSize="12px"
+              variant="body-text-small-normal"
+              color="#fff !important"
+              fontSize="14px"
             >
               Tôi là một người ...
             </Typography>

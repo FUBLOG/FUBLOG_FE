@@ -102,11 +102,12 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
           <S.UserInfo>
             <S.Avatar
               src={data.userId.userInfo.avatar}
-              alt={`${data.userId.displayName}'s avatar`}
+              
+            alt={`${data.userId.displayName}'s avatar`}
             />
             <Typography
-              variant="caption-normal"
-              color="#B9B4C7"
+              variant="body-text-small-bold"
+              color="#fff"
               fontSize="18px"
             >
               {data.userId.displayName}
@@ -123,9 +124,10 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
         <S.ContentWrapper>
           <Typography
             variant="caption-small"
-            color="#B9B4C7"
+            color="#fff"
             fontSize="14px"
             lineHeight="2"
+            margin="0px 20px"
           >
             {data.post.postContent}
           </Typography>
@@ -171,7 +173,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
             <S.Tag>
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color="#fff"
                 fontSize="14px"
                 lineHeight="2"
               >

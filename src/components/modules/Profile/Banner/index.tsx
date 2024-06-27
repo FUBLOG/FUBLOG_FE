@@ -92,11 +92,9 @@ const Banner = ({ profileHash, setLoading }: any) => {
   };
 
   return !isNotFound ? (
-    <S.Wrapper
-      style={{ backgroundImage: `url(${profileSearch?.info?.cover_photo})` }}
-    >
+    <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <S.CoverImage />
+      <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar>

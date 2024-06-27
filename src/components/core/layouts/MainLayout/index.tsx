@@ -40,6 +40,7 @@ import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
+import { useRouter } from "next/navigation";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -113,6 +114,7 @@ function MainLayout({ children }: LayoutProps) {
     setList([]);
     setValueSearch("");
   };
+  const router = useRouter();
 
   const menuItems = (
     <S.CustomMenu>
@@ -129,7 +131,9 @@ function MainLayout({ children }: LayoutProps) {
       <Menu.Item
         key="logout"
         className="custom-menu-item"
-        onClick={() => logout()}
+        onClick={() => {
+          logout();
+        }}
       >
         <button style={{ all: "unset", cursor: "pointer" }}>
           {loading ? <Spin size="small" /> : "Đăng xuất"}

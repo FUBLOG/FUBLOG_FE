@@ -1,4 +1,3 @@
-// Profile/Introduce/styles.ts
 import styled from "styled-components";
 import { Flex } from "antd";
 
@@ -19,8 +18,8 @@ export const InfoContainer = styled(Flex)`
 `;
 
 export const InfoItem = styled(Flex)`
-  flex-direction: row;  
-  align-items: center; 
+  flex-direction: row;
+  align-items: center;
   gap: 5px;
   padding: 5px 0;
 `;

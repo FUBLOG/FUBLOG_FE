@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@/components/core/common/Typography";
-import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import useFriend from "@/hooks/useFriend";
-import { useGetProfile, useProfile } from "@/hooks/useProfile";
+import { useGetProfile } from "@/hooks/useProfile";
 import {
   acceptFriendRequest,
   rejectFriendRequest,
@@ -11,15 +10,10 @@ import {
   unfriend,
   unsentFriend,
 } from "@/services/api/friend";
-import { Skeleton } from "antd";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
 
-interface BannerProps {
-  profileHash: any;
-}
-
-const Banner: React.FC<BannerProps> = ({ profileHash }) => {
+const Banner = ({ profileHash, setLoading }: any) => {
   const {
     isFriend,
     isGuest,
@@ -55,11 +49,13 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
   useEffect(() => {
+    setLoading(true);
     const updateInfor = async () => {
       await checkFriend();
       handleDisplayButton();
     };
     updateInfor();
+    setLoading(false);
   }, [profileSearch, isFriend, isGuest, isMyUser, isRequester, isSendFriend]);
 
   const handleFriend = async (event: string): Promise<void> => {
@@ -98,14 +94,18 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <S.CoverImage />
+      <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar>
             <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
-            <Typography variant="body-text-small-bold" color="#fff !important" fontSize="34px">
+            <Typography
+              variant="body-text-small-bold"
+              color="#fff !important"
+              fontSize="34px"
+            >
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
@@ -113,7 +113,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
               color="#fff !important"
               fontSize="14px"
             >
-              Tôi là một người ...
+              {profileSearch?.info?.bio}
             </Typography>
           </S.Typography>
         </S.BoxUser>
@@ -124,6 +124,5 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     loading && <S.Wrapper>404</S.Wrapper>
   );
 };
-const Loading = () => <Skeleton active round avatar paragraph />;
 
 export default Banner;

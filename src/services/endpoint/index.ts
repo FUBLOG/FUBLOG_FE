@@ -9,6 +9,7 @@ const authEndpoint = {
   RESET_PASSWORD: `/auth/resetPassword`,
   AUTH_TOKEN: `/auth/checkToken`,
 };
+
 const userEndpoint = {
   USER_MESSAGES: `/user/getUserMessages`,
   GET_CONVERSATION: `/conversation/`,
@@ -44,6 +45,7 @@ const friendEndpoint = {
   FRIEND_LIST: `/friend`,
   GET_REQUESTS_SENT: `/friend/request/`,
   UNSENT_REQUEST: `/friend/request`,
+  GET_FRIEND_ID: `/friend/`,
 };
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,

@@ -11,7 +11,6 @@ export const ContentStyleDiv = styled.div`
     font-weight: 600;
   }
 
-
   TextArea::placeholder {
     color: #5c5469;
   }
@@ -54,25 +53,17 @@ export const ContentStyleDiv = styled.div`
   .userAction button:hover {
     background-color: rgba(92, 84, 112, 0.2) !important;
   }
-    .create-btn{
-        position: absolute;
-        right: 20px;
-        top: 450px;
-    }
-        .display-Tag{
-        position: absolute;
-        left: 20px;
-        top: 450px;
-    }
-`;
-export const TagModal = styled(Modal)`
-
-`;
-export const AudienceModal = styled(Modal)`
-
-`;
-export const CustomUploadStyled = styled(Upload)`
-  .ant-upload-list  {
-    padding: 10px;
+  .create-btn {
+    position: absolute;
+    right: 20px;
+    top: 450px;
+  }
+  .display-Tag {
+    position: absolute;
+    left: 20px;
+    top: 450px;
   }
 `;
+export const TagModal = styled(Modal)``;
+export const AudienceModal = styled(Modal)``;
+export const CustomUploadStyled = styled(Upload)``;

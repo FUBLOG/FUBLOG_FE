@@ -9,13 +9,15 @@ import * as S from "./styles";
 
 function Verification() {
   const [status, setStatus] = useState<string>("forgot");
+  const [email, setEmail] = useState("");
+
   return (
     <S.HomeWrapper>
       <Intro />
       {status === "forgot" ? (
-        <FormForgot status={status} setStatus={setStatus} />
+        <FormForgot setStatus={setStatus} setEmail={setEmail} />
       ) : (
-        <FormVerification />
+        <FormVerification email={email} setStatus={setStatus} />
       )}
     </S.HomeWrapper>
   );

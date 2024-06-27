@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NotificationContainer = styled.div`
-  padding: 5px;
+  padding: 0px;
 
   .custom-tabs .ant-tabs-nav .ant-tabs-tab {
     color: #352f44;
@@ -13,11 +13,6 @@ export const NotificationContainer = styled.div`
     color: #352f44 !important;
   }
 
-  .notification-item:hover,
-  .friend-item:hover {
-    background-color: #b9b4c7;
-    cursor: pointer;
-  }
   .notification-item,
   .friend-item {
     padding: 8px 16px;
@@ -34,6 +29,30 @@ export const NotificationContainer = styled.div`
   .notification-read .ant-list-item-meta span {
     font-weight: normal;
   }
+
+  .notification-item:hover,
+  .friend-item:hover {
+    background-color: #fff;
+    opacity: 0.7;
+  }
+
+  .friend-item .ant-list-item-meta-title {
+    display: flex;
+    align-items: center;
+  }
+
+  .friend-item .ant-list-item-meta-title span {
+    display: inline;
+    white-space: nowrap;
+    font-weight: normal;
+  }
+
+  .friend-item .ant-list-item-meta-description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 8px;
+  }
 `;
 
 export const TabContent = styled.div`
@@ -43,38 +62,38 @@ export const TabContent = styled.div`
 
   .ant-list-item-meta-title {
     font-size: 16px;
-    font-weight: bold;
   }
 
   .ant-list-item-meta-description {
     font-size: 14px;
     display: flex;
     justify-content: space-between;
+    padding: 0 10px;
   }
-
-  .ant-list-item-meta-description span {
-    flex: 1;
+  .ant-list .ant-list-item {
     display: flex;
-    justify-content: flex-end;
-    color: #a0a0a0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 15px;
+    color: rgba(0, 0, 0, 0.88);
+    margin: 0px;
   }
-
-  button {
-    background-color: #5c5470;
-    border: none;
-    color: #faf0e6;
-    padding: 8px 16px; /* Tăng kích thước của nút */
-    cursor: pointer;
-    border-radius: 4px;
-    margin-right: 8px;
-
-    &:hover {
-      background-color: #352f44;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
+  .ant-modal .ant-modal-content {
+    position: relative;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+      0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+    padding: 4px;
+  }
+  .ant-btn-default {
+    background: #b9b4c7;
+    border-color: #4c3bcf;
+    color: rgba(0, 0, 0, 0.88);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
   }
 `;
 

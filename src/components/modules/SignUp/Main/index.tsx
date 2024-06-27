@@ -10,6 +10,8 @@ import FormVerification from "../FormVerification";
 function SignUp() {
   const [nextStep, setNextStep] = useState("signup");
   const [formData, setFormData] = useState();
+  const [email, setEmail] = useState("");
+
   return (
     <S.HomeWrapper>
       <Intro />
@@ -18,9 +20,14 @@ function SignUp() {
           setNextStep={setNextStep}
           setFormData={setFormData}
           formData={formData}
+          setEmail={setEmail}
         />
       ) : (
-        <FormVerification setNextStep={setNextStep} formData={formData} />
+        <FormVerification
+          email={email}
+          setNextStep={setNextStep}
+          formData={formData}
+        />
       )}
     </S.HomeWrapper>
   );

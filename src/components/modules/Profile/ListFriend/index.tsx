@@ -1,28 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
 import TotalFriend from "../TotalFriend";
-import { useAuthContext } from "@/contexts/AuthContext";
+import Link from "next/link";
+import { getRequest } from "@/services/request";
+import { friendEndpoint } from "@/services/endpoint";
 
-function ListFriend() {
-  const { userInfo } = useAuthContext();
+function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
   const [modalVisible, setModalVisible] = useState(false);
-
-  const friends = [
-    { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
-    { id: 2, name: "Thu Phương", image: "/thuphuong.png", friendCount: 8 },
-    { id: 3, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
-    { id: 4, name: "Thu Phương", image: "/thuphuong.png", friendCount: 8 },
-    { id: 5, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
-    { id: 6, name: "Thu Phương", image: "/thuphuong.png", friendCount: 8 },
-    { id: 7, name: "Thanhthuy", image: "/thanhthuy.png", friendCount: 12 },
-    { id: 8, name: "Văn Mạnh", image: "/vanmanh.png", friendCount: 8 },
-    { id: 9, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
-  ];
-
+  useEffect(() => {
+    const getFriendByID = async () => {
+      setLoading(true);
+      await getRequest(friendEndpoint.GET_FRIEND_ID + profileHash).then(
+        (res) => {
+          setFriend(res?.metadata);
+          return res;
+        }
+      );
+    };
+    getFriendByID();
+    setLoading(false);
+  }, [profileHash]);
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -31,36 +32,46 @@ function ListFriend() {
     setModalVisible(false);
   };
 
-  const handleFriendClick = (friendId: number) => {
-    window.location.href = `/friend/${friendId}`;
-  };
-
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="body-text-small-bold" fontSize="18px" color="#fff !important">
+        <Typography
+          variant="body-text-small-bold"
+          fontSize="18px"
+          color="#fff !important"
+        >
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
-          <Typography variant="body-text-small-bold" color="#fff" style="oblique" margin="0px 34px" fontSize="14px">
+          <Typography
+            variant="body-text-small-bold"
+            color="#fff"
+            style="oblique"
+            margin="0px 34px"
+            fontSize="14px"
+          >
             Xem tất cả bạn bè
           </Typography>
         </S.ViewAllButton>
       </S.Title>
       <S.FriendContainer>
-        {friends.slice(0, 9).map((friend) => (
-          <S.Friend key={friend.id} onClick={() => handleFriendClick(friend.id)}>
-            <S.FriendImageContainer>
-              <Image
-                alt={friend.name}
-                src={friend.image}
-                width={50}
-                height={50}
-                objectFit="cover"
-              />
-            </S.FriendImageContainer>
-            <S.FriendName variant="body-text-small-normal">{friend.name}</S.FriendName>
-          </S.Friend>
+        {friends?.slice(0, 9).map((friend: any) => (
+          <Link href={`/profile?pId=${friend?.profileHash}`} key={friend._id}>
+            <S.Friend>
+              <S.FriendImageContainer>
+                <Image
+                  alt={friend?.displayName}
+                  src={friend?.userInfo?.avatar}
+                  width={50}
+                  height={50}
+                  objectFit="cover"
+                />
+              </S.FriendImageContainer>
+              <S.FriendName variant="body-text-small-normal">
+                {friend?.displayName}
+              </S.FriendName>
+            </S.Friend>
+          </Link>
         ))}
       </S.FriendContainer>
 
@@ -68,7 +79,7 @@ function ListFriend() {
         visible={modalVisible}
         onClose={handleCloseModal}
         friends={friends}
-        totalFriends={friends.length}
+        totalFriends={friends?.length}
       />
     </S.Wrapper>
   );

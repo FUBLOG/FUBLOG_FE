@@ -1,10 +1,7 @@
-import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
 import { useGetProfile, useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
-import { message } from "antd";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useAuth } from "./useAuthStatus";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
@@ -22,7 +19,11 @@ const useFriend = (profileHash: any) => {
 
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {
-    if (!webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      !webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) === "" &&
+      webStorageClient.get(constants.REFRESH_TOKEN) === ""
+    ) {
       setIsGuest(true);
       return true;
     }

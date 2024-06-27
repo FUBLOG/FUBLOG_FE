@@ -132,7 +132,7 @@ function MainLayout({ children }: LayoutProps) {
         key="logout"
         className="custom-menu-item"
         onClick={() => {
-          logout(), router.refresh();
+          logout();
         }}
       >
         <button style={{ all: "unset", cursor: "pointer" }}>

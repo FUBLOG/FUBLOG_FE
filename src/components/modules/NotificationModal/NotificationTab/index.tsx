@@ -74,23 +74,56 @@ const NotificationTab = ({ onclose }: any) => {
         itemLayout="horizontal"
         dataSource={notifications}
         renderItem={(item: any) => (
-          <Link href={item?.link} onClick={handleClick}>
-            <List.Item
-              key={item.id}
-              className={` ${
-                item.isRead
-                  ? "notification-read .ant-list-item-meta "
-                  : "notification-unread .ant-list-item-meta"
-              }`}
-              onClick={() => handleMarkRead(item._id)}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item?.image[0]} />}
-                title={<span>{item.title}</span>}
-                description={<span>{fromNow(new Date(item.createdAt))}</span>}
-              />
-            </List.Item>
-          </Link>
+          <>
+            {item?.payload?.postId === undefined ? (
+              <Link
+                href={`/profile?pId=${item?.payload?.profileHash}`}
+                onClick={handleClick}
+              >
+                <List.Item
+                  key={item.id}
+                  className={` ${
+                    item.isRead
+                      ? "notification-read .ant-list-item-meta "
+                      : "notification-unread .ant-list-item-meta"
+                  }`}
+                  onClick={() => {
+                    handleMarkRead(item._id), console.log(item, "item?.link");
+                  }}
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={item?.image[0]} />}
+                    title={<span>{item.title}</span>}
+                    description={
+                      <span>{fromNow(new Date(item.createdAt))}</span>
+                    }
+                  />
+                </List.Item>
+              </Link>
+            ) : (
+              <Link href={`/`} onClick={handleClick}>
+                <List.Item
+                  key={item.id}
+                  className={` ${
+                    item.isRead
+                      ? "notification-read .ant-list-item-meta "
+                      : "notification-unread .ant-list-item-meta"
+                  }`}
+                  onClick={() => {
+                    handleMarkRead(item._id), console.log(item, "item?.link");
+                  }}
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={item?.image[0]} />}
+                    title={<span>{item.title}</span>}
+                    description={
+                      <span>{fromNow(new Date(item.createdAt))}</span>
+                    }
+                  />
+                </List.Item>
+              </Link>
+            )}
+          </>
         )}
       />
     </S.NotificationContainer>

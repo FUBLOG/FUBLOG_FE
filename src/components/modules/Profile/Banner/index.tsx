@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@/components/core/common/Typography";
-import Button from "@/components/core/common/Button";
 import * as S from "./styles";
 import useFriend from "@/hooks/useFriend";
-import { useGetProfile, useProfile } from "@/hooks/useProfile";
+import { useGetProfile } from "@/hooks/useProfile";
 import {
   acceptFriendRequest,
   rejectFriendRequest,
@@ -94,9 +93,13 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
     }
     checkFriend();
   };
-
+  useEffect(() => {
+    console.log(profileSearch);
+  }, []);
   return !isNotFound ? (
-    <S.Wrapper>
+    <S.Wrapper
+      style={{ backgroundImage: `url(${profileSearch?.info?.cover_photo})` }}
+    >
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.CoverImage />
       <S.BannerUser>
@@ -105,7 +108,11 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
             <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
-            <Typography variant="body-text-small-bold" color="#fff !important" fontSize="34px">
+            <Typography
+              variant="body-text-small-bold"
+              color="#fff !important"
+              fontSize="34px"
+            >
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
@@ -113,7 +120,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
               color="#fff !important"
               fontSize="14px"
             >
-              Tôi là một người ...
+              {profileSearch?.info?.bio}
             </Typography>
           </S.Typography>
         </S.BoxUser>

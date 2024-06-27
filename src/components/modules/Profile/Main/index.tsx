@@ -2,7 +2,7 @@
 import useFriend from "@/hooks/useFriend";
 import { useEffect } from "react";
 import Banner from "../Banner";
-import Introduce from "../introduce";
+import Introduce from "../Introduce";
 import PostProfile from "../PostProfile";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";

@@ -6,12 +6,10 @@ import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
 import TotalFriend from "../TotalFriend";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useRouter } from "next/router";
 
 function ListFriend() {
   const { userInfo } = useAuthContext();
   const [modalVisible, setModalVisible] = useState(false);
-  const router = useRouter();
 
   const friends = [
     { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png", friendCount: 12 },
@@ -33,25 +31,21 @@ function ListFriend() {
     setModalVisible(false);
   };
 
-  const handleFriendClick = () => {
-   
-  };
-
   return (
     <S.Wrapper>
       <S.Title>
-        <Typography variant="body-text-small-bold" fontSize="18px" color="#fff !important">
+        <Typography variant="body-text-small-bold" fontSize="18px"  color="#fff   !important">
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
-          <Typography variant="body-text-small-bold" color="#fff" style="oblique" margin="0px 34px" fontSize="14px">
+          <Typography variant="body-text-small-bold" color="#fff"  style="oblique" margin="0px 34px" fontSize="14px"> 
             Xem tất cả bạn bè
           </Typography>
         </S.ViewAllButton>
       </S.Title>
       <S.FriendContainer>
         {friends.slice(0, 9).map((friend) => (
-          <S.Friend key={friend.id} onClick={() => handleFriendClick()}>
+          <S.Friend key={friend.id}>
             <S.FriendImageContainer>
               <Image
                 alt={friend.name}
@@ -61,7 +55,7 @@ function ListFriend() {
                 objectFit="cover"
               />
             </S.FriendImageContainer>
-            <S.FriendName variant="body-text-small-normal">{friend.name}</S.FriendName>
+            <S.FriendName variant="body-text-small-normal">{friend.name} </S.FriendName>
           </S.Friend>
         ))}
       </S.FriendContainer>

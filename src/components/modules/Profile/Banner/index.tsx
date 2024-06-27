@@ -105,7 +105,7 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
             <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
-            <Typography variant="body-text-small-bold" color="#fff !important" fontSize="18px">
+            <Typography variant="body-text-small-bold" color="#fff !important" fontSize="34px">
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography

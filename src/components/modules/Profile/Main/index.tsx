@@ -14,7 +14,8 @@ const Profile = () => {
   const profileHash = searchParams.get("pId");
   const [loading, setLoading] = useState<boolean>(true);
   const { checkFriend } = useFriend(profileHash);
-  const [friends, setFriend] = useState<[{}]>([{}]);
+  const [friends, setFriend] = useState<Array<object>>([]);
+
   useEffect(() => {
     setLoading(true);
     const checkIsFriend = async () => {

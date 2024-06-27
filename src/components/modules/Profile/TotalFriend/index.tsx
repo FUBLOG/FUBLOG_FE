@@ -50,7 +50,7 @@ const TotalFriend: React.FC<TotalFriendProps> = ({
         </Typography>
         <S.FriendsGrid>
           {friends?.map((friend: any) => (
-            <Link href={`profile?pId=${friend?.profileHash}`}>
+            <Link href={`/profile?pId=${friend?.profileHash}`}>
               <S.FriendCard
                 key={friend?._id}
                 onClick={() => handleProfileClick(friend?.profileHash)}

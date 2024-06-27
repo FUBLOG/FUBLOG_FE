@@ -5,7 +5,6 @@ import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
 import TotalFriend from "../TotalFriend";
-import { useProfile } from "@/hooks/useProfile";
 import Link from "next/link";
 import { getRequest } from "@/services/request";
 import { friendEndpoint } from "@/services/endpoint";
@@ -57,7 +56,7 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
       </S.Title>
       <S.FriendContainer>
         {friends?.slice(0, 9).map((friend: any) => (
-          <Link href={`profile?pId=${friend?.profileHash}`}>
+          <Link href={`/profile?pId=${friend?.profileHash}`}>
             <S.Friend key={friend._id}>
               <S.FriendImageContainer>
                 <Image

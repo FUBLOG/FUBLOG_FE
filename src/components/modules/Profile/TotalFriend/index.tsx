@@ -5,6 +5,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 import Typography from "@/components/core/common/Typography";
 import * as S from "./styles";
+import fontWeight from "@/style/themes/default/fontWeight";
 
 interface Friend {
   id: number;
@@ -43,10 +44,11 @@ const TotalFriend: React.FC<TotalFriendProps> = ({
       bodyStyle={{ padding: 0 }}
     >
       <S.ModalContent>
-        <Typography variant="h5" color="#352f44" align="center" fontSize="24px">
+        
+        <Typography variant="h5" color="#000" align="center" fontSize="24px">
           Tất cả bạn bè
         </Typography>
-        <Typography variant="body-text-small-bold" color="#9b98af" align="center" fontSize="28px"  margin="0px" padding="0px" >
+        <Typography variant="body-text-small-bold" color="#000" align="center" fontSize="14px"  margin="0px" padding="0px" >
           {totalFriends} Bạn bè
         </Typography>
         <S.FriendsGrid>
@@ -59,7 +61,7 @@ const TotalFriend: React.FC<TotalFriendProps> = ({
                 <S.FriendAvatar src={friend.image} alt={friend.name} />
               </S.FriendImageContainer>
               <S.FriendInfo>
-                <S.FriendName variant="body-text-small-normal" fontSize="14px" style="oblique" >
+                <S.FriendName variant="body-text-small-normal" fontSize="14px" style="italic" >
                   {friend.name}
                 </S.FriendName>
                 <S.FriendCount variant="body-text-small-normal" style="italic">

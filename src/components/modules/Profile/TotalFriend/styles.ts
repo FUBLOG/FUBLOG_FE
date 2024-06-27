@@ -56,7 +56,7 @@ export const FriendInfo = styled.div`
 
 export const FriendName = styled(Typography)`
   color: #352f44;
-  font-weight: bold;
+ 
 `;
 
 export const FriendCount = styled(Typography)`
@@ -70,4 +70,7 @@ export const CustomModal = styled(Modal)`
   border-radius: 24px;
 
 }
+`
+export const title = styled.div`
+font-weight: bold;
 `

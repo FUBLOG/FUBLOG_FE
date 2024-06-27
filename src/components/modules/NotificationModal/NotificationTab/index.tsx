@@ -88,7 +88,7 @@ const NotificationTab = ({ onclose }: any) => {
                       : "notification-unread .ant-list-item-meta"
                   }`}
                   onClick={() => {
-                    handleMarkRead(item._id), console.log(item, "item?.link");
+                    handleMarkRead(item._id);
                   }}
                 >
                   <List.Item.Meta
@@ -110,7 +110,7 @@ const NotificationTab = ({ onclose }: any) => {
                       : "notification-unread .ant-list-item-meta"
                   }`}
                   onClick={() => {
-                    handleMarkRead(item._id), console.log(item, "item?.link");
+                    handleMarkRead(item._id);
                   }}
                 >
                   <List.Item.Meta

@@ -56,8 +56,8 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
       </S.Title>
       <S.FriendContainer>
         {friends?.slice(0, 9).map((friend: any) => (
-          <Link href={`/profile?pId=${friend?.profileHash}`}>
-            <S.Friend key={friend._id}>
+          <Link href={`/profile?pId=${friend?.profileHash}`} key={friend._id}>
+            <S.Friend>
               <S.FriendImageContainer>
                 <Image
                   alt={friend?.displayName}

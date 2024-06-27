@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Banner from "../Banner";
 import Introduce from "../Introduce";
 import PostProfile from "../PostProfile";
-import { useAuth } from "@/hooks/useAuthStatus";
 import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
@@ -15,20 +14,7 @@ const Profile = () => {
   const profileHash = searchParams.get("pId");
   const [loading, setLoading] = useState<boolean>(true);
   const { checkFriend } = useFriend(profileHash);
-  const [friends, setFriend] = useState<[{}]>([
-    {
-      _id: "",
-      displayName: "",
-      firstName: "",
-      lastName: "",
-      profileHash: "",
-      userInfo: {
-        avatar: "",
-        user_id: "",
-        _id: "",
-      },
-    },
-  ]);
+  const [friends, setFriend] = useState<[{}]>([{}]);
   useEffect(() => {
     setLoading(true);
     const checkIsFriend = async () => {

@@ -14,6 +14,7 @@ import {
 import { Skeleton } from "antd";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
+import NotFound from "../../Home/NotFound/main";
 
 interface BannerProps {
   profileHash: any;
@@ -120,8 +121,9 @@ const Banner: React.FC<BannerProps> = ({ profileHash }) => {
         <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
+  
   ) : (
-    loading && <S.Wrapper>404</S.Wrapper>
+    loading && <S.Wrapper> <NotFound></NotFound> </S.Wrapper>
   );
 };
 const Loading = () => <Skeleton active round avatar paragraph />;

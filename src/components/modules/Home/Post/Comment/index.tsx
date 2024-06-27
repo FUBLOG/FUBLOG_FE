@@ -78,7 +78,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     setNewComment("");
     icrComment(1);
 
-    // Scroll to the latest comment
+
     setTimeout(() => {
       if (commentsWrapperRef.current) {
         commentsWrapperRef.current.scrollTop =

@@ -14,7 +14,7 @@ import {
 import { Skeleton } from "antd";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
-import NotFound from "../../Home/NotFound/main";
+import NotFound from "../../NotFound/main";
 
 interface BannerProps {
   profileHash: any;

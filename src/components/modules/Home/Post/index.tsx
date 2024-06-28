@@ -79,6 +79,9 @@ const Post = ({ newfeed }: PostProps) => {
           </S.UserInfo>
           <ExclamationCircleOutlined
             style={{ color: "#FAF0E6", cursor: "pointer" }}
+            onClick={() => {
+              setShowReportModal(true);
+            }}
           />
         </S.PostHeader>
 
@@ -156,6 +159,10 @@ const Post = ({ newfeed }: PostProps) => {
         onCancel={() => setShowReportModal(false)}
         cancelText={"Hủy"}
         okText={"Tiếp tục"}
+        onOk={() => {
+          setShowConfirmModal(true);
+          setShowReportModal(false);
+        }}
       >
         <Typography variant="caption-small">Hãy chọn vấn đề:</Typography>
         <Radio.Group
@@ -187,6 +194,10 @@ const Post = ({ newfeed }: PostProps) => {
         onCancel={handleCloseSuccessModal}
         cancelText={"Hủy"}
         okText={"Báo cáo"}
+        onOk={() => {
+          setShowConfirmModal(false),
+            message.success("Báo cáo bài viết thành công");
+        }}
       >
         <Typography variant="caption-small">
           {isPostReport

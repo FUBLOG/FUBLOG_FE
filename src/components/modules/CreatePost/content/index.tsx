@@ -124,7 +124,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       <div className="contentHeader">
         <div className="user-wrapper">
           <div className="image-wrapper">
-            <Image src={userInfo.userInfo.avatar} width={40} height={40} />
+            <Image src={userInfo?.userInfo.avatar} width={40} height={40} />
           </div>
           <div className="des">
             <span>{userInfo?.displayName}</span>

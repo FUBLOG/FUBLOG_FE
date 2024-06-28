@@ -1,14 +1,11 @@
-import { getFriendList } from "@/services/api/friend";
 import { useEffect, useState } from "react";
 import { useGetProfile, useProfile } from "./useProfile";
 import { getRequestFriend } from "@/services/api/friend";
-import { message } from "antd";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useAuth } from "./useAuthStatus";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const useFriend = (profileHash: string) => {
+const useFriend = (profileHash: any) => {
   const [isFriend, setIsFriend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
@@ -22,19 +19,17 @@ const useFriend = (profileHash: string) => {
 
   const [isNotFound, setIsNotFound] = useState(false);
   const checkIsGuest = () => {
-    if (!webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      !webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) === "" &&
+      webStorageClient.get(constants.REFRESH_TOKEN) === ""
+    ) {
       setIsGuest(true);
       return true;
     }
     return false;
   };
   const checkIsFriend = () => {
-    console.log(
-      userInfo?.userInfo?.friendList?.some(
-        (friend: string) => friend === profileSearch?.user?._id
-      )
-    );
-
     setIsFriend(
       userInfo?.userInfo?.friendList?.some(
         (friend: string) => friend === profileSearch?.user?._id
@@ -50,6 +45,7 @@ const useFriend = (profileHash: string) => {
   };
   const checkRequest = async () => {
     const response = await getRequestFriend(profileSearch?.user?._id);
+
     if (response?.metadata === null) {
       await checkIsFriend();
     } else {
@@ -57,17 +53,14 @@ const useFriend = (profileHash: string) => {
     }
   };
   const checkFriend = async () => {
-    console.log("profile", profileSearch);
-
     if (profileSearch?.user?._id === undefined) {
       setIsNotFound(true);
       return;
     }
     if (!(await checkIsGuest())) {
-      console.log(userInfo?._id === profileSearch?.user?._id);
-
       if (userInfo?._id === profileSearch?.user?._id) {
-        setIsMyUser(true);
+        await setIsMyUser(true);
+        return;
       } else {
         await checkRequest();
       }
@@ -90,14 +83,6 @@ const useFriend = (profileHash: string) => {
       setLoading(false);
     };
     asyncFn();
-    console.log(
-      isRequester,
-      isFriend,
-      isBlocked,
-      isGuest,
-      isMyUser,
-      isSendFriend
-    );
   }, [profileSearch]);
   return {
     isRequester,

@@ -18,9 +18,9 @@ interface SocketContextProps {
 
 export const SocketContext = createContext<SocketContextProps>({
   socket: {} as Socket,
-  setSocket: () => { },
+  setSocket: () => {},
   userOnline: [],
-  setUserOnline: () => { }
+  setUserOnline: () => {},
 });
 
 export const useSocketContext = () => {
@@ -34,16 +34,16 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   const [userOnline, setUserOnline] = useState<string[]>([]);
   const { userInfo } = useAuthContext();
   useEffect(() => {
-    if (userInfo?.userId !== "") {
+    if (userInfo?._id !== "") {
       const socket = io("https://has.io.vn", {
         query: {
-          userId: userInfo?.userId,
+          userId: userInfo?._id,
         },
       });
       setSocket(socket);
       socket.on("getOnlineUsers", async (data: string[]) => {
         setUserOnline(data);
-      })
+      });
       return () => {
         if (socket) {
           socket.close();
@@ -64,5 +64,3 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
     </SocketContext.Provider>
   );
 };
-
-

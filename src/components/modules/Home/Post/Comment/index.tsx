@@ -2,13 +2,14 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, message } from "antd";
+import { Button, Dropdown, Menu, message, Modal, Carousel } from "antd";
 import {
   addComment,
   deleteComment,
   editCommentApi,
   getCommentPost,
 } from "@/services/api/comment";
+import Typography from "@/components/core/common/Typography";
 
 const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -24,6 +25,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
+
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -40,6 +42,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
         commentsWrapperRef.current.scrollHeight;
     }
   }, [commentsData]);
+
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
@@ -58,6 +61,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       setEditMode(null);
     };
   }, [open]);
+
   const handleAddComment = async () => {
     const res: any = await addComment(newfeed?.post?._id, newComment, null);
 
@@ -73,12 +77,22 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     setCommentsData(updatedComments);
     setNewComment("");
     icrComment(1);
+
+    // Scroll to the latest comment
+    setTimeout(() => {
+      if (commentsWrapperRef.current) {
+        commentsWrapperRef.current.scrollTop =
+          commentsWrapperRef.current.scrollHeight;
+      }
+    }, 100);
   };
+
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
     setIsPostReport(false);
     setShowReportModal(true);
   };
+
   const renderCommentMenu = (comment: any) => {
     return (
       <Menu
@@ -124,11 +138,11 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
         return comment;
       });
       setLoadingUpdate(false);
-      setCommentsData(updatedComments);
       setEditComment("");
       setEditMode(null);
     }
   };
+
   const handleReplyComment = (commentId: any) => {
     const parentComment = commentsData.find(
       (comment: any) => comment._id === commentId
@@ -147,6 +161,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       }, 100);
     }
   };
+
   const handleEditComment = (commentId: number) => {
     const commentToEdit = commentsData.find(
       (comment: any) => comment._id === commentId
@@ -165,6 +180,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     setCommentsData(updatedComments);
     icrComment(-1);
   };
+
   const handleReply = async () => {
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData = await addComment(
@@ -195,8 +211,9 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       setSelectedCommentId(null);
     }
   };
+
   const renderComments = (commentsArray: any, depth = 0) => {
-    return commentsArray.map((comment: any) => {
+    return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
       return (
@@ -219,7 +236,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
                 overlay={renderCommentMenu(comment)}
                 trigger={["click"]}
               >
-                <EllipsisOutlined style={{ cursor: "pointer" }} />
+                <EllipsisOutlined style={{ cursor: "pointer", margin:"10px" }} />
               </Dropdown>
             </S.CommentHeader>
             {editMode === comment._id ? (
@@ -294,51 +311,88 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
 
   return (
     <S.CustomModal
-      title="Bình luận"
-      open={open}
-      onOk={close}
-      onCancel={close}
-      destroyOnClose={true}
-      footer={null}
-    >
-      <S.CommentSection>
-        <S.CommentsWrapper ref={commentsWrapperRef}>
-          {renderComments(commentsData)}
-        </S.CommentsWrapper>
-        <S.Divider />
-        <S.CommentBox>
-          <S.CommentHeader>
-            <S.Avatar
-              src={userInfo?.userInfo?.avatar}
-              alt={`${userInfo?.displayName}'s avatar`}
-            />
-            <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
-          </S.CommentHeader>
-          <S.TextArea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Viết bình luận..."
-            ref={editInputRef}
-            className="comment-textarea"
-          />
-          <S.ButtonWrapper>
-            <Button
-              color="red"
-              type="primary"
-              style={{
-                width: "100px",
-                marginTop: "0px",
-                padding: "5px 5px",
-                border: "none",
-              }}
-              onClick={handleAddComment}
-            >
-              Đăng
-            </Button>
-          </S.ButtonWrapper>
-        </S.CommentBox>
-      </S.CommentSection>
-    </S.CustomModal>
+  title="Bài viết"
+  open={open}
+  onOk={close}
+  onCancel={close}
+  destroyOnClose={true}
+  footer={null}
+  centered
+  width={800}
+>
+  <S.PostContentWrapper>
+    <S.PostHeaderModal>
+      <S.Avatar
+        src={newfeed?.userId?.userInfo?.avatar}
+        alt={`${newfeed?.userId?.displayName}'s avatar`}
+      />
+      <S.UserName>{newfeed?.userId?.displayName}</S.UserName>
+    </S.PostHeaderModal>
+    <Typography variant="caption-small" color="#352f44" fontSize="16px" lineHeight="2" margin="5px 20px" >
+      {newfeed?.post?.postContent}
+    </Typography>
+
+    {newfeed?.post?.postLinkToImages.length === 1 && (
+      <S.ImagesWrapper>
+        <img
+          src={newfeed?.post?.postLinkToImages[0]}
+          alt="Post Image"
+          className="post-image image-modal"
+        />
+      </S.ImagesWrapper>
+    )}
+    {newfeed?.post?.postLinkToImages.length > 1 && (
+      <S.ImagesWrapper2>
+        <Carousel arrows={true}>
+          {newfeed?.post?.postLinkToImages.map((src: any) => (
+            <img key={src} src={src} alt="Post Image" className="post-image image-modal" />
+          ))}
+        </Carousel>
+      </S.ImagesWrapper2>
+    )}
+  </S.PostContentWrapper>
+  <S.CommentSection>
+    <S.CommentsWrapper ref={commentsWrapperRef}>
+      {renderComments(commentsData)}
+    </S.CommentsWrapper>
+  </S.CommentSection>
+  <S.CommentBox>
+    <S.CommentHeader>
+      <S.Avatar
+        src={userInfo?.userInfo?.avatar}
+        alt={`${userInfo?.displayName}'s avatar`}
+      />
+      <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
+    </S.CommentHeader>
+    <S.TextArea
+      value={newComment}
+      onChange={(e) => setNewComment(e.target.value)}
+      placeholder="Viết bình luận..."
+      ref={editInputRef}
+      className="comment-textarea"
+    />
+    <S.ButtonWrapper>
+      <Button
+        color="red"
+        type="primary"
+        style={{
+          width: "100px",
+          marginTop: "0px",
+          padding: "5px 5px",
+          border: "none",
+          marginRight:"50px"
+        
+        }}
+        onClick={handleAddComment}
+      >
+        Đăng
+      </Button>
+    </S.ButtonWrapper>
+  </S.CommentBox>
+</S.CustomModal>
+
+    
   );
 };
+
 export default CommentModal;

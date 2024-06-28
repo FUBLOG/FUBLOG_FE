@@ -37,8 +37,6 @@ const PostsRender = () => {
       ]);
       setPost(null);
     }
-    console.log("list", listPosts);
-    console.log(userInfo?._id, "userInfo?._id");
   }, [userInfo?._id, post]);
 
   return loading ? (

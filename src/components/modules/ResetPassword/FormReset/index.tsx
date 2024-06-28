@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined } from "@ant-design/icons";
-import { CheckboxProps, Form } from "antd";
+import { Form, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 import InputPassword from "@/components/core/common/form/InputPassword";
@@ -9,8 +9,60 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 
 import * as S from "./styles";
+import { postRequest } from "@/services/request";
+import { authEndpoint } from "@/services/endpoint";
+import { useSearchParams } from "next/navigation";
+import { SetStateAction, useState } from "react";
 
 function FormReset() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const [_, setCountdown] = useState(3);
+
+  async function onFinish(values: any): Promise<void> {
+    const data = {
+      password: values?.newPassword!,
+      confirmPassword: values?.confirmPassword!,
+      otp: token,
+    };
+    try {
+      await postRequest(authEndpoint.RESET_PASSWORD, { data });
+      message.success("Đặt lại mật khẩu thành công");
+      startCountdown(3);
+    } catch (error) {
+      message.error("Đặt lại mật khẩu thất bại");
+    }
+  }
+
+  const startCountdown = (initialCountdown: SetStateAction<number>) => {
+    setCountdown(initialCountdown);
+    const intervalId = setInterval(() => {
+      updateCountdown(intervalId);
+    }, 1000);
+  };
+
+  const updateCountdown = (
+    intervalId: string | number | NodeJS.Timeout | undefined
+  ) => {
+    setCountdown((prevCountdown) => {
+      if (prevCountdown > 1) {
+        showCountdownMessage(prevCountdown - 1);
+        return prevCountdown - 1;
+      } else {
+        clearInterval(intervalId);
+        closeWindow();
+        return prevCountdown - 1;
+      }
+    });
+  };
+
+  const showCountdownMessage = (seconds: number) => {
+    message.info(`Trang xác thực sẽ đóng trong ${seconds} giây.`);
+  };
+
+  const closeWindow = () => {
+    window.close();
+  };
   return (
     <S.HomeWrapper>
       <Typography
@@ -19,7 +71,7 @@ function FormReset() {
         fontSize="x-large"
         align="center"
       >
-        THAY ĐỔI MẬT KHẨU
+        ĐẶT LẠI MẬT KHẨU
       </Typography>
 
       <Form
@@ -27,20 +79,10 @@ function FormReset() {
         style={{ width: "100%" }}
         initialValues={{ remember: true }}
         autoComplete="off"
+        onFinish={onFinish}
       >
         <FormItem
-          name="old-password"
-          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
-        >
-          <InputPassword
-            placeholder="Nhập mật khẩu"
-            prefix={<LockOutlined />}
-            isRequired
-            label="Mật khẩu cũ"
-          />
-        </FormItem>
-        <FormItem
-          name="new-password"
+          name="newPassword"
           rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
         >
           <InputPassword
@@ -51,7 +93,7 @@ function FormReset() {
           />
         </FormItem>{" "}
         <FormItem
-          name="confirm-password"
+          name="confirmPassword"
           rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
         >
           <InputPassword

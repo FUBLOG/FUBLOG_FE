@@ -1,51 +1,86 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
 import Typography from "@/components/core/common/Typography";
-
 import * as S from "./styles";
-import { useAuthContext } from "@/contexts/AuthContext";
-import useFriend from "@/hooks/useFriend";
+import TotalFriend from "../TotalFriend";
+import Link from "next/link";
+import { getRequest } from "@/services/request";
+import { friendEndpoint } from "@/services/endpoint";
 
-function ListFriend() {
-  const { userInfo } = useAuthContext();
-  const friends = [
-    { id: 1, name: "Vĩnh Trung", image: "/vinhtrung.png" },
-    { id: 2, name: "Thu Phương", image: "/thuphuong.png" },
-    { id: 3, name: "Văn Mạnh", image: "/vanmanh.png" },
-    { id: 4, name: "Thanh Thủy", image: "/thanhthuy.png" },
-    { id: 5, name: "Minh Quân", image: "/minhquan.png" },
-  ];
+function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
+  const [modalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    const getFriendByID = async () => {
+      setLoading(true);
+      await getRequest(friendEndpoint.GET_FRIEND_ID + profileHash).then(
+        (res) => {
+          setFriend(res?.metadata);
+          return res;
+        }
+      );
+    };
+    getFriendByID();
+    setLoading(false);
+  }, [profileHash]);
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <S.Wrapper>
-      <S.SidebarWrapper
-        style={{ display: userInfo?._id === "" ? "none" : "block" }}
-      >
-        <Typography variant="h3" color="#B9B4C7">
+      <S.Title>
+        <Typography
+          variant="body-text-small-bold"
+          fontSize="18px"
+          color="#fff !important"
+        >
           Bạn bè
         </Typography>
-        <S.FriendContainer style={{ background: "transparent" }}>
-          {friends.map((friend) => (
-            <S.Friend key={friend.id}>
+        <S.ViewAllButton onClick={handleOpenModal}>
+          <Typography
+            variant="body-text-small-bold"
+            color="#fff"
+            style="oblique"
+            margin="0px 34px"
+            fontSize="14px"
+          >
+            Xem tất cả bạn bè
+          </Typography>
+        </S.ViewAllButton>
+      </S.Title>
+      <S.FriendContainer>
+        {friends?.slice(0, 9).map((friend: any) => (
+          <Link href={`/profile?pId=${friend?.profileHash}`} key={friend._id}>
+            <S.Friend>
               <S.FriendImageContainer>
                 <Image
-                  alt={friend.name}
-                  src={friend.image}
+                  alt={friend?.displayName}
+                  src={friend?.userInfo?.avatar}
                   width={50}
                   height={50}
                   objectFit="cover"
                 />
               </S.FriendImageContainer>
-              <S.FriendInfo>
-                <S.FriendName variant="caption-normal">
-                  {friend.name}
-                </S.FriendName>
-              </S.FriendInfo>
+              <S.FriendName variant="body-text-small-normal">
+                {friend?.displayName}
+              </S.FriendName>
             </S.Friend>
-          ))}
-        </S.FriendContainer>
-      </S.SidebarWrapper>
+          </Link>
+        ))}
+      </S.FriendContainer>
+
+      <TotalFriend
+        visible={modalVisible}
+        onClose={handleCloseModal}
+        friends={friends}
+        totalFriends={friends?.length}
+      />
     </S.Wrapper>
   );
 }

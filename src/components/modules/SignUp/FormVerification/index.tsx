@@ -21,6 +21,7 @@ const { Countdown } = Statistic;
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
   readonly formData: any;
+  readonly email: string;
 }
 
 function FormVerification(props: PageProps) {
@@ -28,7 +29,12 @@ function FormVerification(props: PageProps) {
     props.setNextStep("signup");
   };
   const [targetTime, setTargetTime] = useState<number>(Date.now() + 60 * 1000);
-
+  const maskEmail = (email: string): string => {
+    const [user, domain] = email.split("@");
+    if (user.length <= 2) return email;
+    const maskedUser = `${user[0]}${user[1]}****${user[user.length - 1]}`;
+    return `${maskedUser}@${domain}`;
+  };
   const [finish, setFinish] = useState<boolean>(false);
   const onFinish = () => {
     setFinish(true);
@@ -88,8 +94,8 @@ function FormVerification(props: PageProps) {
           color="#B9B4C7"
           fontSize="xx-small"
         >
-          Một email xác nhận đã được gửi tới email ****274@gmail.com, vui lòng
-          nhấn kiểm tra hộp thư đến và xác nhận theo hướng dẫn.
+          Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui lòng
+          kiểm tra hộp thư đến và nhấn xác nhận theo hướng dẫn.
         </Typography>
       </S.Infor>
       <Typography

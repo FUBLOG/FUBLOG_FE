@@ -42,9 +42,17 @@ function FormSignIn(showModalGuest: any) {
           PRIVATEKEY: res?.metadata?.tokens?.privateKey,
         },
         res?.metadata?.user
-      );
-      router.push("/");
-      showModalGuest(false);
+      )
+        .then(() => {
+          if (showModalGuest?.showModalGuest === false) {
+            router.push("/");
+          } else {
+            router.refresh();
+          }
+        })
+        .finally(() => {
+          showModalGuest(false);
+        });
     } catch (err) {}
     setLoading(false);
   };

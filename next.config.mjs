@@ -7,7 +7,7 @@
  */
 const nextConfig = {
   /* config options here */
-  // output: 'export',
+  // output: 'export', // force app to be static -> full ssr
 
   // Optional: Change links /me -> /me/ and emit /me.html -> /me/index.html
   // trailingSlash: true,
@@ -22,6 +22,8 @@ const nextConfig = {
   // },
   images: {
     domains: ['res.cloudinary.com'],
+    unoptimized: true,
+
   },
   reactStrictMode: false,
   webpack: (config, { isServer }) => {
@@ -42,6 +44,14 @@ const nextConfig = {
 
     return config;
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:profile/:second',
+  //       destination: '/:profile?second=:second',
+  //     },
+  //   ]
+  // }
 };
 
 export default nextConfig;

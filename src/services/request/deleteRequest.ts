@@ -15,7 +15,6 @@ const deleteRequest = async (
   let header = {};
   if (isSecurity) {
     const profileHash = await webStorageClient.getProfileHash();
-    console.log(profileHash);
     header = {
       "x-client-id": profileHash,
     };
@@ -38,9 +37,13 @@ const deleteRequest = async (
       },
     })
     .then((res: any) => {
-      return res;
+      if (res?.statusCode >= 400 || res?.code >= 400) {
+        return Promise.reject(res);
+      } else {
+        return res;
+      }
     })
-    .catch((err) => {
+    .catch((err: any) => {
       message.error(errorMessage[err?.message]);
       return Promise.reject(err);
     });

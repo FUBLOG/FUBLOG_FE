@@ -23,8 +23,6 @@ const useGetFriendRequest = () => {
   const { friendRequest, setFriendRequest } = useNotification();
   const { userInfo } = useAuthContext();
   useEffect(() => {
-    console.log("noti", userInfo?._id);
-
     const getFriendRequest = async () => {
       setLoading(true);
       const res: any = await getAllRequestFriend();
@@ -70,7 +68,7 @@ const useGetNotification = () => {
     getNotificaton();
   }, []);
 
-  return { notifications, loading };
+  return { notifications, loading, setNotifications };
 };
 
 export default useNotification;

@@ -40,6 +40,7 @@ import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
+import { useRouter } from "next/navigation";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -83,7 +84,7 @@ function MainLayout({ children }: LayoutProps) {
     }
   };
   const handleCreatePostSuccess = () => {
-    setShowCreate(false); // Ẩn modal CreateContent khi tạo bài viết thành công
+    setShowCreate(false);
   };
   const showBellModal = () => {
     if (userInfo?._id !== "") {
@@ -113,21 +114,26 @@ function MainLayout({ children }: LayoutProps) {
     setList([]);
     setValueSearch("");
   };
+  const router = useRouter();
 
   const menuItems = (
     <S.CustomMenu>
       <Menu.Item key="viewProfile" className="custom-menu-item">
-        <Link href={`/profile/${userInfo?.profileHash}`}>
+        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
           Xem trang cá nhân
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href="/profile/edit">Chỉnh sửa trang cá nhân</Link>
+        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+          Chỉnh sửa trang cá nhân
+        </Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
         className="custom-menu-item"
-        onClick={() => logout()}
+        onClick={() => {
+          logout();
+        }}
       >
         <button style={{ all: "unset", cursor: "pointer" }}>
           {loading ? <Spin size="small" /> : "Đăng xuất"}
@@ -203,7 +209,7 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href={`/profile/${userInfo?.profileHash}`}>
+              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                 <UserOutlined
                   style={{ fontSize: "28px" }}
                   onClick={() => handleSetNavigation("")}

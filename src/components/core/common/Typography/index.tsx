@@ -29,6 +29,8 @@ interface TypographyProps {
   textDecoration?: "none" | "underline";
   fontSize?: string;
   lineHeight?: string;
+  
+
 }
 
 export default function Typography({
@@ -44,6 +46,7 @@ export default function Typography({
   textDecoration = "none",
   fontSize = "none",
   lineHeight,
+ 
 }: Readonly<TypographyProps>) {
   let Component;
   switch (variant) {

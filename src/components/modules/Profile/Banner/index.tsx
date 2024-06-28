@@ -12,6 +12,7 @@ import {
 } from "@/services/api/friend";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
+import NotFound from "../../NotFound/main";
 
 const Banner = ({ profileHash, setLoading }: any) => {
   const {
@@ -120,8 +121,9 @@ const Banner = ({ profileHash, setLoading }: any) => {
         <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
+  
   ) : (
-    loading && <S.Wrapper>404</S.Wrapper>
+    loading && <S.Wrapper> <NotFound></NotFound> </S.Wrapper>
   );
 };
 

@@ -152,11 +152,7 @@ function MainLayout({ children }: LayoutProps) {
 
   return (
     <S.LayoutWrapper>
-      <ModalGuest
-        setShowModalGuest={setShowModalGuest}
-        showModalGuest={showModalGuest}
-        handleCancel={handleCancel}
-      />
+      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
         <S.GlobalStyle />
         <S.Container>

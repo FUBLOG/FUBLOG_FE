@@ -5,14 +5,9 @@ import FormSignIn from "../SignIn/FormSignin";
 interface PageProps {
   readonly showModalGuest: boolean;
   readonly handleCancel?: () => void;
-  readonly setShowModalGuest: Dispatch<SetStateAction<boolean>>;
 }
 
-const ModalGuest = ({
-  setShowModalGuest,
-  showModalGuest,
-  handleCancel,
-}: PageProps) => {
+const ModalGuest = ({ showModalGuest, handleCancel }: PageProps) => {
   return (
     <S.ModalWrap
       wrapClassName="modalWrap"

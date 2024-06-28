@@ -10,6 +10,8 @@ import {
   getCommentPost,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -236,7 +238,9 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
                 overlay={renderCommentMenu(comment)}
                 trigger={["click"]}
               >
-                <EllipsisOutlined style={{ cursor: "pointer", margin:"10px" }} />
+                <EllipsisOutlined
+                  style={{ cursor: "pointer", margin: "10px" }}
+                />
               </Dropdown>
             </S.CommentHeader>
             {editMode === comment._id ? (
@@ -274,7 +278,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {userInfo?._id !== "" &&
+            {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (
@@ -311,87 +315,95 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
 
   return (
     <S.CustomModal
-  title="Bài viết"
-  open={open}
-  onOk={close}
-  onCancel={close}
-  destroyOnClose={true}
-  footer={null}
-  centered
-  width={800}
->
-  <S.PostContentWrapper>
-    <S.PostHeaderModal>
-      <S.Avatar
-        src={newfeed?.userId?.userInfo?.avatar}
-        alt={`${newfeed?.userId?.displayName}'s avatar`}
-      />
-      <S.UserName>{newfeed?.userId?.displayName}</S.UserName>
-    </S.PostHeaderModal>
-    <Typography variant="caption-small" color="#352f44" fontSize="16px" lineHeight="2" margin="5px 20px" >
-      {newfeed?.post?.postContent}
-    </Typography>
+      title="Bài viết"
+      open={open}
+      onOk={close}
+      onCancel={close}
+      destroyOnClose={true}
+      footer={null}
+      centered
+      width={800}
+    >
+      <S.PostContentWrapper>
+        <S.PostHeaderModal>
+          <S.Avatar
+            src={newfeed?.userId?.userInfo?.avatar}
+            alt={`${newfeed?.userId?.displayName}'s avatar`}
+          />
+          <S.UserName>{newfeed?.userId?.displayName}</S.UserName>
+        </S.PostHeaderModal>
+        <Typography
+          variant="caption-small"
+          color="#352f44"
+          fontSize="16px"
+          lineHeight="2"
+          margin="5px 20px"
+        >
+          {newfeed?.post?.postContent}
+        </Typography>
 
-    {newfeed?.post?.postLinkToImages.length === 1 && (
-      <S.ImagesWrapper>
-        <img
-          src={newfeed?.post?.postLinkToImages[0]}
-          alt="Post Image"
-          className="post-image image-modal"
+        {newfeed?.post?.postLinkToImages.length === 1 && (
+          <S.ImagesWrapper>
+            <img
+              src={newfeed?.post?.postLinkToImages[0]}
+              alt="Post Image"
+              className="post-image image-modal"
+            />
+          </S.ImagesWrapper>
+        )}
+        {newfeed?.post?.postLinkToImages.length > 1 && (
+          <S.ImagesWrapper2>
+            <Carousel arrows={true}>
+              {newfeed?.post?.postLinkToImages.map((src: any) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="Post Image"
+                  className="post-image image-modal"
+                />
+              ))}
+            </Carousel>
+          </S.ImagesWrapper2>
+        )}
+      </S.PostContentWrapper>
+      <S.CommentSection>
+        <S.CommentsWrapper ref={commentsWrapperRef}>
+          {renderComments(commentsData)}
+        </S.CommentsWrapper>
+      </S.CommentSection>
+      <S.CommentBox>
+        <S.CommentHeader>
+          <S.Avatar
+            src={userInfo?.userInfo?.avatar}
+            alt={`${userInfo?.displayName}'s avatar`}
+          />
+          <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
+        </S.CommentHeader>
+        <S.TextArea
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Viết bình luận..."
+          ref={editInputRef}
+          className="comment-textarea"
         />
-      </S.ImagesWrapper>
-    )}
-    {newfeed?.post?.postLinkToImages.length > 1 && (
-      <S.ImagesWrapper2>
-        <Carousel arrows={true}>
-          {newfeed?.post?.postLinkToImages.map((src: any) => (
-            <img key={src} src={src} alt="Post Image" className="post-image image-modal" />
-          ))}
-        </Carousel>
-      </S.ImagesWrapper2>
-    )}
-  </S.PostContentWrapper>
-  <S.CommentSection>
-    <S.CommentsWrapper ref={commentsWrapperRef}>
-      {renderComments(commentsData)}
-    </S.CommentsWrapper>
-  </S.CommentSection>
-  <S.CommentBox>
-    <S.CommentHeader>
-      <S.Avatar
-        src={userInfo?.userInfo?.avatar}
-        alt={`${userInfo?.displayName}'s avatar`}
-      />
-      <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
-    </S.CommentHeader>
-    <S.TextArea
-      value={newComment}
-      onChange={(e) => setNewComment(e.target.value)}
-      placeholder="Viết bình luận..."
-      ref={editInputRef}
-      className="comment-textarea"
-    />
-    <S.ButtonWrapper>
-      <Button
-        color="red"
-        type="primary"
-        style={{
-          width: "100px",
-          marginTop: "0px",
-          padding: "5px 5px",
-          border: "none",
-          marginRight:"50px"
-        
-        }}
-        onClick={handleAddComment}
-      >
-        Đăng
-      </Button>
-    </S.ButtonWrapper>
-  </S.CommentBox>
-</S.CustomModal>
-
-    
+        <S.ButtonWrapper>
+          <Button
+            color="red"
+            type="primary"
+            style={{
+              width: "100px",
+              marginTop: "0px",
+              padding: "5px 5px",
+              border: "none",
+              marginRight: "50px",
+            }}
+            onClick={handleAddComment}
+          >
+            Đăng
+          </Button>
+        </S.ButtonWrapper>
+      </S.CommentBox>
+    </S.CustomModal>
   );
 };
 

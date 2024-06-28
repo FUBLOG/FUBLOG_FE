@@ -12,6 +12,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import CommentModal from "./Comment";
 
 import * as S from "./styles";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 interface PostProps {
   newfeed: any;
@@ -39,7 +41,7 @@ const Post = ({ newfeed }: PostProps) => {
   };
 
   const handleCommentClick = () => {
-    if (userInfo?._id !== "") {
+    if (webStorageClient.get(constants.IS_AUTH)) {
       setShowCommentsModal(true);
       return;
     }
@@ -76,7 +78,7 @@ const Post = ({ newfeed }: PostProps) => {
             </Typography>
           </S.UserInfo>
           <ExclamationCircleOutlined
-            style={{ color: "#FAF0E6", cursor: "pointer"} }
+            style={{ color: "#FAF0E6", cursor: "pointer" }}
           />
         </S.PostHeader>
 

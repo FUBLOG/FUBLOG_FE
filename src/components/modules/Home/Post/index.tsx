@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { message, Radio, Carousel, Modal } from "antd";
 import {
   HeartOutlined,
@@ -14,12 +14,14 @@ import CommentModal from "./Comment";
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface PostProps {
   newfeed: any;
+  postId: any;
 }
 
-const Post = ({ newfeed }: PostProps) => {
+const Post = ({ newfeed, postId }: PostProps) => {
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [comments, setComments] = useState(newfeed?.post?.commentCount);
   const [liked, setLiked] = useState(false);
@@ -39,9 +41,14 @@ const Post = ({ newfeed }: PostProps) => {
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
+  useEffect(() => {
+    if (postId === newfeed?.post?._id) handleCommentClick();
+  }, [postId]);
 
+  const router = useRouter();
   const handleCommentClick = () => {
     if (webStorageClient.get(constants.IS_AUTH)) {
+      router.push(`?ptId=${newfeed?.post?._id}`);
       setShowCommentsModal(true);
       return;
     }
@@ -50,6 +57,7 @@ const Post = ({ newfeed }: PostProps) => {
 
   const handleCloseCommentsModal = () => {
     setShowCommentsModal(false);
+    router.push(`/`);
   };
 
   const icrComment = (number: number) => {
@@ -210,6 +218,7 @@ const Post = ({ newfeed }: PostProps) => {
         open={showCommentsModal}
         newfeed={newfeed}
         icrComment={icrComment}
+        handleCommentClick={handleCommentClick}
       />
       {/* Modal của preview ảnh */}
       <div className="imgWrapper">

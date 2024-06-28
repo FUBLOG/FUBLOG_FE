@@ -17,7 +17,7 @@ import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { errorMessage } from "@/services/errorMessage";
 
-function FormSignIn(showModalGuest: any) {
+function FormSignIn(setShowModalGuest: any) {
   const router = useRouter();
   const { login, loading, setLoading } = useAuth();
   const onFinish = async (values: any) => {
@@ -44,14 +44,10 @@ function FormSignIn(showModalGuest: any) {
         res?.metadata?.user
       )
         .then(() => {
-          if (showModalGuest?.showModalGuest === false) {
-            router.push("/");
-          } else {
-            router.refresh();
-          }
+          router.push("/");
         })
         .finally(() => {
-          showModalGuest(false);
+          setShowModalGuest(false);
         });
     } catch (err) {}
     setLoading(false);

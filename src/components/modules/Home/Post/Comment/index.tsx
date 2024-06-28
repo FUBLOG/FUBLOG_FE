@@ -10,10 +10,10 @@ import {
   getCommentPost,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
-import webStorageClient from "@/utils/webStorageClient";
-import { constants } from "@/settings";
+import { useSearchParams } from "next/navigation";
 
 const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
+  // searchParams.get("ctId")
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
   const { userInfo } = useAuthContext();
@@ -278,7 +278,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {webStorageClient.get(constants.IS_AUTH) &&
+            {userInfo?._id !== "" &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (

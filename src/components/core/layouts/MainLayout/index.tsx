@@ -63,9 +63,10 @@ function MainLayout({ children }: LayoutProps) {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
       webStorageClient.get(constants.ACCESS_TOKEN) !== "" &&
-      webStorageClient.get(constants.REFRESH_TOKEN) !== ""
+      webStorageClient.get(constants.PROFILE_HASH) !== ""
     ) {
       handleCancel();
+      setShowModalGuest(false);
     }
   }, [
     webStorageClient.get(constants.IS_AUTH),
@@ -151,7 +152,11 @@ function MainLayout({ children }: LayoutProps) {
 
   return (
     <S.LayoutWrapper>
-      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <ModalGuest
+        setShowModalGuest={setShowModalGuest}
+        showModalGuest={showModalGuest}
+        handleCancel={handleCancel}
+      />
       <S.Header>
         <S.GlobalStyle />
         <S.Container>

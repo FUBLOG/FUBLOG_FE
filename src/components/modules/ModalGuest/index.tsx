@@ -1,13 +1,18 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import * as S from "./styles";
 import FormSignIn from "../SignIn/FormSignin";
 interface PageProps {
   readonly showModalGuest: boolean;
   readonly handleCancel?: () => void;
+  readonly setShowModalGuest: Dispatch<SetStateAction<boolean>>;
 }
 
-const ModalGuest = ({ showModalGuest, handleCancel }: PageProps) => {
+const ModalGuest = ({
+  setShowModalGuest,
+  showModalGuest,
+  handleCancel,
+}: PageProps) => {
   return (
     <S.ModalWrap
       wrapClassName="modalWrap"

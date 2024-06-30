@@ -19,7 +19,6 @@ const MessageList = () => {
     <S.MessagesList>
       {messages.map((message) => {
         let isOwnMessage = message?.senderId === userInfo?._id;
-
         return (
           <S.MessageItem key={message?._id} isOwnMessage={isOwnMessage}>
             <S.ChatHeader isOwnMessage={isOwnMessage}>

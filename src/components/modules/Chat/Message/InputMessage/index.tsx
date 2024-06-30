@@ -7,30 +7,39 @@ import * as S from "../../styles";
 import useConversation from "@/hooks/useConversation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useSocketContext } from "@/contexts/SocketContext";
+import useSidebarBadge from "@/hooks/useSidebarBadge";
+import { getConversation } from "@/services/api/chat";
 
 const InputMessage = () => {
   const [inputValue, setInputValue] = useState("");
   const { sendMessage } = useSendMessage();
   const [_, setClicked] = useState(false);
-  const { setConversations, conversations, selectedConversation } =
+  const { setConversations, conversations, selectedConversation, setSelectedConversation } =
     useConversation();
   const { userInfo } = useAuthContext();
   const { socket } = useSocketContext();
+  const { setMessageCount, messageCount } = useSidebarBadge();
   const handleSend = async (event: any) => {
     event.preventDefault();
     if (!inputValue) return;
     setClicked(true);
     await sendMessage(inputValue);
+    if (selectedConversation?._id === 404) {
+      const conversation = await getConversation(selectedConversation?.participants[0]?._id).then(
+        (res: any) => res?.metadata
+      );
+      setSelectedConversation(conversation);
+    }
     setInputValue("");
     // Đặt lại trạng thái clicked sau một khoảng thời gian (ví dụ: 300ms)
     setTimeout(() => setClicked(false), 300);
   };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => { };
   const handleFocus = () => {
     if (selectedConversation?.lastMessage?.senderId !== userInfo?._id) {
       const newConversations = conversations.map((conversation) => {
         if (
-          conversation.conversationId === selectedConversation.conversationId
+          conversation?._id === selectedConversation?._id
         ) {
           return { ...conversation, unReadCount: 0 };
         }
@@ -38,6 +47,7 @@ const InputMessage = () => {
       });
       setConversations(newConversations);
       if (socket) {
+        setMessageCount(messageCount - selectedConversation?.unReadCount)
         socket.emit("ping", selectedConversation.conversationId);
       }
     }

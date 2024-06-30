@@ -50,12 +50,12 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
         >
           <TabPane tab="Thông báo" key="1">
             <S.TabContent>
-              <NotificationTab onClose />
+              <NotificationTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
           <TabPane tab="Bạn bè" key="2">
             <S.TabContent>
-              <FriendTab onClose />
+              <FriendTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
         </Tabs>

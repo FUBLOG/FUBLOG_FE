@@ -45,7 +45,9 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
-      await getCommentPost(newfeed?.post?._id).then((res: any) => {
+      await getCommentPost(newfeed?._id).then((res: any) => {
+        console.log("cooment ré", res);
+
         setCommentsData(res?.metadata);
         setLoading(false);
       });
@@ -61,7 +63,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     };
   }, [open]);
   const handleAddComment = async () => {
-    const res: any = await addComment(newfeed?.post?._id, newComment, null);
+    const res: any = await addComment(newfeed?._id, newComment, null);
 
     const updatedComments = [
       {
@@ -160,7 +162,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   };
 
   const handleDeleteComment = async (commentId: number) => {
-    await deleteComment(commentId, newfeed?.post?._id);
+    await deleteComment(commentId, newfeed?._id);
     const updatedComments = commentsData.filter(
       (comment: any) => comment._id !== commentId
     );
@@ -170,7 +172,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const handleReply = async () => {
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData = await addComment(
-        newfeed?.post?._id,
+        newfeed?._id,
         replyComment,
         selectedCommentId
       );

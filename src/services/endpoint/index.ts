@@ -27,6 +27,7 @@ const postEndpoint = {
   POST_POST: `/post`,
   GET_POSTS_FOR_GUEST: `/newfeed/guest`,
   GET_POSTS_FOR_USER: `/newfeed/user`,
+  GET_POST_BY_ID: `/post/user/`,
 };
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,

@@ -19,9 +19,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface PostProps {
   newfeed: any;
   postId: any;
+  paramComment: any;
 }
 
-const Post = ({ newfeed, postId }: PostProps) => {
+const Post = ({ newfeed, postId, paramComment }: PostProps) => {
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [comments, setComments] = useState(newfeed?.post?.commentCount);
   const [liked, setLiked] = useState(false);
@@ -30,11 +31,9 @@ const Post = ({ newfeed, postId }: PostProps) => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [isPostReport, setIsPostReport] = useState(false);
-  const { userInfo } = useAuthContext();
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-
-  // const toggleLike = () => {
+  // const togleLike = () => {
   //   setLiked(!liked);
   //   setLikes(liked ? likes - 1 : likes + 1);
   // };
@@ -43,12 +42,14 @@ const Post = ({ newfeed, postId }: PostProps) => {
   };
   useEffect(() => {
     if (postId === newfeed?.post?._id) handleCommentClick();
-  }, [postId]);
+  }, [postId, paramComment]);
 
   const router = useRouter();
   const handleCommentClick = () => {
     if (webStorageClient.get(constants.IS_AUTH)) {
-      router.push(`?ptId=${newfeed?.post?._id}`);
+      paramComment === null
+        ? router.push(`?ptId=${newfeed?.post?._id}`)
+        : router.push(`?ptId=${newfeed?.post?._id}&ctId=${paramComment}`);
       setShowCommentsModal(true);
       return;
     }
@@ -56,8 +57,8 @@ const Post = ({ newfeed, postId }: PostProps) => {
   };
 
   const handleCloseCommentsModal = () => {
+    router.back();
     setShowCommentsModal(false);
-    router.push(`/`);
   };
 
   const icrComment = (number: number) => {
@@ -219,6 +220,7 @@ const Post = ({ newfeed, postId }: PostProps) => {
         newfeed={newfeed}
         icrComment={icrComment}
         handleCommentClick={handleCommentClick}
+        paramComment={paramComment}
       />
       {/* Modal của preview ảnh */}
       <div className="imgWrapper">

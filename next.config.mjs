@@ -6,6 +6,7 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+
   /* config options here */
   // output: 'export', // force app to be static -> full ssr
 
@@ -44,6 +45,8 @@ const nextConfig = {
 
     return config;
   },
+
+
   // async rewrites() {
   //   return [
   //     {

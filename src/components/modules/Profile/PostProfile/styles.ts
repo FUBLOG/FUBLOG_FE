@@ -1,17 +1,16 @@
 // Profile/PostProfile/styles.ts
 import styled from "styled-components";
-import { Flex, Modal,Menu } from "antd";
+import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   box-sizing: border-box;
-  margin: 24px 0;
+  margin: 12px 0;
   padding: 24px;
   max-width: 620px;
   width: 100%;
   border: 1.5px solid #fff;
   border-radius: 30px;
   background-color: transparent;
-  margin-top:42px;
 `;
 
 export const ContentWrapper = styled(Flex)`
@@ -33,7 +32,7 @@ export const ImagesWrapper = styled(Flex)`
   gap: 10px;
   flex-wrap: wrap;
   gap: 8px;
-  
+
   img {
     border-radius: 4px;
     max-width: 100%;
@@ -44,7 +43,6 @@ export const ImagesWrapper = styled(Flex)`
   &.images-1 .post-image {
     flex: 1 1 100%;
     width: 100%;
-    
   }
 
   &.images-2 .post-image {
@@ -62,7 +60,6 @@ export const ImagesWrapper = styled(Flex)`
   &.images-6 .post-image {
     flex: 1 1 23%;
     width: 23%;
-    
   }
 
   .post-image {
@@ -149,7 +146,7 @@ export const CustomCard = styled(Flex)`
 `;
 
 export const CustomModal = styled(Modal)`
-border-radius: 20px;
+  border-radius: 20px;
   .ant-modal-content {
     background-color: #faf0e6 !important;
     padding: 0px 0px;
@@ -298,4 +295,52 @@ export const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   padding-top: 5px;
+`;
+
+export const ImageModal = styled(Modal)`
+  max-width: 100%;
+  height: auto;
+  .ant-layout-content {
+    padding: 0 !important;
+  }
+`;
+
+export const ImagesWrapper2 = styled.div`
+  img {
+    border-radius: 4px;
+    max-width: 100%;
+    height: 450px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .ant-carousel .slick-prev,
+  .ant-carousel .slick-next {
+    color: black;
+  }
+  .ant-carousel .slick-prev::after,
+  .ant-carousel .slick-next::after {
+    width: 15px;
+    height: 15px;
+    top: -50px;
+    border-inline-width: 4px 0;
+    border-block-width: 4px 0;
+    inset-inline-start: -1.342291px;
+  }
+
+  .ant-carousel .slick-dots li {
+    margin-inline: 30px;
+  }
+
+  .ant-carousel .slick-dots li button {
+    background-color: aqua;
+    width: 50px;
+  }
+
+  .ant-carousel .slick-dots li.slick-active button {
+    background-color: #000;
+  }
+  .post-image {
+    object-fit: cover;
+  }
 `;

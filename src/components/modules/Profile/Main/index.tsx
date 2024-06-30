@@ -8,6 +8,7 @@ import { Spin } from "antd";
 import * as S from "./styles";
 import ListFriend from "../ListFriend";
 import { useSearchParams } from "next/navigation";
+import { useGetProfile } from "@/hooks/useProfile";
 
 const Profile = () => {
   const searchParams = useSearchParams();
@@ -15,7 +16,10 @@ const Profile = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const { checkFriend } = useFriend(profileHash);
   const [friends, setFriend] = useState<Array<object>>([]);
-
+  const { profileSearch } = useGetProfile(profileHash);
+  // useEffect(() => {
+  //   if (postId === newfeed?.post?._id) handleCommentClick();
+  // }, [postId]);
   useEffect(() => {
     setLoading(true);
     const checkIsFriend = async () => {
@@ -55,7 +59,10 @@ const Profile = () => {
           />
         </S.Sidebar>
         <S.Content>
-          <PostProfile />
+          <PostProfile
+            profileHash={profileHash}
+            profileSearch={profileSearch}
+          />
         </S.Content>
       </S.Main>
     </S.HomeWrapper>

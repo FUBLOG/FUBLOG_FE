@@ -102,7 +102,7 @@ const NotificationTab = ({ onclose }: any) => {
               </Link>
             ) : (
               <Link
-                href={`/?ptId=${item?.payload?.postId}`}
+                href={`/?ptId=${item?.payload?.postId}&ctId=${item?.payload?.commentId}`}
                 onClick={handleClick}
               >
                 <List.Item

@@ -10,10 +10,14 @@ import {
   getCommentPost,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
-import { useSearchParams } from "next/navigation";
 
-const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
-  // searchParams.get("ctId")
+const CommentModal = ({
+  close,
+  open,
+  newfeed,
+  icrComment,
+  paramComment,
+}: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
   const { userInfo } = useAuthContext();
@@ -39,20 +43,28 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   }, [editMode]);
 
   useEffect(() => {
-    if (commentsWrapperRef.current) {
-      commentsWrapperRef.current.scrollTop =
-        commentsWrapperRef.current.scrollHeight;
-    }
-  }, [commentsData]);
-
-  useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
       await getCommentPost(newfeed?.post?._id).then((res: any) => {
         setCommentsData(res?.metadata);
         setLoading(false);
+        if (paramComment !== null) {
+          const commentToScroll = res.metadata.find(
+            (comment: any) => comment._id === paramComment
+          );
+
+          if (commentsWrapperRef.current && commentToScroll) {
+            commentsWrapperRef.current.scrollTop = commentToScroll.clientHeight;
+          }
+        } else {
+          if (commentsWrapperRef.current) {
+            commentsWrapperRef.current.scrollTop =
+              commentsWrapperRef.current.scrollHeight;
+          }
+        }
       });
     };
+
     if (open) {
       asyncGetComments();
     }
@@ -62,7 +74,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
       setSelectedCommentId(null);
       setEditMode(null);
     };
-  }, [open]);
+  }, [open, paramComment]);
 
   const handleAddComment = async () => {
     const res: any = await addComment(newfeed?.post?._id, newComment, null);
@@ -218,6 +230,16 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
+      function viewMore(_id: any): void {
+        // const updatedComments = commentsArray.map((c: any) => {
+        //   if (c._id === _id) {
+        //     return { ...c, viewMore: false };
+        //   }
+        //   return c;
+        // });
+        // setCommentsData(updatedComments);
+      }
+
       return (
         <Fragment key={comment._id}>
           <S.Comment
@@ -270,13 +292,19 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
               </>
             ) : childrenCount > 0 ? (
               <>
-                <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-                <S.CommentContent>
+                <S.CommentContent
+                  onClick={() => console.log("comment", comment)}
+                >
+                  {comment?.comment_content}
+                </S.CommentContent>
+                <S.CommentContent onClick={() => viewMore(comment._id)}>
                   Xem thêm {childrenCount} bình luận
                 </S.CommentContent>
               </>
             ) : (
-              <S.CommentContent>{comment?.comment_content}</S.CommentContent>
+              <S.CommentContent onClick={() => console.log("comment", comment)}>
+                {comment?.comment_content}
+              </S.CommentContent>
             )}
             {userInfo?._id !== "" &&
               !showReportModal &&

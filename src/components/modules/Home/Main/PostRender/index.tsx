@@ -8,7 +8,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
-const PostsRender = ({ postId }: any) => {
+const PostsRender = ({ postId, paramComment }: any) => {
   const [listPosts, setListPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { showSpinner, post, setPost } = useCreatePost();
@@ -59,7 +59,12 @@ const PostsRender = ({ postId }: any) => {
         </div>
       )}
       {listPosts?.map((post: any) => (
-        <Post newfeed={post} key={post._id} postId={postId} />
+        <Post
+          newfeed={post}
+          key={post._id}
+          postId={postId}
+          paramComment={paramComment}
+        />
       ))}
     </>
   );

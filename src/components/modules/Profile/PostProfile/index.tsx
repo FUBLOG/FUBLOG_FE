@@ -102,8 +102,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
           <S.UserInfo>
             <S.Avatar
               src={data.userId.userInfo.avatar}
-              
-            alt={`${data.userId.displayName}'s avatar`}
+              alt={`${data.userId.displayName}'s avatar`}
             />
             <Typography
               variant="body-text-small-bold"

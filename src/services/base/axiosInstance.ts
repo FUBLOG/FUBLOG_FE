@@ -30,14 +30,15 @@ axiosInstance.interceptors.response.use(
   async (error: any) => {
     if (error?.response && error?.response?.status === 401) {
       if (error?.response?.data?.message === "JWT invalid") {
-        try {
-          const newAccessToken = await refreshAccessToken();
-          error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axiosInstance(error.config);
-        } catch (e) {
-          deleteStorage();
-          return Promise.reject(e);
-        }
+        await refreshAccessToken()
+          .then((accessToken) => {
+            error.config.headers["Authorization"] = `Bearer ${accessToken}`;
+            return axiosInstance(error.config);
+          })
+          .catch((error) => {
+            deleteStorage();
+            return Promise.reject(error);
+          });
       }
       if (error?.response?.data?.message === "Invalid request") {
         deleteStorage();

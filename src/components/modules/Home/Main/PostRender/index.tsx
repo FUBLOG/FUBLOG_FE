@@ -5,8 +5,10 @@ import { Skeleton, Space, Spin } from "antd";
 import { getPostForGuest, getPostForUser } from "@/services/api/post";
 import useCreatePost from "@/hooks/useCreatePost";
 import { LoadingOutlined } from "@ant-design/icons";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
-const PostsRender = () => {
+const PostsRender = ({ postId }: any) => {
   const [listPosts, setListPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { showSpinner, post, setPost } = useCreatePost();
@@ -14,7 +16,7 @@ const PostsRender = () => {
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
-      if (userInfo?._id === "") {
+      if (!webStorageClient.get(constants.IS_AUTH)) {
         await getPostForGuest().then((res: any) => {
           setListPosts(res?.metadata);
           setLoading(false);
@@ -57,7 +59,7 @@ const PostsRender = () => {
         </div>
       )}
       {listPosts?.map((post: any) => (
-        <Post newfeed={post} key={post._id} />
+        <Post newfeed={post} key={post._id} postId={postId} />
       ))}
     </>
   );

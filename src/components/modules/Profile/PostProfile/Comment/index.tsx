@@ -9,6 +9,8 @@ import {
   editCommentApi,
   getCommentPost,
 } from "@/services/api/comment";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
@@ -257,7 +259,7 @@ const CommentModal = ({ close, open, newfeed, icrComment }: any) => {
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {userInfo?._id !== "" &&
+            {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (

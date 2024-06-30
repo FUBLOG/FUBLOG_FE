@@ -2,6 +2,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { getConversationApi } from "@/services/api/chat";
 import { userEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 
@@ -41,7 +43,7 @@ const useGetConversation = () => {
         });
     };
 
-    if (userInfo?._id !== "") {
+    if (webStorageClient.get(constants.IS_AUTH)) {
       getConsversations();
     }
   }, [userInfo, setConversations]);

@@ -74,6 +74,7 @@ const NotificationTab = ({ onClose }: any) => {
         dataSource={notifications}
         renderItem={(item: any) => (
           <>
+            {console.log("item", item)}
             {item?.payload?.postId === undefined ? (
               <Link
                 href={`/profile?pId=${item?.payload?.profileHash}`}
@@ -100,7 +101,10 @@ const NotificationTab = ({ onClose }: any) => {
                 </List.Item>
               </Link>
             ) : (
-              <Link href={`/`} onClick={handleClick}>
+              <Link
+                href={`/?ptId=${item?.payload?.postId}`}
+                onClick={handleClick}
+              >
                 <List.Item
                   key={item.id}
                   className={` ${

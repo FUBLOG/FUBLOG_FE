@@ -22,7 +22,7 @@ const useFriend = (profileHash: any) => {
     if (
       !webStorageClient.get(constants.IS_AUTH) &&
       webStorageClient.get(constants.ACCESS_TOKEN) === "" &&
-      webStorageClient.get(constants.REFRESH_TOKEN) === ""
+      webStorageClient.get(constants.PROFILE_HASH) === ""
     ) {
       setIsGuest(true);
       return true;

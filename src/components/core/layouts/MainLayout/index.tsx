@@ -64,10 +64,19 @@ function MainLayout({ children }: LayoutProps) {
   useGetMessageNotification();
   useListenConversation();
   useEffect(() => {
-    if (webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) !== "" &&
+      webStorageClient.get(constants.PROFILE_HASH) !== ""
+    ) {
       handleCancel();
+      setShowModalGuest(false);
     }
-  }, [webStorageClient.get(constants.IS_AUTH)]);
+  }, [
+    webStorageClient.get(constants.IS_AUTH),
+    webStorageClient.get(constants.ACCESS_TOKEN),
+    webStorageClient.get(constants.REFRESH_TOKEN),
+  ]);
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -118,7 +127,6 @@ function MainLayout({ children }: LayoutProps) {
     setList([]);
     setValueSearch("");
   };
-  const router = useRouter();
 
   const menuItems = (
     <S.CustomMenu>

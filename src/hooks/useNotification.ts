@@ -3,7 +3,8 @@ import { getAllRequestFriend } from "@/services/api/friend";
 import { getAllNotifications } from "@/services/api/notification";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
-
+import { constants } from "@/settings";
+import webStorageClient from "@/utils/webStorageClient";
 interface NotificationProps {
   notifications: any;
   setNotifications: (notifications: any) => void;
@@ -39,7 +40,7 @@ const useGetFriendRequest = () => {
         setLoading(false);
       }
     };
-    if (userInfo?._id !== "") {
+    if (webStorageClient.get(constants.IS_AUTH)) {
       getFriendRequest();
     }
   }, []);

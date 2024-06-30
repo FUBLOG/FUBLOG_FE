@@ -6,7 +6,7 @@ import {
   putRequest,
 } from "@/services/request";
 
-export const getCommentPost = async (postId: string) => {
+export const getCommentPost = async (postId: any) => {
   return await getRequest(`${commentEndpoint.GET_POST_COMMENTS}`, {
     params: {
       comment_postId: postId,
@@ -16,7 +16,7 @@ export const getCommentPost = async (postId: string) => {
 };
 
 export const addComment = async (
-  postId: string,
+  postId: any,
   content: string,
   parent: string | null
 ) => {

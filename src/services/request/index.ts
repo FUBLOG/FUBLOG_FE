@@ -1,6 +1,7 @@
 import { getRequest } from "./getRequest";
 import { postRequest } from "./postRequest";
-import { updateRequest } from "./putRequest";
+import { putRequest } from "./putRequest";
 import { deleteRequest } from "./deleteRequest";
+import { patchRequest } from "./patchRequest";
 
-export { getRequest, postRequest, updateRequest, deleteRequest };
+export { getRequest, postRequest, putRequest, deleteRequest, patchRequest };

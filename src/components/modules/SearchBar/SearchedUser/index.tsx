@@ -1,139 +1,135 @@
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/core/common/Button";
-import React, { useState } from "react";
-
-import Image from "next/legacy/image";
-import { UserAddOutlined } from "@ant-design/icons";
-import { Usersearch } from "./style";
+import * as S from "./style";
+import useFriend from "@/hooks/useFriend";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+  sendFriendRequest,
+  unfriend,
+  unsentFriend,
+} from "@/services/api/friend";
+import { Skeleton } from "antd";
+import { useGetProfile } from "@/hooks/useProfile";
+import ButtonFriend from "../../ButtonFriend";
 
 interface SearchUserProp {
   name: string;
   friends: number;
+  id: string;
   avatar: string;
-  role: string;
+  profileHash: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  setShowModalGuest: React.Dispatch<React.SetStateAction<boolean>>;
+  handleClose: () => void;
 }
 
 export const SearchUser: React.FC<SearchUserProp> = ({
   name,
   friends,
   avatar,
-  role,
-  setValue,
+  profileHash,
+  handleClose,
+  id,
+  setShowModalGuest,
 }) => {
-  const [sendRequest, setSendRequest] = useState(false);
-  const [requestCancel, setRequestCancel] = useState(false);
-  const [isFriend, setIsFriend] = useState(true);
-  const [deleted, setDeleted] = useState(false);
-  const [newRole, setNewRole] = useState(role);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [finished, setFinished] = useState(false);
-  const deleteFriend = () => {
-    const id = setTimeout(() => {
-      setDeleted(true);
-      setFinished(true);
-      setTimeout(() => {
-        setNewRole("Stranger");
-      }, 2000);
-    }, 2000);
-    setIsFriend(false);
-    setTimeoutId(id);
+  const { profileSearch } = useGetProfile(profileHash);
+  const [buttonDisplay, setButton] = useState<any>(<></>);
+  const [loadingSusses, setLoadingSusscess] = useState(true);
+  const {
+    isFriend,
+    isGuest,
+    isRequester,
+    isSendFriend,
+    setIsFriend,
+    loading,
+    setIsSendFriend,
+    resetStatus,
+    checkFriend,
+  } = useFriend(profileHash);
+  const {
+    FriendButton,
+    RequesterButton,
+    SendFriendButton,
+    GuestButton,
+    DefaultButton,
+  } = ButtonFriend();
+  const handleDisplayButton = () => {
+    if (isFriend) return <FriendButton handleFriend={handleFriend} />;
+    if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
+    if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
+    if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
+    return <DefaultButton handleFriend={handleFriend} />;
   };
+  useEffect(() => {
+    if (!loading) {
+      setLoadingSusscess(true);
+      const a = handleDisplayButton();
+      setButton(a);
+      setLoadingSusscess(false);
+    }
+  }, [profileSearch, isFriend, isGuest, isRequester, isSendFriend]);
 
-  const handleFriendRequest = () => {
-    setSendRequest(true);
-    setTimeout(() => {
-      setRequestCancel(true);
-    }, 2000);
-  };
+  const handleFriend = async (event: string): Promise<void> => {
+    switch (event) {
+      case "addFriend":
+        await sendFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsSendFriend(true);
+        break;
+      case "unfriend":
+        await unfriend(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(false);
 
-  const handleCancel = () => {
-    setSendRequest(false);
-    setRequestCancel(false);
-  };
+        break;
+      case "decline":
+        await rejectFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsSendFriend(false);
+        break;
+      case "accept":
+        await acceptFriendRequest(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(true);
+        break;
+      case "unsent":
+        await unsentFriend(profileSearch?.user?._id);
+        await resetStatus();
+        await setIsFriend(false);
+        break;
+      default:
+        await checkFriend();
 
-  const handleDeleteFriend = () => {
-    setIsFriend(true);
-    setDeleted(false);
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+        break;
     }
   };
 
-  return (
-    <Usersearch>
+  const Loading = () => {
+    return <Skeleton active round avatar paragraph />;
+  };
+  return loadingSusses ? (
+    <Loading />
+  ) : (
+    <S.Usersearch>
       <div className="user-wrapper">
-        <div className="image-wrapper">
-          <Image src="" width={40} height={40} />
-        </div>
-
+        <Link
+          href={`/profile?pId=${profileHash}`}
+          onClick={handleClose}
+          passHref
+        >
+          <div className="image-wrapper">
+            <Image src={avatar} width={40} height={40} alt={name} />
+          </div>
+        </Link>
         <div className="des">
           <p>{name}</p>
           <span>{friends} bạn bè</span>
         </div>
       </div>
-      {newRole === "Friend" ? (
-        <>
-          {isFriend && (
-            <Button
-              type="primary"
-              $color="#352F44"
-              $backgroundColor="#fff"
-              $hoverBackgroundColor="#ccc"
-              $hoverColor="#000  "
-              $width={"120px"}
-              onClick={deleteFriend}
-            >
-              <UserAddOutlined />
-              Hủy kết bạn
-            </Button>
-          )}
-          {finished && <span>Đã hủy kết bạn</span>}
-          {!deleted && !isFriend && (
-            <Button
-              type="primary"
-              $color="#352F44"
-              $backgroundColor="#fff"
-              $hoverBackgroundColor="#ccc"
-              $hoverColor="#000  "
-              $width={"120px"}
-              onClick={handleDeleteFriend}
-            >
-              Hoàn tác
-            </Button>
-          )}
-        </>
-      ) : (
-        <>
-          {!sendRequest && (
-            <Button
-              type="primary"
-              $color="#352F44"
-              $backgroundColor="#fff"
-              $hoverBackgroundColor="#ccc"
-              $hoverColor="#000"
-              $width={"120px"}
-              onClick={handleFriendRequest}
-            >
-              <UserAddOutlined />
-              Kết bạn
-            </Button>
-          )}
-          {sendRequest && !requestCancel && <span>Đã gửi lời mời</span>}
-          {requestCancel && (
-            <Button
-              type="primary"
-              $color="#352F44"
-              $backgroundColor="#fff"
-              $hoverBackgroundColor="#ccc"
-              $hoverColor="#000"
-              $width={"120px"}
-              onClick={handleCancel}
-            >
-              Hủy lời mời
-            </Button>
-          )}
-        </>
-      )}
-    </Usersearch>
+      <S.ButtonUser>{buttonDisplay}</S.ButtonUser>
+    </S.Usersearch>
   );
 };

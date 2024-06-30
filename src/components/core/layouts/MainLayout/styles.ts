@@ -12,7 +12,10 @@ export const GlobalStyle = createGlobalStyle`
   .ant-modal-content {
     background-color: #faf0e6 !important;
   }
-  `;
+  .ant-modal-title {
+    background-color: #faf0e6 !important;
+  }
+  `;  
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);

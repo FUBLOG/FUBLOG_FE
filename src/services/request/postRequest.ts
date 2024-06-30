@@ -5,13 +5,11 @@ import axiosInstance from "../base/axiosInstance";
 import { errorMessage } from "../errorMessage";
 import { constants } from "@/settings";
 
-const postRequest = async(
+const postRequest = async (
   url: string,
   options?: RequestOptionsInterface,
   fomrData?: boolean
-): Promise<object> => {
-  // kaidophan37@gmail.com
-  // 123456
+) => {
   const isSecurity = options?.security || false;
 
   let header = {};
@@ -38,11 +36,14 @@ const postRequest = async(
       withCredentials: true,
     })
     .then((res: any) => {
-      return res;
+      if (res?.statusCode >= 400 || res?.code >= 400) {
+        return Promise.reject(res);
+      } else {
+        return res;
+      }
     })
-    .catch((err) => {
-      message.error(errorMessage[err]);
-
+    .catch((err: any) => {
+      message.error(errorMessage[err?.message]);
       return Promise.reject(err);
     });
 };

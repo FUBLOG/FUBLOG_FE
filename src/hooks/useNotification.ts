@@ -39,7 +39,7 @@ const useGetFriendRequest = () => {
         setLoading(false);
       }
     };
-    if (userInfo.userId !== null) {
+    if (userInfo?._id !== "") {
       getFriendRequest();
     }
   }, []);
@@ -68,7 +68,7 @@ const useGetNotification = () => {
     getNotificaton();
   }, []);
 
-  return { notifications, loading };
+  return { notifications, loading, setNotifications };
 };
 
 export default useNotification;

@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, Form } from "antd";
+import { Checkbox, Form, Spin, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -15,19 +15,26 @@ import { authEndpoint } from "@/services/endpoint";
 
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
+import { errorMessage } from "@/services/errorMessage";
 
-function FormSignIn() {
+function FormSignIn(showModalGuest: any) {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, loading, setLoading } = useAuth();
   const onFinish = async (values: any) => {
+    setLoading(true);
     try {
       const data = {
         email: values.mail,
         password: values.password,
         isRemember: values.isRemember,
       };
-      const res: any = await postRequest(authEndpoint.SIGN_IN, { data });
-      login(
+
+      const res = await postRequest(authEndpoint.SIGN_IN, {
+        data: data,
+        security: true,
+      });
+
+      await login(
         {
           ACCESS_TOKEN: res?.metadata?.tokens?.accessToken,
           PROFILE_HASH: res?.metadata?.user?.profileHash,
@@ -35,125 +42,135 @@ function FormSignIn() {
           PRIVATEKEY: res?.metadata?.tokens?.privateKey,
         },
         res?.metadata?.user
-      );
-
-      router.push("/");
-      
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+      )
+        .then(() => {
+          if (showModalGuest?.showModalGuest === false) {
+            router.push("/");
+          } else {
+            router.refresh();
+          }
+        })
+        .finally(() => {
+          showModalGuest(false);
+        });
+    } catch (err) {}
+    setLoading(false);
   };
   return (
-    <S.HomeWrapper>
-      <Typography
-        variant="h1"
-        color="#B9B4C7"
-        fontSize="x-large"
-        align="center"
-        margin="0 0  50px 0"
-      >
-        ĐĂNG NHẬP
-      </Typography>
+    <>
+      <Spin spinning={loading} fullscreen />
+      <S.HomeWrapper>
+        <Typography
+          variant="h1"
+          color="#B9B4C7"
+          fontSize="x-large"
+          align="center"
+          margin="0 0  50px 0"
+        >
+          ĐĂNG NHẬP
+        </Typography>
 
-      <Form
-        name="basic"
-        style={{ width: "100%" }}
-        initialValues={{ remember: true }}
-        autoComplete="off"
-        onFinish={onFinish}
-      >
-        <FormItem
-          name="mail"
-          rules={[{ required: true, message: "Vui lòng nhập email" }]}
+        <Form
+          name="basic"
+          style={{ width: "100%" }}
+          initialValues={{ remember: true }}
+          autoComplete="off"
+          onFinish={onFinish}
         >
-          <Input
-            placeholder="Nhập email"
-            prefix={<UserOutlined />}
-            isRequired
-            label="Email"
-          />
-        </FormItem>
-        <FormItem
-          name="password"
-          rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
-        >
-          <InputPassword
-            placeholder="Nhập mật khẩu"
-            prefix={<LockOutlined />}
-            isRequired
-            label="Mật khẩu"
-          />
-        </FormItem>
-        <S.Label>
           <FormItem
-            style={{ margin: "0px" }}
-            name="isRemember"
-            valuePropName="checked"
+            name="mail"
+            rules={[{ required: true, message: "Vui lòng nhập email" }]}
           >
-            <Checkbox>
+            <Input
+              placeholder="Nhập email"
+              prefix={<UserOutlined />}
+              isRequired
+              label="Email"
+            />
+          </FormItem>
+          <FormItem
+            name="password"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+          >
+            <InputPassword
+              placeholder="Nhập mật khẩu"
+              prefix={<LockOutlined />}
+              isRequired
+              label="Mật khẩu"
+            />
+          </FormItem>
+          <S.Label>
+            <FormItem
+              style={{ margin: "0px" }}
+              name="isRemember"
+              valuePropName="checked"
+            >
+              <Checkbox>
+                <Typography
+                  variant="body-text-small-normal"
+                  color="#B9B4C7"
+                  fontSize="xx-small"
+                >
+                  Nhớ mật khẩu
+                </Typography>
+              </Checkbox>
+            </FormItem>
+
+            <Link href="/verification">
               <Typography
-                variant="body-text-small-normal"
+                variant="caption-small"
                 color="#B9B4C7"
                 fontSize="xx-small"
+                align="right"
+                textDecoration="underline"
               >
-                Nhớ mật khẩu
+                Quên mật khẩu?
               </Typography>
-            </Checkbox>
+            </Link>
+          </S.Label>
+          <FormItem
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              className="ButtonWrapper"
+              type="default"
+              $backgroundColor="#FAF0E6"
+              $margin="30px 0 0 0"
+              $width={"100px"}
+              htmlType="submit"
+              disabled={loading}
+            >
+              ĐĂNG NHẬP
+            </Button>
           </FormItem>
-
-          <Link href="/verification">
+          <S.Typography>
             <Typography
-              variant="caption-small"
+              variant="body-text-small-normal"
               color="#B9B4C7"
               fontSize="xx-small"
-              align="right"
-              textDecoration="underline"
+              align="center"
             >
-              Quên mật khẩu?
+              Chưa có tài khoản?
             </Typography>
-          </Link>
-        </S.Label>
-        <FormItem
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
-            $margin="30px 0 0 0"
-            $width={"100px"}
-            htmlType="submit"
-          >
-            ĐĂNG NHẬP
-          </Button>
-        </FormItem>
-        <S.Typography>
-          <Typography
-            variant="body-text-small-normal"
-            color="#B9B4C7"
-            fontSize="xx-small"
-            align="center"
-          >
-            Chưa có tài khoản?
-          </Typography>
-          <Link href="/sign-up">
-            <Typography
-              variant="caption-small"
-              color="#B9B4C7"
-              fontSize="xx-small"
-              align="right"
-              textDecoration="underline"
-            >
-              Đăng ký
-            </Typography>
-          </Link>
-        </S.Typography>
-      </Form>
-    </S.HomeWrapper>
+            <Link href="/sign-up">
+              <Typography
+                variant="caption-small"
+                color="#B9B4C7"
+                fontSize="xx-small"
+                align="right"
+                textDecoration="underline"
+              >
+                Đăng ký
+              </Typography>
+            </Link>
+          </S.Typography>
+        </Form>
+      </S.HomeWrapper>
+    </>
   );
 }
 

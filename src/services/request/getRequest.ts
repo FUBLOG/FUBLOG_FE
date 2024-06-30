@@ -8,8 +8,8 @@ import { constants } from "@/settings";
 const getRequest = async (
   url: string,
   options?: RequestOptionsInterface,
-  fomrData?: boolean
-): Promise<object> => {
+  formData?: boolean
+) => {
   const isSecurity = options?.security || false;
 
   let header = {};
@@ -25,7 +25,7 @@ const getRequest = async (
 
   const tokenClient = webStorageClient.get(constants.ACCESS_TOKEN);
   let headers: any = {
-    "Content-Type": fomrData ? "multipart/form-data" : "application/json",
+    "Content-Type": formData ? "multipart/form-data" : "application/json",
     ...header,
   };
 
@@ -41,11 +41,14 @@ const getRequest = async (
       },
     })
     .then((res: any) => {
-      return res;
+      if (res?.statusCode >= 400 || res?.code >= 400) {
+        return Promise.reject(res);
+      } else {
+        return res;
+      }
     })
-    .catch((err) => {
+    .catch((err: any) => {
       message.error(errorMessage[err?.message]);
-
       return Promise.reject(err);
     });
 };

@@ -1,83 +1,55 @@
-import { Flex } from "antd";
-
 import styled from "styled-components";
+import { Flex } from "antd";
+import Typography from "@/components/core/common/Typography";
 
-export const Header = styled(Flex)`
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-export const HeaderMain = styled(Flex)`
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-export const Wrapper = styled.div`
-  position: relative;
-`;
-export const CoverImage = styled.img`
-  width: 100%;
-  height: 100%;
-
-  border-radius: 12px;
-
-  object-fit: cover;
-  cursor: pointer;
-`;
-export const BannerUser = styled(Flex)`
-  position: absolute;
-  bottom: -24%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 0px 20px;
-  cursor: pointer;
-  align-items: flex-end;
-`;
-
-export const Avatar = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
-`;
-
-export const UserAvatar = styled.img`
-  position: absolute;
-
-  width: 100%;
-  height: 100%;
-
-  border-radius: 50%;
-
-  border: 5px solid white;
-
-  background-color: #d9d9d9;
-`;
-
-export const BoxUser = styled(Flex)`
-  gap: 20px;
-  align-items: flex-end;
-`;
-export const Typography = styled(Flex)`
-  gap: 5px;
+export const Wrapper = styled(Flex)`
   flex-direction: column;
-`;
-export const Name = styled.p``;
-export const Icon = styled.div``;
-export const Prestige = styled.span``;
-export const PrestigeScore = styled.span``;
-
-export const ButtonUser = styled(Flex)`
-  align-items: flex-end;
   gap: 10px;
-  span {
-    color: #352f44 !important;
+  width: 100%;
+`;
+
+export const Title = styled(Flex)`
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+`;
+
+export const ViewAllButton = styled.div`
+  cursor: pointer;
+  color: #fff;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: #fff;
   }
-  .ant-btn-default:hover {
-    span {
-      color: #faf0e6 !important;
-    }
-  }
+`;
+
+export const FriendContainer = styled(Flex)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 5px;
+  background-color: transparent;
+  width:300px;
+`;
+
+export const Friend = styled(Flex)`
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 80px;
+`;
+
+export const FriendImageContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+export const FriendName = styled(Typography)`
+  color: #faf0e6;
+  font-weight: normal;
+  text-align: center;
+  font-size: 14px;
 `;

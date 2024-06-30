@@ -1,35 +1,42 @@
-import { use, useEffect, useState } from "react";
+import {
+  getConversationApi,
+  getMessageApi,
+  sendMessageApi,
+} from "./../services/api/chat/index";
+import { useEffect, useState } from "react";
 import useConversation from "./useConversation";
-import { getRequest, postRequest } from "@/services/request";
-import { messageEndpoint } from "@/services/endpoint";
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
-  const { messages, setMessages, selectedConversation, setConversations,conversations } =
-    useConversation();
+  const {
+    messages,
+    setMessages,
+    selectedConversation,
+    setConversations,
+    conversations,
+  } = useConversation();
   const sendMessage = async (message: string) => {
     setLoading(true);
     try {
-      const res: any = await postRequest(
-        messageEndpoint.SEND_MESSAGE +
-          selectedConversation?.participants[0]?._id,
+      const res: any = await sendMessageApi(
+        selectedConversation?.participants[0]?._id,
         {
-          security: true,
-          data: {
-            message,
-          },
+          message,
         }
       );
+
       setMessages([...messages, res?.metadata]);
       const updatedConversations = [
-        selectedConversation,
+        {
+          ...selectedConversation,
+          lastMessage: res?.metadata,
+        },
         ...conversations.filter(
           (conversation: any) => conversation._id !== selectedConversation._id
         ),
       ];
       setConversations(updatedConversations);
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -44,12 +51,8 @@ const useGetMessage = () => {
     const getMessage = async () => {
       setLoading(true);
       try {
-        const res: any = await getRequest(
-          messageEndpoint.GET_MESSAGE +
-            selectedConversation?.participants[0]?._id,
-          {
-            security: true,
-          }
+        const res: any = await getMessageApi(
+          selectedConversation?.participants[0]?._id
         );
         const listMessage = res?.metadata;
         listMessage.sort((a: any, b: any) => {
@@ -59,7 +62,6 @@ const useGetMessage = () => {
         });
         setMessages(listMessage);
       } catch (error) {
-        console.log(error);
       } finally {
         setLoading(false);
       }

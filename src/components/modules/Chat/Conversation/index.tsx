@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Badge } from "antd";
 import { useSocketContext } from "@/contexts/SocketContext";
+import useSidebarBadge from "@/hooks/useSidebarBadge";
 interface ConversationProps {
   key: string;
   conversation: any;
@@ -14,6 +15,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
   const { socket } = useSocketContext();
   const { selectedConversation, setSelectedConversation } = useConversation();
   const [unreadCount, setUnreadCount] = useState(0);
+  const {setMessageCount,messageCount} = useSidebarBadge();
   const isSelected = selectedConversation?._id === conversation._id;
   let lastMessage = conversation?.lastMessage?.message;
   if (
@@ -32,6 +34,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
     if (unreadCount > 0) {
       setUnreadCount(0);
       if (socket) {
+        setMessageCount(messageCount - unreadCount)
         socket.emit("ping", conversation._id);
       }
     }

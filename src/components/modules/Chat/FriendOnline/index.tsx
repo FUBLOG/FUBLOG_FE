@@ -32,7 +32,10 @@ const FriendOnline = () => {
             action: false,
           };
         });
-      setFriends(friendsOnline);
+      // move action friend to top
+      const actionFriends = friendsOnline.filter((friend: any) => friend.action);
+      const nonActionFriends = friendsOnline.filter((friend: any) => !friend.action);
+      setFriends([...actionFriends, ...nonActionFriends]);
     };
     handleFriendsOnline();
   }, [userOnline]);
@@ -53,7 +56,7 @@ const FriendOnline = () => {
           },
         ],
         messages: [],
-        _id: friend._id,
+        _id: 404,
       });
     }
   };

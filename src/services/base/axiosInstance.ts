@@ -5,8 +5,6 @@ import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
 import deleteStorage from "@/utils/deleteStorage";
-import { message } from "antd";
-import { errorMessage } from "../errorMessage";
 
 const axiosInstance = axios.create({
   baseURL: constants.API_SERVER,

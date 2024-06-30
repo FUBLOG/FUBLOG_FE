@@ -51,7 +51,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
           </S.FriendList>
         </S.Sidebar>
         <S.ChatArea>
-          <FriendOnline conversation={conversations} />
+          <FriendOnline />
           <Message />
         </S.ChatArea>
       </S.ModalContainer>

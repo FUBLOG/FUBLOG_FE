@@ -89,7 +89,6 @@ export const ActiveFriends = styled.div`
   box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.1);
 `;
 
-
 export const ActiveFriend = styled.div`
   display: flex;
   flex-direction: column;
@@ -128,7 +127,7 @@ export const ChatContainer = styled.div`
 `;
 
 export const ChatFriendName = styled.div`
-  font-weight:bold;
+  font-weight: bold;
   font-size: 16px;
   margin-left: 8px;
 `;

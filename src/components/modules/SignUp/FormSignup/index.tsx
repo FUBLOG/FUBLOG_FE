@@ -15,7 +15,7 @@ import Button from "@/components/core/common/Button";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import { postRequest } from "@/services/request";
-import moment from "moment";
+// import moment from "moment";
 import * as S from "./styles";
 
 interface PageProps {

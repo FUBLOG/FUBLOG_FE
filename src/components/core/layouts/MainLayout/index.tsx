@@ -43,7 +43,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
-import useSidebarBadge, { useGetMessageNotification } from "@/hooks/useSidebarBadge";
+import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
 import { useListenConversation } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
 
@@ -65,7 +65,10 @@ function MainLayout({ children }: LayoutProps) {
   const [showCreate, setShowCreate] = useState(false);
   const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
   useGetMessageNotification();
+  useGetFriendRequestNotification();
+  useGetNotificationCount();
   useListenConversation();
+
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       handleCancel();
@@ -277,6 +280,7 @@ function MainLayout({ children }: LayoutProps) {
         open={showCreate}
         onOk={handleOk}
         onCancel={handleCancel}
+        destroyOnClose={true}
         footer={false}
       >
         <CreateContent onSuccess={handleCreatePostSuccess} />

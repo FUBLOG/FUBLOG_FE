@@ -17,7 +17,7 @@ const NotificationTab = ({ onclose }: any) => {
 
   useEffect(() => {
     setLocalNotifications(notifications);
-  }, [notifications]);
+  }, []);
   const router = useRouter();
   const handleMarkRead = async (notificationId: string) => {
     try {

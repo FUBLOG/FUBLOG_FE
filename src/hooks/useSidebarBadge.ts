@@ -1,7 +1,10 @@
+import { useGetNotification } from "@/hooks/useNotification";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { getConversationApi } from "@/services/api/chat";
+import { getAllRequestFriend } from "@/services/api/friend";
 import { useEffect } from "react";
 import { create } from "zustand";
+import { getAllNotifications } from "@/services/api/notification";
 
 interface SidebarBadge {
   notificationCount: number;
@@ -23,7 +26,7 @@ const useSidebarBadge = create<SidebarBadge>((set) => ({
 
 const useGetMessageNotification = () => {
   const { setMessageCount } = useSidebarBadge();
-  const { userInfo ,loading} = useAuthContext();
+  const { userInfo, loading } = useAuthContext();
   useEffect(() => {
     const getMessageNotification = async () => {
       // Call API to get message notification
@@ -36,7 +39,7 @@ const useGetMessageNotification = () => {
             return acc;
           },
           0
-        );        
+        );
         setMessageCount(count);
       });
     };
@@ -46,5 +49,48 @@ const useGetMessageNotification = () => {
   }, [userInfo?._id]);
 };
 
-export { useGetMessageNotification };
+const useGetFriendRequestNotification = () => {
+  const { setFriendRequestCount } = useSidebarBadge();
+  const { userInfo } = useAuthContext();
+  useEffect(() => {
+    const getFriendRequestNotification = async () => {
+      // Call API to get friend request notification
+      // const res = await getFriendRequestNotificationApi();
+      // setFriendRequestCount(res?.metadata?.length || 0);
+      const res = await getAllRequestFriend();
+      setFriendRequestCount(res?.metadata?.length || 0);
+    };
+    if (userInfo?._id !== "") {
+      getFriendRequestNotification();
+    }
+  }, [userInfo?._id]);
+};
+
+const useGetNotificationCount = () => {
+  const { setNotificationCount } = useSidebarBadge();
+  const { userInfo } = useAuthContext();
+  useEffect(() => {
+    const getNotification = async () => {
+      // Call API to get notification
+      // const res = await getNotificationApi();
+      // setNotificationCount(res?.metadata?.length || 0);
+      const res = await getAllNotifications();
+      const count = res?.metadata?.reduce((acc: number, item: any) => {
+        if (!item?.isRead) {
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
+      setNotificationCount(count);
+    };
+    if (userInfo?._id !== "") {
+      getNotification();
+    }
+  }, [userInfo?._id]);
+};
+export {
+  useGetMessageNotification,
+  useGetFriendRequestNotification,
+  useGetNotificationCount,
+};
 export default useSidebarBadge;

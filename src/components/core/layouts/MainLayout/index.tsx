@@ -266,6 +266,7 @@ function MainLayout({ children }: LayoutProps) {
         open={showCreate}
         onOk={handleOk}
         onCancel={handleCancel}
+        destroyOnClose={true}
         footer={false}
       >
         <CreateContent onSuccess={handleCreatePostSuccess} />

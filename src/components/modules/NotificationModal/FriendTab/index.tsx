@@ -9,9 +9,9 @@ import {
 } from "@/services/api/friend";
 import Link from "next/link";
 
-const FriendTab = ({ onclose }: any) => {
+const FriendTab = ({ onClose }: any) => {
   function handleClick() {
-    onclose();
+    onClose();
   }
   const { loading, friendRequest } = useGetFriendRequest();
   const [acceptList, setAcceptList] = useState<any>([]);

@@ -64,7 +64,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
             </Badge>
           } key="2" destroyInactiveTabPane={true}>
             <S.TabContent>
-              <FriendTab onClose />
+              <FriendTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
         </Tabs>

@@ -1,7 +1,12 @@
 import Button from "@/components/core/common/Button";
 import { useState } from "react";
 import * as S from "../styles";
+import useThemeStore from "@/hooks/useTheme";
+
+
 const TagRender = () => {
+const darkMode = useThemeStore((state) => state.darkMode);
+
     const [activeTag, setActiveTag] = useState("Tất cả");
     const tags = [
         "Tất cả",
@@ -16,14 +21,15 @@ const TagRender = () => {
         <S.TagsContainer>
             {tags.map((tag: any, index: number) => (
                 <Button
+                    $color={!darkMode ? (activeTag === tag ? "white" : "black") : (activeTag === tag ? "#352F44" : "#B8B3C6")}
                     key={index}
                     type="default"
-                    $hoverBackgroundColor = "#FAF0E6"
-                    $hoverColor="#352F44"
+                    $hoverBackgroundColor = {darkMode? "#FAF0E6" : "#352F44"}    
+                    $hoverColor={darkMode? "#352F44" : "#FAF0E6"}
                     $width={"84px"}
                     onClick={() => setActiveTag(tag)}
                     $backgroundColor={
-                        activeTag === tag ? "#FAF0E6 " : "transparent"
+                        darkMode? (activeTag === tag ? "#FAF0E6 " : "transparent") : (activeTag === tag ? "#352F44 " : "transparent")
                     }
                 >
                     {tag}

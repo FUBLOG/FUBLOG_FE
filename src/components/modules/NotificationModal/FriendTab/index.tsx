@@ -21,7 +21,7 @@ const FriendTab = ({ onClose }: any) => {
     if (friendRequest.length > 0) {
       setLoadingButtons(new Array(friendRequest.length).fill(false));
     }
-  }, []);
+  }, [friendRequest]);
   const setLoadingButton = async (index: number) => {
     setLoadingButtons((prev) => {
       const newLoadingButtons = [...prev];
@@ -47,7 +47,7 @@ const FriendTab = ({ onClose }: any) => {
         });
         setFriendRequest(newLists);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
   const handleReject = async (requestId: number, event: React.MouseEvent) => {
     event.stopPropagation();

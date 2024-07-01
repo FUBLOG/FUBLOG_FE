@@ -7,7 +7,7 @@ const useListenMessage = () => {
   const { messages, setMessages, selectedConversation } = useConversation();
   useEffect(() => {
     socket?.on("newMessage", (newMessage: any) => {
-      const sound = new Audio(require("../assets/sounds/notification.mp3"));
+      const sound = new Audio(require("../assets/sounds/livechat-129007.mp3"));
       sound.play();
       if (newMessage?.senderId === selectedConversation?.participants[0]?._id) {
         if (selectedConversation) {
@@ -42,7 +42,7 @@ const useListenConversation = () => {
   const { setMessageCount, messageCount } = useSidebarBadge();
   useEffect(() => {
     socket?.on("newConversation", (newConversation: any) => {
-      const sound = new Audio(require("../assets/sounds/notification.mp3"));
+      const sound = new Audio(require("../assets/sounds/livechat-129007.mp3"));
       sound.play();
       if (conversations.length === 0) {
         setConversations([newConversation]);
@@ -60,4 +60,44 @@ const useListenConversation = () => {
   }, [socket, conversations, messageCount]);
 };
 
-export { useListenMessage, useListenTyping, useListenConversation };
+const useListenNotification = () => {
+  const { socket } = useSocketContext();
+  const { notificationCount, setNotificationCount } = useSidebarBadge();
+  useEffect(() => {
+    socket?.on("newNotification", (newConversation: any) => {
+      const sound = new Audio(
+        require("../assets/sounds/new-notification-7-210334.mp3")
+      );
+      sound.play();
+      setNotificationCount(notificationCount + 1);
+    });
+    return () => {
+      socket?.off("newNotification");
+    };
+  }, [socket, notificationCount, setNotificationCount]);
+};
+
+const useListenFriendRequest = () => {
+  const { socket } = useSocketContext();
+  const { friendRequestCount, setFriendRequestCount } = useSidebarBadge();
+  useEffect(() => {
+    socket?.on("friendRequest", (friendRequest: any) => {
+      const sound = new Audio(
+        require("../assets/sounds/new-notification-7-210334.mp3")
+      );
+      sound.play();
+      setFriendRequestCount(friendRequestCount + 1);
+    });
+    return () => {
+      socket?.off("friendRequest");
+    };
+  }, [socket, friendRequestCount, setFriendRequestCount]);
+};
+
+export {
+  useListenMessage,
+  useListenTyping,
+  useListenConversation,
+  useListenNotification,
+  useListenFriendRequest,
+};

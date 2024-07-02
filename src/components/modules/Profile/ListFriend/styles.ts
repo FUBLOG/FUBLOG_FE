@@ -3,6 +3,9 @@ import { Flex } from "antd";
 import Typography from "@/components/core/common/Typography";
 
 export const Wrapper = styled(Flex)`
+&.theme-dark{
+  
+}
   flex-direction: column;
   gap: 10px;
   width: 100%;
@@ -48,8 +51,6 @@ export const FriendImageContainer = styled.div`
 `;
 
 export const FriendName = styled(Typography)`
-  color: #faf0e6;
   font-weight: normal;
-  text-align: center;
   font-size: 14px;
 `;

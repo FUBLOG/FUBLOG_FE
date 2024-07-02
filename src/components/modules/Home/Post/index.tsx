@@ -12,6 +12,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import CommentModal from "./Comment";
 
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
 
 interface PostProps {
   newfeed: any;
@@ -58,8 +59,9 @@ const Post = ({ newfeed }: PostProps) => {
     setOpen(true);
   };
 
+  const darkMode = useThemeStore((state) => state.darkMode);
   return (
-    <S.PostWrapper>
+    <S.PostWrapper className={darkMode? "theme-dark" : "theme-light"}>
       <S.CustomCard>
         <S.PostHeader>
           <S.UserInfo>
@@ -69,21 +71,21 @@ const Post = ({ newfeed }: PostProps) => {
             />
             <Typography
               variant="caption-normal"
-              color="#B9B4C7"
+              color={darkMode? "#B9B4C7" : "#352F44"}
               fontSize="18px"
             >
               {newfeed?.userId?.displayName}
             </Typography>
           </S.UserInfo>
           <ExclamationCircleOutlined
-            style={{ color: "#FAF0E6", cursor: "pointer"} }
+            style={{ color: darkMode? "#B9B4C7" : "#352F44" , cursor: "pointer"} }
           />
         </S.PostHeader>
 
         <S.ContentWrapper>
           <Typography
             variant="caption-small"
-            color="#B9B4C7"
+            color={darkMode? "#B9B4C7" : "#352F44"}
             fontSize="14px"
             lineHeight="2"
           >
@@ -121,22 +123,22 @@ const Post = ({ newfeed }: PostProps) => {
         <S.PostFooter>
           <S.Actions>
             {liked ? (
-              <HeartFilled style={{ color: "white", cursor: "pointer" }} />
+              <HeartFilled style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }} />
             ) : (
-              <HeartOutlined style={{ color: "white", cursor: "pointer" }} />
+              <HeartOutlined style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }} />
             )}
-            <span>{likes}</span>
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}}>{likes}</span>
             <CommentOutlined
-              style={{ color: "white", cursor: "pointer" }}
+              style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
               onClick={handleCommentClick}
             />
-            <span>{comments}</span>
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}}>{comments}</span>
           </S.Actions>
           <S.TagWrapper>
             <S.Tag>
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color={darkMode? "#B9B4C7" : "#352F44"}
                 fontSize="14px"
                 lineHeight="2"
               >

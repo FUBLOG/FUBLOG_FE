@@ -12,8 +12,10 @@ import {
 } from "@/services/api/friend";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
+import useThemeStore from "@/hooks/useTheme";
 
 const Banner = ({ profileHash, setLoading }: any) => {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const {
     isFriend,
     isGuest,
@@ -103,14 +105,14 @@ const Banner = ({ profileHash, setLoading }: any) => {
           <S.Typography>
             <Typography
               variant="body-text-small-bold"
-              color="#fff !important"
+              color= {darkMode? "white" : "#352F44"}
               fontSize="34px"
             >
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
               variant="body-text-small-normal"
-              color="#fff !important"
+              color= {darkMode? "white" : "#352F44"}
               fontSize="14px"
             >
               {profileSearch?.info?.bio}

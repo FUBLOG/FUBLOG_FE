@@ -2,12 +2,22 @@ import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
+&.theme-dark {
+  border: 1px solid #ccc;
+}
+  &.theme-light {
+  border: 1px solid #352F44;
+  box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
+-webkit-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
+-moz-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
+
+}
+
   box-sizing: border-box;
   margin: 20px 0;
   padding: 24px;
   max-width: 700px;
   width: 100%;
-  border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
 `;

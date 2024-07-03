@@ -56,6 +56,8 @@ const FriendOnline = () => {
           },
         ],
         messages: [],
+        unReadCount: 0,
+        lastMessage: {},
         _id: 404,
       });
     }

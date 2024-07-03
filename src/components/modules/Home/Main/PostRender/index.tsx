@@ -5,12 +5,24 @@ import { Skeleton, Space, Spin } from "antd";
 import { getPostForGuest, getPostForUser } from "@/services/api/post";
 import useCreatePost from "@/hooks/useCreatePost";
 import { LoadingOutlined } from "@ant-design/icons";
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 const PostsRender = () => {
   const [listPosts, setListPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { showSpinner, post, setPost } = useCreatePost();
   const { userInfo } = useAuthContext();
+  const getMore = async () => {
+    setLoading(true);
+    if (userInfo?._id === "") {
+      await getPostForGuest().then((res: any) => {
+        setListPosts(listPosts.concat(res?.metadata));
+      });
+    } else {
+      await getPostForUser().then((res: any) => {
+        setListPosts(listPosts.concat(res?.metadata));
+      });
+    }
+  };
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
@@ -39,9 +51,7 @@ const PostsRender = () => {
     }
   }, [userInfo?._id, post]);
 
-  return loading ? (
-    <Loading />
-  ) : (
+  return  (
     <>
       {showSpinner && (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -56,9 +66,35 @@ const PostsRender = () => {
           </Space>
         </div>
       )}
-      {listPosts?.map((post: any) => (
-        <Post newfeed={post} key={post._id} />
-      ))}
+
+      <div
+        id="scrollableDiv"
+        style={{
+          overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/*Put the scroll bar always on the bottom*/}
+        <InfiniteScroll
+          dataLength={listPosts?.length} //This is important field to render the next data
+          next={getMore}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+          // below props only if you need pull down functionality
+          
+        >
+          {listPosts?.map((post: any, index: number) => (
+            <Post key={post?._id} newfeed={post}/>
+          ))
+          }
+        </InfiniteScroll>
+      </div>
     </>
   );
 };

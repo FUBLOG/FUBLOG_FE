@@ -11,13 +11,13 @@ import * as S from "../style";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const NotificationTab = ({ onclose }: any) => {
+const NotificationTab = ({ onClose }: any) => {
   const { loading, notifications, setNotifications } = useGetNotification();
   const [localNotifications, setLocalNotifications] = useState<any[]>([]);
 
   useEffect(() => {
     setLocalNotifications(notifications);
-  }, [notifications]);
+  }, []);
   const router = useRouter();
   const handleMarkRead = async (notificationId: string) => {
     try {
@@ -54,7 +54,7 @@ const NotificationTab = ({ onclose }: any) => {
     } catch (error) {}
   };
   function handleClick() {
-    onclose();
+    onClose();
   }
   return loading ? (
     <Loading />

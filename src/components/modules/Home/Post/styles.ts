@@ -10,6 +10,9 @@ export const PostWrapper = styled.div`
   border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
+  :where(.css-dev-only-do-not-override-3rel02).ant-modal-root .ant-modal-mask {
+    background-color: none !important;
+  }
 `;
 
 export const ContentWrapper = styled(Flex)`

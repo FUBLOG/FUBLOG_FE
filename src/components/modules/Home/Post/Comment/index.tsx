@@ -11,6 +11,8 @@ import {
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
+import webStorageClient from "@/utils/webStorageClient";
+import { constants } from "@/settings";
 
 const CommentModal = ({
   postId,
@@ -43,13 +45,11 @@ const CommentModal = ({
     }
   }, [editMode]);
   useEffect(() => {
-    if (postId !== null) {
-      console.log("tự nhiên zô");
+    console.log("postId", postId);
 
+    if (postId !== null) {
       getPostByPostId(postId)
         .then((post) => {
-          console.log("vô dòng này!", postId);
-          console.log(post?.metadata);
           setNewFeed(post);
           // handleCommentClick();
         })
@@ -60,6 +60,8 @@ const CommentModal = ({
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
+      console.log("newfeed nè", newfeed);
+
       await getCommentPost(newfeed?.post?._id).then((res: any) => {
         setCommentsData(res?.metadata);
         setLoading(false);
@@ -321,7 +323,7 @@ const CommentModal = ({
                 {comment?.comment_content}
               </S.CommentContent>
             )}
-            {userInfo?._id !== "" &&
+            {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&
               !isPostReport &&
               selectedCommentId === comment._id && (
@@ -385,7 +387,7 @@ const CommentModal = ({
           {newfeed?.post?.postContent}
         </Typography>
 
-        {newfeed?.post?.postLinkToImages.length === 1 && (
+        {newfeed?.post?.postLinkToImages?.length === 1 && (
           <S.ImagesWrapper>
             <img
               src={newfeed?.post?.postLinkToImages[0]}
@@ -394,10 +396,10 @@ const CommentModal = ({
             />
           </S.ImagesWrapper>
         )}
-        {newfeed?.post?.postLinkToImages.length > 1 && (
+        {newfeed?.post?.postLinkToImages?.length > 1 && (
           <S.ImagesWrapper2>
             <Carousel arrows={true}>
-              {newfeed?.post?.postLinkToImages.map((src: any) => (
+              {newfeed?.post?.postLinkToImages?.map((src: any) => (
                 <img
                   key={src}
                   src={src}

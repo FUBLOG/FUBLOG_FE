@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { message, Radio, Carousel, Modal } from "antd";
 import {
   HeartOutlined,
@@ -37,16 +37,22 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
   //   setLiked(!liked);
   //   setLikes(liked ? likes - 1 : likes + 1);
   // };
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  const handleLikeClick = () => {
+    setLiked(!liked);
+  };
+
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
 
   const router = useRouter();
-  const handleCommentClick = () => {
+
+  const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
-      paramComment === null
-        ? router.push(`?ptId=${newfeed?.post?._id}`)
-        : router.push(`?ptId=${newfeed?.post?._id}&ctId=${paramComment}`);
+      setSelectedPost(newfeed);
+      router.push(`?pptId=${newfeed?.post?._id}`);
       setShowCommentsModal(true);
       return;
     }
@@ -65,6 +71,20 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
     setSelectedImage(src);
     setOpen(true);
   };
+  const commentModal = useMemo(() => {
+    console.log("selectedPost", selectedPost);
+
+    if (!selectedPost || !showCommentsModal) return null;
+    return (
+      <CommentModal
+        postId={selectedPost?.post?._id}
+        open={showCommentsModal}
+        close={handleCloseCommentsModal}
+        newfeed={selectedPost}
+        icrComment={selectedPost?.commentCount}
+      />
+    );
+  }, [selectedPost, showCommentsModal]);
 
   return (
     <S.PostWrapper>
@@ -132,16 +152,22 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
         <S.PostFooter>
           <S.Actions>
             {liked ? (
-              <HeartFilled style={{ color: "white", cursor: "pointer" }} />
+              <HeartFilled
+                style={{ color: "white", cursor: "pointer" }}
+                onClick={handleLikeClick}
+              />
             ) : (
-              <HeartOutlined style={{ color: "white", cursor: "pointer" }} />
+              <HeartOutlined
+                style={{ color: "white", cursor: "pointer" }}
+                onClick={handleLikeClick}
+              />
             )}
-            <span>{likes}</span>
+            <span>{newfeed?.post?.countLike}</span>
             <CommentOutlined
+              onClick={() => handleCommentClick(newfeed)}
               style={{ color: "white", cursor: "pointer" }}
-              onClick={handleCommentClick}
             />
-            <span>{comments}</span>
+            <span>{newfeed?.post?.commentCount}</span>
           </S.Actions>
           <S.TagWrapper>
             <S.Tag>
@@ -211,15 +237,8 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
             : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
-      <CommentModal
-        close={handleCloseCommentsModal}
-        open={showCommentsModal}
-        newfeed={newfeed}
-        postId={postId}
-        icrComment={icrComment}
-        handleCommentClick={handleCommentClick}
-        paramComment={paramComment}
-      />
+      {commentModal}
+
       {/* Modal của preview ảnh */}
       <div className="imgWrapper">
         <S.ImageModal

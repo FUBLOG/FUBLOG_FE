@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Carousel, message, Radio } from "antd";
 import {
   HeartOutlined,
@@ -36,15 +36,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const postId = searchParams.get("pptId");
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (profileSearch?.user?._id !== undefined) {
-        const data = await getPostById(profileSearch?.user?._id);
-        setPosts(data?.metadata || []);
-      }
-    };
-    fetchPosts();
+  const fetchPosts = useCallback(async () => {
+    if (profileSearch?.user?._id !== undefined) {
+      const data = await getPostById(profileSearch?.user?._id);
+      setPosts(data?.metadata || []);
+    }
   }, [profileSearch]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
@@ -60,7 +61,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
 
   const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
-      setSelectedPost(newfeed); // Set selected post data
+      setSelectedPost(newfeed);
       router.push(`?pId=${profileHash}&pptId=${newfeed?._id}`);
       setShowCommentsModal(true);
       return;
@@ -82,193 +83,192 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     setLiked(!liked);
   };
 
+  const commentModal = useMemo(() => {
+    if (!selectedPost || !showCommentsModal) return null;
+    return (
+      <CommentModal
+        postId={selectedPost?._id}
+        open={showCommentsModal}
+        close={handleCloseCommentsModal}
+        newfeed={selectedPost}
+        icrComment={selectedPost?.commentCount}
+      />
+    );
+  }, [selectedPost, showCommentsModal]);
+
   return (
     <>
       {posts?.map((newfeed: any) => (
-        <>
-          <S.PostWrapper key={newfeed?._id}>
-            <S.CustomCard>
-              <S.PostHeader>
-                <S.UserInfo>
-                  <S.Avatar
-                    src={profileSearch?.info?.avatar}
-                    alt={`${profileSearch?.user?.displayName}'s avatar`}
-                  />
-                  <Typography
-                    variant="caption-normal"
-                    color="#B9B4C7"
-                    fontSize="18px"
-                  >
-                    {profileSearch?.user?.displayName}
-                  </Typography>
-                </S.UserInfo>
-                <ExclamationCircleOutlined
-                  style={{ color: "#FAF0E6", cursor: "pointer" }}
-                  onClick={() => {
-                    setShowReportModal(true);
-                  }}
+        <S.PostWrapper key={newfeed?._id}>
+          <S.CustomCard>
+            <S.PostHeader>
+              <S.UserInfo>
+                <S.Avatar
+                  src={profileSearch?.info?.avatar}
+                  alt={`${profileSearch?.user?.displayName}'s avatar`}
                 />
-              </S.PostHeader>
-
-              <S.ContentWrapper>
                 <Typography
-                  variant="caption-small"
+                  variant="caption-normal"
                   color="#B9B4C7"
-                  fontSize="14px"
-                  lineHeight="2"
+                  fontSize="18px"
                 >
-                  {newfeed?.postContent}
+                  {profileSearch?.user?.displayName}
                 </Typography>
-              </S.ContentWrapper>
-              {newfeed?.postLinkToImages?.length === 1 && (
-                <S.ImagesWrapper
-                  className={`images-${newfeed?.postLinkToImages.length}`}
-                >
-                  <img
-                    src={newfeed?.postLinkToImages[0]}
-                    alt=""
-                    className="post-image"
-                    onClick={() => onPreview(newfeed?.postLinkToImages[0])}
-                  />
-                </S.ImagesWrapper>
-              )}
-              {newfeed?.postLinkToImages?.length > 1 && (
-                <S.ImagesWrapper2>
-                  <Carousel arrows={true}>
-                    {newfeed?.postLinkToImages?.map((src: any) => (
-                      <img
-                        key={src}
-                        src={src}
-                        alt="Post Image"
-                        className="post-image"
-                        onClick={() => onPreview(src)}
-                      />
-                    ))}
-                  </Carousel>
-                </S.ImagesWrapper2>
-              )}
+              </S.UserInfo>
+              <ExclamationCircleOutlined
+                style={{ color: "#FAF0E6", cursor: "pointer" }}
+                onClick={() => {
+                  setShowReportModal(true);
+                }}
+              />
+            </S.PostHeader>
 
-              <S.PostFooter>
-                <S.Actions>
-                  {liked ? (
-                    <HeartFilled
-                      style={{ color: "white", cursor: "pointer" }}
-                      onClick={handleLikeClick}
-                    />
-                  ) : (
-                    <HeartOutlined
-                      style={{ color: "white", cursor: "pointer" }}
-                      onClick={handleLikeClick}
-                    />
-                  )}
-                  <span>{newfeed?.countLike}</span>
-                  <CommentOutlined
-                    onClick={() => handleCommentClick(newfeed)}
-                    style={{ color: "white", cursor: "pointer" }}
-                  />
-                  <span>{newfeed?.commentCount}</span>
-                </S.Actions>
-                <S.TagWrapper>
-                  <S.Tag>
-                    <Typography
-                      variant="caption-small"
-                      color="#B9B4C7"
-                      fontSize="14px"
-                      lineHeight="2"
-                    >
-                      <TagOutlined style={{ marginRight: "10px" }} />
-                      {newfeed?.postTagID}
-                    </Typography>
-                  </S.Tag>
-                </S.TagWrapper>
-              </S.PostFooter>
-            </S.CustomCard>
-
-            <S.CustomModal
-              title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
-              open={showReportModal}
-              onCancel={() => setShowReportModal(false)}
-              cancelText={"Hủy"}
-              okText={"Tiếp tục"}
-              onOk={() => {
-                if (!reportReason) {
-                  message.warning("Vui lòng chọn lý do báo cáo.");
-                  return;
-                }
-                setShowConfirmModal(true);
-                setShowReportModal(false);
-              }}
-            >
-              <Typography variant="caption-small">Hãy chọn vấn đề:</Typography>
-              <Radio.Group
-                onChange={(e) => setReportReason(e.target.value)}
-                value={reportReason}
-                style={{ display: "flex", flexDirection: "column" }}
+            <S.ContentWrapper>
+              <Typography
+                variant="caption-small"
+                color="#B9B4C7"
+                fontSize="14px"
+                lineHeight="2"
               >
-                {[
-                  "Nội dung phản cảm",
-                  "Bạo lực",
-                  "Quấy rối",
-                  "Tự tử hoặc tự gây thương tích",
-                  "Thông tin sai sự thật",
-                  "Spam",
-                  "Chất cấm, chất gây nghiện",
-                  "Bán hàng trái phép",
-                  "khác",
-                ].map((reason) => (
-                  <Radio value={reason} key={reason}>
-                    {reason}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </S.CustomModal>
-            <S.CustomModal
-              title="Xác nhận báo cáo"
-              open={showConfirmModal}
-              onCancel={handleCloseSuccessModal}
-              cancelText={"Hủy"}
-              okText={"Báo cáo"}
-              onOk={() => {
-                setShowConfirmModal(false),
-                  message.success("Báo cáo bài viết thành công");
-              }}
-            >
-              <Typography variant="caption-small">
-                {isPostReport
-                  ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
-                  : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
+                {newfeed?.postContent}
               </Typography>
-            </S.CustomModal>
-
-            <CommentModal
-              postId={selectedPost?._id}
-              open={showCommentsModal}
-              close={handleCloseCommentsModal}
-              newfeed={selectedPost}
-              icrComment={selectedPost?.commentCount}
-            />
-
-            <div className="imgWrapper">
-              <S.ImageModal
-                visible={open}
-                footer={null}
-                onCancel={() => setOpen(false)}
-                centered
-                styles={{ content: { padding: "0" } }}
-                closable={false}
+            </S.ContentWrapper>
+            {newfeed?.postLinkToImages?.length === 1 && (
+              <S.ImagesWrapper
+                className={`images-${newfeed?.postLinkToImages.length}`}
               >
-                <div style={{ textAlign: "center" }}>
-                  <img
-                    src={selectedImage}
-                    alt="Preview"
-                    style={{ maxWidth: "100%", height: "auto" }}
+                <img
+                  src={newfeed?.postLinkToImages[0]}
+                  alt=""
+                  className="post-image"
+                  onClick={() => onPreview(newfeed?.postLinkToImages[0])}
+                />
+              </S.ImagesWrapper>
+            )}
+            {newfeed?.postLinkToImages?.length > 1 && (
+              <S.ImagesWrapper2>
+                <Carousel arrows={true}>
+                  {newfeed?.postLinkToImages?.map((src: any) => (
+                    <img
+                      key={src}
+                      src={src}
+                      alt="Post Image"
+                      className="post-image"
+                      onClick={() => onPreview(src)}
+                    />
+                  ))}
+                </Carousel>
+              </S.ImagesWrapper2>
+            )}
+
+            <S.PostFooter>
+              <S.Actions>
+                {liked ? (
+                  <HeartFilled
+                    style={{ color: "white", cursor: "pointer" }}
+                    onClick={handleLikeClick}
                   />
-                </div>
-              </S.ImageModal>
-            </div>
-          </S.PostWrapper>
-        </>
+                ) : (
+                  <HeartOutlined
+                    style={{ color: "white", cursor: "pointer" }}
+                    onClick={handleLikeClick}
+                  />
+                )}
+                <span>{newfeed?.countLike}</span>
+                <CommentOutlined
+                  onClick={() => handleCommentClick(newfeed)}
+                  style={{ color: "white", cursor: "pointer" }}
+                />
+                <span>{newfeed?.commentCount}</span>
+              </S.Actions>
+              <S.TagWrapper>
+                <S.Tag>
+                  <Typography
+                    variant="caption-small"
+                    color="#B9B4C7"
+                    fontSize="14px"
+                    lineHeight="2"
+                  >
+                    <TagOutlined style={{ marginRight: "10px" }} />
+                    {newfeed?.postTagID}
+                  </Typography>
+                </S.Tag>
+              </S.TagWrapper>
+            </S.PostFooter>
+          </S.CustomCard>
+
+          <S.CustomModal
+            title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
+            open={showReportModal}
+            onCancel={() => setShowReportModal(false)}
+            cancelText={"Hủy"}
+            okText={"Tiếp tục"}
+            onOk={() => {
+              if (!reportReason) {
+                message.warning("Vui lòng chọn lý do báo cáo.");
+                return;
+              }
+              setShowConfirmModal(true);
+              setShowReportModal(false);
+            }}
+          >
+            <Typography variant="caption-small">Hãy chọn vấn đề:</Typography>
+            <Radio.Group
+              onChange={(e) => setReportReason(e.target.value)}
+              value={reportReason}
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              {[
+                "Nội dung phản cảm",
+                "Bạo lực",
+                "Quấy rối",
+                "Tự tử hoặc tự gây thương tích",
+                "Thông tin sai sự thật",
+                "Spam",
+                "Chất cấm, chất gây nghiện",
+                "Bán hàng trái phép",
+                "khác",
+              ].map((reason) => (
+                <Radio value={reason} key={reason}>
+                  {reason}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </S.CustomModal>
+          <S.CustomModal
+            title="Xác nhận báo cáo"
+            open={showConfirmModal}
+            onCancel={handleCloseSuccessModal}
+            cancelText={"Hủy"}
+            okText={"Báo cáo"}
+            onOk={() => {
+              setShowConfirmModal(false),
+                message.success("Báo cáo bài viết thành công");
+            }}
+          >
+            <Typography variant="caption-small">
+              {isPostReport
+                ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
+                : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
+            </Typography>
+          </S.CustomModal>
+        </S.PostWrapper>
       ))}
+      {commentModal}
+      <div className="imgWrapper">
+        <S.ImageModal
+          open={open}
+          onCancel={() => setOpen(false)}
+          footer={null}
+          bodyStyle={{ padding: 0 }}
+        >
+          <img
+            src={selectedImage}
+            alt="Full-size preview"
+            style={{ width: "100%" }}
+          />
+        </S.ImageModal>
+      </div>
     </>
   );
 };

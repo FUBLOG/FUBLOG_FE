@@ -38,7 +38,7 @@ export const Sidebar = styled(Flex)`
 
 export const Content = styled(Flex)`
   flex-direction: column;
-  width: 75%; /* Chỉnh chiều rộng của Content */
+  width: 75%;
   background-color: #352f44;
   padding: 20px;
   margin-top: 84px;

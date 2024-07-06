@@ -47,17 +47,12 @@ const CommentModal = ({
   }, [editMode]);
   useEffect(() => {
     if (postId !== null) {
-      // console.log("tự nhiên zô");
-
       // getPostByPostId(postId)
       //   .then((post) => {
-      //     console.log("vô dòng này!", postId);
-      //     console.log(post?.metadata);
       //     setNewFeed(post);
       //     // handleCommentClick();
       //   })
       // .catch((error) => {});
-      console.log("newfeed", newfeed);
     }
   }, [postId, paramComment]);
 

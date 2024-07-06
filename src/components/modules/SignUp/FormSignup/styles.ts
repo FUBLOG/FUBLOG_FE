@@ -60,6 +60,12 @@ export const HomeWrapper = styled(Flex)`
     color: #faf0e6 !important;
   }
 `;
+export const TitleLogin = styled(Flex)`
+    margin-bottom : 50px;
+      justify-content: center;
+  align-items: center;
+  gap: 10px;
+`
 export const Typography = styled(Flex)`
   gap: 5px;
   justify-content: center;

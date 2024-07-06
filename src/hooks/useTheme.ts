@@ -7,10 +7,12 @@ interface ThemeState {
 }
 
 const useThemeStore = create<ThemeState>((set) => ({
-  darkMode: localStorage.getItem('displayMode') === 'dark',
+  darkMode: false, // Khởi tạo với false, sẽ cập nhật sau
   toggleDarkMode: () => set((state) => {
     const newMode = !state.darkMode;
-    localStorage.setItem('displayMode', newMode ? 'dark' : 'light');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('displayMode', newMode ? 'dark' : 'light');
+    }
     return { darkMode: newMode };
   }),
 }));

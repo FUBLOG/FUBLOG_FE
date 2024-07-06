@@ -45,7 +45,7 @@ const useGetFriendRequest = () => {
     }
   }, []);
 
-  return { friendRequest, loading };
+  return { friendRequest, loading , setFriendRequest };
 };
 
 const useGetNotification = () => {

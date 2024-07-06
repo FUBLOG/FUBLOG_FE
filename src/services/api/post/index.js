@@ -11,6 +11,21 @@ export const getPostForUser = async () => {
   });
 };
 
+export const getAllTags = async () => {
+  return await getRequest(postEndpoint.GET_ALL_TAGS);
+};
+
+export const createPost = async (data) => {
+  return await postRequest(
+    postEndpoint.POST_POST,
+    {
+      data,
+      security: true,
+    },
+    true
+  );
+};
+
 
 export const getPostById = async (id) => {
   return await getRequest(postEndpoint.GET_POST_BY_ID + id);

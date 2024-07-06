@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Modal, Tabs } from "antd";
+import { Badge, Modal, Tabs } from "antd";
 import * as S from "./style";
 import NotificationTab from "./NotificationTab";
 import FriendTab from "./FriendTab";
+import useSidebarBadge from "@/hooks/useSidebarBadge";
 
 const { TabPane } = Tabs;
 
@@ -24,7 +25,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
   onClose,
 }) => {
   const [activeTab, setActiveTab] = useState("1");
-
+  const {friendRequestCount,notificationCount} = useSidebarBadge();
   return (
     <Modal
       open={visible}
@@ -48,19 +49,27 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
           }}
           className="custom-tabs"
         >
-          <TabPane tab="Thông báo" key="1">
-            <S.TabContent>
+          <TabPane
+            tab={<Badge count={notificationCount} offset={[10, 0]}>
+              Thông Báo
+            </Badge>}
+            key="1" destroyInactiveTabPane={true}>
+            <S.TabContent >
               <NotificationTab onClose />
             </S.TabContent>
           </TabPane>
-          <TabPane tab="Bạn bè" key="2">
+          <TabPane tab={
+            <Badge count={friendRequestCount} offset={[10, 0]}>
+              Bạn bè
+            </Badge>
+          } key="2" destroyInactiveTabPane={true}>
             <S.TabContent>
-              <FriendTab onClose />
+              <FriendTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
         </Tabs>
       </S.NotificationContainer>
-    </Modal>
+    </Modal >
   );
 };
 

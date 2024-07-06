@@ -27,6 +27,7 @@ const postEndpoint = {
   POST_POST: `/post`,
   GET_POSTS_FOR_GUEST: `/newfeed/guest`,
   GET_POSTS_FOR_USER: `/newfeed/user`,
+  GET_ALL_TAGS: `/tag`,
   GET_POST_BY_ID: `/post/user/`,
 };
 const editProfileEndpoint = {
@@ -46,7 +47,7 @@ const friendEndpoint = {
   FRIEND_LIST: `/friend`,
   GET_REQUESTS_SENT: `/friend/request/`,
   UNSENT_REQUEST: `/friend/request`,
-  GET_FRIEND_ID: `/friend/`,
+  GET_FRIEND_ID: `/friend/profile/`,
 };
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,

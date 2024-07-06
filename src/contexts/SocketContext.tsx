@@ -52,7 +52,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       };
     }
   }, [userInfo]);
-
+  
   const socketContextValueWithUserOnline = useMemo(
     () => ({ socket, setSocket, userOnline, setUserOnline }),
     [socket, setSocket, userOnline, setUserOnline]

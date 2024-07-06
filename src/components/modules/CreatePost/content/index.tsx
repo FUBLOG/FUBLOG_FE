@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
 import {
   SettingOutlined,
@@ -14,6 +14,7 @@ import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useCreatePost from "@/hooks/useCreatePost";
 import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
+import { createPost, getAllTags } from "@/services/api/post";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
@@ -24,15 +25,30 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
   const { setShowSpinner, setPost } = useCreatePost()
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState("");
-
-
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const [tagValue, setTagValue] = useState("Khác");
-
+  const [tagValue, setTagValue] = useState<any>({});
   const [openTag, setOpenTag] = useState(false);
-
   const [tags] = useState<any[]>([]);
+  const [audienceValue, setAudienceValue] = useState("Công Khai");
+  const [openAudience, setOpenAudience] = useState(false);
+  const audiance: { [key: string]: string } = {
+    "Công Khai": "public",
+    "Riêng Tư": "private",
+    "Bạn Bè": "friend",
+  }
+  useEffect(() => {
+    const getTags = async () => {
+
+      const res: any = await getAllTags();
+      res?.metadata?.map((tag: any) => {
+        tags.push(tag);
+      });
+      setTagValue(tags[0]);
+    }
+    getTags();
+
+  }, []);
+
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
@@ -66,13 +82,11 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     setOpenTag(false);
     setOpenAudience(false);
   };
-  const handleTextChange = (e: RadioChangeEvent) => {
-    setTagValue(e.target.value);
+  const handleTextChange = (tag: any) => {
+    setTagValue(tag);
   };
   // const handleAudience =
 
-  const [audienceValue, setAudienceValue] = useState("Công Khai");
-  const [openAudience, setOpenAudience] = useState(false);
   const handleOpenAudience = () => {
     setOpenAudience(true);
   };
@@ -95,22 +109,16 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
         }
       });
       formData.append("content", postContent);
-      formData.append("tagId", "66739c62f5ceba09bfa40b81");
-      const res: any = await postRequest(
-        postEndpoint.POST_POST,
-        {
-          data: formData,
-          security: true, // Nếu cần bảo mật
-        },
-        true
-      );
+      formData.append("tagId", tagValue._id);
+      formData.append("status", audiance[audienceValue]);
+      const res: any = await createPost(formData);
       setTimeout(() => {
         setPost(res?.metadata);
         setShowSpinner(false);
       }, 3000);
       setPostContent("");
       setFileList([]);
-      setTagValue("Khác");
+      setTagValue(tags[0]);
       setAudienceValue("Công Khai");
 
     } catch (error) {
@@ -173,7 +181,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
             <TagOutlined />
-            <p>{tagValue}</p>
+            <p>{tagValue?.postTagContent}</p>
           </div>
           <div className="create-btn">
             <Button $width={"100px"} onClick={CreatePost}>
@@ -189,12 +197,11 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
           >
             <Radio.Group
               style={{ display: "flex", flexDirection: "column", gap: "30px" }}
-              value={tagValue}
-              onChange={handleTextChange}
+              value={tagValue?.postTagContent}
             >
               <h3>Chọn Thẻ</h3>
               {tags.map((tag) => (
-                <Radio value={tag?.postTagContent as string} key={tag?._id}>
+                <Radio value={tag?.postTagContent as string} key={tag?._id} onClick={() => handleTextChange(tag)}>
                   {tag?.postTagContent}
                 </Radio>
               ))}

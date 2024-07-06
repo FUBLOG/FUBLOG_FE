@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ReactNode, useEffect } from "react";
-import { Flex, Menu, Dropdown, Spin } from "antd";
+import { Flex, Menu, Dropdown, Spin, Badge } from "antd";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -41,6 +41,8 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
+import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
+import { useListenConversation } from "@/hooks/useListen";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -58,6 +60,11 @@ function MainLayout({ children }: LayoutProps) {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
+  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
+  useGetMessageNotification();
+  useGetFriendRequestNotification();
+  useGetNotificationCount();
+  useListenConversation();
 
   useEffect(() => {
     if (
@@ -182,20 +189,26 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Button type="text" onClick={() => handleSetNavigation("mess")}>
-              {nav === "mess" ? (
-                <MessageFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <MessageOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Button>
-            <Link href="#" onClick={showBellModal}>
-              {nav === "bell" ? (
-                <BellFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <BellOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Link>
+            <Badge count={messageCount} style={{
+              margin: "0.1rem 1rem 0 0"
+            }}>
+              <Button type="text" onClick={() => handleSetNavigation("mess")}>
+                {nav === "mess" ? (
+                  <MessageFilled style={{ fontSize: "22px" }} />
+                ) : (
+                  <MessageOutlined style={{ fontSize: "22px" }} />
+                )}
+              </Button>
+            </Badge>
+            <Badge count={friendRequestCount + notificationCount} >
+              <Link href="#" onClick={showBellModal}>
+                {nav === "bell" ? (
+                  <BellFilled style={{ fontSize: "22px" }} />
+                ) : (
+                  <BellOutlined style={{ fontSize: "22px" }} />
+                )}
+              </Link>
+            </Badge>
           </S.IconContainer>
           {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
@@ -261,6 +274,7 @@ function MainLayout({ children }: LayoutProps) {
         open={showCreate}
         onOk={handleOk}
         onCancel={handleCancel}
+        destroyOnClose={true}
         footer={false}
       >
         <CreateContent onSuccess={handleCreatePostSuccess} />

@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Modal, Input, Badge, Skeleton } from "antd";
+import React, { useEffect } from "react";
+import { Modal, Input } from "antd";
 import {
   SearchOutlined,
-  PictureOutlined,
-  SendOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
 import * as S from "./styles";
 import Message from "./Message";
 import FriendOnline from "./FriendOnline";
 import { useAuthContext } from "@/contexts/AuthContext";
-import FriendList from "./FriendList";
+import FriendList from "./ConversationList";
 
 interface PageProps {
   readonly visible: boolean;
@@ -19,7 +17,7 @@ interface PageProps {
 
 const Chat = ({ visible, onClose }: PageProps) => {
   const { userInfo } = useAuthContext();
-
+  useEffect(() => { }, [userInfo?._id]);
   return (
     <Modal
       open={visible}

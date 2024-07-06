@@ -14,7 +14,7 @@ import CommentModal from "./Comment";
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface PostProps {
   newfeed: any;
@@ -40,9 +40,6 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
-  useEffect(() => {
-    if (postId === newfeed?.post?._id) handleCommentClick();
-  }, [postId, paramComment]);
 
   const router = useRouter();
   const handleCommentClick = () => {
@@ -218,6 +215,7 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
         close={handleCloseCommentsModal}
         open={showCommentsModal}
         newfeed={newfeed}
+        postId={postId}
         icrComment={icrComment}
         handleCommentClick={handleCommentClick}
         paramComment={paramComment}

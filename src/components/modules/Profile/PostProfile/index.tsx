@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel, message, Radio } from "antd";
 import {
   HeartOutlined,
@@ -10,7 +10,6 @@ import {
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import CommentModal from "./Comment";
-
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
@@ -24,37 +23,44 @@ interface PostProps {
 }
 
 const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
-  const [posts, setPosts] = useState([{}]);
+  const searchParams = useSearchParams();
+  const [posts, setPosts] = useState<any[]>([]);
   const [showReportModal, setShowReportModal] = useState(false);
   const [isPostReport, setIsPostReport] = useState(false);
-
   const [liked, setLiked] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const postId = searchParams.get("pptId");
+
   useEffect(() => {
-    const post = async () => {
-      profileSearch?.user?._id !== undefined ? (
-        await getPostById(profileSearch?.user?._id).then((data) => {
-          // console.log(data?.metadata);
-          setPosts(data?.metadata);
-        })
-      ) : (
-        <></>
-      );
+    const fetchPosts = async () => {
+      if (profileSearch?.user?._id !== undefined) {
+        const data = await getPostById(profileSearch?.user?._id);
+        setPosts(data?.metadata || []);
+      }
     };
-    post();
+    fetchPosts();
   }, [profileSearch]);
 
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
 
+  useEffect(() => {
+    if (postId !== null) {
+      setShowCommentsModal(true);
+    }
+  }, [postId]);
+
   const router = useRouter();
+
   const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
+      setSelectedPost(newfeed); // Set selected post data
       router.push(`?pId=${profileHash}&pptId=${newfeed?._id}`);
       setShowCommentsModal(true);
       return;
@@ -67,19 +73,20 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     setShowCommentsModal(false);
   };
 
-  // const icrComment = (number: number) => {
-  //   setComments(comments + number);
-  // };
   const onPreview = (src: any) => {
     setSelectedImage(src);
     setOpen(true);
+  };
+
+  const handleLikeClick = () => {
+    setLiked(!liked);
   };
 
   return (
     <>
       {posts?.map((newfeed: any) => (
         <>
-          <S.PostWrapper>
+          <S.PostWrapper key={newfeed?._id}>
             <S.CustomCard>
               <S.PostHeader>
                 <S.UserInfo>
@@ -146,10 +153,12 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   {liked ? (
                     <HeartFilled
                       style={{ color: "white", cursor: "pointer" }}
+                      onClick={handleLikeClick}
                     />
                   ) : (
                     <HeartOutlined
                       style={{ color: "white", cursor: "pointer" }}
+                      onClick={handleLikeClick}
                     />
                   )}
                   <span>{newfeed?.countLike}</span>
@@ -182,6 +191,10 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
               cancelText={"Hủy"}
               okText={"Tiếp tục"}
               onOk={() => {
+                if (!reportReason) {
+                  message.warning("Vui lòng chọn lý do báo cáo.");
+                  return;
+                }
                 setShowConfirmModal(true);
                 setShowReportModal(false);
               }}
@@ -209,7 +222,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 ))}
               </Radio.Group>
             </S.CustomModal>
-
             <S.CustomModal
               title="Xác nhận báo cáo"
               open={showConfirmModal}
@@ -229,13 +241,13 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
             </S.CustomModal>
 
             <CommentModal
-              close={handleCloseCommentsModal}
+              postId={selectedPost?._id}
               open={showCommentsModal}
-              newfeed={newfeed}
-              icrComment={newfeed?.commentCount}
-              // handleCommentClick={handleCommentClick(newfeed)}
+              close={handleCloseCommentsModal}
+              newfeed={selectedPost}
+              icrComment={selectedPost?.commentCount}
             />
-            {/* Modal của preview ảnh */}
+
             <div className="imgWrapper">
               <S.ImageModal
                 visible={open}

@@ -17,9 +17,7 @@ const Profile = () => {
   const { checkFriend } = useFriend(profileHash);
   const [friends, setFriend] = useState<Array<object>>([]);
   const { profileSearch } = useGetProfile(profileHash);
-  // useEffect(() => {
-  //   if (postId === newfeed?.post?._id) handleCommentClick();
-  // }, [postId]);
+
   useEffect(() => {
     setLoading(true);
     const checkIsFriend = async () => {

@@ -10,11 +10,12 @@ import {
   getCommentPost,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
+import { getPostByPostId } from "@/services/api/post";
 
 const CommentModal = ({
+  postId,
   close,
   open,
-  newfeed,
   icrComment,
   paramComment,
 }: any) => {
@@ -31,7 +32,7 @@ const CommentModal = ({
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-
+  const [newfeed, setNewFeed] = useState<any>([]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -41,6 +42,20 @@ const CommentModal = ({
       );
     }
   }, [editMode]);
+  useEffect(() => {
+    if (postId !== null) {
+      console.log("tự nhiên zô");
+
+      getPostByPostId(postId)
+        .then((post) => {
+          console.log("vô dòng này!", postId);
+          console.log(post?.metadata);
+          setNewFeed(post);
+          // handleCommentClick();
+        })
+        .catch((error) => {});
+    }
+  }, [postId, paramComment]);
 
   useEffect(() => {
     const asyncGetComments = async () => {

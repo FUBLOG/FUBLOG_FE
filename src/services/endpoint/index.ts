@@ -29,6 +29,7 @@ const postEndpoint = {
   GET_POSTS_FOR_USER: `/newfeed/user`,
   GET_ALL_TAGS: `/tag`,
   GET_POST_BY_ID: `/post/user/`,
+  GET_POST_BY_PID: `/post/user/`,
 };
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,

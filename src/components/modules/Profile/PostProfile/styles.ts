@@ -344,3 +344,13 @@ export const ImagesWrapper2 = styled.div`
     object-fit: cover;
   }
 `;
+
+export const PostContentWrapper = styled.div`
+  padding: 20px 20px 20px 60px;
+  border-bottom: 1px solid #ccc;
+`;
+export const PostHeaderModal = styled(Flex)`
+  align-items: center;
+  gap: 2px;
+  justify-content: flex-start;
+`;

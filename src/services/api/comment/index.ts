@@ -22,7 +22,7 @@ export const addComment = async (
 ) => {
   return await postRequest(`${commentEndpoint.POST_COMMENT}`, {
     data: {
-      comment_postID: postId,
+      comment_postId: postId,
       comment_content: content,
       parent_CommentID: parent,
     },
@@ -34,7 +34,7 @@ export const deleteComment = async (commentId: any, postId: any) => {
   return await deleteRequest(`${commentEndpoint.DELETE_COMMENT}`, {
     data: {
       parent_CommentID: commentId,
-      comment_postID: postId,
+      comment_postId: postId,
     },
     security: true,
   });

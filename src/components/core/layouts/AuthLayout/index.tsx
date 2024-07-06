@@ -10,15 +10,16 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
 function AuthLayout({ children }: AuthLayoutProps) {
   const { loading } = useAuth();
-
+  const darkMode = useThemeStore((state) => state.darkMode)
   return (
-    <S.LayoutWrapper>
+    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.Header>
         <S.Container>
           <Link href="/">

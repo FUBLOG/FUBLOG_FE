@@ -1,6 +1,6 @@
 "use client";
 
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { BulbTwoTone, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Spin, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ import { authEndpoint } from "@/services/endpoint";
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { errorMessage } from "@/services/errorMessage";
+import useThemeStore from "@/hooks/useTheme";
 
 function FormSignIn(showModalGuest: any) {
   const router = useRouter();
@@ -56,19 +57,29 @@ function FormSignIn(showModalGuest: any) {
     } catch (err) {}
     setLoading(false);
   };
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
   return (
     <>
       <Spin spinning={loading} fullscreen />
       <S.HomeWrapper>
-        <Typography
-          variant="h1"
-          color="#B9B4C7"
-          fontSize="x-large"
-          align="center"
-          margin="0 0  50px 0"
-        >
-          ĐĂNG NHẬP
-        </Typography>
+        <S.TitleLogin>
+          <Typography
+            variant="h1"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
+            fontSize="x-large"
+            align="center"
+            margin="0 0  0 0"
+          >
+            ĐĂNG NHẬP
+          </Typography>
+          <BulbTwoTone
+            twoToneColor={darkMode ? "#5C5470" : "#F7D600"}
+            style={{ fontSize: "25px", cursor: "pointer" }}
+            onClick={toggleDarkMode}
+          />
+        </S.TitleLogin>
 
         <Form
           name="basic"
@@ -86,6 +97,7 @@ function FormSignIn(showModalGuest: any) {
               prefix={<UserOutlined />}
               isRequired
               label="Email"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
             />
           </FormItem>
           <FormItem
@@ -97,6 +109,7 @@ function FormSignIn(showModalGuest: any) {
               prefix={<LockOutlined />}
               isRequired
               label="Mật khẩu"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
             />
           </FormItem>
           <S.Label>
@@ -108,7 +121,7 @@ function FormSignIn(showModalGuest: any) {
               <Checkbox>
                 <Typography
                   variant="body-text-small-normal"
-                  color="#B9B4C7"
+                  color={darkMode ? "#B9B4C7" : "#352F44"}
                   fontSize="xx-small"
                 >
                   Nhớ mật khẩu
@@ -119,10 +132,10 @@ function FormSignIn(showModalGuest: any) {
             <Link href="/verification">
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
                 fontSize="xx-small"
                 align="right"
                 textDecoration="underline"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
               >
                 Quên mật khẩu?
               </Typography>
@@ -150,7 +163,7 @@ function FormSignIn(showModalGuest: any) {
           <S.Typography>
             <Typography
               variant="body-text-small-normal"
-              color="#B9B4C7"
+              color={darkMode ? "#B9B4C7" : "#352F44"}
               fontSize="xx-small"
               align="center"
             >
@@ -159,7 +172,7 @@ function FormSignIn(showModalGuest: any) {
             <Link href="/sign-up">
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="xx-small"
                 align="right"
                 textDecoration="underline"

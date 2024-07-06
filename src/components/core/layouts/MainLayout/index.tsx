@@ -75,7 +75,6 @@ function MainLayout({ children }: LayoutProps) {
     }
   }, [webStorageClient.get(constants.IS_AUTH)]);
 
-  let savedMode = localStorage.getItem("displayMode");
 
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);

@@ -13,6 +13,15 @@ export const HomeWrapper = styled(Flex)`
   .ant-btn:hover > span {
     color: #faf0e6 !important;
   }
+.ant-statistic-content-value {
+    color: #B8B3C6 ;
+  }
+`;
+
+export const TitleLogin = styled(Flex)`
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const Typography = styled(Flex)`

@@ -35,7 +35,7 @@ export const Input = styled(InputAntd)`
       font-weight: ${({ theme }) => theme.fontWeight.regular};
       font-size: ${({ theme }) => theme.fontSize.base};
       line-height: 24px;
-      color: ${(props) => props.theme.colors.primaryLighter};
+      color: ${(props) => props.theme.colors.backgroundWhite};
 
       &::placeholder {
         font-weight: ${({ theme }) => theme.fontWeight.regular};

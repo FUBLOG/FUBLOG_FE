@@ -211,6 +211,7 @@ function FormSignUp(props: PageProps) {
               </Typography>
               <FormItem name="sex">
                 <Button
+                  $color="white"
                   $padding="12px 16px !important"
                   type="primary"
                   style={{

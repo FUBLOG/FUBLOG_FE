@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Modal, Input } from "antd";
+import { Modal } from "antd";
 import {
   SearchOutlined,
   CloseOutlined,
@@ -9,6 +9,7 @@ import Message from "./Message";
 import FriendOnline from "./FriendOnline";
 import { useAuthContext } from "@/contexts/AuthContext";
 import FriendList from "./ConversationList";
+import SearchChat from "./Search";
 
 interface PageProps {
   readonly visible: boolean;
@@ -38,11 +39,7 @@ const Chat = ({ visible, onClose }: PageProps) => {
             <S.ProfileName>{userInfo?.displayName}</S.ProfileName>
           </S.Profile>
           <S.SearchBar>
-            <Input
-              placeholder="Tìm kiếm"
-              prefix={<SearchOutlined />}
-              style={{ backgroundColor: "#FAF0E6", borderColor: "#5C5470" }}
-            />
+            <SearchChat />
           </S.SearchBar>
           <S.FriendList>
             <FriendList />

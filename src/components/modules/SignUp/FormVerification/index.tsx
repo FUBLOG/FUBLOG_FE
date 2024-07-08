@@ -19,7 +19,7 @@ import * as S from "./styles";
 import useThemeStore from "@/hooks/useTheme";
 
 const { Countdown } = Statistic;
-const darkMode = useThemeStore((state) => state.darkMode);
+
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
   readonly formData: any;
@@ -27,6 +27,7 @@ interface PageProps {
 }
 
 function FormVerification(props: PageProps) {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const handleClick = () => {
     props.setNextStep("signup");
   };

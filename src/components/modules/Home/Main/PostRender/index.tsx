@@ -18,8 +18,13 @@ const PostsRender = () => {
   const router = useRouter();
   const { userInfo } = useAuthContext();
   const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [isOpenByComment, setIsOpenByComment] = useState(false);
   const handleCloseCommentsModal = () => {
-    router.back();
+    if (isOpenByComment) {
+      router.back();
+    } else {
+      router.push("/");
+    }
     setShowCommentsModal(false);
   };
   const searchParams = useSearchParams();
@@ -121,6 +126,7 @@ const PostsRender = () => {
               postId={postId}
               paramComment={paramComment}
               setShowCommentsModal={setShowCommentsModal}
+              setIsOpenByComment={setIsOpenByComment}
             />
           ))}
           {commentModal}

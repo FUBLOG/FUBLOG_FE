@@ -22,9 +22,14 @@ interface PostProps {
   postId: any;
   paramComment: any;
   setShowCommentsModal: any;
+  setIsOpenByComment: any;
 }
 
-const Post = ({ newfeed, setShowCommentsModal }: PostProps) => {
+const Post = ({
+  newfeed,
+  setShowCommentsModal,
+  setIsOpenByComment,
+}: PostProps) => {
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [liked, setLiked] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
@@ -53,6 +58,7 @@ const Post = ({ newfeed, setShowCommentsModal }: PostProps) => {
     (newfeed: any) => {
       if (webStorageClient.get(constants.IS_AUTH)) {
         router.push(`?ptId=${newfeed?.post?._id}`);
+        setIsOpenByComment(true);
       } else {
         message.warning("Vui lòng đăng nhập để bình luận.");
       }

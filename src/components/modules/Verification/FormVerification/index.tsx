@@ -81,8 +81,8 @@ function FormVerification(props: PageProps) {
   return (
     <>
       <Spin spinning={loading} fullscreen></Spin>
-      <S.HomeWrapper>
-      <S.TitleLogin>
+      <S.HomeWrapper darkMode={darkMode}>
+        <S.TitleLogin>
           <Typography
             variant="h1"
             color={darkMode ? "#B9B4C7" : "#352F44"}
@@ -153,11 +153,11 @@ function FormVerification(props: PageProps) {
             </Link>
           </>
         ) : (
-          <Countdown 
+          <Countdown
             onFinish={onFinish}
             format="mm:ss"
             value={targetTime}
-            style={{color: "white"}}
+            style={{ color: "white" }}
           />
         )}
       </S.HomeWrapper>

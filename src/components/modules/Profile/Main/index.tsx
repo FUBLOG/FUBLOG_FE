@@ -2,7 +2,7 @@
 import useFriend from "@/hooks/useFriend";
 import { useEffect, useState } from "react";
 import Banner from "../Banner";
-import Introduce from "../introduce";
+import Introduce from "../Introduce";
 
 import PostProfile from "../PostProfile";
 import { Spin } from "antd";
@@ -46,8 +46,8 @@ const Profile = () => {
     <S.HomeWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <Spin spinning={loading} fullscreen />
       <Banner profileHash={profileHash} setLoading={setLoading} />
-      <S.Main >
-        <S.Container >
+      <S.Main>
+        <S.Container>
           <S.Sidebar>
             <Introduce />
             <ListFriend

@@ -57,9 +57,7 @@ const CommentModal = ({ close, open }: any) => {
   const icrComment = (number: number) => {
     setComments(comments + number);
   };
-  useEffect(() => {
-    console.log("post nè", post);
-  });
+
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
@@ -172,6 +170,7 @@ const CommentModal = ({ close, open }: any) => {
         }
         return comment;
       });
+      setCommentsData(updatedComments);
       setLoadingUpdate(false);
       setEditComment("");
       setEditMode(null);

@@ -46,8 +46,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [comments, setComments] = useState(0);
 
   const fetchPosts = useCallback(async () => {
-    console.log("profileSearch", profileSearch);
-
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);

@@ -10,8 +10,11 @@ import {
 import * as S from "../style";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+interface NotificationTabProps {
+  onClose: () => void;
+}
 
-const NotificationTab = ({ onClose }: any) => {
+const NotificationTab: React.FC<NotificationTabProps> = ({ onClose }) => {
   const { loading, notifications, setNotifications } = useGetNotification();
   const [localNotifications, setLocalNotifications] = useState<any[]>([]);
 

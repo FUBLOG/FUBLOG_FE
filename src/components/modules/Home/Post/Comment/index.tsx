@@ -17,6 +17,8 @@ import { useSearchParams } from "next/navigation";
 
 const CommentModal = ({ close, open }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
+  const editInputRef = useRef<HTMLTextAreaElement | null>(null);
+
   const [commentsData, setCommentsData] = useState<any>([]);
   const { userInfo } = useAuthContext();
   const [newComment, setNewComment] = useState("");
@@ -26,7 +28,6 @@ const CommentModal = ({ close, open }: any) => {
   const [selectedCommentId, setSelectedCommentId] = useState<any | null>(null);
   const [showReportModal, setShowReportModal] = useState(false);
   const [isPostReport, setIsPostReport] = useState(false);
-  const editInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);
@@ -34,7 +35,6 @@ const CommentModal = ({ close, open }: any) => {
   const postId = searchParams.get("ptId");
   const paramComment = searchParams.get("ctId");
   const [comments, setComments] = useState(0);
-
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -44,6 +44,20 @@ const CommentModal = ({ close, open }: any) => {
       );
     }
   }, [editMode]);
+  useEffect(() => {
+    handleInput();
+    if (
+      editMode === null &&
+      editComment === "" &&
+      replyComment === "" &&
+      newComment === ""
+    ) {
+      const commentElement = document.getElementById(`${paramComment}`);
+      if (commentElement) {
+        commentElement.style.color = "blue";
+      }
+    }
+  }, [editMode, editComment, replyComment, newComment]);
   useEffect(() => {
     if (postId !== null) {
       getPostByPostId(postId)
@@ -57,33 +71,38 @@ const CommentModal = ({ close, open }: any) => {
   const icrComment = (number: number) => {
     setComments(comments + number);
   };
+  const handleInput = () => {
+    if (paramComment !== null) {
+      const commentElement = document.getElementById(`${paramComment}`);
+      if (commentElement) {
+        commentElement.style.color = "#352f44";
+      }
+    }
+  };
+  const asyncGetComments = async () => {
+    setLoading(true);
 
-  useEffect(() => {
-    const asyncGetComments = async () => {
-      setLoading(true);
-
-      await getCommentPost(postId).then((res: any) => {
-        setCommentsData(res?.metadata);
-
-        setLoading(false);
+    await getCommentPost(postId).then((res: any) => {
+      setCommentsData(res?.metadata);
+      setLoading(false);
+      setTimeout(() => {
         if (paramComment !== null) {
-          const commentToScroll = res?.metadata?.find(
-            (comment: any) => comment?._id === paramComment
-          );
-
-          if (commentsWrapperRef?.current && commentToScroll) {
-            commentsWrapperRef.current.scrollTop =
-              commentToScroll?.clientHeight;
+          const commentElement = document.getElementById(`${paramComment}`);
+          if (commentElement) {
+            commentElement?.scrollIntoView();
+            commentElement.style.color = "blue";
           }
         } else {
-          if (commentsWrapperRef.current) {
-            commentsWrapperRef.current.scrollTop =
-              commentsWrapperRef.current.scrollHeight;
-          }
+          const commentElement = document.getElementById(
+            `${res?.metadata?.at(0)?._id}`
+          );
+          commentElement?.scrollIntoView();
         }
-      });
-    };
+      }, 100);
+    });
+  };
 
+  useEffect(() => {
     if (open) {
       asyncGetComments();
     }
@@ -96,7 +115,7 @@ const CommentModal = ({ close, open }: any) => {
   }, [open, paramComment]);
 
   const handleAddComment = async () => {
-    const res: any = await addComment(post?._id, newComment, null);
+    const res: any = await addComment(postId, newComment, null);
 
     const updatedComments = [
       {
@@ -113,13 +132,10 @@ const CommentModal = ({ close, open }: any) => {
 
     // Scroll to the latest comment
     setTimeout(() => {
-      if (commentsWrapperRef.current) {
-        commentsWrapperRef.current.scrollTop =
-          commentsWrapperRef.current.scrollHeight;
-      }
+      const commentElement = document.getElementById(`${res?.metadata?._id}`);
+      commentElement?.scrollIntoView();
     }, 100);
   };
-
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
     setIsPostReport(false);
@@ -262,6 +278,7 @@ const CommentModal = ({ close, open }: any) => {
       return (
         <Fragment key={comment._id}>
           <S.Comment
+            id={comment?._id}
             style={{
               marginLeft: `${depth * 40}px`,
               border: editMode === comment._id ? "3px solid #5c5470" : "none",

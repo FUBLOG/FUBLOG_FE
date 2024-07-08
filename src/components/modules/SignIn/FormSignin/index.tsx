@@ -98,6 +98,7 @@ function FormSignIn(showModalGuest: any) {
               isRequired
               label="Email"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              
             />
           </FormItem>
           <FormItem

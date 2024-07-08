@@ -4,7 +4,6 @@ import {
   LockOutlined,
   UserOutlined,
   DownOutlined,
-  BulbTwoTone,
 } from "@ant-design/icons";
 import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
@@ -18,9 +17,7 @@ import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { authEndpoint } from "@/services/endpoint";
-import { constants } from "@/settings";
 import { postRequest } from "@/services/request";
-import moment from "moment";
 import * as S from "./styles";
 import useThemeStore from "@/hooks/useTheme";
 
@@ -136,11 +133,6 @@ function FormSignUp(props: PageProps) {
           >
             ĐĂNG KÝ
           </Typography>
-          <BulbTwoTone
-            twoToneColor={darkMode ? "#5C5470" : "#F7D600"}
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={toggleDarkMode}
-          />
         </S.TitleLogin>
 
         <Form

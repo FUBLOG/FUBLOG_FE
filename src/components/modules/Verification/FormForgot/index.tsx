@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction, useState } from "react";
-import { ArrowLeftOutlined, BulbTwoTone, UserOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Form, Spin } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Image from "next/legacy/image";
@@ -58,11 +58,6 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           >
             QUÊN MẬT KHẨU
           </Typography>
-          <BulbTwoTone  
-            twoToneColor={darkMode ? "#5C5470" : "#F7D600"}
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={toggleDarkMode}
-          />
         </S.TitleLogin>
         <S.Infor>
           <Image src={darkMode ? verImg : verImg2} alt="logo verification" />
@@ -90,7 +85,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined />}
+              prefix={<UserOutlined style={{color : "#FAF0E6"}} />}
               isRequired
               label="Email"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
@@ -107,7 +102,8 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
               <Button
                 className="ButtonWrapper"
                 type="default"
-                $backgroundColor="#B9B4C7"
+                $backgroundColor="#FAF0E6"
+                $width="10px"
               >
                 <ArrowLeftOutlined style={{ fontSize: "10px" }} />
               </Button>

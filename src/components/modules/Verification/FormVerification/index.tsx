@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ArrowLeftOutlined, BulbTwoTone } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Spin, Statistic, message } from "antd";
 import Image from "next/legacy/image";
 import Link from "next/link";
@@ -91,11 +91,6 @@ function FormVerification(props: PageProps) {
           >
             QUÊN MẬT KHẨU
           </Typography>
-          <BulbTwoTone  
-            twoToneColor={darkMode ? "#5C5470" : "#F7D600"}
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={toggleDarkMode}
-          />
         </S.TitleLogin>
         <S.Infor>
           <Image src={darkMode ? verImg : verImg2} alt="logo verification" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { BulbTwoTone, LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Spin, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,6 @@ import { authEndpoint } from "@/services/endpoint";
 
 import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
-import { errorMessage } from "@/services/errorMessage";
 import useThemeStore from "@/hooks/useTheme";
 
 function FormSignIn(showModalGuest: any) {
@@ -74,11 +73,7 @@ function FormSignIn(showModalGuest: any) {
           >
             ĐĂNG NHẬP
           </Typography>
-          <BulbTwoTone
-            twoToneColor={darkMode ? "#5C5470" : "#F7D600"}
-            style={{ fontSize: "25px", cursor: "pointer" }}
-            onClick={toggleDarkMode}
-          />
+
         </S.TitleLogin>
 
         <Form

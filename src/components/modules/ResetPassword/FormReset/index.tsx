@@ -13,6 +13,7 @@ import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { useSearchParams } from "next/navigation";
 import { SetStateAction, useState } from "react";
+import useThemeStore from "@/hooks/useTheme";
 
 function FormReset() {
   const searchParams = useSearchParams();
@@ -63,11 +64,12 @@ function FormReset() {
   const closeWindow = () => {
     window.close();
   };
+  const darkMode = useThemeStore((state)=> state.darkMode);
   return (
     <S.HomeWrapper>
       <Typography
         variant="h1"
-        color="#B9B4C7"
+        color={darkMode ? "#B9B4C7" : "#352F44"}
         fontSize="x-large"
         align="center"
       >
@@ -90,6 +92,7 @@ function FormReset() {
             prefix={<LockOutlined />}
             isRequired
             label="Nhập mật khẩu mới"
+            colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
           />
         </FormItem>{" "}
         <FormItem
@@ -101,6 +104,7 @@ function FormReset() {
             prefix={<LockOutlined />}
             isRequired
             label="Nhập lại mật khẩu mới"
+            colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
           />
         </FormItem>
         <FormItem

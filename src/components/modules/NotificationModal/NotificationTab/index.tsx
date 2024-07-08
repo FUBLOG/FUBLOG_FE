@@ -74,7 +74,6 @@ const NotificationTab = ({ onClose }: any) => {
         dataSource={notifications}
         renderItem={(item: any) => (
           <>
-            {console.log("item", item)}
             {item?.payload?.postId === undefined ? (
               <Link
                 href={`/profile?pId=${item?.payload?.profileHash}`}

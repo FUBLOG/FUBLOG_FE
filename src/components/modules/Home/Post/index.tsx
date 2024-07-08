@@ -52,7 +52,7 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
   const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       setSelectedPost(newfeed);
-      router.push(`?pptId=${newfeed?.post?._id}`);
+      router.push(`?ptId=${newfeed?.post?._id}`);
       setShowCommentsModal(true);
       return;
     }
@@ -72,8 +72,6 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
     setOpen(true);
   };
   const commentModal = useMemo(() => {
-    console.log("selectedPost", selectedPost);
-
     if (!selectedPost || !showCommentsModal) return null;
     return (
       <CommentModal
@@ -81,7 +79,7 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
         open={showCommentsModal}
         close={handleCloseCommentsModal}
         newfeed={selectedPost}
-        icrComment={selectedPost?.commentCount}
+        icrComment={icrComment}
       />
     );
   }, [selectedPost, showCommentsModal]);
@@ -123,7 +121,7 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
         </S.ContentWrapper>
         {newfeed?.post?.postLinkToImages.length === 1 && (
           <S.ImagesWrapper
-            className={`images-${newfeed?.post?.postLinkToImages.length}`}
+            className={`images-${newfeed?.post?.postLinkToImages?.length}`}
           >
             <img
               src={newfeed?.post?.postLinkToImages[0]}
@@ -133,10 +131,10 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
             />
           </S.ImagesWrapper>
         )}
-        {newfeed?.post?.postLinkToImages.length > 1 && (
+        {newfeed?.post?.postLinkToImages?.length > 1 && (
           <S.ImagesWrapper2>
             <Carousel arrows={true}>
-              {newfeed?.post?.postLinkToImages.map((src: any) => (
+              {newfeed?.post?.postLinkToImages?.map((src: any) => (
                 <img
                   key={src}
                   src={src}

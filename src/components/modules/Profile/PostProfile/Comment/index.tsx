@@ -20,7 +20,6 @@ const CommentModal = ({
   open,
   icrComment,
   paramComment,
-  newfeed,
 }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
@@ -35,7 +34,7 @@ const CommentModal = ({
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  // const [newfeed, setNewFeed] = useState<any>([]);
+  const [post, setNewFeed] = useState<any>([]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -47,21 +46,20 @@ const CommentModal = ({
   }, [editMode]);
   useEffect(() => {
     if (postId !== null) {
-      // getPostByPostId(postId)
-      //   .then((post) => {
-      //     setNewFeed(post);
-      //     // handleCommentClick();
-      //   })
-      // .catch((error) => {});
+      getPostByPostId(postId)
+        .then((res) => {
+          setNewFeed(res?.metadata);
+        })
+        .catch((error) => {});
     }
   }, [postId, paramComment]);
 
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
-      await getCommentPost(newfeed?._id).then((res: any) => {
+
+      await getCommentPost(postId).then((res: any) => {
         setCommentsData(res?.metadata);
-        console.log("coometn", res?.metadata);
 
         setLoading(false);
         if (paramComment !== null) {
@@ -93,7 +91,7 @@ const CommentModal = ({
   }, [open, paramComment]);
 
   const handleAddComment = async () => {
-    const res: any = await addComment(newfeed?._id, newComment, null);
+    const res: any = await addComment(post?._id, newComment, null);
 
     const updatedComments = [
       {
@@ -203,7 +201,7 @@ const CommentModal = ({
   };
 
   const handleDeleteComment = async (commentId: number) => {
-    await deleteComment(commentId, newfeed?._id);
+    await deleteComment(commentId, post?._id);
     const updatedComments = commentsData.filter(
       (comment: any) => comment._id !== commentId
     );
@@ -214,13 +212,13 @@ const CommentModal = ({
   const handleReply = async () => {
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData = await addComment(
-        newfeed?._id,
+        post?._id,
         replyComment,
         selectedCommentId
       );
 
       const updatedComments = commentsData.map((comment: any) => {
-        if (comment._id === selectedCommentId) {
+        if (comment?._id === selectedCommentId) {
           return {
             ...comment,
             replies: [
@@ -244,24 +242,25 @@ const CommentModal = ({
 
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
+      console.log("render comments", commentsArray);
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
       function viewMore(_id: any): void {
-        // const updatedComments = commentsArray.map((c: any) => {
-        //   if (c._id === _id) {
-        //     return { ...c, viewMore: false };
-        //   }
-        //   return c;
-        // });
-        // setCommentsData(updatedComments);
+        const updatedComments = commentsArray.map((c: any) => {
+          if (c._id === _id) {
+            return { ...c, viewMore: false };
+          }
+          return c;
+        });
+        setCommentsData(updatedComments);
       }
 
       return (
-        <Fragment key={comment._id}>
+        <Fragment key={comment?._id}>
           <S.Comment
             style={{
               marginLeft: `${depth * 40}px`,
-              border: editMode === comment._id ? "3px solid #5c5470" : "none",
+              border: editMode === comment?._id ? "3px solid #5c5470" : "none",
             }}
           >
             <S.CommentHeader>
@@ -308,13 +307,19 @@ const CommentModal = ({
               </>
             ) : childrenCount > 0 ? (
               <>
-                <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-                <S.CommentContent>
+                <S.CommentContent
+                  onClick={() => console.log("comment", comment)}
+                >
+                  {comment?.comment_content}
+                </S.CommentContent>
+                <S.CommentContent onClick={() => viewMore(comment._id)}>
                   Xem thêm {childrenCount} bình luận
                 </S.CommentContent>
               </>
             ) : (
-              <S.CommentContent>{comment?.comment_content}</S.CommentContent>
+              <S.CommentContent onClick={() => console.log("comment", comment)}>
+                {comment?.comment_content}
+              </S.CommentContent>
             )}
             {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&
@@ -377,22 +382,22 @@ const CommentModal = ({
           lineHeight="2"
           margin="5px 20px"
         >
-          {newfeed?.postContent}
+          {post?.postContent}
         </Typography>
 
-        {newfeed?.postLinkToImages?.length === 1 && (
+        {post?.postLinkToImages?.length === 1 && (
           <S.ImagesWrapper>
             <img
-              src={newfeed?.postLinkToImages[0]}
+              src={post?.postLinkToImages[0]}
               alt="Post Image"
               className="post-image image-modal"
             />
           </S.ImagesWrapper>
         )}
-        {newfeed?.postLinkToImages?.length > 1 && (
+        {post?.postLinkToImages?.length > 1 && (
           <S.ImagesWrapper2>
             <Carousel arrows={true}>
-              {newfeed?.postLinkToImages.map((src: any) => (
+              {post?.postLinkToImages?.map((src: any) => (
                 <img
                   key={src}
                   src={src}

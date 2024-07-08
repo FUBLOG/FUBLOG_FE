@@ -34,7 +34,7 @@ const CommentModal = ({
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  const [newfeed, setNewFeed] = useState<any>([]);
+  const [post, setNewFeed] = useState<any>([]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -45,13 +45,10 @@ const CommentModal = ({
     }
   }, [editMode]);
   useEffect(() => {
-    console.log("postId", postId);
-
     if (postId !== null) {
       getPostByPostId(postId)
-        .then((post) => {
-          setNewFeed(post);
-          // handleCommentClick();
+        .then((res) => {
+          setNewFeed(res?.metadata);
         })
         .catch((error) => {});
     }
@@ -60,10 +57,10 @@ const CommentModal = ({
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
-      console.log("newfeed nè", newfeed);
 
-      await getCommentPost(newfeed?.post?._id).then((res: any) => {
+      await getCommentPost(postId).then((res: any) => {
         setCommentsData(res?.metadata);
+
         setLoading(false);
         if (paramComment !== null) {
           const commentToScroll = res.metadata.find(
@@ -94,7 +91,7 @@ const CommentModal = ({
   }, [open, paramComment]);
 
   const handleAddComment = async () => {
-    const res: any = await addComment(newfeed?.post?._id, newComment, null);
+    const res: any = await addComment(post?._id, newComment, null);
 
     const updatedComments = [
       {
@@ -204,7 +201,7 @@ const CommentModal = ({
   };
 
   const handleDeleteComment = async (commentId: number) => {
-    await deleteComment(commentId, newfeed?.post?._id);
+    await deleteComment(commentId, post?._id);
     const updatedComments = commentsData.filter(
       (comment: any) => comment._id !== commentId
     );
@@ -215,13 +212,13 @@ const CommentModal = ({
   const handleReply = async () => {
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData = await addComment(
-        newfeed?.post?._id,
+        post?._id,
         replyComment,
         selectedCommentId
       );
 
       const updatedComments = commentsData.map((comment: any) => {
-        if (comment._id === selectedCommentId) {
+        if (comment?._id === selectedCommentId) {
           return {
             ...comment,
             replies: [
@@ -242,19 +239,18 @@ const CommentModal = ({
       setSelectedCommentId(null);
     }
   };
-
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
       function viewMore(_id: any): void {
-        // const updatedComments = commentsArray.map((c: any) => {
-        //   if (c._id === _id) {
-        //     return { ...c, viewMore: false };
-        //   }
-        //   return c;
-        // });
-        // setCommentsData(updatedComments);
+        const updatedComments = commentsArray.map((c: any) => {
+          if (c._id === _id) {
+            return { ...c, viewMore: false };
+          }
+          return c;
+        });
+        setCommentsData(updatedComments);
       }
 
       return (
@@ -372,10 +368,10 @@ const CommentModal = ({
       <S.PostContentWrapper>
         <S.PostHeaderModal>
           <S.Avatar
-            src={newfeed?.userId?.userInfo?.avatar}
-            alt={`${newfeed?.userId?.displayName}'s avatar`}
+            src={userInfo?.userInfo?.avatar}
+            alt={`${userInfo?.displayName}'s avatar`}
           />
-          <S.UserName>{newfeed?.userId?.displayName}</S.UserName>
+          <S.UserName>{userInfo?.displayName}</S.UserName>
         </S.PostHeaderModal>
         <Typography
           variant="caption-small"
@@ -384,22 +380,22 @@ const CommentModal = ({
           lineHeight="2"
           margin="5px 20px"
         >
-          {newfeed?.post?.postContent}
+          {post?.postContent}
         </Typography>
 
-        {newfeed?.post?.postLinkToImages?.length === 1 && (
+        {post?.postLinkToImages?.length === 1 && (
           <S.ImagesWrapper>
             <img
-              src={newfeed?.post?.postLinkToImages[0]}
+              src={post?.postLinkToImages[0]}
               alt="Post Image"
               className="post-image image-modal"
             />
           </S.ImagesWrapper>
         )}
-        {newfeed?.post?.postLinkToImages?.length > 1 && (
+        {post?.postLinkToImages?.length > 1 && (
           <S.ImagesWrapper2>
             <Carousel arrows={true}>
-              {newfeed?.post?.postLinkToImages?.map((src: any) => (
+              {post?.postLinkToImages?.map((src: any) => (
                 <img
                   key={src}
                   src={src}

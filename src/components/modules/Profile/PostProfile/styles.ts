@@ -2,12 +2,22 @@ import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
+  &.theme-dark {
+    border: 1px solid #ccc;
+  }
+  &.theme-light {
+    background-color: #faf0e6;
+    border: 1px solid #352f44;
+    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+  }
+
   box-sizing: border-box;
   margin: 20px 0;
   padding: 24px;
   max-width: 700px;
   width: 100%;
-  border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
 `;
@@ -85,6 +95,7 @@ export const TagWrapper = styled(Flex)`
 
 export const Actions = styled(Flex)`
   gap: 10px;
+  color: #b9b4c7;
   font-size: 16px;
   align-items: center;
   padding-left: 40px;
@@ -300,7 +311,7 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 100px;
+    padding-bottom: 100px !important;
   }
   .ant-modal {
     top: 10%;

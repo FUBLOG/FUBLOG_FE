@@ -46,9 +46,12 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [comments, setComments] = useState(0);
 
   const fetchPosts = useCallback(async () => {
+    console.log("profileSearch", profileSearch);
+
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);
+      console.log("getPostById", data?.metadata);
     }
   }, [profileSearch]);
 
@@ -114,33 +117,42 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
 
       {posts?.map((newfeed: any) => (
         <>
-          <S.PostWrapper key={newfeed?._id}>
+          <S.PostWrapper
+            className={darkMode ? "theme-dark" : "theme-light"}
+            key={newfeed?._id}
+          >
             <>
               <S.CustomCard>
                 <S.PostHeader>
                   <S.UserInfo>
                     <S.Avatar
-                      src={profileSearch?.info?.avatar}
-                      alt={`${profileSearch?.user?.displayName}'s avatar`}
+                      src={newfeed?.UserID?.userInfo?.avatar}
+                      alt={`${newfeed?.UserID?.displayName}'s avatar`}
                     />
                     <Typography
                       variant="caption-normal"
-                      color="#B9B4C7"
+                      color={darkMode ? "#B9B4C7" : "#352F44"}
                       fontSize="18px"
                     >
-                      {profileSearch?.user?.displayName}
+                      {newfeed?.UserID?.displayName}
                     </Typography>
                   </S.UserInfo>
                   {userInfo?.profileHash !== profileHash ? (
                     <ExclamationCircleOutlined
-                      style={{ color: "#FAF0E6", cursor: "pointer" }}
+                      style={{
+                        color: darkMode ? "#B9B4C7" : "#352F44",
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         setShowReportModal(true);
                       }}
                     />
                   ) : (
                     <EllipsisOutlined
-                      style={{ color: "#FAF0E6", cursor: "pointer" }}
+                      style={{
+                        color: darkMode ? "#B9B4C7" : "#352F44",
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         setEditMyPost(true);
                       }}
@@ -151,7 +163,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 <S.ContentWrapper>
                   <Typography
                     variant="caption-small"
-                    color="#B9B4C7"
+                    color={darkMode ? "#B9B4C7" : "#352F44"}
                     fontSize="14px"
                     lineHeight="2"
                   >
@@ -190,32 +202,45 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   <S.Actions>
                     {liked ? (
                       <HeartFilled
-                        style={{ color: "white", cursor: "pointer" }}
+                        style={{
+                          color: darkMode ? "#B9B4C7" : "#352F44",
+                          cursor: "pointer",
+                        }}
                         onClick={handleLikeClick}
                       />
                     ) : (
                       <HeartOutlined
-                        style={{ color: "white", cursor: "pointer" }}
+                        style={{
+                          color: darkMode ? "#B9B4C7" : "#352F44",
+                          cursor: "pointer",
+                        }}
                         onClick={handleLikeClick}
                       />
                     )}
-                    <span>{newfeed?.countLike}</span>
+                    <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+                      {newfeed?.countLike}
+                    </span>
                     <CommentOutlined
                       onClick={() => handleCommentClick(newfeed)}
-                      style={{ color: "white", cursor: "pointer" }}
+                      style={{
+                        color: darkMode ? "#B9B4C7" : "#352F44",
+                        cursor: "pointer",
+                      }}
                     />
-                    <span>{newfeed?.commentCount}</span>
+                    <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+                      {newfeed?.commentCount}
+                    </span>
                   </S.Actions>
                   <S.TagWrapper>
                     <S.Tag>
                       <Typography
                         variant="caption-small"
-                        color="#B9B4C7"
+                        color={darkMode ? "#B9B4C7" : "#352F44"}
                         fontSize="14px"
                         lineHeight="2"
                       >
                         <TagOutlined style={{ marginRight: "10px" }} />
-                        {newfeed?.postTagID}
+                        {newfeed?.postTagID?.postTagContent}
                       </Typography>
                     </S.Tag>
                   </S.TagWrapper>
@@ -262,95 +287,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   ))}
                 </Radio.Group>
               </S.CustomModal>
-              {/* =======
-    <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
-      <S.CustomCard>
-        <S.PostHeader>
-          <S.UserInfo>
-            <S.Avatar
-              src={data.userId.userInfo.avatar}
-              alt={`${data.userId.displayName}'s avatar`}
-            />
-            <Typography
-              variant="body-text-small-bold"
-              color={darkMode ? "white" : "#352F44"}
-              fontSize="18px"
-            >
-              {data.userId.displayName}
-            </Typography>
-          </S.UserInfo>
-          <Dropdown overlay={menu} trigger={["click"]}>
-            <EllipsisOutlined
-              style={{ color: "#FAF0E6", cursor: "pointer" }}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </Dropdown>
-        </S.PostHeader>
-
-        <S.ContentWrapper>
-          <Typography
-            variant="caption-small"
-            color={darkMode ? "white" : "#352F44"}
-            fontSize="14px"
-            lineHeight="2"
-            margin="0px 20px"
-          >
-            {data.post.postContent}
-          </Typography>
-        </S.ContentWrapper>
-        {data.post.postLinkToImages.length > 0 && (
-          <S.ImagesWrapper
-            className={`images-${data.post.postLinkToImages.length}`}
-          >
-            {data.post.postLinkToImages.slice(0, 3).map((src: string) => (
-              <img key={src} src={src} alt="" className="post-image" />
-            ))}
-            {data.post.postLinkToImages.length > 3 && (
-              <div className="more-images">
-                <span>
-                  View more {data.post.postLinkToImages.length - 3} images
-                </span>
-              </div>
-            )}
-          </S.ImagesWrapper>
-        )}
-
-        <S.PostFooter>
-          <S.Actions>
-            {liked ? (
-              <HeartFilled
-                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
-                onClick={toggleLike}
-              />
-            ) : (
-              <HeartOutlined
-                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
-                onClick={toggleLike}
-              />
-            )}
-            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{likes}</span>
-            <CommentOutlined
-              style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
-              onClick={handleCommentClick}
-            />
-            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{comments}</span>
-          </S.Actions>
-          <S.TagWrapper>
-            <S.Tag>
-              <Typography
-                variant="caption-small"
-                color={darkMode ? "white" : "#352F44"}
-                fontSize="14px"
-                lineHeight="2"
-              >
-                <TagOutlined style={{ marginRight: "10px" , color: darkMode ? "white" : "#352F44" }} />
-                {data.post.postTagID.postTagContent}
-              </Typography>
-            </S.Tag>
-          </S.TagWrapper>
-        </S.PostFooter>
-      </S.CustomCard>
->>>>>>> 7b08a9aa76f27a1e60f196b029896431ec383abf */}
 
               <S.CustomModal
                 title={"Quản lý bài viết"}

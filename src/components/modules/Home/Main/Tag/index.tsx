@@ -23,7 +23,7 @@ const TagRender = () => {
           $color={
             !darkMode
               ? activeTag === tag
-                ? "white"
+                ? "#B9B4C7"
                 : "black"
               : activeTag === tag
               ? "#060607"

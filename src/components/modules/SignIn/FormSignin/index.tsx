@@ -69,7 +69,6 @@ function FormSignIn(setShowModalGuest: any) {
           >
             ĐĂNG NHẬP
           </Typography>
-
         </S.TitleLogin>
 
         <Form
@@ -85,11 +84,16 @@ function FormSignIn(setShowModalGuest: any) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined />}
+              prefix={
+                <UserOutlined
+                  style={{
+                    color: darkMode ? "#B9B4C7" : "#352F44",
+                  }}
+                />
+              }
               isRequired
               label="Email"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
-              
             />
           </FormItem>
           <FormItem
@@ -98,7 +102,13 @@ function FormSignIn(setShowModalGuest: any) {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
-              prefix={<LockOutlined />}
+              prefix={
+                <LockOutlined
+                  style={{
+                    color: darkMode ? "#B9B4C7" : "#352F44",
+                  }}
+                />
+              }
               isRequired
               label="Mật khẩu"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}

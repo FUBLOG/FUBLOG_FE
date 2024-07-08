@@ -19,6 +19,7 @@ import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPostByPostId } from "@/services/api/post";
+import useThemeStore from "@/hooks/useTheme";
 
 interface PostProps {
   newfeed: any;
@@ -33,6 +34,7 @@ const Post = ({
   setShowCommentsModal,
   setIsOpenByComment,
 }: PostProps) => {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const { userInfo } = useAuthContext();
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [liked, setLiked] = useState(false);
@@ -77,7 +79,7 @@ const Post = ({
   };
 
   return (
-    <S.PostWrapper>
+    <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.CustomCard>
         <S.PostHeader>
           <S.UserInfo>
@@ -87,7 +89,7 @@ const Post = ({
             />
             <Typography
               variant="caption-normal"
-              color="#B9B4C7"
+              color={darkMode ? "#B9B4C7" : "#352F44"}
               fontSize="18px"
             >
               {newfeed?.userId?.displayName}
@@ -113,7 +115,7 @@ const Post = ({
         <S.ContentWrapper>
           <Typography
             variant="caption-small"
-            color="#B9B4C7"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
             fontSize="14px"
             lineHeight="2"
           >
@@ -152,27 +154,40 @@ const Post = ({
           <S.Actions>
             {liked ? (
               <HeartFilled
-                style={{ color: "white", cursor: "pointer" }}
+                style={{
+                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  cursor: "pointer",
+                }}
                 onClick={handleLikeClick}
               />
             ) : (
               <HeartOutlined
-                style={{ color: "white", cursor: "pointer" }}
+                style={{
+                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  cursor: "pointer",
+                }}
                 onClick={handleLikeClick}
               />
             )}
-            <span>{newfeed?.post?.countLike}</span>
+            <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+              {newfeed?.post?.countLike}
+            </span>
             <CommentOutlined
               onClick={() => handleCommentClick(newfeed)}
-              style={{ color: "white", cursor: "pointer" }}
+              style={{
+                color: darkMode ? "#B9B4C7" : "#352F44",
+                cursor: "pointer",
+              }}
             />
-            <span>{newfeed?.post?.commentCount}</span>
+            <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+              {newfeed?.post?.commentCount}
+            </span>
           </S.Actions>
           <S.TagWrapper>
             <S.Tag>
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="14px"
                 lineHeight="2"
               >

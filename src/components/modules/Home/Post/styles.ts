@@ -2,17 +2,23 @@ import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
+  &.theme-dark {
+    border: 1px solid #ccc;
+  }
+  &.theme-light {
+    border: 1px solid #352f44;
+    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+  }
+
   box-sizing: border-box;
   margin: 20px 0;
   padding: 24px;
   max-width: 700px;
   width: 100%;
-  border: 1.5px solid #ccc;
   border-radius: 30px;
   background-color: transparent;
-  :where(.css-dev-only-do-not-override-3rel02).ant-modal-root .ant-modal-mask {
-    background-color: none !important;
-  }
 `;
 
 export const ContentWrapper = styled(Flex)`
@@ -304,14 +310,11 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 100px;
+    padding-bottom: 100px !important;
   }
   .ant-modal {
     top: 10%;
     transform: translateY(0%);
-  }
-  .ant-modal-body {
-    margin-bottom: 50px !important;
   }
 `;
 

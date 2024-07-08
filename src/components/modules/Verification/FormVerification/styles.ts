@@ -1,7 +1,7 @@
 import { Flex } from "antd";
 import styled from "styled-components";
 
-export const HomeWrapper = styled(Flex)`
+export const HomeWrapper = styled(Flex)<{ darkMode: boolean }>`
   padding-bottom: 50px;
   align-items: center;
 
@@ -13,8 +13,8 @@ export const HomeWrapper = styled(Flex)`
   .ant-btn:hover > span {
     color: #faf0e6 !important;
   }
-.ant-statistic-content-value {
-    color: #B8B3C6 ;
+  .ant-statistic-content-value {
+    color: ${(props) => (props.darkMode ? "#B9B4C7" : "#352F44")} !important;
   }
 `;
 

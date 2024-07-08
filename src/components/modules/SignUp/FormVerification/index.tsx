@@ -16,8 +16,10 @@ import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
 
 const { Countdown } = Statistic;
+const darkMode = useThemeStore((state) => state.darkMode);
 interface PageProps {
   readonly setNextStep: Dispatch<SetStateAction<string>>;
   readonly formData: any;
@@ -80,7 +82,7 @@ function FormVerification(props: PageProps) {
     <S.HomeWrapper>
       <Typography
         variant="h1"
-        color="#B9B4C7"
+        color={darkMode ? "#B9B4C7" : "#352F44"}
         fontSize="x-large"
         align="center"
       >
@@ -91,7 +93,7 @@ function FormVerification(props: PageProps) {
         <Typography
           style="italic"
           variant="body-text-small-normal"
-          color="#B9B4C7"
+          color={darkMode ? "#B9B4C7" : "#352F44"}
           fontSize="xx-small"
         >
           Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui lòng
@@ -101,7 +103,7 @@ function FormVerification(props: PageProps) {
       <Typography
         style="italic"
         variant="body-text-small-normal"
-        color="#B9B4C7"
+        color={darkMode ? "#B9B4C7" : "#352F44"}
         fontSize="xx-small"
         margin="30px 0px 0px 0px"
       >
@@ -124,13 +126,13 @@ function FormVerification(props: PageProps) {
               style={{
                 justifyContent: "center",
                 margin: "0px 0px 10px 0px",
-                color: "#B9B4C7",
+                color: darkMode ? "#B9B4C7 !important" : "#352F44 !important",
               }}
             >
               <Button
                 className="ButtonWrapper"
                 type="default"
-                $backgroundColor="#B9B4C7"
+                $backgroundColor={darkMode ? "#B9B4C7" : "#352F44"}
                 onClick={handleClick}
               >
                 <ArrowLeftOutlined style={{ fontSize: "10px" }} />
@@ -138,7 +140,7 @@ function FormVerification(props: PageProps) {
               <Typography
                 style="italic"
                 variant="body-text-normal"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="xx-small"
               >
                 Đăng ký lại
@@ -152,6 +154,10 @@ function FormVerification(props: PageProps) {
           className="countdown-item"
           format="mm:ss"
           value={targetTime}
+          style={{
+            color: darkMode ? "#B9B4C7 !important" : "#352F44 !important",
+            cursor: "pointer",
+          }}
         />
       )}
     </S.HomeWrapper>

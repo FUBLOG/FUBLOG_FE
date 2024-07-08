@@ -5,7 +5,6 @@ import { getRequest } from "@/services/request";
 import { tagEndpoint } from "@/services/endpoint";
 import TagRender from "./Tag";
 import PostsRender from "./PostRender";
-import { useSearchParams } from "next/navigation";
 
 function Home() {
   useEffect(() => {

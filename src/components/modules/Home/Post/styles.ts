@@ -311,7 +311,7 @@ export const CustomModal = styled(Modal)`
     transform: translateY(0%);
   }
   .ant-modal-body {
-    margin-bottom: 100px !important;
+    margin-bottom: 50px !important;
   }
 `;
 

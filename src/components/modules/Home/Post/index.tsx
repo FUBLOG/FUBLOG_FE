@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { message, Radio, Carousel, Modal } from "antd";
+import { message, Radio, Carousel, Modal, Button } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
   ExclamationCircleOutlined,
   TagOutlined,
+  EllipsisOutlined,
+  EditFilled,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -30,9 +33,12 @@ const Post = ({
   setShowCommentsModal,
   setIsOpenByComment,
 }: PostProps) => {
+  const { userInfo } = useAuthContext();
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [liked, setLiked] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [showEditMyPost, setEditMyPost] = useState(false);
+  const [editPost, setEditPost] = useState();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [isPostReport, setIsPostReport] = useState(false);
@@ -87,12 +93,21 @@ const Post = ({
               {newfeed?.userId?.displayName}
             </Typography>
           </S.UserInfo>
-          <ExclamationCircleOutlined
-            style={{ color: "#FAF0E6", cursor: "pointer" }}
-            onClick={() => {
-              setShowReportModal(true);
-            }}
-          />
+          {userInfo?._id !== newfeed?.userId?._id ? (
+            <ExclamationCircleOutlined
+              style={{ color: "#FAF0E6", cursor: "pointer" }}
+              onClick={() => {
+                setShowReportModal(true);
+              }}
+            />
+          ) : (
+            <EllipsisOutlined
+              style={{ color: "#FAF0E6", cursor: "pointer" }}
+              onClick={() => {
+                setEditMyPost(true);
+              }}
+            />
+          )}
         </S.PostHeader>
 
         <S.ContentWrapper>
@@ -222,6 +237,34 @@ const Post = ({
         </Typography>
       </S.CustomModal>
       {/* Modal của preview ảnh */}
+
+      <S.CustomModal
+        title={"Quản lý bài viết"}
+        open={showEditMyPost}
+        onCancel={() => setEditMyPost(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          setEditMyPost(false);
+        }}
+        style={{}}
+      >
+        <Radio.Group
+          onChange={(e) => setReportReason(e.target.value)}
+          value={reportReason}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
+            <Button>
+              {index === 0 ? <EditFilled /> : <DeleteOutlined />}
+              {reason}
+            </Button>
+          ))}
+        </Radio.Group>
+      </S.CustomModal>
       <div className="imgWrapper">
         <S.ImageModal
           visible={open}

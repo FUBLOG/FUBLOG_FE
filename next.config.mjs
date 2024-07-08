@@ -40,9 +40,15 @@ const nextConfig = {
         },
       },
     });
+    
 
     return config;
   },
+  babel: {
+    presets: ["next/babel"]
+  }
+  
+  
   // async rewrites() {
   //   return [
   //     {

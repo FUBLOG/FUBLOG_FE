@@ -58,6 +58,7 @@ const search = {
 };
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
+  CHANGE_PROFILE:`/profile`
 };
 const commentEndpoint = {
   GET_POST_COMMENTS: `/comment/getCommentPost`,

@@ -1,32 +1,34 @@
 import Button from "@/components/core/common/Button";
 import React from "react";
 
+interface ButtonProps {
+  handleFriend?: Function;
+  onClick?: () => void;
+}
+
 const ButtonFriend = () => {
-  interface ButtonProps {
-    handleFriend: Function;
-  }
-  const MyUser = () => {
+  const MyUser: React.FC<ButtonProps> = ({ onClick }) => {
     return (
       <Button
         type="default"
-        children={"Chỉnh sửa"}
-        onClick={() => {}}
+        onClick={onClick}
         $width="100px"
         $backgroundColor="#FAF0E6"
         color="#352f44"
         $hoverColor="#faf0e6"
-      />
+      >
+        Chỉnh sửa
+      </Button>
     );
   };
-  const SendFriendButton: React.FC<ButtonProps> = ({
-    handleFriend,
-  }: ButtonProps) => {
+
+  const SendFriendButton: React.FC<ButtonProps> = ({ handleFriend }) => {
     return (
       <Button
         type="default"
         $backgroundColor="#FAF0E6"
         onClick={() => {
-          handleFriend("unsent");
+          handleFriend && handleFriend("unsent");
         }}
         $width="100px"
         color="#352f44"
@@ -37,15 +39,13 @@ const ButtonFriend = () => {
     );
   };
 
-  const RequesterButton: React.FC<ButtonProps> = ({
-    handleFriend,
-  }: ButtonProps) => {
+  const RequesterButton: React.FC<ButtonProps> = ({ handleFriend }) => {
     return (
       <>
         <Button
           type="default"
           onClick={() => {
-            handleFriend("accept");
+            handleFriend && handleFriend("accept");
           }}
           $width="100px"
           $backgroundColor="#FAF0E6"
@@ -57,7 +57,7 @@ const ButtonFriend = () => {
         <Button
           type="default"
           onClick={() => {
-            handleFriend("decline");
+            handleFriend && handleFriend("decline");
           }}
           $width="100px"
           $backgroundColor="#FAF0E6"
@@ -70,14 +70,12 @@ const ButtonFriend = () => {
     );
   };
 
-  const DefaultButton: React.FC<ButtonProps> = ({
-    handleFriend,
-  }: ButtonProps) => {
+  const DefaultButton: React.FC<ButtonProps> = ({ handleFriend }) => {
     return (
       <Button
         type="default"
         onClick={() => {
-          handleFriend("addFriend");
+          handleFriend && handleFriend("addFriend");
         }}
         $width="100px"
         $backgroundColor="#FAF0E6"
@@ -106,15 +104,13 @@ const ButtonFriend = () => {
     );
   };
 
-  const FriendButton: React.FC<ButtonProps> = ({
-    handleFriend,
-  }: ButtonProps) => {
+  const FriendButton: React.FC<ButtonProps> = ({ handleFriend }) => {
     return (
       <>
         <Button
           type="default"
           onClick={() => {
-            handleFriend("unfriend");
+            handleFriend && handleFriend("unfriend");
           }}
           $width="100px"
           $backgroundColor="#FAF0E6"
@@ -126,7 +122,7 @@ const ButtonFriend = () => {
         <Button
           type="default"
           onClick={() => {
-            handleFriend("chat");
+            handleFriend && handleFriend("chat");
           }}
           $width="100px"
           $backgroundColor="#FAF0E6"
@@ -138,6 +134,7 @@ const ButtonFriend = () => {
       </>
     );
   };
+
   return {
     MyUser,
     SendFriendButton,

@@ -67,7 +67,7 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
                   objectFit="cover"
                 />
               </S.FriendImageContainer>
-              <S.FriendName variant="body-text-small-normal">
+              <S.FriendName variant="body-text-small-normal" >
                 {friend?.displayName}
               </S.FriendName>
             </S.Friend>

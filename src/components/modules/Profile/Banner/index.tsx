@@ -13,6 +13,7 @@ import {
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
 import NotFound from "../../NotFound/main";
+import UpdateProfile from "../Update";
 
 const Banner = ({ profileHash, setLoading }: any) => {
   const {
@@ -37,18 +38,25 @@ const Banner = ({ profileHash, setLoading }: any) => {
     DefaultButton,
   } = ButtonFriend();
   const [showModalGuest, setShowModalGuest] = useState(false);
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+
   const handleCancel = () => {
     setShowModalGuest(false);
+    setShowUpdateProfile(false);
+    document.body.style.overflow = 'auto'; 
   };
+
   const { profileSearch } = useGetProfile(profileHash);
+
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser />;
+    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
     if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
     return <DefaultButton handleFriend={handleFriend} />;
   };
+
   useEffect(() => {
     setLoading(true);
     const updateInfor = async () => {
@@ -95,6 +103,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <UpdateProfile visible={showUpdateProfile} handleCancel={handleCancel} />
       <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>
         <S.BoxUser>
@@ -121,9 +130,8 @@ const Banner = ({ profileHash, setLoading }: any) => {
         <S.ButtonUser>{handleDisplayButton()}</S.ButtonUser>
       </S.BannerUser>
     </S.Wrapper>
-  
   ) : (
-    loading && <S.Wrapper> <NotFound></NotFound> </S.Wrapper>
+    loading && <S.Wrapper> <NotFound /></S.Wrapper>
   );
 };
 

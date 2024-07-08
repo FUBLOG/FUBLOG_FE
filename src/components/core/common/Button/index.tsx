@@ -20,6 +20,7 @@ export interface ButtonPropsInterface extends ButtonProps {
   $darkmode?: boolean;
   $hoverColor?: string;
   $hoverBackgroundColor?: string;
+
 }
 
 const Button = ({ children, ...props }: ButtonPropsInterface) => {

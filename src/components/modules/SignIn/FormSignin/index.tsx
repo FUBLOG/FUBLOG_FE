@@ -87,7 +87,7 @@ function FormSignIn(setShowModalGuest: any) {
               prefix={
                 <UserOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: "#B9B4C7 ",
                   }}
                 />
               }
@@ -105,7 +105,7 @@ function FormSignIn(setShowModalGuest: any) {
               prefix={
                 <LockOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: "#B9B4C7 ",
                   }}
                 />
               }

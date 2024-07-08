@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import { Dropdown, Menu, message, Radio } from "antd";
-import {
-  HeartOutlined,
-  HeartFilled,
-  CommentOutlined,
-  EllipsisOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import CommentModal from "./Comment";
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
+import { CommentOutlined, EllipsisOutlined, HeartFilled, HeartOutlined, TagOutlined } from "@ant-design/icons";
 
 interface PostProps {
   newfeed?: {
@@ -95,19 +90,19 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
     </Menu>
   );
 
+  const darkMode = useThemeStore((state) => state.darkMode);
   return (
-    <S.PostWrapper>
+    <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.CustomCard>
         <S.PostHeader>
           <S.UserInfo>
             <S.Avatar
               src={data.userId.userInfo.avatar}
-              
-            alt={`${data.userId.displayName}'s avatar`}
+              alt={`${data.userId.displayName}'s avatar`}
             />
             <Typography
               variant="body-text-small-bold"
-              color="#fff"
+              color={darkMode ? "white" : "#352F44"}
               fontSize="18px"
             >
               {data.userId.displayName}
@@ -124,7 +119,7 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
         <S.ContentWrapper>
           <Typography
             variant="caption-small"
-            color="#fff"
+            color={darkMode ? "white" : "#352F44"}
             fontSize="14px"
             lineHeight="2"
             margin="0px 20px"
@@ -153,31 +148,31 @@ const PostProfile: React.FC<PostProps> = ({ newfeed }) => {
           <S.Actions>
             {liked ? (
               <HeartFilled
-                style={{ color: "white", cursor: "pointer" }}
+                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
                 onClick={toggleLike}
               />
             ) : (
               <HeartOutlined
-                style={{ color: "white", cursor: "pointer" }}
+                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
                 onClick={toggleLike}
               />
             )}
-            <span>{likes}</span>
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{likes}</span>
             <CommentOutlined
-              style={{ color: "white", cursor: "pointer" }}
+              style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
               onClick={handleCommentClick}
             />
-            <span>{comments}</span>
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{comments}</span>
           </S.Actions>
           <S.TagWrapper>
             <S.Tag>
               <Typography
                 variant="caption-small"
-                color="#fff"
+                color={darkMode ? "white" : "#352F44"}
                 fontSize="14px"
                 lineHeight="2"
               >
-                <TagOutlined style={{ marginRight: "10px" }} />
+                <TagOutlined style={{ marginRight: "10px" , color: darkMode ? "white" : "#352F44" }} />
                 {data.post.postTagID.postTagContent}
               </Typography>
             </S.Tag>

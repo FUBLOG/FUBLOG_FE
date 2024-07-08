@@ -11,11 +11,13 @@ import { io } from "socket.io-client";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import verImg from "@/public/verified.png";
+import verImg2 from "@/public/verified2.png";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
 
 const { Countdown } = Statistic;
 interface PageProps {
@@ -74,24 +76,28 @@ function FormVerification(props: PageProps) {
     } catch (error) {}
     setLoading(false);
   };
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   return (
     <>
       <Spin spinning={loading} fullscreen></Spin>
-      <S.HomeWrapper>
-        <Typography
-          variant="h1"
-          color="#B9B4C7"
-          fontSize="x-large"
-          align="center"
-        >
-          QUÊN MẬT KHẨU
-        </Typography>
+      <S.HomeWrapper darkMode={darkMode}>
+        <S.TitleLogin>
+          <Typography
+            variant="h1"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
+            fontSize="x-large"
+            align="center"
+          >
+            QUÊN MẬT KHẨU
+          </Typography>
+        </S.TitleLogin>
         <S.Infor>
-          <Image src={verImg} alt="logo verification" />
+          <Image src={darkMode ? verImg : verImg2} alt="logo verification" />
           <Typography
             style="italic"
             variant="body-text-small-normal"
-            color="#B9B4C7"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
             fontSize="xx-small"
           >
             Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui
@@ -101,7 +107,7 @@ function FormVerification(props: PageProps) {
         <Typography
           style="italic"
           variant="body-text-small-normal"
-          color="#B9B4C7"
+          color={darkMode ? "#B9B4C7" : "#352F44"}
           fontSize="xx-small"
           margin="30px 0px 0px 0px"
         >
@@ -124,7 +130,7 @@ function FormVerification(props: PageProps) {
                 style={{
                   justifyContent: "center",
                   margin: "0px 0px 10px 0px",
-                  color: "#B9B4C7",
+                  color: darkMode ? "#B9B4C7" : "#352F44",
                 }}
               >
                 <Button
@@ -138,7 +144,7 @@ function FormVerification(props: PageProps) {
                 <Typography
                   style="italic"
                   variant="body-text-normal"
-                  color="#B9B4C7"
+                  color={darkMode ? "#B9B4C7" : "#352F44"}
                   fontSize="xx-small"
                 >
                   Thay đổi email
@@ -149,9 +155,9 @@ function FormVerification(props: PageProps) {
         ) : (
           <Countdown
             onFinish={onFinish}
-            className="countdown-item"
             format="mm:ss"
             value={targetTime}
+            style={{ color: "white" }}
           />
         )}
       </S.HomeWrapper>

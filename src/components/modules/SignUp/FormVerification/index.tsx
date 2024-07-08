@@ -14,6 +14,7 @@ import verImg from "@/public/verified.png";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
+import useThemeStore from "@/hooks/useTheme";
 
 import * as S from "./styles";
 
@@ -23,8 +24,9 @@ interface PageProps {
   readonly formData: any;
   readonly email: string;
 }
-
 function FormVerification(props: PageProps) {
+  const darkMode = useThemeStore((state) => state.darkMode);
+
   const handleClick = () => {
     props.setNextStep("signup");
   };
@@ -77,7 +79,7 @@ function FormVerification(props: PageProps) {
     } catch (error) {}
   };
   return (
-    <S.HomeWrapper>
+    <S.HomeWrapper darkMode={darkMode}>
       <Typography
         variant="h1"
         color="#B9B4C7"

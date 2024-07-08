@@ -12,6 +12,7 @@ import * as S from "./styles";
 import { patchRequest } from "@/services/request";
 import { userEndpoint } from "@/services/endpoint";
 import { useState } from "react";
+import useThemeStore from "@/hooks/useTheme";
 
 function FormReset() {
   const [loading, setLoading] = useState(false);
@@ -40,13 +41,14 @@ function FormReset() {
       });
   }
 
+  const darkMode = useThemeStore((state) => state.darkMode);
   return (
     <>
       <Spin spinning={loading} fullscreen></Spin>
       <S.HomeWrapper>
         <Typography
           variant="h1"
-          color="#B9B4C7"
+          color={darkMode ? "#B9B4C7" : "#352F44"}
           fontSize="x-large"
           align="center"
         >
@@ -69,6 +71,7 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Mật khẩu cũ"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
             />
           </FormItem>
           <FormItem
@@ -77,6 +80,7 @@ function FormReset() {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
               prefix={<LockOutlined />}
               isRequired
               label="Nhập mật khẩu mới"
@@ -91,6 +95,7 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Nhập lại mật khẩu mới"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
             />
           </FormItem>
           <FormItem

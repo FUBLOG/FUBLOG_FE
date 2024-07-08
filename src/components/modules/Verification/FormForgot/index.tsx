@@ -12,10 +12,13 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 
 import verImg from "@/public/verified.png";
+import verImg2 from "@/public/verified2.png";
+
 
 import * as S from "./styles";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
+import useThemeStore from "@/hooks/useTheme";
 
 interface PageProps {
   readonly setStatus: Dispatch<SetStateAction<string>>;
@@ -40,24 +43,28 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
     setLoading(false);
   };
   const [form] = Form.useForm();
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   return (
     <>
       <Spin spinning={loading} fullscreen></Spin>
       <S.HomeWrapper>
-        <Typography
-          variant="h1"
-          color="#B9B4C7"
-          fontSize="x-large"
-          align="center"
-        >
-          QUÊN MẬT KHẨU
-        </Typography>
+        <S.TitleLogin>
+          <Typography
+            variant="h1"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
+            fontSize="x-large"
+            align="center"
+          >
+            QUÊN MẬT KHẨU
+          </Typography>
+        </S.TitleLogin>
         <S.Infor>
-          <Image src={verImg} alt="logo verification" />
+          <Image src={darkMode ? verImg : verImg2} alt="logo verification" />
           <Typography
             style="italic"
             variant="body-text-small-normal"
-            color="#B9B4C7"
+            color={darkMode ? "#B9B4C7" : "#352F44"}
             fontSize="xx-small"
           >
             Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một
@@ -78,9 +85,10 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined />}
+              prefix={<UserOutlined style={{color : "#FAF0E6"}} />}
               isRequired
               label="Email"
+              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
             />
           </FormItem>
           <Link href="/sign-in">
@@ -88,13 +96,14 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
               style={{
                 justifyContent: "left",
                 margin: "0px 0px 10px 0px",
-                color: "#B9B4C7",
+                color: darkMode ? "#B9B4C7" : "#352F44",
               }}
             >
               <Button
                 className="ButtonWrapper"
                 type="default"
-                $backgroundColor="#B9B4C7"
+                $backgroundColor="#FAF0E6"
+                $width="10px"
               >
                 <ArrowLeftOutlined style={{ fontSize: "10px" }} />
               </Button>
@@ -121,7 +130,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           <S.Typography>
             <Typography
               variant="body-text-small-normal"
-              color="#B9B4C7"
+              color={darkMode ? "#B9B4C7" : "#352F44"}
               fontSize="xx-small"
             >
               Tạo tài khoản mới?
@@ -129,7 +138,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
             <Link href="/sign-up">
               <Typography
                 variant="caption-small"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="xx-small"
                 textDecoration="underline"
               >

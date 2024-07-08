@@ -1,14 +1,18 @@
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.main`
-  background-color: ${(props) => props?.theme?.colors?.backgroundGray};
+  &.theme-dark {
+    background-color: ${(props) => props?.theme?.colors?.backgroundGray};
+  }
+  &.theme-light {
+    background-color: ${(props) => props?.theme?.colors?.backgroundWhite };
+  }
   min-height: 100vh;
 `;
 
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
-
   position: fixed;
   top: 0;
   left: 0;

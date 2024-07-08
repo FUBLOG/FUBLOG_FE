@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { message, Radio, Carousel, Modal } from "antd";
 import {
   HeartOutlined,
@@ -14,30 +14,32 @@ import CommentModal from "./Comment";
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getPostByPostId } from "@/services/api/post";
 
 interface PostProps {
   newfeed: any;
   postId: any;
   paramComment: any;
+  setShowCommentsModal: any;
 }
 
-const Post = ({ newfeed, postId, paramComment }: PostProps) => {
+const Post = ({ newfeed, setShowCommentsModal }: PostProps) => {
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
-  const [comments, setComments] = useState(newfeed?.post?.commentCount);
   const [liked, setLiked] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [isPostReport, setIsPostReport] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  // const togleLike = () => {
-  //   setLiked(!liked);
-  //   setLikes(liked ? likes - 1 : likes + 1);
-  // };
-  const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  const router = useRouter();
+
+  const togleLike = () => {
+    setLiked(!liked);
+    setLikes(liked ? likes - 1 : likes + 1);
+  };
 
   const handleLikeClick = () => {
     setLiked(!liked);
@@ -47,42 +49,20 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
     setShowConfirmModal(false);
   };
 
-  const router = useRouter();
-
-  const handleCommentClick = (newfeed: any) => {
-    if (webStorageClient.get(constants.IS_AUTH)) {
-      setSelectedPost(newfeed);
-      router.push(`?ptId=${newfeed?.post?._id}`);
-      setShowCommentsModal(true);
-      return;
-    }
-    message.warning("Vui lòng đăng nhập để bình luận.");
-  };
-
-  const handleCloseCommentsModal = () => {
-    router.back();
-    setShowCommentsModal(false);
-  };
-
-  const icrComment = (number: number) => {
-    setComments(comments + number);
-  };
+  const handleCommentClick = useCallback(
+    (newfeed: any) => {
+      if (webStorageClient.get(constants.IS_AUTH)) {
+        router.push(`?ptId=${newfeed?.post?._id}`);
+      } else {
+        message.warning("Vui lòng đăng nhập để bình luận.");
+      }
+    },
+    [newfeed?.post?._id, router]
+  );
   const onPreview = (src: any) => {
     setSelectedImage(src);
     setOpen(true);
   };
-  const commentModal = useMemo(() => {
-    if (!selectedPost || !showCommentsModal) return null;
-    return (
-      <CommentModal
-        postId={selectedPost?.post?._id}
-        open={showCommentsModal}
-        close={handleCloseCommentsModal}
-        newfeed={selectedPost}
-        icrComment={icrComment}
-      />
-    );
-  }, [selectedPost, showCommentsModal]);
 
   return (
     <S.PostWrapper>
@@ -235,8 +215,6 @@ const Post = ({ newfeed, postId, paramComment }: PostProps) => {
             : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
         </Typography>
       </S.CustomModal>
-      {commentModal}
-
       {/* Modal của preview ảnh */}
       <div className="imgWrapper">
         <S.ImageModal

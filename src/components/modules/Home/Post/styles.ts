@@ -310,6 +310,9 @@ export const CustomModal = styled(Modal)`
     top: 10%;
     transform: translateY(0%);
   }
+  .ant-modal-body {
+    margin-bottom: 100px !important;
+  }
 `;
 
 export const PostContentWrapper = styled.div`

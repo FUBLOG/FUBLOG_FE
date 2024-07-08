@@ -14,9 +14,6 @@ function Home() {
     };
     setup();
   }, []);
-  const searchParams = useSearchParams();
-  const postId = searchParams.get("ptId");
-  const paramComment = searchParams.get("ctId");
 
   return (
     <S.HomeWrapper>
@@ -24,7 +21,7 @@ function Home() {
         <S.ContentWrapper>
           <S.PostContainer>
             <TagRender />
-            <PostsRender postId={postId} paramComment={paramComment} />
+            <PostsRender />
           </S.PostContainer>
         </S.ContentWrapper>
       </S.MainWrapper>

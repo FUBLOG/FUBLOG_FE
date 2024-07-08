@@ -28,9 +28,9 @@ export const createPost = async (data) => {
 
 
 export const getPostById = async (userId) => {
-  return await getRequest(postEndpoint.GET_POST_BY_ID + userId);
+  return await getRequest(postEndpoint.GET_POST_BY_USERID + userId);
 };
 
 export const getPostByPostId = async (postId) => {
-  return await getRequest(postEndpoint.GET_POST_BY_PID + postId);
+  return await getRequest(postEndpoint.GET_POST_BY_POSTID + postId);
 };

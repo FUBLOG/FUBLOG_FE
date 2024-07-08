@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Post from "../../Post";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Skeleton, Space, Spin } from "antd";
@@ -8,12 +8,24 @@ import { LoadingOutlined } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
+import { useRouter, useSearchParams } from "next/navigation";
+import CommentModal from "../../Post/Comment";
 
-const PostsRender = ({ postId, paramComment }: any) => {
+const PostsRender = () => {
   const [listPosts, setListPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { showSpinner, post, setPost } = useCreatePost();
+  const router = useRouter();
   const { userInfo } = useAuthContext();
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const handleCloseCommentsModal = () => {
+    router.back();
+    setShowCommentsModal(false);
+  };
+  const searchParams = useSearchParams();
+  const postId = searchParams.get("ptId");
+  const paramComment = searchParams.get("ctId");
+
   const getMore = async () => {
     setLoading(true);
     if (userInfo?._id === "") {
@@ -53,6 +65,17 @@ const PostsRender = ({ postId, paramComment }: any) => {
       setPost(null);
     }
   }, [userInfo?._id, post]);
+  useEffect(() => {
+    if (postId !== null) {
+      setShowCommentsModal(true);
+    }
+  }, [searchParams]);
+  const commentModal = useMemo(() => {
+    if (!showCommentsModal) return null;
+    return (
+      <CommentModal open={showCommentsModal} close={handleCloseCommentsModal} />
+    );
+  }, [, showCommentsModal, postId, handleCloseCommentsModal, paramComment]);
 
   return (
     <>
@@ -97,8 +120,10 @@ const PostsRender = ({ postId, paramComment }: any) => {
               newfeed={post}
               postId={postId}
               paramComment={paramComment}
+              setShowCommentsModal={setShowCommentsModal}
             />
           ))}
+          {commentModal}
         </InfiniteScroll>
       </div>
     </>

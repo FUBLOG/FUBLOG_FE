@@ -13,14 +13,9 @@ import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
+import { useSearchParams } from "next/navigation";
 
-const CommentModal = ({
-  postId,
-  close,
-  open,
-  icrComment,
-  paramComment,
-}: any) => {
+const CommentModal = ({ close, open }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const [commentsData, setCommentsData] = useState<any>([]);
   const { userInfo } = useAuthContext();
@@ -35,6 +30,11 @@ const CommentModal = ({
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);
+  const searchParams = useSearchParams();
+  const postId = searchParams.get("ptId");
+  const paramComment = searchParams.get("ctId");
+  const [comments, setComments] = useState(0);
+
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -49,11 +49,14 @@ const CommentModal = ({
       getPostByPostId(postId)
         .then((res) => {
           setNewFeed(res?.metadata);
+          setComments(res?.commentCount);
         })
         .catch((error) => {});
     }
-  }, [postId, paramComment]);
-
+  }, []);
+  const icrComment = (number: number) => {
+    setComments(comments + number);
+  };
   useEffect(() => {
     const asyncGetComments = async () => {
       setLoading(true);
@@ -63,12 +66,13 @@ const CommentModal = ({
 
         setLoading(false);
         if (paramComment !== null) {
-          const commentToScroll = res.metadata.find(
-            (comment: any) => comment._id === paramComment
+          const commentToScroll = res?.metadata?.find(
+            (comment: any) => comment?._id === paramComment
           );
 
-          if (commentsWrapperRef.current && commentToScroll) {
-            commentsWrapperRef.current.scrollTop = commentToScroll.clientHeight;
+          if (commentsWrapperRef?.current && commentToScroll) {
+            commentsWrapperRef.current.scrollTop =
+              commentToScroll?.clientHeight;
           }
         } else {
           if (commentsWrapperRef.current) {

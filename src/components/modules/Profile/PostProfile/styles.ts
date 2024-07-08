@@ -85,7 +85,6 @@ export const TagWrapper = styled(Flex)`
 
 export const Actions = styled(Flex)`
   gap: 10px;
-  color: #b9b4c7;
   font-size: 16px;
   align-items: center;
   padding-left: 40px;

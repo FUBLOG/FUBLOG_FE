@@ -10,15 +10,18 @@ import {
   EditFilled,
   DeleteOutlined,
 } from "@ant-design/icons";
+
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import CommentModal from "./Comment";
 import * as S from "./styles";
+
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPostById } from "@/services/api/post";
-import Link from "next/link";
+
+import useThemeStore from "@/hooks/useTheme";
 
 interface PostProps {
   profileHash: any;
@@ -104,6 +107,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     );
   }, [selectedPost, showCommentsModal]);
 
+  const darkMode = useThemeStore((state) => state.darkMode);
   return (
     <>
       {commentModal}
@@ -258,6 +262,95 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   ))}
                 </Radio.Group>
               </S.CustomModal>
+              {/* =======
+    <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
+      <S.CustomCard>
+        <S.PostHeader>
+          <S.UserInfo>
+            <S.Avatar
+              src={data.userId.userInfo.avatar}
+              alt={`${data.userId.displayName}'s avatar`}
+            />
+            <Typography
+              variant="body-text-small-bold"
+              color={darkMode ? "white" : "#352F44"}
+              fontSize="18px"
+            >
+              {data.userId.displayName}
+            </Typography>
+          </S.UserInfo>
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <EllipsisOutlined
+              style={{ color: "#FAF0E6", cursor: "pointer" }}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </Dropdown>
+        </S.PostHeader>
+
+        <S.ContentWrapper>
+          <Typography
+            variant="caption-small"
+            color={darkMode ? "white" : "#352F44"}
+            fontSize="14px"
+            lineHeight="2"
+            margin="0px 20px"
+          >
+            {data.post.postContent}
+          </Typography>
+        </S.ContentWrapper>
+        {data.post.postLinkToImages.length > 0 && (
+          <S.ImagesWrapper
+            className={`images-${data.post.postLinkToImages.length}`}
+          >
+            {data.post.postLinkToImages.slice(0, 3).map((src: string) => (
+              <img key={src} src={src} alt="" className="post-image" />
+            ))}
+            {data.post.postLinkToImages.length > 3 && (
+              <div className="more-images">
+                <span>
+                  View more {data.post.postLinkToImages.length - 3} images
+                </span>
+              </div>
+            )}
+          </S.ImagesWrapper>
+        )}
+
+        <S.PostFooter>
+          <S.Actions>
+            {liked ? (
+              <HeartFilled
+                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
+                onClick={toggleLike}
+              />
+            ) : (
+              <HeartOutlined
+                style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
+                onClick={toggleLike}
+              />
+            )}
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{likes}</span>
+            <CommentOutlined
+              style={{ color: darkMode? "#B9B4C7" : "#352F44", cursor: "pointer" }}
+              onClick={handleCommentClick}
+            />
+            <span style={{color: darkMode? "#B9B4C7" : "#352F44"}} >{comments}</span>
+          </S.Actions>
+          <S.TagWrapper>
+            <S.Tag>
+              <Typography
+                variant="caption-small"
+                color={darkMode ? "white" : "#352F44"}
+                fontSize="14px"
+                lineHeight="2"
+              >
+                <TagOutlined style={{ marginRight: "10px" , color: darkMode ? "white" : "#352F44" }} />
+                {data.post.postTagID.postTagContent}
+              </Typography>
+            </S.Tag>
+          </S.TagWrapper>
+        </S.PostFooter>
+      </S.CustomCard>
+>>>>>>> 7b08a9aa76f27a1e60f196b029896431ec383abf */}
 
               <S.CustomModal
                 title={"Quản lý bài viết"}

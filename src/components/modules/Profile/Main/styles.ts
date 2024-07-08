@@ -5,13 +5,8 @@ import { Flex } from "antd";
 export const HomeWrapper = styled(Flex)`
   flex-direction: column;
   align-items: center;
-  background-color: #352f44;
   width: 100%;
-  gap: 32px;
   min-height: 100vh;
-  span {
-    color: #b9b4c7 !important;
-  }
 `;
 
 export const Main = styled(Flex)`
@@ -20,7 +15,6 @@ export const Main = styled(Flex)`
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
   padding: 20px;
   box-sizing: border-box;
   gap: 0px;
@@ -29,7 +23,6 @@ export const Main = styled(Flex)`
 export const Sidebar = styled(Flex)`
   flex-direction: column;
   width: 30%;
-  background-color: #352f44;
   padding: 20px;
   gap: 20px;
   margin-left: 86px;
@@ -42,4 +35,10 @@ export const Content = styled(Flex)`
   background-color: #352f44;
   padding: 20px;
   margin-top: 84px;
+`;
+export const Container = styled(Flex)`
+  gap: 32px;
+
+  width: 100%;
+  max-width: 1200px;
 `;

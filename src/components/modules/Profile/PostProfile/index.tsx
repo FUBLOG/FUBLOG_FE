@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Carousel, message, Radio } from "antd";
+import { Button, Carousel, message, Radio } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
   CommentOutlined,
   ExclamationCircleOutlined,
   TagOutlined,
+  EllipsisOutlined,
+  EditFilled,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -23,6 +26,8 @@ interface PostProps {
 }
 
 const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
+  const [showEditMyPost, setEditMyPost] = useState(false);
+  const { userInfo } = useAuthContext();
   const searchParams = useSearchParams();
   const [posts, setPosts] = useState<any[]>([]);
   const [showReportModal, setShowReportModal] = useState(false);
@@ -122,12 +127,21 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                       {profileSearch?.user?.displayName}
                     </Typography>
                   </S.UserInfo>
-                  <ExclamationCircleOutlined
-                    style={{ color: "#FAF0E6", cursor: "pointer" }}
-                    onClick={() => {
-                      setShowReportModal(true);
-                    }}
-                  />
+                  {userInfo?.profileHash !== profileHash ? (
+                    <ExclamationCircleOutlined
+                      style={{ color: "#FAF0E6", cursor: "pointer" }}
+                      onClick={() => {
+                        setShowReportModal(true);
+                      }}
+                    />
+                  ) : (
+                    <EllipsisOutlined
+                      style={{ color: "#FAF0E6", cursor: "pointer" }}
+                      onClick={() => {
+                        setEditMyPost(true);
+                      }}
+                    />
+                  )}
                 </S.PostHeader>
 
                 <S.ContentWrapper>
@@ -242,6 +256,36 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                       {reason}
                     </Radio>
                   ))}
+                </Radio.Group>
+              </S.CustomModal>
+
+              <S.CustomModal
+                title={"Quản lý bài viết"}
+                open={showEditMyPost}
+                onCancel={() => setEditMyPost(false)}
+                cancelText={"Hủy"}
+                okText={"Tiếp tục"}
+                onOk={() => {
+                  setEditMyPost(false);
+                }}
+                style={{}}
+              >
+                <Radio.Group
+                  onChange={(e) => setReportReason(e.target.value)}
+                  value={reportReason}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map(
+                    (reason, index) => (
+                      <Button>
+                        {index === 0 ? <EditFilled /> : <DeleteOutlined />}
+                        {reason}
+                      </Button>
+                    )
+                  )}
                 </Radio.Group>
               </S.CustomModal>
               <S.CustomModal

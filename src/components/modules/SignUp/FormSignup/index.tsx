@@ -18,9 +18,7 @@ import InputPassword from "@/components/core/common/form/InputPassword";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { authEndpoint } from "@/services/endpoint";
-import { constants } from "@/settings";
 import { postRequest } from "@/services/request";
-import moment from "moment";
 import * as S from "./styles";
 import useThemeStore from "@/hooks/useTheme";
 

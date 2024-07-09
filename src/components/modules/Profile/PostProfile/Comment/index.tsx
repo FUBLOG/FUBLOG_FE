@@ -52,33 +52,22 @@ const CommentModal = ({
         })
         .catch((error) => {});
     }
-  }, [postId, paramComment]);
+  }, [postId]);
+  const asyncGetComments = async () => {
+    setLoading(true);
 
+    await getCommentPost(postId).then((res: any) => {
+      setCommentsData(res?.metadata);
+      setLoading(false);
+      setTimeout(() => {
+        const commentElement = document.getElementById(
+          `${res?.metadata?.at(0)?._id}`
+        );
+        commentElement?.scrollIntoView();
+      }, 100);
+    });
+  };
   useEffect(() => {
-    const asyncGetComments = async () => {
-      setLoading(true);
-
-      await getCommentPost(postId).then((res: any) => {
-        setCommentsData(res?.metadata);
-
-        setLoading(false);
-        if (paramComment !== null) {
-          const commentToScroll = res.metadata.find(
-            (comment: any) => comment._id === paramComment
-          );
-
-          if (commentsWrapperRef.current && commentToScroll) {
-            commentsWrapperRef.current.scrollTop = commentToScroll.clientHeight;
-          }
-        } else {
-          if (commentsWrapperRef.current) {
-            commentsWrapperRef.current.scrollTop =
-              commentsWrapperRef.current.scrollHeight;
-          }
-        }
-      });
-    };
-
     if (open) {
       asyncGetComments();
     }
@@ -91,7 +80,7 @@ const CommentModal = ({
   }, [open, paramComment]);
 
   const handleAddComment = async () => {
-    const res: any = await addComment(post?._id, newComment, null);
+    const res: any = await addComment(postId, newComment, null);
 
     const updatedComments = [
       {
@@ -108,13 +97,10 @@ const CommentModal = ({
 
     // Scroll to the latest comment
     setTimeout(() => {
-      if (commentsWrapperRef.current) {
-        commentsWrapperRef.current.scrollTop =
-          commentsWrapperRef.current.scrollHeight;
-      }
+      const commentElement = document.getElementById(`${res?.metadata?._id}`);
+      commentElement?.scrollIntoView();
     }, 100);
   };
-
   const handleReportClick = (commentId: number) => {
     setSelectedCommentId(commentId);
     setIsPostReport(false);
@@ -165,6 +151,7 @@ const CommentModal = ({
         }
         return comment;
       });
+      setCommentsData(updatedComments);
       setLoadingUpdate(false);
       setEditComment("");
       setEditMode(null);
@@ -258,6 +245,7 @@ const CommentModal = ({
       return (
         <Fragment key={comment?._id}>
           <S.Comment
+            id={comment?._id}
             style={{
               marginLeft: `${depth * 40}px`,
               border: editMode === comment?._id ? "3px solid #5c5470" : "none",

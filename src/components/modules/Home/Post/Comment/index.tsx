@@ -190,6 +190,10 @@ const CommentModal = ({ close, open }: any) => {
       setLoadingUpdate(false);
       setEditComment("");
       setEditMode(null);
+      setTimeout(() => {
+        const commentElement = document.getElementById(`${editMode}`);
+        commentElement?.scrollIntoView();
+      }, 100);
     }
   };
 

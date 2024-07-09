@@ -64,10 +64,6 @@ const Post = ({
     setLikes(liked ? likes - 1 : likes + 1);
   };
 
-  const handleLikeClick = () => {
-    setLiked(!liked);
-  };
-
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
@@ -228,7 +224,7 @@ const Post = ({
                   color: darkMode ? "#B9B4C7" : "#352F44",
                   cursor: "pointer",
                 }}
-                onClick={handleLikeClick}
+                onClick={togleLike}
               />
             ) : (
               <HeartOutlined
@@ -236,11 +232,11 @@ const Post = ({
                   color: darkMode ? "#B9B4C7" : "#352F44",
                   cursor: "pointer",
                 }}
-                onClick={handleLikeClick}
+                onClick={togleLike}
               />
             )}
             <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
-              {newfeed?.post?.countLike}
+              {likes}
             </span>
             <CommentOutlined
               onClick={() => handleCommentClick(newfeed)}

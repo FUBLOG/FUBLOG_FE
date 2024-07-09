@@ -97,14 +97,20 @@ const Post = ({
           </S.UserInfo>
           {userInfo?._id !== newfeed?.userId?._id ? (
             <ExclamationCircleOutlined
-              style={{ color: "#FAF0E6", cursor: "pointer" }}
+              style={{
+                color: darkMode ? "#B9B4C7" : "#352F44",
+                cursor: "pointer",
+              }}
               onClick={() => {
                 setShowReportModal(true);
               }}
             />
           ) : (
             <EllipsisOutlined
-              style={{ color: "#FAF0E6", cursor: "pointer" }}
+              style={{
+                color: darkMode ? "#B9B4C7" : "#352F44",
+                cursor: "pointer",
+              }}
               onClick={() => {
                 setEditMyPost(true);
               }}

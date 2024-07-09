@@ -240,6 +240,7 @@ export const ButtonWrapper = styled.div`
   margin-left: auto;
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 `;
 
 export const TextArea = styled.textarea`
@@ -361,4 +362,13 @@ export const CommentHeader = styled.div`
 
 export const CommentContent = styled.div`
   padding: 5px 0 5px 40px;
+`;
+export const PreviewInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  font-size: 14px;
+  gap: 20px;
 `;

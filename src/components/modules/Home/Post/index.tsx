@@ -1,5 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { message, Radio, Carousel, Modal, Button } from "antd";
+import React, {
+  TouchEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { message, Radio, Carousel, Modal, Button, Tooltip } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -9,6 +15,8 @@ import {
   EllipsisOutlined,
   EditFilled,
   DeleteOutlined,
+  WechatWorkOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -46,8 +54,10 @@ const Post = ({
   const [isPostReport, setIsPostReport] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [openPreviewInfo, setOpenPreviewInfo] = useState(false);
 
   const router = useRouter();
+  let hoverTimeout: NodeJS.Timeout;
 
   const togleLike = () => {
     setLiked(!liked);
@@ -78,23 +88,77 @@ const Post = ({
     setOpen(true);
   };
 
+  function handleMouseOver(event: any) {
+    event.target.style.textDecoration = "underline";
+  }
+
+  function handleMouseOut(event: any) {
+    clearTimeout(hoverTimeout);
+    event.target.style.textDecoration = "";
+  }
+
+  const previewInfor = () => {
+    return (
+      <S.PreviewInfo>
+        <S.CustomCard>
+          <S.PostHeader>
+            <S.UserInfo onClick={handleClickProfile}>
+              <S.Avatar
+                src={newfeed?.userId?.userInfo?.avatar}
+                alt={`${newfeed?.userId?.displayName}'s avatar`}
+              />
+              <Typography
+                variant="caption-normal"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
+                fontSize="18px"
+              >
+                {newfeed?.userId?.displayName}
+              </Typography>
+            </S.UserInfo>
+          </S.PostHeader>
+        </S.CustomCard>
+        <S.ButtonWrapper>
+          <Button icon={<UserOutlined />}>Bạn bè</Button>
+          <Button icon={<WechatWorkOutlined />}>Nhắn tin</Button>
+        </S.ButtonWrapper>
+      </S.PreviewInfo>
+    );
+  };
+
+  function handleClickProfile(): void {
+    // router.push(`/profile?pId=${newfeed?.userId?.profileHash}`);
+    router.push(`/profile?pId=ntthanhthuy274`);
+  }
+
   return (
     <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.CustomCard>
         <S.PostHeader>
-          <S.UserInfo>
-            <S.Avatar
-              src={newfeed?.userId?.userInfo?.avatar}
-              alt={`${newfeed?.userId?.displayName}'s avatar`}
-            />
-            <Typography
-              variant="caption-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
-              fontSize="18px"
+          <Tooltip
+            placement="top"
+            title={previewInfor}
+            color={"#B9B4C7"}
+            mouseEnterDelay={0.5}
+            fresh
+          >
+            <S.UserInfo
+              onClick={handleClickProfile}
+              onMouseOver={(e) => handleMouseOver(e)}
+              onMouseOut={(e) => handleMouseOut(e)}
             >
-              {newfeed?.userId?.displayName}
-            </Typography>
-          </S.UserInfo>
+              <S.Avatar
+                src={newfeed?.userId?.userInfo?.avatar}
+                alt={`${newfeed?.userId?.displayName}'s avatar`}
+              />
+              <Typography
+                variant="caption-normal"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
+                fontSize="18px"
+              >
+                {newfeed?.userId?.displayName}
+              </Typography>
+            </S.UserInfo>
+          </Tooltip>
           {userInfo?._id !== newfeed?.userId?._id ? (
             <ExclamationCircleOutlined
               style={{

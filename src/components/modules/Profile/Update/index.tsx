@@ -17,6 +17,7 @@ import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
 import { patchRequest } from "@/services/request";
 import { profileEndpoint } from "@/services/endpoint";
+import useThemeStore from "@/hooks/useTheme";
 
 const { TextArea } = S;
 
@@ -98,7 +99,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   visible,
   handleCancel,
 }) => {
- 
+  const darkMode = useThemeStore((state) => state.darkMode);
   const { profile, setProfile } = useProfile();
   const format = "YYYY-MM-DD";
   const initialFormData: ProfileData = {
@@ -201,8 +202,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
       footer={null}
       centered
     >
-      <S.ModalContent>
-        <S.TitleContainer>
+      <S.ModalContent  className={darkMode ? "theme-dark" : "theme-light"}>
+        <S.TitleContainer className={darkMode ? "theme-dark" : "theme-light"}>
           <S.CenteredTitle variant="h5" fontSize="24px">
             Chỉnh sửa thông tin cá nhân
           </S.CenteredTitle>

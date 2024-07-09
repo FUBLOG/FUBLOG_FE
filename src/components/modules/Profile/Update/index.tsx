@@ -98,7 +98,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   visible,
   handleCancel,
 }) => {
-  const { profile } = useProfile();
+ 
+  const { profile, setProfile } = useProfile();
   const format = "YYYY-MM-DD";
   const initialFormData: ProfileData = {
     displayName: profile?.user?.displayName || "",
@@ -132,18 +133,21 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     }
   }, [profile]);
 
-  const onFinish = async (values: any): Promise<void> => {
+  
+  const onFinish = async (values: any) => {
     const data = {
       displayName: values.displayName,
-      dateOfBirth: values.dateOfBirth ? values.dateOfBirth.format(format) : "",
+      dateOfBirth: values.dateOfBirth
+        ? moment(values.dateOfBirth).format(format)
+        : "",
       sex: values.sex,
       relationship: values.relationship,
       bio: values.bio,
       education: values.education,
+      avatar: formData.avatar,
     };
-    
+
     setLoading(true);
-    console.log(data);
 
     await patchRequest(profileEndpoint.CHANGE_PROFILE, {
       data,
@@ -151,6 +155,23 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     })
       .then(() => {
         message.success("Cập nhật hồ sơ thành công");
+        setProfile((prevProfile: any) => ({
+          ...prevProfile,
+          user: {
+            ...prevProfile.user,
+            displayName: data.displayName,
+            dateOfBirth: data.dateOfBirth,
+            sex: data.sex,
+          },
+          info: {
+            ...prevProfile.info,
+            relationship: data.relationship,
+            bio: data.bio,
+            education: data.education,
+            avatar: data.avatar,
+          },
+        }));
+        setFormData(data);
         setLoading(false);
         handleCancel();
       })
@@ -266,7 +287,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
               </S.Label>
               <AntForm.Item
                 name="relationship"
-                rules={[{ required: true, message: "Vui lòng chọn tình trạng hôn nhân" }]}
+                // rules={[{  message: "Vui lòng chọn tình trạng hôn nhân" }]}
               >
                 <CustomSelect
                   name="relationship"
@@ -291,7 +312,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
               </S.Label>
               <AntForm.Item
                 name="education"
-                rules={[{ required: true, message: "Vui lòng nhập giáo dục" }]}
+                // rules={[{ message: "Vui lòng nhập giáo dục" }]}
               >
                 <CustomInput
                   placeholder="Giáo dục"
@@ -311,7 +332,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
               </S.Label>
               <AntForm.Item
                 name="bio"
-                rules={[{ required: true, message: "Vui lòng nhập tiểu sử" }]}
+                
               >
                 <CustomTextArea
                   placeholder="Tiểu sử"

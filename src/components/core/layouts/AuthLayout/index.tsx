@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/legacy/image";
-import { Flex, Spin } from "antd";
+import { Flex } from "antd";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuthStatus";
 
@@ -10,21 +10,31 @@ import Button from "../../common/Button";
 import logo from "@/public/logo.png";
 
 import * as S from "./styles";
+import useThemeStore from "@/hooks/useTheme";
+import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 
 interface AuthLayoutProps {
   readonly children: React.ReactNode;
 }
 function AuthLayout({ children }: AuthLayoutProps) {
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   const { loading } = useAuth();
-
   return (
-    <S.LayoutWrapper>
+    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.Header>
         <S.Container>
           <Link href="/">
             <Image src={logo} alt="logo header" />
           </Link>
           <Flex gap={15} style={{ marginRight: "20px" }}>
+            <div onClick={toggleDarkMode} style={{ cursor: "pointer", translate: "-20px 5px" }}>
+              {darkMode ? (
+                <MoonOutlined style={{ fontSize: "22px" }} />
+              ) : (
+                <SunOutlined style={{ fontSize: "22px" }} />
+              )}
+            </div>
             <Link href="/sign-in">
               <Button
                 type="default"

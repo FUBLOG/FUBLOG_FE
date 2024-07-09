@@ -2,25 +2,18 @@
 
 import React from "react";
 import Typography from "@/components/core/common/Typography";
-import * as S from "./styles";
-import {
-  HeartOutlined,
-  WomanOutlined,
-  CalendarOutlined,
-  BookOutlined,
-} from "@ant-design/icons";
+import * as S from "@/components/modules/Profile/Introduce/styles";
 import { useProfile } from "@/hooks/useProfile";
 import moment from "moment";
-
-const relationshipStatusMap: { [key: string]: string } = {
-  single: "Độc thân",
-  married: "Đã kết hôn",
-  divorced: "Đã ly hôn",
-  complicated: "Có mối quan hệ phức tạp",
-  "in a relationship": "Đang hẹn hò",
-};
-
+import {
+  BookOutlined,
+  CalendarOutlined,
+  HeartOutlined,
+  WomanOutlined,
+} from "@ant-design/icons";
+import useThemeStore from "@/hooks/useTheme";
 function Introduce() {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const { profile } = useProfile();
   const format = "DD/MM/YYYY";
   const relationshipStatus: string = profile?.info?.relationship || "single";
@@ -30,31 +23,45 @@ function Introduce() {
       <Typography
         variant="body-text-small-bold"
         fontSize="18px"
-        color="#fff !important"
+        color={darkMode ? "white" : "#352F44"}
       >
         Giới thiệu
       </Typography>
-      <S.InfoContainer>
-        <S.InfoItem>
-          <HeartOutlined
-            style={{ color: "#fff", fontSize: "16px", marginRight: "8px" }}
-          />
-          <Typography
-            variant="body-text-small-normal"
-            color="#fff !important"
-            fontSize="14px"
-          >
-            {relationshipStatusMap[relationshipStatus]}
-          </Typography>
-        </S.InfoItem>
-        {profile?.user?.sex && (
+      <S.InfoContainer className={darkMode ? "theme-dark" : "theme-light"}>
+        {profile?.info?.relationship !== "" ? (
           <S.InfoItem>
-            <WomanOutlined
-              style={{ color: "#fff", fontSize: "16px", marginRight: "8px" }}
+            <HeartOutlined
+              style={{
+                color: darkMode ? "white" : "#352F44",
+                fontSize: "16px",
+                marginRight: "8px",
+              }}
             />
             <Typography
               variant="body-text-small-normal"
-              color="#fff !important"
+              color={darkMode ? "white" : "#352F44"}
+              fontSize="14px"
+            >
+              {profile?.info?.relationship === "single"
+                ? "Độc thân"
+                : "Có mối quan hệ phức tạp"}
+            </Typography>
+          </S.InfoItem>
+        ) : (
+          <></>
+        )}
+        {profile?.user?.sex ? (
+          <S.InfoItem>
+            <WomanOutlined
+              style={{
+                color: darkMode ? "white" : "#352F44",
+                fontSize: "16px",
+                marginRight: "8px",
+              }}
+            />
+            <Typography
+              variant="body-text-small-normal"
+              color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
             >
               {profile.user.sex}
@@ -64,11 +71,15 @@ function Introduce() {
         {profile?.user?.dateOfBirth && (
           <S.InfoItem>
             <CalendarOutlined
-              style={{ color: "#fff", fontSize: "16px", marginRight: "8px" }}
+              style={{
+                color: darkMode ? "white" : "#352F44",
+                fontSize: "16px",
+                marginRight: "8px",
+              }}
             />
             <Typography
               variant="body-text-small-normal"
-              color="#fff !important"
+              color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
             >
               {moment(profile.user.dateOfBirth).format(format)}

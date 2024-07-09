@@ -8,8 +8,10 @@ import TotalFriend from "../TotalFriend";
 import Link from "next/link";
 import { getRequest } from "@/services/request";
 import { friendEndpoint } from "@/services/endpoint";
+import useThemeStore from "@/hooks/useTheme";
 
 function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     const getFriendByID = async () => {
@@ -33,19 +35,19 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
   };
 
   return (
-    <S.Wrapper>
+    <S.Wrapper className={darkMode? "theme-dark" : "theme-light"}>
       <S.Title>
         <Typography
           variant="body-text-small-bold"
           fontSize="18px"
-          color="#fff !important"
+          color={darkMode ? "white" : "#352F44"}
         >
           Bạn bè
         </Typography>
         <S.ViewAllButton onClick={handleOpenModal}>
           <Typography
             variant="body-text-small-bold"
-            color="#fff"
+            color={darkMode ? "white" : "#352F44"}
             style="oblique"
             margin="0px 34px"
             fontSize="14px"
@@ -67,8 +69,13 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
                   objectFit="cover"
                 />
               </S.FriendImageContainer>
-              <S.FriendName variant="body-text-small-normal" >
-                {friend?.displayName}
+              <S.FriendName variant="body-text-small-normal">
+                <Typography
+                  align="center"
+                  color={darkMode ? "white" : "#352F44"}
+                >
+                  {friend?.displayName}
+                </Typography>
               </S.FriendName>
             </S.Friend>
           </Link>

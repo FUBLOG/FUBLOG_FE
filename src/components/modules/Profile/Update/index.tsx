@@ -11,7 +11,7 @@ import {
   BookOutlined,
   UserOutlined,
   FileTextOutlined,
-} from "@ant-design/icons";
+} from "@ant-design/icons"
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";

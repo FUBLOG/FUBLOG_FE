@@ -2,16 +2,15 @@ import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
-&.theme-dark {
-  border: 1px solid #ccc;
-}
+  &.theme-dark {
+    border: 1px solid #ccc;
+  }
   &.theme-light {
-  border: 1px solid #352F44;
-  box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
--webkit-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
--moz-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
-
-}
+    border: 1px solid #352f44;
+    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+  }
 
   box-sizing: border-box;
   margin: 20px 0;
@@ -56,13 +55,11 @@ export const ImagesWrapper = styled(Flex)`
     cursor: pointer;
     object-fit: cover;
   }
-.image-modal{
-  width: 100%;
-  height:350px;
-
-}
+  .image-modal {
+    width: 100%;
+    height: 350px;
+  }
 `;
-
 
 export const PostHeader = styled(Flex)`
   align-items: center;
@@ -85,8 +82,6 @@ export const Avatar = styled.img`
   height: 30px;
   border-radius: 50%;
 `;
-
-
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
@@ -130,16 +125,10 @@ export const CustomCard = styled(Flex)`
   border-radius: 30px;
 `;
 
-
-
 export const ModalContent = styled.span`
   color: #b9b4c7;
   font-size: 14px;
 `;
-
-
-
-
 
 export const Stroke = styled.div`
   width: 2px;
@@ -183,8 +172,6 @@ export const ReplyBox = styled(Flex)`
   background-color: #faf0e6;
   width: 100%;
 `;
-
-
 
 export const ImagesWrapper2 = styled.div`
   img {
@@ -234,8 +221,6 @@ export const ImageModal = styled(Modal)`
   }
 `;
 
-
-
 export const PostBody = styled.div`
   margin-top: 10px;
 `;
@@ -251,16 +236,12 @@ export const PostModalHeader = styled(Flex)`
   justify-content: start;
 `;
 
-
-
-
 export const ButtonWrapper = styled.div`
   margin-left: auto;
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 `;
-
-
 
 export const TextArea = styled.textarea`
   width: 100%;
@@ -285,14 +266,10 @@ export const Comment = styled.div`
   padding-bottom: 10px;
 `;
 
-
-
 export const CommentUser = styled.span`
   margin-left: 10px;
   font-weight: bold;
 `;
-
-
 
 export const Divider = styled.div`
   height: 1px;
@@ -300,14 +277,13 @@ export const Divider = styled.div`
   margin: 10px 0;
 `;
 
-
 export const CustomModal = styled(Modal)`
   .ant-modal-content {
     background-color: #faf0e6 !important;
     padding: 0;
     border-radius: 10px;
-    position: relative; 
-    overflow: hidden; 
+    position: relative;
+    overflow: hidden;
   }
   .ant-modal-header {
     background-color: #faf0e6;
@@ -333,9 +309,9 @@ export const CustomModal = styled(Modal)`
     background: #faf0e6;
   }
   .ant-modal-body {
-    max-height: 70vh; 
-    overflow-y: auto; 
-    padding-bottom: 100px; 
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-bottom: 100px !important;
   }
   .ant-modal {
     top: 10%;
@@ -343,10 +319,8 @@ export const CustomModal = styled(Modal)`
   }
 `;
 
-
 export const PostContentWrapper = styled.div`
-  
-  padding: 20px 20px 20px 60px; 
+  padding: 20px 20px 20px 60px;
   border-bottom: 1px solid #ccc;
 `;
 
@@ -359,7 +333,7 @@ export const CommentsWrapper = styled.div`
 `;
 export const CommentBox = styled.div`
   position: absolute;
-  bottom: 0; 
+  bottom: 0;
   width: 100%;
   background-color: #faf0e6;
   padding: 10px;
@@ -367,9 +341,8 @@ export const CommentBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 1000; 
+  z-index: 1000;
 `;
-
 
 export const UserName = styled.span`
   font-weight: bold;
@@ -383,10 +356,19 @@ export const CommentHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 5px;
- 
+
   width: 100%;
 `;
 
 export const CommentContent = styled.div`
-  padding: 5px 0 5px 40px; 
+  padding: 5px 0 5px 40px;
+`;
+export const PreviewInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  font-size: 14px;
+  gap: 20px;
 `;

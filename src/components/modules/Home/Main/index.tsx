@@ -13,6 +13,7 @@ function Home() {
     };
     setup();
   }, []);
+
   return (
     <S.HomeWrapper>
       <S.MainWrapper>

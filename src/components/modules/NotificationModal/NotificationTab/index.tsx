@@ -17,81 +17,86 @@ const NotificationTab = ({ onClose }: any) => {
   const notificationLink: { [key: string]: (noti: any) => JSX.Element } = {
     like: (noti: any) => <LikeItem src={noti} />,
     comment: (noti: any) => <CommentItem src={noti} />,
-    friend: (noti: any) => <FriendItem src={noti} />
-  }
+    friend: (noti: any) => <FriendItem src={noti} />,
+  };
 
   const LikeItem = ({ src }: any) => {
-    return (<Link href={`/?ptId=${src?.payload?.postId}`} onClick={handleClick}>
-      <List.Item
-        key={src?._id}
-        className={` ${src?.isRead
-          ? "notification-read .ant-list-item-meta "
-          : "notification-unread .ant-list-item-meta"
+    return (
+      <Link href={`/?ptId=${src?.payload?.postId}`} onClick={handleClick}>
+        <List.Item
+          key={src?._id}
+          className={` ${
+            src?.isRead
+              ? "notification-read .ant-list-item-meta "
+              : "notification-unread .ant-list-item-meta"
           }`}
-        onClick={() => {
-          handleMarkRead(src?._id);
-        }}
-      >
-        <List.Item.Meta
-          avatar={<Avatar src={src?.image[0]} />}
-          title={<span>{src?.title}</span>}
-          description={
-            <span>{fromNow(new Date(src?.updatedAt))}</span>
-          }
-        />
-      </List.Item>
-    </Link>)
-  }
+          onClick={() => {
+            handleMarkRead(src?._id);
+          }}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={src?.image[0]} />}
+            title={<span>{src?.title}</span>}
+            description={<span>{fromNow(new Date(src?.updatedAt))}</span>}
+          />
+        </List.Item>
+      </Link>
+    );
+  };
 
   const CommentItem = ({ src }: any) => {
-    return (<Link href={`/?ptId=${src?.payload?.postId}&ctId=${src?.payload?.commentId}`} onClick={handleClick}>
-      <List.Item
-        key={src?._id}
-        className={` ${src?.isRead
-          ? "notification-read .ant-list-item-meta "
-          : "notification-unread .ant-list-item-meta"
-          }`}
-        onClick={() => {
-          handleMarkRead(src?._id);
-        }}
+    return (
+      <Link
+        href={`/?ptId=${src?.payload?.postId}&ctId=${src?.payload?.commentId}`}
+        onClick={handleClick}
       >
-        <List.Item.Meta
-          avatar={<Avatar src={src?.image[0]} />}
-          title={<span>{src?.title}</span>}
-          description={
-            <span>{fromNow(new Date(src?.updatedAt))}</span>
-          }
-        />
-      </List.Item>
-    </Link>)
-  }
+        <List.Item
+          key={src?._id}
+          className={` ${
+            src?.isRead
+              ? "notification-read .ant-list-item-meta "
+              : "notification-unread .ant-list-item-meta"
+          }`}
+          onClick={() => {
+            handleMarkRead(src?._id);
+          }}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={src?.image[0]} />}
+            title={<span>{src?.title}</span>}
+            description={<span>{fromNow(new Date(src?.updatedAt))}</span>}
+          />
+        </List.Item>
+      </Link>
+    );
+  };
 
   const FriendItem = ({ src }: any) => {
-    return (<Link
-      href={`/profile?pId=${src?.payload?.profileHash}`}
-      onClick={handleClick}
-    >
-      <List.Item
-        key={src?._id}
-        className={` ${src.isRead
-          ? "notification-read .ant-list-item-meta "
-          : "notification-unread .ant-list-item-meta"
-          }`}
-        onClick={() => {
-          handleMarkRead(src._id);
-        }}
+    return (
+      <Link
+        href={`/profile?pId=${src?.payload?.profileHash}`}
+        onClick={handleClick}
       >
-        <List.Item.Meta
-          avatar={<Avatar src={src?.image[0]} />}
-          title={<span>{src?.title}</span>}
-          description={
-            <span>{fromNow(new Date(src?.updatedAt))}</span>
-          }
-        />
-      </List.Item>
-    </Link>)
-  }
-
+        <List.Item
+          key={src?._id}
+          className={` ${
+            src.isRead
+              ? "notification-read .ant-list-item-meta "
+              : "notification-unread .ant-list-item-meta"
+          }`}
+          onClick={() => {
+            handleMarkRead(src._id);
+          }}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={src?.image[0]} />}
+            title={<span>{src?.title}</span>}
+            description={<span>{fromNow(new Date(src?.updatedAt))}</span>}
+          />
+        </List.Item>
+      </Link>
+    );
+  };
 
   const handleMarkRead = async (notificationId: string) => {
     try {
@@ -111,22 +116,21 @@ const NotificationTab = ({ onClose }: any) => {
 
   const handleAllMarkRead = async () => {
     try {
-      await markAllNotificationsAsRead()
-        .then(() => {
-          const newNotifications = notifications.map((noti: any) => ({
-            ...noti,
-            isRead: true,
-          }));
-          setNotificationCount(0);
-          setNotifications(newNotifications);
-        })
-    } catch (error) { }
+      await markAllNotificationsAsRead().then(() => {
+        const newNotifications = notifications.map((noti: any) => ({
+          ...noti,
+          isRead: true,
+        }));
+        setNotificationCount(0);
+        setNotifications(newNotifications);
+      });
+    } catch (error) {}
   };
 
   const generateLink = (noti: any) => {
     const type = noti?.type;
     return notificationLink[type](noti);
-  }
+  };
 
   function handleClick() {
     onClose();
@@ -159,8 +163,5 @@ const NotificationTab = ({ onClose }: any) => {
 const Loading = () => {
   return <Skeleton active round avatar title />;
 };
-
-
-
 
 export default NotificationTab;

@@ -3,11 +3,10 @@ import { Flex } from "antd";
 import Typography from "@/components/core/common/Typography";
 
 export const Wrapper = styled(Flex)`
-&.theme-dark{
-  
-}
+  &.theme-dark {
+  }
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   width: 100%;
 `;
 
@@ -33,7 +32,7 @@ export const FriendContainer = styled(Flex)`
   gap: 10px;
   padding: 5px;
   background-color: transparent;
-  width:300px;
+  width: 300px;
 `;
 
 export const Friend = styled(Flex)`

@@ -9,7 +9,7 @@ function SignIn() {
   return (
     <S.HomeWrapper>
       <Intro />
-      <FormSignIn showModalGuest={false} />
+      <FormSignIn />
     </S.HomeWrapper>
   );
 }

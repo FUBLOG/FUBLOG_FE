@@ -5,6 +5,7 @@ import { constants } from "@/settings";
 import webStorageClient from "@/utils/webStorageClient";
 import webLocalStorage from "@/utils/webLocalStorage";
 import deleteStorage from "@/utils/deleteStorage";
+import { message } from "antd";
 
 const axiosInstance = axios.create({
   baseURL: constants.API_SERVER,
@@ -25,11 +26,18 @@ axiosInstance.interceptors.request.use(async function (config: any) {
 
 axiosInstance.interceptors.response.use(
   async (response: any) => {
+    // message.error("Đang còn");
+
     return response?.data;
   },
   async (error: any) => {
+    // message.error("Tự nhiên out", error);
     if (error?.response && error?.response?.status === 401) {
+      // message.error("đã mât 401");
+
       if (error?.response?.data?.message === "JWT invalid") {
+        message.error("JWT");
+
         try {
           const newAccessToken = await refreshAccessToken();
           error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;

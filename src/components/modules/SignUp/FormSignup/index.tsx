@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  LockOutlined,
-  UserOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import { LockOutlined, UserOutlined, DownOutlined } from "@ant-design/icons";
 import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";

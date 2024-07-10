@@ -25,3 +25,30 @@ export const createPost = async (data) => {
     true
   );
 };
+
+
+export const getPostById = async (userId) => {
+  return await getRequest(postEndpoint.GET_POST_BY_USERID + userId);
+};
+
+export const getPostByPostId = async (postId) => {
+  return await getRequest(postEndpoint.GET_POST_BY_POSTID + postId);
+};
+export const addLike = async (postID) => {
+  return await postRequest(
+    postEndpoint.ADD_LIKE,
+    {
+      data: postID,
+      security: true,
+    },
+  );
+};
+export const unLike = async (postID) => {
+  return await postRequest(
+    postEndpoint.UN_LIKE,
+    {
+      data: postID,
+      security: true,
+    },
+  );
+};

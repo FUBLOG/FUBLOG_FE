@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import * as S from "./styles";
 import FormSignIn from "../SignIn/FormSignin";
 import useThemeStore from "@/hooks/useTheme";

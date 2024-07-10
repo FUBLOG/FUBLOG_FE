@@ -71,10 +71,19 @@ function MainLayout({ children }: LayoutProps) {
   useListenNotification();
   useListenFriendRequest();
   useEffect(() => {
-    if (webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) !== "" &&
+      webStorageClient.get(constants.PROFILE_HASH) !== ""
+    ) {
       handleCancel();
+      setShowModalGuest(false);
     }
-  }, [webStorageClient.get(constants.IS_AUTH)]);
+  }, [
+    webStorageClient.get(constants.IS_AUTH),
+    webStorageClient.get(constants.ACCESS_TOKEN),
+    webStorageClient.get(constants.REFRESH_TOKEN),
+  ]);
 
 
   const darkMode = useThemeStore((state) => state.darkMode);
@@ -130,7 +139,6 @@ function MainLayout({ children }: LayoutProps) {
     setList([]);
     setValueSearch("");
   };
-  const router = useRouter();
 
   const menuItems = (
     <S.CustomMenu>

@@ -9,22 +9,22 @@ export const Wrapper = styled(Flex)`
 `;
 
 export const InfoContainer = styled(Flex)`
-  &.theme-dark{
-  background-color: #352f44;
+  &.theme-dark {
+    background-color: #352f44;
+    border: 1px solid #b9b4c7;
   }
-  &.theme-light{
-  background-color: transparent;
-  box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
--webkit-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
--moz-box-shadow: 0px 0px 46px -18px rgba(53,47,68,0.3);
-
+  &.theme-light {
+    background-color: transparent;
+    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    border: 1px solid #352f44;
   }
   flex-direction: column;
-  
+
   gap: 10px;
   padding: 15px;
   border-radius: 18px;
-  border: 1px solid #b9b4c7;
 `;
 
 export const InfoItem = styled(Flex)`

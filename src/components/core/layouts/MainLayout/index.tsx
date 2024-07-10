@@ -42,7 +42,7 @@ import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
 import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
-import { useListenConversation } from "@/hooks/useListen";
+import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -65,7 +65,8 @@ function MainLayout({ children }: LayoutProps) {
   useGetFriendRequestNotification();
   useGetNotificationCount();
   useListenConversation();
-
+  useListenNotification();
+  useListenFriendRequest();
   useEffect(() => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       handleCancel();

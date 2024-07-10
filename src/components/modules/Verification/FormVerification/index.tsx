@@ -157,7 +157,7 @@ function FormVerification(props: PageProps) {
             onFinish={onFinish}
             format="mm:ss"
             value={targetTime}
-            style={{ color: "white" }}
+            // style={{ color: "#B9B4C7" }}
           />
         )}
       </S.HomeWrapper>

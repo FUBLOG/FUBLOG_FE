@@ -20,7 +20,9 @@ export const Input = styled(InputAntd.Password)`
   &.ant-input-affix-wrapper-focused {
     border: 1px solid ${(props) => props.theme.colors.primary} !important;
   }
-
+  .anticon.ant-input-password-icon {
+    color: #b9b4c7 !important;
+  }
   &.ant-input-affix-wrapper {
     padding: 12px 0px 12px 16px;
 

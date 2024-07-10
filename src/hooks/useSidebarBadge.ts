@@ -17,11 +17,13 @@ interface SidebarBadge {
 
 const useSidebarBadge = create<SidebarBadge>((set) => ({
   notificationCount: 0,
-  setNotificationCount: (count) => set({ notificationCount: count }),
+  setNotificationCount: (count) =>
+    set({ notificationCount: Math.max(0, count) }),
   friendRequestCount: 0,
-  setFriendRequestCount: (count) => set({ friendRequestCount: count }),
+  setFriendRequestCount: (count) =>
+    set({ friendRequestCount: Math.max(0, count) }),
   messageCount: 0,
-  setMessageCount: (count) => set({ messageCount: count }),
+  setMessageCount: (count) => set({ messageCount: Math.max(0, count) }),
 }));
 
 const useGetMessageNotification = () => {

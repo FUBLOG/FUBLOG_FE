@@ -25,7 +25,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
   onClose,
 }) => {
   const [activeTab, setActiveTab] = useState("1");
-  const {friendRequestCount,notificationCount} = useSidebarBadge();
+  const { friendRequestCount, notificationCount } = useSidebarBadge();
   return (
     <Modal
       open={visible}
@@ -50,26 +50,34 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
           className="custom-tabs"
         >
           <TabPane
-            tab={<Badge count={notificationCount} offset={[10, 0]}>
-              Thông Báo
-            </Badge>}
-            key="1" destroyInactiveTabPane={true}>
-            <S.TabContent >
-              <NotificationTab onClose />
+            tab={
+              <Badge count={notificationCount} offset={[10, 0]}>
+                Thông Báo
+              </Badge>
+            }
+            key="1"
+            destroyInactiveTabPane={true}
+          >
+            <S.TabContent>
+              <NotificationTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
-          <TabPane tab={
-            <Badge count={friendRequestCount} offset={[10, 0]}>
-              Bạn bè
-            </Badge>
-          } key="2" destroyInactiveTabPane={true}>
+          <TabPane
+            tab={
+              <Badge count={friendRequestCount} offset={[10, 0]}>
+                Bạn bè
+              </Badge>
+            }
+            key="2"
+            destroyInactiveTabPane={true}
+          >
             <S.TabContent>
               <FriendTab onClose={onClose} />
             </S.TabContent>
           </TabPane>
         </Tabs>
       </S.NotificationContainer>
-    </Modal >
+    </Modal>
   );
 };
 

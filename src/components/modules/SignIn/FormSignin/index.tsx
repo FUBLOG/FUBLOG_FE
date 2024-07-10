@@ -17,7 +17,7 @@ import * as S from "./styles";
 import { useAuth } from "@/hooks/useAuthStatus";
 import useThemeStore from "@/hooks/useTheme";
 
-function FormSignIn(showModalGuest: any) {
+function FormSignIn(setShowModalGuest: any) {
   const router = useRouter();
   const { login, loading, setLoading } = useAuth();
   const onFinish = async (values: any) => {
@@ -44,14 +44,10 @@ function FormSignIn(showModalGuest: any) {
         res?.metadata?.user
       )
         .then(() => {
-          if (showModalGuest?.showModalGuest === false) {
-            router.push("/");
-          } else {
-            router.refresh();
-          }
+          router.push("/");
         })
         .finally(() => {
-          showModalGuest(false);
+          setShowModalGuest(false);
         });
     } catch (err) {}
     setLoading(false);
@@ -73,7 +69,6 @@ function FormSignIn(showModalGuest: any) {
           >
             ĐĂNG NHẬP
           </Typography>
-
         </S.TitleLogin>
 
         <Form
@@ -89,11 +84,16 @@ function FormSignIn(showModalGuest: any) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined />}
+              prefix={
+                <UserOutlined
+                  style={{
+                    color: "#B9B4C7 ",
+                  }}
+                />
+              }
               isRequired
               label="Email"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
-              
             />
           </FormItem>
           <FormItem
@@ -102,7 +102,13 @@ function FormSignIn(showModalGuest: any) {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
-              prefix={<LockOutlined />}
+              prefix={
+                <LockOutlined
+                  style={{
+                    color: "#B9B4C7 ",
+                  }}
+                />
+              }
               isRequired
               label="Mật khẩu"
               colorLabel={darkMode ? "#B9B4C7" : "#352F44"}

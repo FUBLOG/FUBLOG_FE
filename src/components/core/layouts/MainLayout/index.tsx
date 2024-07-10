@@ -41,7 +41,7 @@ import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
 import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
-import { useListenConversation } from "@/hooks/useListen";
+import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
 
 interface LayoutProps {
@@ -65,12 +65,22 @@ function MainLayout({ children }: LayoutProps) {
   useGetFriendRequestNotification();
   useGetNotificationCount();
   useListenConversation();
-
+  useListenNotification();
+  useListenFriendRequest();
   useEffect(() => {
-    if (webStorageClient.get(constants.IS_AUTH)) {
+    if (
+      webStorageClient.get(constants.IS_AUTH) &&
+      webStorageClient.get(constants.ACCESS_TOKEN) !== "" &&
+      webStorageClient.get(constants.PROFILE_HASH) !== ""
+    ) {
       handleCancel();
+      setShowModalGuest(false);
     }
-  }, [webStorageClient.get(constants.IS_AUTH)]);
+  }, [
+    webStorageClient.get(constants.IS_AUTH),
+    webStorageClient.get(constants.ACCESS_TOKEN),
+    webStorageClient.get(constants.REFRESH_TOKEN),
+  ]);
 
 
   const darkMode = useThemeStore((state) => state.darkMode);
@@ -126,7 +136,6 @@ function MainLayout({ children }: LayoutProps) {
     setList([]);
     setValueSearch("");
   };
-  const router = useRouter();
 
   const menuItems = (
     <S.CustomMenu>

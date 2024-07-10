@@ -35,7 +35,7 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
   };
 
   return (
-    <S.Wrapper className={darkMode? "theme-dark" : "theme-light"}>
+    <S.Wrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.Title>
         <Typography
           variant="body-text-small-bold"

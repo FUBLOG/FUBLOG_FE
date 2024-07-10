@@ -30,6 +30,8 @@ const postEndpoint = {
   GET_ALL_TAGS: `/tag`,
   GET_POST_BY_USERID: `/post/user/`,
   GET_POST_BY_POSTID: `/post/`,
+  ADD_LIKE: `/post/like`,
+  UN_LIKE: `/post/unlike`,
 };
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,

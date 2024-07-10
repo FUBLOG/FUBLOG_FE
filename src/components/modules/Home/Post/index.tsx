@@ -26,7 +26,7 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getPostByPostId } from "@/services/api/post";
+import { addLike, getPostByPostId, unLike } from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
 
 interface PostProps {
@@ -46,6 +46,7 @@ const Post = ({
   const { userInfo } = useAuthContext();
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
   const [liked, setLiked] = useState(false);
+  const [listLike, setListLike] = useState(newfeed?.post?.likes);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showEditMyPost, setEditMyPost] = useState(false);
   const [editPost, setEditPost] = useState();
@@ -58,8 +59,18 @@ const Post = ({
 
   const router = useRouter();
   let hoverTimeout: NodeJS.Timeout;
+  useEffect(() => {
+    setListLike(newfeed?.post?.likes);
+    const liked = listLike.includes(userInfo?._id);
+    setLiked(liked);
+  }, [newfeed, userInfo, listLike]);
 
   const togleLike = () => {
+    if (!liked) {
+      handleLike();
+    } else {
+      handleUnLike();
+    }
     setLiked(!liked);
     setLikes(liked ? likes - 1 : likes + 1);
   };
@@ -67,7 +78,30 @@ const Post = ({
   const handleCloseSuccessModal = () => {
     setShowConfirmModal(false);
   };
-
+  const handleLike = () => {
+    if (newfeed?.post?._id !== null) {
+      const data = {
+        postID: newfeed.post._id,
+      };
+      addLike(data)
+        .then((res) => {
+          router.refresh();
+        })
+        .catch((error) => {});
+    }
+  };
+  const handleUnLike = () => {
+    if (newfeed?.post?._id !== null) {
+      const data = {
+        postID: newfeed.post._id,
+      };
+      unLike(data)
+        .then((res) => {
+          router.refresh();
+        })
+        .catch((error) => {});
+    }
+  };
   const handleCommentClick = useCallback(
     (newfeed: any) => {
       if (webStorageClient.get(constants.IS_AUTH)) {
@@ -105,7 +139,7 @@ const Post = ({
               />
               <Typography
                 variant="caption-normal"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={"#352F44"}
                 fontSize="18px"
               >
                 {newfeed?.userId?.displayName}
@@ -122,8 +156,7 @@ const Post = ({
   };
 
   function handleClickProfile(): void {
-    // router.push(`/profile?pId=${newfeed?.userId?.profileHash}`);
-    router.push(`/profile?pId=ntthanhthuy274`);
+    router.push(`/profile?pId=${newfeed?.userId?.profileHash}`);
   }
 
   return (

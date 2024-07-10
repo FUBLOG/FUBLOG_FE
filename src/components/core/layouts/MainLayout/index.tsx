@@ -17,6 +17,8 @@ import {
   HomeFilled,
   EditFilled,
   BellFilled,
+  MoonOutlined,
+  SunOutlined,
 } from "@ant-design/icons";
 
 import Button from "../../common/Button";
@@ -43,6 +45,7 @@ import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
 import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
 import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
+import useThemeStore from "@/hooks/useTheme";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -72,6 +75,11 @@ function MainLayout({ children }: LayoutProps) {
       handleCancel();
     }
   }, [webStorageClient.get(constants.IS_AUTH)]);
+
+
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -151,7 +159,7 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
-    <S.LayoutWrapper>
+    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"} >
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
         <S.GlobalStyle />
@@ -202,6 +210,11 @@ function MainLayout({ children }: LayoutProps) {
                 )}
               </Link>
             </Badge>
+            <div onClick={toggleDarkMode} style={{cursor: "pointer"}}>
+                {darkMode ? <MoonOutlined style={{ fontSize: "22px" }} /> 
+                          : <SunOutlined style={{ fontSize: "22px" }} />}
+            
+            </div>
           </S.IconContainer>
           {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>

@@ -1,8 +1,13 @@
-import { Flex, Modal,Menu } from "antd";
+import { Flex, Modal, Menu } from "antd";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
-  background-color: ${(props) => props?.theme?.colors?.backgroundGray};
+  &.theme-dark {
+    background-color: ${(props) => props?.theme?.colors?.backgroundGray};
+  }
+  &.theme-light {
+    background-color: ${(props) => props?.theme?.colors?.backgroundWhite };
+  }
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
   .ant-modal-title {
     background-color: #faf0e6 !important;
   }
-  `;  
+  `;
 export const Header = styled.header`
   background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);

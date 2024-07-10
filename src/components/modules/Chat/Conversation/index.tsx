@@ -15,7 +15,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
   const { socket } = useSocketContext();
   const { selectedConversation, setSelectedConversation } = useConversation();
   const [unreadCount, setUnreadCount] = useState(0);
-  const {setMessageCount,messageCount} = useSidebarBadge();
+  const { setMessageCount, messageCount } = useSidebarBadge();
   const isSelected = selectedConversation?._id === conversation._id;
   let lastMessage = conversation?.lastMessage?.message;
   if (
@@ -31,7 +31,7 @@ const Conversation = ({ key, conversation }: ConversationProps) => {
     }
   }, [conversation]);
   const handleClickConversation = async () => {
-    if (unreadCount > 0) {
+    if (unreadCount > 0 && conversation?.lastMessage?.senderId !== userInfo?._id) {
       setUnreadCount(0);
       if (socket) {
         setMessageCount(messageCount - unreadCount)

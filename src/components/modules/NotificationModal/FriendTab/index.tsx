@@ -8,6 +8,7 @@ import {
   rejectFriendRequest,
 } from "@/services/api/friend";
 import Link from "next/link";
+import useSidebarBadge from "@/hooks/useSidebarBadge";
 
 const FriendTab = ({ onClose }: any) => {
   function handleClick() {
@@ -17,6 +18,7 @@ const FriendTab = ({ onClose }: any) => {
   const [acceptList, setAcceptList] = useState<any>([]);
   const { setFriendRequest } = useNotification();
   const [loadingButtons, setLoadingButtons] = useState<boolean[]>([]);
+  const { setFriendRequestCount, friendRequestCount } = useSidebarBadge();
   useEffect(() => {
     if (friendRequest.length > 0) {
       setLoadingButtons(new Array(friendRequest.length).fill(false));
@@ -48,6 +50,7 @@ const FriendTab = ({ onClose }: any) => {
         setFriendRequest(newLists);
       })
       .catch((err) => { });
+    setFriendRequestCount(friendRequestCount - 1);
   };
   const handleReject = async (requestId: number, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -55,6 +58,7 @@ const FriendTab = ({ onClose }: any) => {
     const newLists = friendRequest.filter(
       (item: any) => item.sourceID._id !== requestId
     );
+    setFriendRequestCount(friendRequestCount - 1);
     setFriendRequest(newLists);
   };
 

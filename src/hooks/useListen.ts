@@ -2,6 +2,8 @@ import { useSocketContext } from "@/contexts/SocketContext";
 import useConversation from "./useConversation";
 import { useEffect, useState } from "react";
 import useSidebarBadge from "./useSidebarBadge";
+import useNotification from "./useNotification";
+import { log } from "console";
 const useListenMessage = () => {
   const { socket } = useSocketContext();
   const { messages, setMessages, selectedConversation } = useConversation();
@@ -63,18 +65,33 @@ const useListenConversation = () => {
 const useListenNotification = () => {
   const { socket } = useSocketContext();
   const { notificationCount, setNotificationCount } = useSidebarBadge();
+  const { notifications } = useNotification();
+  const checkIsExisted = async (newNotification: any) => {
+    for(let item of notifications as any[]) {
+      if(item._id === newNotification[0]._id) {
+        return true;
+      }
+    }
+    return false;
+  }
   useEffect(() => {
-    socket?.on("newNotification", (newConversation: any) => {
+    socket?.on("notification", async(newConversation: any) => {
+      console.log(newConversation);
+      const isExisted = await checkIsExisted(newConversation);
+      console.log(isExisted);
+      
+      if (!isExisted) {
+        setNotificationCount(notificationCount + 1);
+      }
       const sound = new Audio(
         require("../assets/sounds/new-notification-7-210334.mp3")
       );
       sound.play();
-      setNotificationCount(notificationCount + 1);
     });
     return () => {
-      socket?.off("newNotification");
+      socket?.off("notification");
     };
-  }, [socket, notificationCount, setNotificationCount]);
+  }, [socket, notificationCount, setNotificationCount,notifications]);
 };
 
 const useListenFriendRequest = () => {

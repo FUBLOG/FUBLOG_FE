@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { Socket, io } from "socket.io-client";
 import { useAuthContext } from "./AuthContext";
+import { useAuth } from "@/hooks/useAuthStatus";
 
 interface SocketContextProps {
   socket: Socket | null;
@@ -18,9 +19,9 @@ interface SocketContextProps {
 
 export const SocketContext = createContext<SocketContextProps>({
   socket: {} as Socket,
-  setSocket: () => {},
+  setSocket: () => { },
   userOnline: [],
-  setUserOnline: () => {},
+  setUserOnline: () => { },
 });
 
 export const useSocketContext = () => {
@@ -32,6 +33,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [userOnline, setUserOnline] = useState<string[]>([]);
+  const { logout } = useAuth();
   const { userInfo } = useAuthContext();
   useEffect(() => {
     if (userInfo?._id !== "") {
@@ -44,6 +46,9 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       socket.on("getOnlineUsers", async (data: string[]) => {
         setUserOnline(data);
       });
+      socket.on("forceDisconnect", async () => {
+        logout()
+      });
       return () => {
         if (socket) {
           socket.close();
@@ -52,7 +57,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({
       };
     }
   }, [userInfo]);
-  
+
   const socketContextValueWithUserOnline = useMemo(
     () => ({ socket, setSocket, userOnline, setUserOnline }),
     [socket, setSocket, userOnline, setUserOnline]

@@ -35,8 +35,9 @@ const InputMessage = () => {
     setTimeout(() => setClicked(false), 300);
   };
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => { };
-  const handleFocus = () => {
-    if (selectedConversation?.lastMessage?.senderId !== userInfo?._id) {
+  const handleChange = (value: any) => {
+    setInputValue(value);
+    if (selectedConversation?.lastMessage?.senderId !== userInfo?._id && selectedConversation?.unReadCount > 0) {
       const newConversations = conversations.map((conversation) => {
         if (
           conversation?._id === selectedConversation?._id
@@ -47,44 +48,64 @@ const InputMessage = () => {
       });
       setConversations(newConversations);
       if (socket) {
+        socket.emit("ping", selectedConversation._id);
         setMessageCount(messageCount - selectedConversation?.unReadCount)
-        socket.emit("ping", selectedConversation.conversationId);
+        setSelectedConversation({ ...selectedConversation, unReadCount: 0 });
       }
     }
-  };
-  return (
-    <S.MessageInputContainer>
-      <S.InputWrapper>
-        <Input.TextArea
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onPressEnter={handleSend}
-          onFocus={handleFocus}
-          placeholder="Nhập tin nhắn của bạn"
-          autoSize={{ minRows: 1, maxRows: 6 }}
-          style={{
-            backgroundColor: "#FAF0E6",
-            borderColor: "#5C5470",
-            paddingRight: "50px",
-          }}
-        />
-        <label htmlFor="upload" className="picture-upload">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-            id="upload"
-          />
-          <PictureOutlined style={{ cursor: "pointer", color: "#8c8c8c" }} />
-        </label>
-      </S.InputWrapper>
-      <SendOutlined
-        onClick={handleSend}
-        style={{ cursor: "pointer", marginLeft: 8 }}
-      />
-    </S.MessageInputContainer>
-  );
-};
+  }
 
-export default InputMessage;
+  const handleFocus = () => {
+    if (selectedConversation?.lastMessage?.senderId !== userInfo?._id && selectedConversation?.unReadCount > 0) {
+      const newConversations = conversations.map((conversation) => {
+        if (
+          conversation?._id === selectedConversation?._id
+        ) {
+          return { ...conversation, unReadCount: 0 };
+        }
+        return conversation;
+      });
+      setConversations(newConversations);
+      if (socket) {
+        socket.emit("ping", selectedConversation._id);
+        setMessageCount(messageCount - selectedConversation?.unReadCount)
+        setSelectedConversation({ ...selectedConversation, unReadCount: 0 });
+      }
+    }
+    };
+    return (
+      <S.MessageInputContainer>
+        <S.InputWrapper>
+          <Input.TextArea
+            value={inputValue}
+            onChange ={(e) => handleChange(e.target.value)}
+            onPressEnter={handleSend}
+            onFocus={handleFocus}
+            placeholder="Nhập tin nhắn của bạn"
+            autoSize={{ minRows: 1, maxRows: 6 }}
+            style={{
+              backgroundColor: "#FAF0E6",
+              borderColor: "#5C5470",
+              paddingRight: "50px",
+            }}
+          />
+          <label htmlFor="upload" className="picture-upload">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: "none" }}
+              id="upload"
+            />
+            <PictureOutlined style={{ cursor: "pointer", color: "#8c8c8c" }} />
+          </label>
+        </S.InputWrapper>
+        <SendOutlined
+          onClick={handleSend}
+          style={{ cursor: "pointer", marginLeft: 8 }}
+        />
+      </S.MessageInputContainer>
+    );
+  };
+
+  export default InputMessage;

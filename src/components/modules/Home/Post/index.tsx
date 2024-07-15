@@ -26,8 +26,9 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, getPostByPostId, unLike } from "@/services/api/post";
+import { addLike, unLike } from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
+import useTagStageStore from "@/hooks/useTags";
 
 interface PostProps {
   newfeed: any;
@@ -61,8 +62,8 @@ const Post = ({
   let hoverTimeout: NodeJS.Timeout;
   useEffect(() => {
     setListLike(newfeed?.post?.likes);
-    const liked = listLike.includes(userInfo?._id);
-    setLiked(liked);
+    // const liked = listLike.includes(userInfo?._id);
+    setLiked(liked);    
   }, [newfeed, userInfo, listLike]);
 
   const togleLike = () => {
@@ -222,6 +223,7 @@ const Post = ({
           </Typography>
         </S.ContentWrapper>
         {newfeed?.post?.postLinkToImages.length === 1 && (
+          <>
           <S.ImagesWrapper
             className={`images-${newfeed?.post?.postLinkToImages?.length}`}
           >
@@ -232,6 +234,7 @@ const Post = ({
               onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
             />
           </S.ImagesWrapper>
+          </>
         )}
         {newfeed?.post?.postLinkToImages?.length > 1 && (
           <S.ImagesWrapper2>

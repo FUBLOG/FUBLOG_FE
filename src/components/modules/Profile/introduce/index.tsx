@@ -35,7 +35,7 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography
+            <Typography  className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -57,7 +57,7 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography
+            <Typography  className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -77,7 +77,7 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography
+            <Typography  className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -91,11 +91,11 @@ function Introduce() {
         {profile?.info?.education !== "" ? (
           <S.InfoItem>
             <BookOutlined
-              style={{ color: "#fff", fontSize: "16px", marginRight: "8px" }}
+              style={{  fontSize: "16px", marginRight: "8px" , color: darkMode ? "white" : "#352F44"}}
             />
-            <Typography
+            <Typography  className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
-              color="#fff !important"
+              color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
             >
               {profile?.info?.education}

@@ -61,7 +61,7 @@ const Post = ({
   let hoverTimeout: NodeJS.Timeout;
   useEffect(() => {
     setListLike(newfeed?.post?.likes);
-    const liked = listLike.includes(userInfo?._id);
+    const liked = listLike?.includes(userInfo?._id);
     setLiked(liked);
   }, [newfeed, userInfo, listLike]);
 

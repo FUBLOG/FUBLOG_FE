@@ -100,8 +100,10 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   handleCancel,
 }) => {
   const darkMode = useThemeStore((state) => state.darkMode);
-  const { profile, setProfile } = useProfile();
+  const { profile, setProfile } = 
+  useProfile();
   const format = "YYYY-MM-DD";
+  const [form] = AntForm.useForm();
   const initialFormData: ProfileData = {
     displayName: profile?.user?.displayName || "",
     dateOfBirth: profile?.user?.dateOfBirth
@@ -131,8 +133,14 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
         avatar: profile.info?.avatar || "",
       };
       setFormData(updatedFormData);
+      form.setFieldsValue({
+        ...updatedFormData,
+        dateOfBirth: profile.user?.dateOfBirth
+          ? moment(profile.user.dateOfBirth)
+          : null,
+      });
     }
-  }, [profile]);
+  }, [profile, form]);
 
   
   const onFinish = async (values: any) => {
@@ -173,6 +181,10 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
           },
         }));
         setFormData(data);
+        form.setFieldsValue({
+          ...data,
+          dateOfBirth: data.dateOfBirth ? moment(data.dateOfBirth) : null,
+        });
         setLoading(false);
         handleCancel();
       })
@@ -211,7 +223,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
         {formData.avatar && (
           <S.UserAvatar src={formData.avatar} alt="User Avatar" />
         )}
-        <AntForm onFinish={onFinish}>
+        <AntForm form={form} onFinish={onFinish}>
           <S.GridContainer>
             <S.GridItem>
               <S.Label>
@@ -243,7 +255,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
               >
                 <CustomDatePicker
                   suffixIcon={<CalendarOutlined style={{ color: 'black', fontSize: '18px' }} />}
-                  style={{ background: "transparent", border: "1.5px solid #000", padding: "3px 6px",}}
+                  style={{ background: "transparent", border: "1.5px solid #000", padding: "3px 8px",width:"100%"}}
                   format={format}
                   value={
                     formData.dateOfBirth
@@ -265,7 +277,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
               </S.Label>
               <AntForm.Item
                 name="sex"
-                rules={[{ required: true, message: "Vui lòng chọn giới tính" }]}
+              
               >
                 <CustomSelect
                   name="sex"

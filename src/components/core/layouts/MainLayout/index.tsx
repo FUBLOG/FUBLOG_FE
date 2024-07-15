@@ -46,6 +46,7 @@ import { useRouter } from "next/navigation";
 import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
 import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
+import { set } from "lodash";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -58,12 +59,12 @@ function MainLayout({ children }: LayoutProps) {
   const [nav, setNav] = useState("home");
   const [valueSearch, setValueSearch] = useState("");
   const [bellVisible, setBellVisible] = useState(false);
-  const { logout, loading } = useAuth();
-  const { userInfo } = useAuthContext();
+  const { logout } = useAuth();
+  const { userInfo, loading } = useAuthContext();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
+  const { messageCount, notificationCount, friendRequestCount, setFriendRequestCount, setMessageCount, setNotificationCount } = useSidebarBadge();
   useGetMessageNotification();
   useGetFriendRequestNotification();
   useGetNotificationCount();
@@ -80,7 +81,13 @@ function MainLayout({ children }: LayoutProps) {
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
+  const reset = async () => {
+    setNotificationCount(0);
+    setFriendRequestCount(0);
+    setMessageCount(0);
+    await logout();
 
+  }
   const handleSetNavigation = (e: string) => {
     setNav(e);
     if (e !== "home" && e !== "search" && userInfo?._id === "") {
@@ -147,8 +154,8 @@ function MainLayout({ children }: LayoutProps) {
       <Menu.Item
         key="logout"
         className="custom-menu-item"
-        onClick={() => {
-          logout();
+        onClick={async () => {
+          await reset();
         }}
       >
         <button style={{ all: "unset", cursor: "pointer" }}>
@@ -159,133 +166,136 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
-    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"} >
-      <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <S.Header>
-        <S.GlobalStyle />
-        <S.Container>
-          <Image src={logo} alt="logo header" />
-          <S.IconContainer>
-            <Link href="/" onClick={() => handleSetNavigation("home")}>
-              {nav === "home" ? (
-                <HomeFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <HomeOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Link>
-            <Link href="#" onClick={() => handleSetNavigation("search")}>
-              {nav === "search" ? (
-                <FontAwesomeIcon
-                  style={{ fontSize: "22px" }}
-                  icon={faMagnifyingGlass}
-                />
-              ) : (
-                <SearchOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Link>
-            <Link href="#" onClick={() => handleSetNavigation("create")}>
-              {nav === "create" ? (
-                <EditFilled style={{ fontSize: "22px" }} />
-              ) : (
-                <EditOutlined style={{ fontSize: "22px" }} />
-              )}
-            </Link>
-            <Badge count={messageCount} style={{
-              margin: "0.1rem 1rem 0 0"
-            }}>
-              <Button type="text" onClick={() => handleSetNavigation("mess")}>
-                {nav === "mess" ? (
-                  <MessageFilled style={{ fontSize: "22px" }} />
+    <>
+      <Spin spinning={loading} fullscreen />
+      <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"} >
+        <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+        <S.Header>
+          <S.GlobalStyle />
+          <S.Container>
+            <Image src={logo} alt="logo header" />
+            <S.IconContainer>
+              <Button type="text" onClick={() => handleSetNavigation("home")} disabled={loading}>
+                {nav === "home" ? (
+                  <HomeFilled style={{ fontSize: "22px" }} />
                 ) : (
-                  <MessageOutlined style={{ fontSize: "22px" }} />
+                  <HomeOutlined style={{ fontSize: "22px" }} />
                 )}
               </Button>
-            </Badge>
-            <Badge count={friendRequestCount + notificationCount} >
-              <Link href="#" onClick={showBellModal}>
-                {nav === "bell" ? (
-                  <BellFilled style={{ fontSize: "22px" }} />
+              <Button type="text" disabled={loading} onClick={() => handleSetNavigation("search")}>
+                {nav === "search" ? (
+                  <FontAwesomeIcon
+                    style={{ fontSize: "22px" }}
+                    icon={faMagnifyingGlass}
+                  />
                 ) : (
-                  <BellOutlined style={{ fontSize: "22px" }} />
+                  <SearchOutlined style={{ fontSize: "22px" }} />
                 )}
-              </Link>
-            </Badge>
-            <div onClick={toggleDarkMode} style={{cursor: "pointer"}}>
-                {darkMode ? <MoonOutlined style={{ fontSize: "22px" }} /> 
-                          : <SunOutlined style={{ fontSize: "22px" }} />}
-            
-            </div>
-          </S.IconContainer>
-          {userInfo?._id === "" ? (
-            <Flex gap={15} style={{ marginRight: "20px" }}>
-              <Link href="/sign-in">
-                <Button type="default" $width="100px" disabled={loading}>
-                  Đăng nhập
+              </Button>
+              <Button type="text" disabled={loading} onClick={() => handleSetNavigation("create")}>
+                {nav === "create" ? (
+                  <EditFilled style={{ fontSize: "22px" }} />
+                ) : (
+                  <EditOutlined style={{ fontSize: "22px" }} />
+                )}
+              </Button>
+              <Badge count={messageCount} style={{
+                margin: "0.1rem 1rem 0 0"
+              }}>
+                <Button type="text" disabled={loading} onClick={() => handleSetNavigation("mess")}>
+                  {nav === "mess" ? (
+                    <MessageFilled style={{ fontSize: "22px" }} />
+                  ) : (
+                    <MessageOutlined style={{ fontSize: "22px" }} />
+                  )}
                 </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button
-                  color="red"
-                  type="primary"
-                  $width="100px"
-                  disabled={loading}
-                >
-                  Đăng ký
+              </Badge>
+              <Badge count={friendRequestCount + notificationCount} >
+                <Button type="text" disabled={loading} onClick={showBellModal}>
+                  {nav === "bell" ? (
+                    <BellFilled style={{ fontSize: "22px" }} />
+                  ) : (
+                    <BellOutlined style={{ fontSize: "22px" }} />
+                  )}
                 </Button>
-              </Link>
-            </Flex>
-          ) : (
-            <S.UserIconContainer>
-              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-                <UserOutlined
-                  style={{ fontSize: "28px" }}
-                  onClick={() => handleSetNavigation("")}
-                />
-              </Link>
+              </Badge>
+              <div onClick={toggleDarkMode} style={{ cursor: "pointer" }}>
+                {darkMode ? <MoonOutlined style={{ fontSize: "22px" }} />
+                  : <SunOutlined style={{ fontSize: "22px" }} />}
 
-              <Dropdown overlay={menuItems} trigger={["click"]}>
-                <CaretDownOutlined
-                  style={{
-                    fontSize: "18px",
-                    marginLeft: "0px",
-                    cursor: "pointer",
-                  }}
-                />
-              </Dropdown>
-            </S.UserIconContainer>
-          )}
-        </S.Container>
-      </S.Header>
-      <S.Body>{children}</S.Body>
+              </div>
+            </S.IconContainer>
+            {userInfo?._id === "" ? (
+              <Flex gap={15} style={{ marginRight: "20px" }}>
+                <Link href="/sign-in">
+                  <Button type="default" $width="100px" disabled={loading}>
+                    Đăng nhập
+                  </Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button
+                    color="red"
+                    type="primary"
+                    $width="100px"
+                    disabled={loading}
+                  >
+                    Đăng ký
+                  </Button>
+                </Link>
+              </Flex>
+            ) : (
+              <S.UserIconContainer>
+                <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+                  <UserOutlined
+                    style={{ fontSize: "28px" }}
+                    onClick={() => handleSetNavigation("")}
+                  />
+                </Link>
 
-      <NotificationModal visible={bellVisible} onClose={handleBellClose} />
-      <Chat visible={showMessageModal} onClose={handleCancel} />
-      <S.SearchModal
-        open={searchVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="searchModal"
-        footer={null}
-      >
-        <SearchContent
-          setValue={setValueSearch}
-          value={valueSearch}
-          list={list}
-          setList={setList}
-          setShowModalGuest={setShowModalGuest}
-          setSearchVisible={setSearchVisible}
-        />
-      </S.SearchModal>
-      <S.CreateModal
-        open={showCreate}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        destroyOnClose={true}
-        footer={false}
-      >
-        <CreateContent onSuccess={handleCreatePostSuccess} />
-      </S.CreateModal>
-    </S.LayoutWrapper>
+                <Dropdown overlay={menuItems} trigger={["click"]}>
+                  <CaretDownOutlined
+                    style={{
+                      fontSize: "18px",
+                      marginLeft: "0px",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Dropdown>
+              </S.UserIconContainer>
+            )}
+          </S.Container>
+        </S.Header>
+        <S.Body>{children}</S.Body>
+
+        <NotificationModal visible={bellVisible} onClose={handleBellClose} />
+        <Chat visible={showMessageModal} onClose={handleCancel} />
+        <S.SearchModal
+          open={searchVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          className="searchModal"
+          footer={null}
+        >
+          <SearchContent
+            setValue={setValueSearch}
+            value={valueSearch}
+            list={list}
+            setList={setList}
+            setShowModalGuest={setShowModalGuest}
+            setSearchVisible={setSearchVisible}
+          />
+        </S.SearchModal>
+        <S.CreateModal
+          open={showCreate}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          destroyOnClose={true}
+          footer={false}
+        >
+          <CreateContent onSuccess={handleCreatePostSuccess} />
+        </S.CreateModal>
+      </S.LayoutWrapper>
+    </>
   );
 }
 

@@ -52,7 +52,7 @@ const defaultUserInfo: UserInfo = {
 export const AuthContext = createContext<AuthContextProps>({
   userInfo: defaultUserInfo,
   setUserInfo: () => {},
-  loading: false,
+  loading: true,
   setLoading: () => {},
 });
 
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
@@ -73,9 +73,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(true);
       checkAuth().then((res) => {
         setUserInfo(res.metadata);
-        setLoading(false);
       });
     }
+    setLoading(false);
   }, []);
   const authContextValue = useMemo(
     () => ({

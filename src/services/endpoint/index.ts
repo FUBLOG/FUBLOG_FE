@@ -21,6 +21,8 @@ const messageEndpoint = {
 };
 const tagEndpoint = {
   GET_TAG: `/tag`,
+  SEARCH_BY_TAG_FOR_GUEST: `/tag/guest/`,
+  SEARCH_BY_TAG_FOR_USER: `/tag/user/`,
 };
 const postEndpoint = {
   GET_POSTS: `/post`,
@@ -65,6 +67,7 @@ const commentEndpoint = {
   DELETE_COMMENT: `/comment/deleteComment`,
   EDIT_COMMENT: `/comment/updateComments`,
 };
+
 //export endpoint
 export {
   profileEndpoint,

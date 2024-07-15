@@ -3,7 +3,6 @@ import useConversation from "./useConversation";
 import { useEffect, useState } from "react";
 import useSidebarBadge from "./useSidebarBadge";
 import useNotification from "./useNotification";
-import { log } from "console";
 const useListenMessage = () => {
   const { socket } = useSocketContext();
   const { messages, setMessages, selectedConversation } = useConversation();

@@ -6,33 +6,49 @@ import { getPostForGuest, getPostForUser } from "@/services/api/post";
 import useCreatePost from "@/hooks/useCreatePost";
 import { LoadingOutlined } from "@ant-design/icons";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import useTags from "@/hooks/useTags";
 const PostsRender = () => {
   const [listPosts, setListPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const { showSpinner, post, setPost } = useCreatePost();
+  const { activeTag } = useTags();
   const { userInfo } = useAuthContext();
   const getMore = async () => {
-    setLoading(true);
+    const lastPost = listPosts[listPosts.length - 1];
     if (userInfo?._id === "") {
-      await getPostForGuest().then((res: any) => {
+      await getPostForGuest(activeTag).then((res: any) => {
         setListPosts(listPosts.concat(res?.metadata));
       });
+      if (lastPost === listPosts[listPosts.length - 1]) {
+        setHasMore(false);
+      }
     } else {
-      await getPostForUser().then((res: any) => {
+      await getPostForUser(activeTag).then((res: any) => {
         setListPosts(listPosts.concat(res?.metadata));
+        if (lastPost === listPosts[listPosts.length - 1]) {
+          setHasMore(false);
+        }
       });
     }
+
   };
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
       if (userInfo?._id === "") {
-        await getPostForGuest().then((res: any) => {
+        await getPostForGuest(activeTag).then((res: any) => {
+          if(res?.metadata.length === 0) {
+            setHasMore(false);
+          }
           setListPosts(res?.metadata);
           setLoading(false);
         });
       } else {
-        await getPostForUser().then((res: any) => {
+        await getPostForUser(activeTag).then((res: any) => {
+          if(res?.metadata.length === 0) {
+            setHasMore(false);
+          }
           setListPosts(res?.metadata);
           setLoading(false);
         });
@@ -49,9 +65,9 @@ const PostsRender = () => {
       ]);
       setPost(null);
     }
-  }, [userInfo?._id, post]);
+  }, [userInfo?._id, post, activeTag]);
 
-  return  (
+  return (
     <>
       {showSpinner && (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -79,18 +95,18 @@ const PostsRender = () => {
         <InfiniteScroll
           dataLength={listPosts?.length} //This is important field to render the next data
           next={getMore}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
+          hasMore={hasMore}
+          loader={<Loading />}
           endMessage={
             <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
+              <b>Bạn đã xem hết bài viết</b>
             </p>
           }
-          // below props only if you need pull down functionality
-          
+        // below props only if you need pull down functionality
+
         >
           {listPosts?.map((post: any, index: number) => (
-            <Post key={post?._id} newfeed={post}/>
+            <Post key={post?._id} newfeed={post} />
           ))
           }
         </InfiniteScroll>

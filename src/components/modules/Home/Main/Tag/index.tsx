@@ -1,51 +1,43 @@
 import Button from "@/components/core/common/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "../styles";
 import useThemeStore from "@/hooks/useTheme";
+import useTags, { useGetAllTags } from "@/hooks/useTags";
 
 const TagRender = () => {
   const darkMode = useThemeStore((state) => state.darkMode);
-
-  const [activeTag, setActiveTag] = useState("Tất cả");
-  const tags = [
-    "Tất cả",
-    "Gia đình",
-    "Bạn bè",
-    "Học tập",
-    "Công việc",
-    "Tình cảm",
-    "Khác",
-  ];
+  const { activeTag, setActiveTag } = useTags();
+  const { tags } = useGetAllTags();
   return (
     <S.TagsContainer>
       {tags.map((tag: any, index: number) => (
         <Button
           $color={
             !darkMode
-              ? activeTag === tag
+              ? activeTag === tag?._id
                 ? "white"
                 : "black"
-              : activeTag === tag
-              ? "#060607"
-              : "#B8B3C6"
+              : activeTag === tag?._id
+                ? "#060607"
+                : "#B8B3C6"
           }
-          key={index}
+          key={tag?._id}
           type="default"
           $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#352F44"}
           $hoverColor={darkMode ? "#352F44" : "#FAF0E6"}
           $width={"84px"}
-          onClick={() => setActiveTag(tag)}
+          onClick={() => setActiveTag(tag?._id)}
           $backgroundColor={
             darkMode
-              ? activeTag === tag
+              ? activeTag === tag?._id
                 ? "#FAF0E6 "
                 : "transparent"
-              : activeTag === tag
-              ? "#352F44 "
-              : "transparent"
+              : activeTag === tag?._id
+                ? "#352F44 "
+                : "transparent"
           }
         >
-          {tag}
+          {tag?.postTagContent}
         </Button>
       ))}
     </S.TagsContainer>

@@ -274,11 +274,10 @@ const CommentModal = ({ close, open }: any) => {
         const res = await viewMoreComment(_id);
         const updatedComments = commentsArray.map((c: any) => {
           if (c._id === _id) {
-            return { ...c, viewMore: false };
+            return { ...res?.metadata, ...c, viewMore: false };
           }
           return c;
         });
-        console.log(updatedComments);
         setCommentsData(updatedComments);
       }
 

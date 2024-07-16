@@ -8,6 +8,7 @@ import {
   deleteComment,
   editCommentApi,
   getCommentPost,
+  viewMoreComment,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
@@ -269,13 +270,15 @@ const CommentModal = ({ close, open }: any) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
-      function viewMore(_id: any): void {
+      async function viewMore(_id: any): Promise<void> {
+        const res = await viewMoreComment(_id);
         const updatedComments = commentsArray.map((c: any) => {
           if (c._id === _id) {
             return { ...c, viewMore: false };
           }
           return c;
         });
+        console.log(updatedComments);
         setCommentsData(updatedComments);
       }
 
@@ -342,9 +345,7 @@ const CommentModal = ({ close, open }: any) => {
                 </S.CommentContent>
               </>
             ) : (
-              <S.CommentContent onClick={() => console.log("comment", comment)}>
-                {comment?.comment_content}
-              </S.CommentContent>
+              <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
             {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&

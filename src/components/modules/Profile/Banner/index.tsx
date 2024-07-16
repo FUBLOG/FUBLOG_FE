@@ -48,7 +48,11 @@ const Banner = ({ profileHash, setLoading }: any) => {
     document.body.style.overflow = 'auto'; 
   };
 
-  const { profileSearch } = useGetProfile(profileHash);
+  const { profileSearch, getUserInfo } = useGetProfile(profileHash);
+
+  const handleProfileUpdate = () => {
+    getUserInfo(profileHash); 
+  };
 
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
@@ -105,7 +109,11 @@ const Banner = ({ profileHash, setLoading }: any) => {
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <UpdateProfile visible={showUpdateProfile} handleCancel={handleCancel} />
+      <UpdateProfile 
+        visible={showUpdateProfile} 
+        handleCancel={handleCancel} 
+        onProfileUpdate={handleProfileUpdate} // Truyền callback
+      />
       <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>
         <S.BoxUser>

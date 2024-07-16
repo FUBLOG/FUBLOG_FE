@@ -50,26 +50,20 @@ const PostsRender = () => {
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
-      if (!webStorageClient.get(constants.IS_AUTH)) {
-        await getPostForGuest().then((res: any) => {
-          setListPosts(res?.metadata);
-          setLoading(false);
-        });
-      } else {
-        await getPostForUser().then((res: any) => {
-          setListPosts(res?.metadata);
-          setLoading(false);
-        });
-      }
+      const res = !webStorageClient.get(constants.IS_AUTH)
+        ? await getPostForGuest()
+        : await getPostForUser();
+      setListPosts(res?.metadata);
+      setLoading(false);
     };
     asyncGetPosts();
     if (post) {
-      setListPosts([
+      setListPosts((prevPosts: any) => [
         {
           ...post,
           userId: userInfo,
         },
-        ...listPosts,
+        ...prevPosts,
       ]);
       setPost(null);
     }
@@ -135,6 +129,18 @@ const PostsRender = () => {
               />
             ) : null
           )}
+          {listPosts?.map((post: any, index: number) =>
+            tagValue === "Tất Cả" || post?.post?.postTagID?.postTagContent === tagValue ? (
+              <Post
+                key={post?._id}
+                newfeed={post}
+                postId={postId}
+                paramComment={paramComment}
+                setShowCommentsModal={setShowCommentsModal}
+                setIsOpenByComment={setIsOpenByComment}
+              />
+            ) : null
+          )}
           {commentModal}
         </InfiniteScroll>
       </div>
@@ -145,5 +151,4 @@ const PostsRender = () => {
 const Loading = () => {
   return <Skeleton active round avatar title />;
 };
-
 export default PostsRender;

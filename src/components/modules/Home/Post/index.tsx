@@ -62,18 +62,22 @@ const Post = ({
   let hoverTimeout: NodeJS.Timeout;
   useEffect(() => {
     setListLike(newfeed?.post?.likes);
-    // const liked = listLike.includes(userInfo?._id);
-    setLiked(liked);    
+    const liked = listLike?.includes(userInfo?._id);
+    setLiked(liked);
   }, [newfeed, userInfo, listLike]);
 
   const togleLike = () => {
-    if (!liked) {
-      handleLike();
+    if (webStorageClient.get(constants.IS_AUTH)) {
+      if (!liked) {
+        handleLike();
+      } else {
+        handleUnLike();
+      }
+      setLiked(!liked);
+      setLikes(liked ? likes - 1 : likes + 1);
     } else {
-      handleUnLike();
+      message.warning("Vui lòng đăng nhập để bày tỏ cảm xúc.");
     }
-    setLiked(!liked);
-    setLikes(liked ? likes - 1 : likes + 1);
   };
 
   const handleCloseSuccessModal = () => {
@@ -82,7 +86,7 @@ const Post = ({
   const handleLike = () => {
     if (newfeed?.post?._id !== null) {
       const data = {
-        postID: newfeed.post._id,
+        postID: newfeed?.post?._id,
       };
       addLike(data)
         .then((res) => {
@@ -167,9 +171,9 @@ const Post = ({
           <Tooltip
             placement="top"
             title={previewInfor}
-            color={"#B9B4C7"}
             mouseEnterDelay={0.5}
             fresh
+            color="linear-gradient(90deg, rgba(227,153,237,1) 0%, rgba(162,173,228,1) 52%, rgba(222,158,227,1) 100%)"
           >
             <S.UserInfo
               onClick={handleClickProfile}
@@ -224,16 +228,16 @@ const Post = ({
         </S.ContentWrapper>
         {newfeed?.post?.postLinkToImages.length === 1 && (
           <>
-          <S.ImagesWrapper
-            className={`images-${newfeed?.post?.postLinkToImages?.length}`}
-          >
-            <img
-              src={newfeed?.post?.postLinkToImages[0]}
-              alt=""
-              className="post-image"
-              onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
-            />
-          </S.ImagesWrapper>
+            <S.ImagesWrapper
+              className={`images-${newfeed?.post?.postLinkToImages?.length}`}
+            >
+              <img
+                src={newfeed?.post?.postLinkToImages[0]}
+                alt=""
+                className="post-image"
+                onClick={() => onPreview(newfeed?.post?.postLinkToImages[0])}
+              />
+            </S.ImagesWrapper>
           </>
         )}
         {newfeed?.post?.postLinkToImages?.length > 1 && (

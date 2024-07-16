@@ -3,7 +3,6 @@ import useConversation from "./useConversation";
 import { useEffect, useState } from "react";
 import useSidebarBadge from "./useSidebarBadge";
 import useNotification from "./useNotification";
-import { log } from "console";
 const useListenMessage = () => {
   const { socket } = useSocketContext();
   const { messages, setMessages, selectedConversation } = useConversation();
@@ -67,19 +66,16 @@ const useListenNotification = () => {
   const { notificationCount, setNotificationCount } = useSidebarBadge();
   const { notifications } = useNotification();
   const checkIsExisted = async (newNotification: any) => {
-    for(let item of notifications as any[]) {
-      if(item._id === newNotification[0]._id) {
+    for (let item of notifications as any[]) {
+      if (item._id === newNotification[0]._id) {
         return true;
       }
     }
     return false;
-  }
+  };
   useEffect(() => {
-    socket?.on("notification", async(newConversation: any) => {
-      console.log(newConversation);
+    socket?.on("notification", async (newConversation: any) => {
       const isExisted = await checkIsExisted(newConversation);
-      console.log(isExisted);
-      
       if (!isExisted) {
         setNotificationCount(notificationCount + 1);
       }
@@ -91,7 +87,7 @@ const useListenNotification = () => {
     return () => {
       socket?.off("notification");
     };
-  }, [socket, notificationCount, setNotificationCount,notifications]);
+  }, [socket, notificationCount, setNotificationCount, notifications]);
 };
 
 const useListenFriendRequest = () => {

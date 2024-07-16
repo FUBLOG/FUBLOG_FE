@@ -8,6 +8,7 @@ import {
   deleteComment,
   editCommentApi,
   getCommentPost,
+  viewMoreComment,
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
@@ -231,16 +232,18 @@ const CommentModal = ({
     return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
-      function viewMore(_id: any): void {
+
+      const viewMore = async (_id: any) => {
+        const res = await viewMoreComment(_id);
         const updatedComments = commentsArray.map((c: any) => {
           if (c._id === _id) {
-            return { ...c, viewMore: false };
+            return { ...c, replies: res.metadata, viewMore: false };
           }
           return c;
         });
+        console.log(updatedComments);
         setCommentsData(updatedComments);
-      }
-
+      };
       return (
         <Fragment key={comment?._id}>
           <S.Comment

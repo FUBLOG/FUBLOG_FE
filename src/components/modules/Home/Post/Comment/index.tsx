@@ -36,6 +36,7 @@ const CommentModal = ({ close, open }: any) => {
   const postId = searchParams.get("ptId");
   const paramComment = searchParams.get("ctId");
   const [comments, setComments] = useState(0);
+  const [clickViewMore, setClickViewMore] = useState([]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -80,11 +81,20 @@ const CommentModal = ({ close, open }: any) => {
       }
     }
   };
+  const setClick = (commentsData: any) => {
+    const newClickViewMore = commentsData.map((m: any) => ({
+      id: m._id,
+      view: false,
+    }));
+    setClickViewMore(newClickViewMore);
+  };
+
   const asyncGetComments = async () => {
     setLoading(true);
 
     await getCommentPost(postId).then((res: any) => {
       setCommentsData(res?.metadata);
+      setClick(commentsData);
       setLoading(false);
       setTimeout(() => {
         if (paramComment !== null) {
@@ -107,6 +117,7 @@ const CommentModal = ({ close, open }: any) => {
     if (open) {
       asyncGetComments();
     }
+
     return () => {
       setCommentsData([]);
       setLoading(false);
@@ -270,24 +281,36 @@ const CommentModal = ({ close, open }: any) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
-      async function viewMore(_id: any): Promise<void> {
+
+      const viewMore = async (_id: any) => {
         const res = await viewMoreComment(_id);
         const updatedComments = commentsArray.map((c: any) => {
           if (c._id === _id) {
-            return { ...res?.metadata, ...c, viewMore: false };
+            return { ...c, replies: res.metadata, viewMore: false };
           }
           return c;
         });
         setCommentsData(updatedComments);
-      }
-
+        // setClickViewMore(true);
+      };
+      const viewLess = async (_id: any) => {
+        const res = await viewMoreComment(_id);
+        const updatedComments = commentsArray.map((c: any) => {
+          if (c._id === _id) {
+            return { ...c, replies: res.metadata, viewMore: false };
+          }
+          return c;
+        });
+        setCommentsData(updatedComments);
+        // setClickViewMore(false);
+      };
       return (
-        <Fragment key={comment._id}>
+        <Fragment key={comment?._id}>
           <S.Comment
             id={comment?._id}
             style={{
               marginLeft: `${depth * 40}px`,
-              border: editMode === comment._id ? "3px solid #5c5470" : "none",
+              border: editMode === comment?._id ? "3px solid #5c5470" : "none",
             }}
           >
             <S.CommentHeader>

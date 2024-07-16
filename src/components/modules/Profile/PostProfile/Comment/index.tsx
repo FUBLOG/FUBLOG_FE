@@ -15,6 +15,10 @@ import { getPostByPostId } from "@/services/api/post";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 
+interface ClickViewMore {
+  id: string;
+  view: boolean;
+}
 const CommentModal = ({
   postId,
   close,
@@ -36,6 +40,7 @@ const CommentModal = ({
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);
+  const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -54,12 +59,21 @@ const CommentModal = ({
         .catch((error) => {});
     }
   }, [postId]);
+  const setClick = (commentsData: any) => {
+    const newClickViewMore = commentsData.map((m: any) => ({
+      id: m._id,
+      view: false,
+    }));
+    setClickViewMore(newClickViewMore);
+  };
   const asyncGetComments = async () => {
     setLoading(true);
 
     await getCommentPost(postId).then((res: any) => {
       setCommentsData(res?.metadata);
       setLoading(false);
+      setClick(res?.metadata);
+
       setTimeout(() => {
         const commentElement = document.getElementById(
           `${res?.metadata?.at(0)?._id}`
@@ -241,9 +255,21 @@ const CommentModal = ({
           }
           return c;
         });
-        console.log(updatedComments);
+        const newClickViewMore = clickViewMore.map((m: any) => {
+          if (m.id === _id) {
+            return {
+              ...m,
+              view: true,
+            };
+          }
+          return m;
+        });
+        setClickViewMore(newClickViewMore);
         setCommentsData(updatedComments);
       };
+
+      const viewReply = clickViewMore?.find((m) => m.id === comment?._id);
+
       return (
         <Fragment key={comment?._id}>
           <S.Comment
@@ -298,9 +324,12 @@ const CommentModal = ({
             ) : childrenCount > 0 ? (
               <>
                 <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-                <S.CommentContent onClick={() => viewMore(comment._id)}>
-                  Xem thêm {childrenCount} bình luận
-                </S.CommentContent>
+
+                {viewReply?.view === false && childrenCount > 0 && (
+                  <S.CommentContent onClick={() => viewMore(comment._id)}>
+                    Xem thêm {childrenCount} bình luận
+                  </S.CommentContent>
+                )}
               </>
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>

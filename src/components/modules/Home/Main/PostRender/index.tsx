@@ -35,32 +35,45 @@ const PostsRender = () => {
 
   const getMore = async () => {
     setLoading(true);
-    const res = userInfo?._id === "" ? await getPostForGuest() : await getPostForUser();
-    setListPosts((prevPosts: any) => prevPosts.concat(res?.metadata));
+    if (userInfo?._id === "") {
+      await getPostForGuest().then((res: any) => {
+        setListPosts(listPosts.concat(res?.metadata));
+      });
+    } else {
+      await getPostForUser().then((res: any) => {
+        setListPosts(listPosts.concat(res?.metadata));
+      });
+    }
     setLoading(false);
   };
 
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
-      const res = !webStorageClient.get(constants.IS_AUTH)
-        ? await getPostForGuest()
-        : await getPostForUser();
-      setListPosts(res?.metadata);
-      setLoading(false);
+      if (!webStorageClient.get(constants.IS_AUTH)) {
+        await getPostForGuest().then((res: any) => {
+          setListPosts(res?.metadata);
+          setLoading(false);
+        });
+      } else {
+        await getPostForUser().then((res: any) => {
+          setListPosts(res?.metadata);
+          setLoading(false);
+        });
+      }
     };
     asyncGetPosts();
     if (post) {
-      setListPosts((prevPosts: any) => [
+      setListPosts([
         {
           ...post,
           userId: userInfo,
         },
-        ...prevPosts,
+        ...listPosts,
       ]);
       setPost(null);
     }
-  }, [userInfo?._id, post, tagValue]);
+  }, [userInfo?._id, post]);
 
   useEffect(() => {
     if (postId !== null) {

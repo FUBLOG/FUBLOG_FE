@@ -229,7 +229,6 @@ const CommentModal = ({
 
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
-      console.log("render comments", commentsArray);
       const childrenCount =
         (comment?.comment_right - comment?.comment_left - 1) / 2;
       function viewMore(_id: any): void {
@@ -295,19 +294,13 @@ const CommentModal = ({
               </>
             ) : childrenCount > 0 ? (
               <>
-                <S.CommentContent
-                  onClick={() => console.log("comment", comment)}
-                >
-                  {comment?.comment_content}
-                </S.CommentContent>
+                <S.CommentContent>{comment?.comment_content}</S.CommentContent>
                 <S.CommentContent onClick={() => viewMore(comment._id)}>
                   Xem thêm {childrenCount} bình luận
                 </S.CommentContent>
               </>
             ) : (
-              <S.CommentContent onClick={() => console.log("comment", comment)}>
-                {comment?.comment_content}
-              </S.CommentContent>
+              <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
             {webStorageClient.get(constants.IS_AUTH) &&
               !showReportModal &&

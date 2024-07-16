@@ -49,7 +49,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);
-      console.log("profileSearch", data?.metadata);
 
       const initialLikes = data?.metadata.reduce((acc: any, post: any) => {
         acc[post._id] = post.likes.includes(userInfo?._id);
@@ -96,14 +95,18 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   };
 
   const handleLikeClick = (postId: string) => {
-    setListIsLike((prevLikes) => ({
-      ...prevLikes,
-      [postId]: !prevLikes[postId],
-    }));
-    if (!listIsLike[postId]) {
-      handleLike(postId);
+    if (webStorageClient.get(constants.IS_AUTH)) {
+      setListIsLike((prevLikes) => ({
+        ...prevLikes,
+        [postId]: !prevLikes[postId],
+      }));
+      if (!listIsLike[postId]) {
+        handleLike(postId);
+      } else {
+        handleUnLike(postId);
+      }
     } else {
-      handleUnLike(postId);
+      message.warning("Vui lòng đăng nhập để bày tỏ cảm xúc.");
     }
   };
   const handleLike = (postId: string) => {

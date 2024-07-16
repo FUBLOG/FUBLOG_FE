@@ -23,8 +23,6 @@ const TagRender = () => {
 
   const handleClickTag = (tag: string) => {
     setTagValue(tag);
-    console.log(activeTags);
-    
   };
 
   return (

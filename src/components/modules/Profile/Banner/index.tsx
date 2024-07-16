@@ -112,7 +112,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       <UpdateProfile 
         visible={showUpdateProfile} 
         handleCancel={handleCancel} 
-        onProfileUpdate={handleProfileUpdate} // Truyền callback
+        onProfileUpdate={handleProfileUpdate} 
       />
       <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>

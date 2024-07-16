@@ -49,3 +49,12 @@ export const editCommentApi = async (commentId: string, content: string) => {
     security: true,
   });
 };
+
+export const viewMoreComment = async (postId: any) => {
+  return await getRequest(`${commentEndpoint.GET_VIEW_MORE_COMMENT}`, {
+    params: {
+      parent_CommentID: postId,
+    },
+    security: true,
+  });
+};

@@ -2,7 +2,6 @@
 import useFriend from "@/hooks/useFriend";
 import { useEffect, useState } from "react";
 import Banner from "../Banner";
-import Introduce from "../Introduce";
 
 import PostProfile from "../PostProfile";
 import { Spin } from "antd";
@@ -11,6 +10,7 @@ import ListFriend from "../ListFriend";
 import { useSearchParams } from "next/navigation";
 import { useGetProfile } from "@/hooks/useProfile";
 import useThemeStore from "@/hooks/useTheme";
+import Introduce from "../introduce";
 
 const Profile = () => {
   const searchParams = useSearchParams();

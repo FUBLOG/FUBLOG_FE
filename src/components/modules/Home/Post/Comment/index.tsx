@@ -335,11 +335,7 @@ const CommentModal = ({ close, open }: any) => {
               </>
             ) : childrenCount > 0 ? (
               <>
-                <S.CommentContent
-                  onClick={() => console.log("comment", comment)}
-                >
-                  {comment?.comment_content}
-                </S.CommentContent>
+                <S.CommentContent>{comment?.comment_content}</S.CommentContent>
                 <S.CommentContent onClick={() => viewMore(comment._id)}>
                   Xem thêm {childrenCount} bình luận
                 </S.CommentContent>

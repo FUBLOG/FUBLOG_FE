@@ -11,7 +11,7 @@ import {
   BookOutlined,
   UserOutlined,
   FileTextOutlined,
-} from "@ant-design/icons"
+} from "@ant-design/icons";
 
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
@@ -50,7 +50,7 @@ const CustomSelect = styled.select`
   }
 
   option {
-    background:#FAF0E6;
+    background: #FAF0E6;
     color: #000;
     padding: 10px 15px;
     font-size: 16px;
@@ -93,15 +93,16 @@ interface ProfileData {
 interface UpdateProfileProps {
   visible: boolean;
   handleCancel: () => void;
+  onProfileUpdate: (updatedProfile: any) => void; // Thêm callback để cập nhật profile
 }
 
 const UpdateProfile: React.FC<UpdateProfileProps> = ({
   visible,
   handleCancel,
+  onProfileUpdate, // Nhận callback
 }) => {
   const darkMode = useThemeStore((state) => state.darkMode);
-  const { profile, setProfile } = 
-  useProfile();
+  const { profile, setProfile } = useProfile();
   const format = "YYYY-MM-DD";
   const [form] = AntForm.useForm();
   const initialFormData: ProfileData = {
@@ -142,7 +143,6 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     }
   }, [profile, form]);
 
-  
   const onFinish = async (values: any) => {
     const data = {
       displayName: values.displayName,
@@ -164,22 +164,24 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     })
       .then(() => {
         message.success("Cập nhật hồ sơ thành công");
-        setProfile((prevProfile: any) => ({
-          ...prevProfile,
+        const updatedProfile = {
+          ...profile,
           user: {
-            ...prevProfile.user,
+            ...profile.user,
             displayName: data.displayName,
             dateOfBirth: data.dateOfBirth,
             sex: data.sex,
           },
           info: {
-            ...prevProfile.info,
+            ...profile.info,
             relationship: data.relationship,
             bio: data.bio,
             education: data.education,
             avatar: data.avatar,
           },
-        }));
+        };
+        setProfile(updatedProfile);
+        onProfileUpdate(updatedProfile); // Gọi callback để cập nhật profile
         setFormData(data);
         form.setFieldsValue({
           ...data,
@@ -214,7 +216,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
       footer={null}
       centered
     >
-      <S.ModalContent  className={darkMode ? "theme-dark" : "theme-light"}>
+      <S.ModalContent className={darkMode ? "theme-dark" : "theme-light"}>
         <S.TitleContainer className={darkMode ? "theme-dark" : "theme-light"}>
           <S.CenteredTitle variant="h5" fontSize="24px">
             Chỉnh sửa thông tin cá nhân
@@ -232,13 +234,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Tên người dùng
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="displayName"
-                rules={[{ required: true, message: "Vui lòng nhập tên người dùng" }]}
-              >
-                <CustomInput
-                  placeholder="Tên người dùng"
-                />
+              <AntForm.Item name="displayName">
+                <CustomInput placeholder="Tên người dùng" />
               </AntForm.Item>
             </S.GridItem>
 
@@ -249,13 +246,19 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Ngày tháng năm sinh
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="dateOfBirth"
-                rules={[{ required: true, message: "Vui lòng nhập ngày tháng năm sinh" }]}
-              >
+              <AntForm.Item name="dateOfBirth">
                 <CustomDatePicker
-                  suffixIcon={<CalendarOutlined style={{ color: 'black', fontSize: '18px' }} />}
-                  style={{ background: "transparent", border: "1.5px solid #000", padding: "3px 8px",width:"100%"}}
+                  suffixIcon={
+                    <CalendarOutlined
+                      style={{ color: "black", fontSize: "18px" }}
+                    />
+                  }
+                  style={{
+                    background: "transparent",
+                    border: "1.5px solid #000",
+                    padding: "3px 8px",
+                    width: "100%",
+                  }}
                   format={format}
                   value={
                     formData.dateOfBirth
@@ -275,10 +278,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Giới tính
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="sex"
-              
-              >
+              <AntForm.Item name="sex">
                 <CustomSelect
                   name="sex"
                   value={formData.sex}
@@ -298,10 +298,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Tình trạng hôn nhân
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="relationship"
-                // rules={[{  message: "Vui lòng chọn tình trạng hôn nhân" }]}
-              >
+              <AntForm.Item name="relationship">
                 <CustomSelect
                   name="relationship"
                   value={formData.relationship}
@@ -323,10 +320,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Giáo dục
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="education"
-                // rules={[{ message: "Vui lòng nhập giáo dục" }]}
-              >
+              <AntForm.Item name="education">
                 <CustomInput
                   placeholder="Giáo dục"
                   name="education"
@@ -343,10 +337,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Tiểu sử
                 </Typography>
               </S.Label>
-              <AntForm.Item
-                name="bio"
-                
-              >
+              <AntForm.Item name="bio">
                 <CustomTextArea
                   placeholder="Tiểu sử"
                   name="bio"
@@ -358,11 +349,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
           </S.GridContainer>
 
           <S.ButtonContainer>
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{ width: "100%" }}
-            >
+            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
               <Typography
                 variant="body-text-small-bold"
                 fontSize="18px"

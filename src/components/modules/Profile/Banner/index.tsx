@@ -51,7 +51,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
   const { profileSearch, getUserInfo } = useGetProfile(profileHash);
 
   const handleProfileUpdate = () => {
-    getUserInfo(profileHash); 
+    getUserInfo(profileHash); // Gọi lại API để lấy thông tin mới nhất
   };
 
   const handleDisplayButton = () => {
@@ -112,7 +112,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       <UpdateProfile 
         visible={showUpdateProfile} 
         handleCancel={handleCancel} 
-        onProfileUpdate={handleProfileUpdate} 
+        onProfileUpdate={handleProfileUpdate} // Truyền callback
       />
       <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>

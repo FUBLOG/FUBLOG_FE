@@ -93,13 +93,13 @@ interface ProfileData {
 interface UpdateProfileProps {
   visible: boolean;
   handleCancel: () => void;
-  onProfileUpdate: (updatedProfile: any) => void; // Thêm callback để cập nhật profile
+  onProfileUpdate: (updatedProfile: any) => void;
 }
 
 const UpdateProfile: React.FC<UpdateProfileProps> = ({
   visible,
   handleCancel,
-  onProfileUpdate, // Nhận callback
+  onProfileUpdate,
 }) => {
   const darkMode = useThemeStore((state) => state.darkMode);
   const { profile, setProfile } = useProfile();
@@ -124,9 +124,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     if (profile) {
       const updatedFormData: ProfileData = {
         displayName: profile.user?.displayName || "",
-        dateOfBirth: profile.user?.dateOfBirth
-          ? moment(profile.user.dateOfBirth).format(format)
-          : "",
+        dateOfBirth: profile.user?.dateOfBirth,
         sex: profile.user?.sex || "",
         relationship: profile.info?.relationship || "single",
         bio: profile.info?.bio || "",
@@ -146,9 +144,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   const onFinish = async (values: any) => {
     const data = {
       displayName: values.displayName,
-      dateOfBirth: values.dateOfBirth
-        ? moment(values.dateOfBirth).format(format)
-        : "",
+      dateOfBirth: values.dateOfBirth,
       sex: values.sex,
       relationship: values.relationship,
       bio: values.bio,
@@ -181,7 +177,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
           },
         };
         setProfile(updatedProfile);
-        onProfileUpdate(updatedProfile); // Gọi callback để cập nhật profile
+        onProfileUpdate(updatedProfile);
         setFormData(data);
         form.setFieldsValue({
           ...data,
@@ -202,11 +198,23 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    form.setFieldsValue({ [name]: value });
   };
 
-  const handleDateChange = (date: moment.Moment | null, dateString: string) => {
-    setFormData({ ...formData, dateOfBirth: dateString });
+  const handleDateChange = (dateString: string | string[]) => {
+    if (typeof dateString === "string") {
+      setFormData({ ...formData, dateOfBirth: dateString });
+      form.setFieldsValue({ dateOfBirth: dateString });
+    }
   };
+
+  const validateAge = (_: any, value: moment.Moment | null) => {
+    if (value && moment().year() - value.year() < 16) {
+      return Promise.reject(new Error('Tuổi phải lớn hơn hoặc bằng 16'));
+    }
+    return Promise.resolve();
+  };
+  
 
   return (
     <S.CustomModal
@@ -235,7 +243,11 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                 </Typography>
               </S.Label>
               <AntForm.Item name="displayName">
-                <CustomInput placeholder="Tên người dùng" />
+                <CustomInput
+                  placeholder="Tên người dùng"
+                  value={formData.displayName}
+                  onChange={handleChange}
+                />
               </AntForm.Item>
             </S.GridItem>
 
@@ -246,7 +258,10 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   Ngày tháng năm sinh
                 </Typography>
               </S.Label>
-              <AntForm.Item name="dateOfBirth">
+              <AntForm.Item
+                name="dateOfBirth"
+                rules={[{ validator: validateAge }]}
+              >
                 <CustomDatePicker
                   suffixIcon={
                     <CalendarOutlined
@@ -260,11 +275,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                     width: "100%",
                   }}
                   format={format}
-                  value={
-                    formData.dateOfBirth
-                      ? moment(formData.dateOfBirth, format)
-                      : null
-                  }
+                  value={profile?.user?.dateOfBirth}
                   onChange={handleDateChange as any}
                   placeholder="Ngày tháng năm sinh"
                 />

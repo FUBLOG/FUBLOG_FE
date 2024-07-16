@@ -15,13 +15,16 @@ const userEndpoint = {
   GET_CONVERSATION: `/conversation/`,
   CHANGE_PASSWORD: `/access/changePassword`,
 };
+
 const messageEndpoint = {
   GET_MESSAGE: `/message/`,
   SEND_MESSAGE: `/message/send/`,
 };
+
 const tagEndpoint = {
   GET_TAG: `/tag`,
 };
+
 const postEndpoint = {
   GET_POSTS: `/post`,
   POST_POST: `/post`,
@@ -33,11 +36,13 @@ const postEndpoint = {
   ADD_LIKE: `/post/like`,
   UN_LIKE: `/post/unlike`,
 };
+
 const editProfileEndpoint = {
   PROVINCE: `${prefixBase}/province`,
   DISTRICT: `${prefixBase}/province/district`,
   WARD: `${prefixBase}/province/ward`,
 };
+
 const friendEndpoint = {
   GET_REQUESTS: `/friend/request`,
   ADD_FRIEND: `/friend/send`,
@@ -52,23 +57,28 @@ const friendEndpoint = {
   UNSENT_REQUEST: `/friend/request`,
   GET_FRIEND_ID: `/friend/profile/`,
 };
+
 const notificationEndpoint = {
   GET_NOTIFICATIONS: `/notification`,
   MARK_AS_READ: `/notification/`,
   MARK_ALL_AS_READ: `/notification/`,
 };
+
 const search = {
   SEARCH_FRIEND: `/search/user`,
 };
+
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
   CHANGE_PROFILE:`/profile`
 };
+
 const commentEndpoint = {
   GET_POST_COMMENTS: `/comment/getCommentPost`,
   POST_COMMENT: `/comment/addComment`,
   DELETE_COMMENT: `/comment/deleteComment`,
   EDIT_COMMENT: `/comment/updateComments`,
+  GET_VIEW_MORE_COMMENT: `/comment/getComments`,
 };
 //export endpoint
 export {

@@ -86,7 +86,7 @@ const Post = ({
   const handleLike = () => {
     if (newfeed?.post?._id !== null) {
       const data = {
-        postID: newfeed.post._id,
+        postID: newfeed?.post?._id,
       };
       addLike(data)
         .then((res) => {

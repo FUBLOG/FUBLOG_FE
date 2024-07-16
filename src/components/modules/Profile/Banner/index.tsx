@@ -12,6 +12,8 @@ import {
 } from "@/services/api/friend";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
+import NotFound from "../../NotFound/main";
+import UpdateProfile from "../Update";
 import useThemeStore from "@/hooks/useTheme";
 
 const Banner = ({ profileHash, setLoading }: any) => {
@@ -38,18 +40,29 @@ const Banner = ({ profileHash, setLoading }: any) => {
     DefaultButton,
   } = ButtonFriend();
   const [showModalGuest, setShowModalGuest] = useState(false);
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+
   const handleCancel = () => {
     setShowModalGuest(false);
+    setShowUpdateProfile(false);
+    document.body.style.overflow = 'auto'; 
   };
-  const { profileSearch } = useGetProfile(profileHash);
+
+  const { profileSearch, getUserInfo } = useGetProfile(profileHash);
+
+  const handleProfileUpdate = () => {
+    getUserInfo(profileHash); // Gọi lại API để lấy thông tin mới nhất
+  };
+
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser />;
+    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
     if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
     return <DefaultButton handleFriend={handleFriend} />;
   };
+
   useEffect(() => {
     setLoading(true);
     const updateInfor = async () => {
@@ -96,6 +109,11 @@ const Banner = ({ profileHash, setLoading }: any) => {
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <UpdateProfile 
+        visible={showUpdateProfile} 
+        handleCancel={handleCancel} 
+        onProfileUpdate={handleProfileUpdate} // Truyền callback
+      />
       <S.CoverImage src={profileSearch?.info?.cover_photo} />
       <S.BannerUser>
         <S.BoxUser>
@@ -123,7 +141,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       </S.BannerUser>
     </S.Wrapper>
   ) : (
-    loading && <S.Wrapper>404</S.Wrapper>
+    loading && <S.Wrapper> <NotFound /></S.Wrapper>
   );
 };
 

@@ -70,6 +70,7 @@ const search = {
 
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
+  CHANGE_PROFILE:`/profile`
 };
 
 const commentEndpoint = {

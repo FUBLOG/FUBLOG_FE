@@ -30,9 +30,6 @@ import NotificationModal from "@/components/modules/NotificationModal";
 
 import * as S from "./styles";
 
-interface LayoutProps {
-  readonly children: ReactNode;
-}
 import Chat from "@/components/modules/Chat";
 import { useAuth } from "@/hooks/useAuthStatus";
 import { useAuthContext } from "@/contexts/AuthContext";

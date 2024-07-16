@@ -52,4 +52,5 @@ export const FriendImageContainer = styled.div`
 export const FriendName = styled(Typography)`
   font-weight: normal;
   font-size: 14px;
+  padding: 10px;
 `;

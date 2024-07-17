@@ -23,7 +23,7 @@ const Intro = () => {
           }}
         />
       </S.ImageWrapper>
-      <Carousel autoplay effect="fade">
+      <Carousel autoplay fade dots={false}>
         <S.ContentStyle>
           <S.ImageSliderWrapper>
             <Image

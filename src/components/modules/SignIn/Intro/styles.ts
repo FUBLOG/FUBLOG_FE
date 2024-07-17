@@ -24,7 +24,7 @@ export const ContentStyle = styled.div`
 
 export const ImageWrapper = styled.div`
   width: 250px;
-  height: 400px;
+  height: 445px;
   border: 3px solid #c0c0c0;
   border-radius: 20px;
   .post-image {

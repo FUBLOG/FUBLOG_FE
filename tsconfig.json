@@ -28,7 +28,10 @@
       "@/public/*": [
         "./public/*"
       ]
-    }
+    },
+    "downlevelIteration": true,
+    
+    
   },
   "include": [
     "next-env.d.ts",

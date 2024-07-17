@@ -13,14 +13,12 @@ const Intro = () => {
     <S.HomeWrapper>
       <S.ImageWrapper>
         <Image
+          className="post-image"
           src={main}
           alt="Screenshot 1"
           height={450}
           width={250}
           objectFit="cover"
-          style={{
-            borderRadius: "20px",
-          }}
         />
       </S.ImageWrapper>
       <Carousel autoplay fade dots={false}>

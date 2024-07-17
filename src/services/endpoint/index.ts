@@ -70,7 +70,9 @@ const search = {
 
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
-  CHANGE_PROFILE:`/profile`
+  CHANGE_PROFILE:`/profile`,
+  CHANGE_COVER : '/profile/coverPhoto',
+  CHANGE_AVATAR :'/profile/avatar',
 };
 
 const commentEndpoint = {

@@ -14,6 +14,7 @@ import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
 import NotFound from "../../NotFound/main";
 import UpdateProfile from "../Update";
+import UpdateProfileImages from "./UpdateProfileImages";
 import useThemeStore from "@/hooks/useTheme";
 
 const Banner = ({ profileHash, setLoading }: any) => {
@@ -41,17 +42,20 @@ const Banner = ({ profileHash, setLoading }: any) => {
   } = ButtonFriend();
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+  const [showUpdateImage, setShowUpdateImage] = useState(false);
+  const [imageType, setImageType] = useState(""); 
 
   const handleCancel = () => {
     setShowModalGuest(false);
     setShowUpdateProfile(false);
+    setShowUpdateImage(false);
     document.body.style.overflow = 'auto'; 
   };
 
   const { profileSearch, getUserInfo } = useGetProfile(profileHash);
 
   const handleProfileUpdate = () => {
-    getUserInfo(profileHash); // Gọi lại API để lấy thông tin mới nhất
+    getUserInfo(profileHash); 
   };
 
   const handleDisplayButton = () => {
@@ -61,6 +65,12 @@ const Banner = ({ profileHash, setLoading }: any) => {
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
     if (isGuest) return <GuestButton setShowModalGuest={setShowModalGuest} />;
     return <DefaultButton handleFriend={handleFriend} />;
+  };
+
+  const handleImageClick = (type: string) => {
+    setImageType(type);
+    setShowUpdateImage(true);
+    document.body.style.overflow = 'hidden';
   };
 
   useEffect(() => {
@@ -112,12 +122,18 @@ const Banner = ({ profileHash, setLoading }: any) => {
       <UpdateProfile 
         visible={showUpdateProfile} 
         handleCancel={handleCancel} 
-        onProfileUpdate={handleProfileUpdate} // Truyền callback
+        onProfileUpdate={handleProfileUpdate} 
       />
-      <S.CoverImage src={profileSearch?.info?.cover_photo} />
+      <UpdateProfileImages 
+        visible={showUpdateImage}
+        handleCancel={handleCancel}
+        imageType={imageType}
+        onProfileUpdate={handleProfileUpdate}
+      />
+      <S.CoverImage src={profileSearch?.info?.cover_photo} onClick={() => handleImageClick("cover")} />
       <S.BannerUser>
         <S.BoxUser>
-          <S.Avatar>
+          <S.Avatar onClick={() => handleImageClick("avatar")}>
             <S.UserAvatar src={profileSearch?.info?.avatar} />
           </S.Avatar>
           <S.Typography>
@@ -144,5 +160,6 @@ const Banner = ({ profileHash, setLoading }: any) => {
     loading && <S.Wrapper> <NotFound /></S.Wrapper>
   );
 };
+
 
 export default Banner;

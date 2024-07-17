@@ -2,7 +2,7 @@
 
 import React from "react";
 import Typography from "@/components/core/common/Typography";
-import * as S from "@/components/modules/Profile/introduce/styles"
+import * as S from "@/components/modules/Profile/Introduce/styles";
 import { useProfile } from "@/hooks/useProfile";
 import moment from "moment";
 import {
@@ -53,7 +53,8 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography className={darkMode ? "theme-dark" : "theme-light"}
+            <Typography
+              className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -73,7 +74,8 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography className={darkMode ? "theme-dark" : "theme-light"}
+            <Typography
+              className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -93,7 +95,8 @@ function Introduce() {
                 marginRight: "8px",
               }}
             />
-            <Typography className={darkMode ? "theme-dark" : "theme-light"}
+            <Typography
+              className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
@@ -107,9 +110,14 @@ function Introduce() {
         {profile?.info?.education !== "" ? (
           <S.InfoItem>
             <BookOutlined
-              style={{ fontSize: "16px", marginRight: "8px", color: darkMode ? "white" : "#352F44" }}
+              style={{
+                fontSize: "16px",
+                marginRight: "8px",
+                color: darkMode ? "white" : "#352F44",
+              }}
             />
-            <Typography className={darkMode ? "theme-dark" : "theme-light"}
+            <Typography
+              className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"

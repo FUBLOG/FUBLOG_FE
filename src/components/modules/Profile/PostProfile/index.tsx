@@ -19,7 +19,7 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, getPostById, unLike } from "@/services/api/post";
+import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
 
@@ -44,6 +44,9 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const postId = searchParams.get("pptId");
   const [comments, setComments] = useState(0);
+  const [editPost, setEditPost] = useState(false);
+  const [showEnsure, setShowEnsure] = useState(false);
+
 
   const fetchPosts = useCallback(async () => {
     if (profileSearch?.user?._id !== undefined) {
@@ -73,7 +76,21 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [postId]);
 
   const router = useRouter();
-
+  const handleUpdate = () => {
+    setEditPost(true);
+  };
+  const handleDelete = () => {
+    setShowEnsure(true);
+  };
+  const handleOkDelete = async (newfeed: any) => {
+    try {
+      await deletePost(newfeed?._id);
+    } catch (error) {
+      console.log(message.error("Xóa bài viết thất bại"));
+    }
+    setShowEnsure(false);
+    setEditMyPost(false);
+  };
   const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       setSelectedPost(newfeed);
@@ -323,7 +340,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
               ))}
             </Radio.Group>
           </S.CustomModal>
-
+          <S.CustomModal
+          title={"Bạn Có Muốn Xóa Bài Viết ?"}
+          open={showEnsure}
+          onCancel={() => setShowEnsure(false)}
+          cancelText={"Hủy"}
+          okText={"Tiếp tục"}
+          onOk={() => {handleOkDelete(newfeed)}}
+        >
+          Bài viết này sẽ xóa vĩnh viễn{" "}
+        </S.CustomModal>
           <S.CustomModal
             title={"Quản lý bài viết"}
             open={showEditMyPost}
@@ -335,15 +361,13 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
             }}
           >
             <Radio.Group
-              onChange={(e) => setReportReason(e.target.value)}
-              value={reportReason}
               style={{
                 display: "flex",
                 flexDirection: "column",
               }}
             >
               {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
-                <Button key={index}>
+                <Button key={index} onClick={index === 0 ? handleUpdate : handleDelete}>
                   {index === 0 ? <EditFilled /> : <DeleteOutlined />}
                   {reason}
                 </Button>

@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
 interface PostUpdateProps {
-  showSpinner: boolean;
-  setShowSpinner: (showSpinner: boolean) => void;
+  showSpinnerUpdate: boolean;
+  setShowSpinnerUpdate: (showSpinnerUpdate: boolean) => void;
   post: any;
   setPost: (post: any) => void;
 }
 
 const useUpdatePost = create<PostUpdateProps>((set) => ({
-  showSpinner: false,
-  setShowSpinner: (showSpinner) => set({ showSpinner }),
+  showSpinnerUpdate: false,
+  setShowSpinnerUpdate: (showSpinnerUpdate) => set({ showSpinnerUpdate }),
   post: null,
   setPost: (post) => set({ post }),
 }));

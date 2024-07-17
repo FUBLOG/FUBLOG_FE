@@ -6,13 +6,12 @@ export const HomeWrapper = styled.div`
   position: relative;
   .ant-carousel {
     position: relative;
-    bottom: 520px;
+    bottom: 500px;
     left: 150px;
   }
   .ant-carousel .slick-slide {
     position: relative;
     text-align: center;
-    line-height: 450px;
     overflow: hidden;
   }
 `;

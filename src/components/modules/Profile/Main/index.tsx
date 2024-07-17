@@ -10,7 +10,7 @@ import ListFriend from "../ListFriend";
 import { useSearchParams } from "next/navigation";
 import { useGetProfile } from "@/hooks/useProfile";
 import useThemeStore from "@/hooks/useTheme";
-import Introduce from "../introduce";
+import Introduce from "../Introduce";
 
 const Profile = () => {
   const searchParams = useSearchParams();

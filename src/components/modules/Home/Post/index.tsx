@@ -1,8 +1,6 @@
 import React, {
-  TouchEvent,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { message, Radio, Carousel, Modal, Button, Tooltip } from "antd";
@@ -20,15 +18,14 @@ import {
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
-import CommentModal from "./Comment";
 
 import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
-import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, unLike } from "@/services/api/post";
+import { useRouter } from "next/navigation";
+import { addLike, deletePost, unLike } from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
-import useTagStageStore from "@/hooks/useTags";
+import { PostContent } from "../../UpdatePost/content";
 
 interface PostProps {
   newfeed: any;
@@ -43,6 +40,14 @@ const Post = ({
   setShowCommentsModal,
   setIsOpenByComment,
 }: PostProps) => {
+  const [showCreate, setShowCreate] = useState(false);
+const handleCreatePostSuccess = () => {
+  setShowCreate(false);
+};
+
+const handleCancel = () => {
+  setEditPost(false);
+};
   const darkMode = useThemeStore((state) => state.darkMode);
   const { userInfo } = useAuthContext();
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
@@ -50,13 +55,14 @@ const Post = ({
   const [listLike, setListLike] = useState(newfeed?.post?.likes);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showEditMyPost, setEditMyPost] = useState(false);
-  const [editPost, setEditPost] = useState();
+  const [editPost, setEditPost] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [reportReason, setReportReason] = useState<string | null>(null);
   const [isPostReport, setIsPostReport] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [openPreviewInfo, setOpenPreviewInfo] = useState(false);
+  const [showEnsure, setShowEnsure] = useState(false);
 
   const router = useRouter();
   let hoverTimeout: NodeJS.Timeout;
@@ -159,6 +165,22 @@ const Post = ({
       </S.PreviewInfo>
     );
   };
+  const handleUpdate = () => {
+    setEditPost(true);
+  };
+  const handleDelete = () => {
+    setShowEnsure(true);
+  };
+  const handleOkDelete = async() => {
+    try {
+      await 
+      deletePost(newfeed?.post?._id);
+    } catch (error) {
+      console.log(message.error("Xóa bài viết thất bại"));
+    }
+    setShowEnsure(false);
+    setEditMyPost(false);
+  }
 
   function handleClickProfile(): void {
     router.push(`/profile?pId=${newfeed?.userId?.profileHash}`);
@@ -204,15 +226,17 @@ const Post = ({
               }}
             />
           ) : (
-            <EllipsisOutlined
-              style={{
-                color: darkMode ? "#B9B4C7" : "#352F44",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setEditMyPost(true);
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <EllipsisOutlined
+                style={{
+                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setEditMyPost(true);
+                }}
+              />
+            </div>
           )}
         </S.PostHeader>
 
@@ -358,6 +382,15 @@ const Post = ({
         </Typography>
       </S.CustomModal>
       {/* Modal của preview ảnh */}
+      <S.CustomModal
+        title={"Bạn Có Muốn Xóa Bài Viết ?"}
+        open={showEnsure}
+        onCancel={() => setShowEnsure(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={handleOkDelete}
+
+      >Bài viết này sẽ xóa vĩnh viễn </S.CustomModal>
 
       <S.CustomModal
         title={"Quản lý bài viết"}
@@ -378,8 +411,12 @@ const Post = ({
             flexDirection: "column",
           }}
         >
-          {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
-            <Button>
+          {[`Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
+            <Button
+              onClick={
+                index === 0 ? handleUpdate : handleDelete
+              }
+            >
               {index === 0 ? <EditFilled /> : <DeleteOutlined />}
               {reason}
             </Button>
@@ -404,6 +441,21 @@ const Post = ({
           </div>
         </S.ImageModal>
       </div>
+      <S.CreateModal
+        open={editPost}
+        onCancel={handleCancel}
+        destroyOnClose={true}
+        footer={false}
+      >
+        <PostContent
+         postId={newfeed?.post?._id}
+         existingContent={newfeed?.post?.postContent}
+         existingTags={newfeed?.post?.postTagID}
+         existingFiles={newfeed?.post?.postLinkToImages.map((url : any) => ({ url }))}
+         existingAudience={newfeed?.post?.status}
+         onSuccess={handleCreatePostSuccess}
+         />
+      </S.CreateModal>
     </S.PostWrapper>
   );
 };

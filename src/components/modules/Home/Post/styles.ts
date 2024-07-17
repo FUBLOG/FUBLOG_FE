@@ -311,11 +311,24 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 100px !important;
+    padding-bottom: 50px ;
   }
   .ant-modal {
     top: 10%;
     transform: translateY(0%);
+  }
+`;
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
+  }
+  &.createModal .ant-modal-content {
+    height: 540px;
+    width: 800px;
+    background-color: #faf0e6 !important;
+    border-radius: 10px;
   }
 `;
 

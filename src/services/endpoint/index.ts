@@ -35,6 +35,9 @@ const postEndpoint = {
   GET_POST_BY_POSTID: `/post/`,
   ADD_LIKE: `/post/like`,
   UN_LIKE: `/post/unlike`,
+  DELETE_POST: `/post`,
+  UPDATE_POST: `/post`,
+
 };
 
 const editProfileEndpoint = {
@@ -70,6 +73,7 @@ const search = {
 
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
+  CHANGE_PROFILE:`/profile`
 };
 
 const commentEndpoint = {

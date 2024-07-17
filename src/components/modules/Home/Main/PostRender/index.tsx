@@ -151,4 +151,5 @@ const PostsRender = () => {
 const Loading = () => {
   return <Skeleton active round avatar title />;
 };
+
 export default PostsRender;

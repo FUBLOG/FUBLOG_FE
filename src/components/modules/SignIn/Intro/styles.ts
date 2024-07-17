@@ -6,7 +6,7 @@ export const HomeWrapper = styled.div`
   position: relative;
   .ant-carousel {
     position: relative;
-    bottom: 370px;
+    bottom: 400px;
     left: 100px;
   }
   .ant-carousel .slick-slide {

@@ -47,7 +47,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [editPost, setEditPost] = useState(false);
   const [showEnsure, setShowEnsure] = useState(false);
 
-
   const fetchPosts = useCallback(async () => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
@@ -82,9 +81,9 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const handleDelete = () => {
     setShowEnsure(true);
   };
-  const handleOkDelete = async (newfeed: any) => {
+  const handleOkDelete = async (id: any) => {
     try {
-      await deletePost(newfeed?._id);
+      await deletePost(id);
     } catch (error) {
       console.log(message.error("Xóa bài viết thất bại"));
     }
@@ -166,9 +165,60 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
 
   const darkMode = useThemeStore((state) => state.darkMode);
 
+  const editDeleteModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        title={"Quản lý bài viết"}
+        open={showEditMyPost}
+        onCancel={() => setEditMyPost(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          setEditMyPost(false);
+        }}
+      >
+        <Radio.Group
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
+            <Button
+              key={index}
+              onClick={index === 0 ? handleUpdate : handleDelete}
+            >
+              {index === 0 ? <EditFilled /> : <DeleteOutlined />}
+              {reason}
+            </Button>
+          ))}
+        </Radio.Group>
+      </S.CustomModal>
+    );
+  }, [showEditMyPost]);
+
+  const deleteConfirmModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        title={"Bạn Có Muốn Xóa Bài Viết ?"}
+        open={showEnsure}
+        onCancel={() => setShowEnsure(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          handleOkDelete(selectedPost?._id);
+        }}
+      >
+        Bài viết này sẽ xóa vĩnh viễn
+      </S.CustomModal>
+    );
+  }, [showEnsure, selectedPost]);
+
   return (
     <>
       {commentModal}
+      {editDeleteModal}
+      {deleteConfirmModal}
 
       {posts?.map((newfeed: any) => (
         <S.PostWrapper
@@ -198,6 +248,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   }}
                   onClick={() => {
                     setShowReportModal(true);
+                    setSelectedPost(newfeed);
                   }}
                 />
               ) : (
@@ -207,7 +258,10 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
+                    // console.log("newfeed?._id", newfeed?._id);
+
                     setEditMyPost(true);
+                    setSelectedPost(newfeed);
                   }}
                 />
               )}
@@ -303,6 +357,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
           </S.CustomCard>
 
           <S.CustomModal
+            key={newfeed?._id}
             title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
             open={showReportModal}
             onCancel={() => setShowReportModal(false)}
@@ -341,41 +396,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
             </Radio.Group>
           </S.CustomModal>
           <S.CustomModal
-          title={"Bạn Có Muốn Xóa Bài Viết ?"}
-          open={showEnsure}
-          onCancel={() => setShowEnsure(false)}
-          cancelText={"Hủy"}
-          okText={"Tiếp tục"}
-          onOk={() => {handleOkDelete(newfeed)}}
-        >
-          Bài viết này sẽ xóa vĩnh viễn{" "}
-        </S.CustomModal>
-          <S.CustomModal
-            title={"Quản lý bài viết"}
-            open={showEditMyPost}
-            onCancel={() => setEditMyPost(false)}
-            cancelText={"Hủy"}
-            okText={"Tiếp tục"}
-            onOk={() => {
-              setEditMyPost(false);
-            }}
-          >
-            <Radio.Group
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
-                <Button key={index} onClick={index === 0 ? handleUpdate : handleDelete}>
-                  {index === 0 ? <EditFilled /> : <DeleteOutlined />}
-                  {reason}
-                </Button>
-              ))}
-            </Radio.Group>
-          </S.CustomModal>
-
-          <S.CustomModal
+            key={newfeed?._id}
             title="Xác nhận báo cáo"
             open={showConfirmModal}
             onCancel={handleCloseSuccessModal}

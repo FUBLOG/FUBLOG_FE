@@ -43,12 +43,10 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
 
     if (fileList[0]?.originFileObj) {
       formData.append("image", fileList[0].originFileObj);
-      console.log("File được thêm vào FormData:", fileList[0].originFileObj);
+      // console.log("File được thêm vào FormData:", fileList[0].originFileObj);
 
-      console.log("FormData trước khi gửi:");
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      // console.log("FormData trước khi gửi:");
+     
     } else {
       console.error("Không có file nào trong danh sách hoặc file không hợp lệ.");
       message.error("Không có file nào được chọn.");
@@ -115,6 +113,7 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
         </ImgCrop>
         <S.CustomButton
           type="primary"
+          
           onClick={handleUpload}
           disabled={imageType === "avatar" ? avatarFileList.length === 0 : coverFileList.length === 0}
         >

@@ -6,8 +6,8 @@ export const HomeWrapper = styled.div`
   position: relative;
   .ant-carousel {
     position: relative;
-    bottom: 500px;
-    left: 150px;
+    bottom: 370px;
+    left: 100px;
   }
   .ant-carousel .slick-slide {
     position: relative;
@@ -23,8 +23,8 @@ export const ContentStyle = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
-  width: 300px;
-  height: 547px;
+  width: 250px;
+  height: 400px;
   border: 3px solid #c0c0c0;
   border-radius: 20px;
   .post-image {
@@ -34,7 +34,6 @@ export const ImageWrapper = styled.div`
 `;
 export const ImageSliderWrapper = styled.div`
   width: 300px;
-  height: 547px;
   border: 3px solid #ff000000;
   border-radius: 20px;
   .post-image {

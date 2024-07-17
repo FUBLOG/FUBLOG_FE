@@ -15,8 +15,8 @@ const Intro = () => {
         <Image
           src={main}
           alt="Screenshot 1"
-          height={550}
-          width={300}
+          height={450}
+          width={250}
           objectFit="cover"
           style={{
             borderRadius: "20px",
@@ -30,8 +30,8 @@ const Intro = () => {
               src={screenshot1}
               alt="Screenshot 1"
               className="post-image"
-              height={550}
-              width={300}
+              height={450}
+              width={250}
               objectFit="cover"
             />
           </S.ImageSliderWrapper>
@@ -42,8 +42,8 @@ const Intro = () => {
               src={screenshot2}
               alt="Screenshot 2"
               className="post-image"
-              height={550}
-              width={300}
+              height={450}
+              width={250}
               objectFit="cover"
             />
           </S.ImageSliderWrapper>
@@ -54,8 +54,8 @@ const Intro = () => {
               src={screenshot3}
               alt="Screenshot 3"
               className="post-image"
-              height={550}
-              width={300}
+              height={450}
+              width={250}
               objectFit="cover"
             />
           </S.ImageSliderWrapper>

@@ -111,7 +111,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       formData.append("status", audiance[audienceValue]);
       const res: any = await createPost(formData);
       setTimeout(() => {
-        setPost(res?.metadata);
+        setPost(res?.metadata); 
         setShowSpinner(false);
       }, 3000);
       setPostContent("");

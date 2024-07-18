@@ -56,7 +56,6 @@ export const Sidebar = styled(Flex)`
   margin-left: 86px;
   margin-top: 120px;
   border-radius: 15px;
-  height: 500px;
 `;
 
 export const Content = styled(Flex)`

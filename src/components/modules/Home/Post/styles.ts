@@ -355,7 +355,7 @@ export const CommentBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 export const UserName = styled.span`

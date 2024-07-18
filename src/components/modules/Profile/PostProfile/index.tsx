@@ -9,6 +9,9 @@ import {
   EllipsisOutlined,
   EditFilled,
   DeleteOutlined,
+  GlobalOutlined,
+  LockOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 
 import Typography from "@/components/core/common/Typography";
@@ -23,6 +26,7 @@ import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../UpdatePost/content";
+import moment from "moment";
 
 interface PostProps {
   profileHash: any;
@@ -47,12 +51,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [comments, setComments] = useState(0);
   const [editPost, setEditPost] = useState(false);
   const [showEnsure, setShowEnsure] = useState(false);
+  const audiance2: { [key: string]: any } = {
+    public: <GlobalOutlined />,
+    private: <LockOutlined />,
+    friend: <TeamOutlined />,
+  };
 
   const fetchPosts = useCallback(async () => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);
-      console.log("dsfsdf", data?.metadata);
 
       const initialLikes = data?.metadata.reduce((acc: any, post: any) => {
         acc[post._id] = post.likes.includes(userInfo?._id);
@@ -273,13 +281,33 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                     src={newfeed?.UserID?.userInfo?.avatar}
                     alt={`${newfeed?.UserID?.displayName}'s avatar`}
                   />
-                  <Typography
-                    variant="caption-normal"
-                    color={darkMode ? "#fff" : "#352F44"}
-                    fontSize="18px"
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "3px",
+                    }}
                   >
-                    {newfeed?.UserID?.displayName}
-                  </Typography>
+                    <Typography
+                      variant="caption-normal"
+                      color={darkMode ? "#fff" : "#352F44"}
+                      fontSize="18px"
+                    >
+                      {newfeed?.UserID?.displayName}
+                    </Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        fontSize: "12px",
+                        color: darkMode ? "#fff" : "#494747",
+                        fontStyle: "oblique",
+                      }}
+                    >
+                      {moment(newfeed?.updatedAt).fromNow()}
+                      {audiance2[newfeed?.postStatus]}
+                    </div>
+                  </div>
                 </S.UserInfo>
                 {userInfo?.profileHash !== profileHash ? (
                   <ExclamationCircleOutlined

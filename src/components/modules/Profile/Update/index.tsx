@@ -214,7 +214,6 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     }
     return Promise.resolve();
   };
-  
 
   return (
     <S.CustomModal
@@ -226,7 +225,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     >
       <S.ModalContent className={darkMode ? "theme-dark" : "theme-light"}>
         <S.TitleContainer className={darkMode ? "theme-dark" : "theme-light"}>
-          <S.CenteredTitle variant="h5" fontSize="24px">
+          <S.CenteredTitle variant="body-text-small-bold" fontSize="24px">
             Chỉnh sửa thông tin cá nhân
           </S.CenteredTitle>
         </S.TitleContainer>
@@ -238,7 +237,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <UserOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Tên người dùng
                 </Typography>
               </S.Label>
@@ -254,7 +253,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <CalendarOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Ngày tháng năm sinh
                 </Typography>
               </S.Label>
@@ -271,13 +270,16 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   style={{
                     background: "transparent",
                     border: "1.5px solid #000",
-                    padding: "3px 8px",
+                    padding: "3px 12px",
                     width: "100%",
+                    fontSize:"20px",
+                   
                   }}
                   format={format}
-                  value={profile?.user?.dateOfBirth}
+                  value={moment(formData.dateOfBirth)}
                   onChange={handleDateChange as any}
                   placeholder="Ngày tháng năm sinh"
+                  
                 />
               </AntForm.Item>
             </S.GridItem>
@@ -285,7 +287,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <WomanOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Giới tính
                 </Typography>
               </S.Label>
@@ -295,6 +297,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   value={formData.sex}
                   onChange={handleChange}
                 >
+                  
+                  <option value="Nam">{formData.sex}</option>
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
                   <option value="Khác">Khác</option>
@@ -305,7 +309,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <HeartOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Tình trạng hôn nhân
                 </Typography>
               </S.Label>
@@ -327,7 +331,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <BookOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Giáo dục
                 </Typography>
               </S.Label>
@@ -344,7 +348,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
             <S.GridItem>
               <S.Label>
                 <FileTextOutlined style={{ marginRight: "8px" }} />
-                <Typography variant="body-text-small-bold" fontSize="18px">
+                <Typography variant="body-text-small-bold" fontSize="16px">
                   Tiểu sử
                 </Typography>
               </S.Label>

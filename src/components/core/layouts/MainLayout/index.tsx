@@ -11,8 +11,6 @@ import {
   EditOutlined,
   MessageOutlined,
   BellOutlined,
-  UserOutlined,
-  CaretDownOutlined,
   MessageFilled,
   HomeFilled,
   EditFilled,
@@ -43,6 +41,7 @@ import { useRouter } from "next/navigation";
 import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
 import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
+import { useGetProfile } from "@/hooks/useProfile";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -67,6 +66,12 @@ function MainLayout({ children }: LayoutProps) {
   useListenConversation();
   useListenNotification();
   useListenFriendRequest();
+
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
+
+
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
@@ -81,11 +86,6 @@ function MainLayout({ children }: LayoutProps) {
     webStorageClient.get(constants.ACCESS_TOKEN),
     webStorageClient.get(constants.REFRESH_TOKEN),
   ]);
-
-
-  const darkMode = useThemeStore((state) => state.darkMode);
-  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
-
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -105,9 +105,11 @@ function MainLayout({ children }: LayoutProps) {
       setShowCreate(true);
     }
   };
+
   const handleCreatePostSuccess = () => {
     setShowCreate(false);
   };
+
   const showBellModal = () => {
     if (userInfo?._id !== "") {
       setNav("bell");
@@ -145,8 +147,8 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-          Chỉnh sửa trang cá nhân
+        <Link href={`/change-password`}>
+          Đổi mật khẩu
         </Link>
       </Menu.Item>
       <Menu.Item
@@ -164,7 +166,7 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
-    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"} >
+    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
       <S.Header>
         <S.GlobalStyle />
@@ -195,9 +197,12 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Badge count={messageCount} style={{
-              margin: "0.1rem 1rem 0 0"
-            }}>
+            <Badge
+              count={messageCount}
+              style={{
+                margin: "0.1rem 1rem 0 0",
+              }}
+            >
               <Button type="text" onClick={() => handleSetNavigation("mess")}>
                 {nav === "mess" ? (
                   <MessageFilled style={{ fontSize: "22px" }} />
@@ -206,7 +211,7 @@ function MainLayout({ children }: LayoutProps) {
                 )}
               </Button>
             </Badge>
-            <Badge count={friendRequestCount + notificationCount} >
+            <Badge count={friendRequestCount + notificationCount}>
               <Link href="#" onClick={showBellModal}>
                 {nav === "bell" ? (
                   <BellFilled style={{ fontSize: "22px" }} />
@@ -215,10 +220,12 @@ function MainLayout({ children }: LayoutProps) {
                 )}
               </Link>
             </Badge>
-            <div onClick={toggleDarkMode} style={{cursor: "pointer"}}>
-                {darkMode ? <MoonOutlined style={{ fontSize: "22px" }} /> 
-                          : <SunOutlined style={{ fontSize: "22px" }} />}
-            
+            <div onClick={toggleDarkMode} style={{ cursor: "pointer" }}>
+              {darkMode ? (
+                <MoonOutlined style={{ fontSize: "22px" }} />
+              ) : (
+                <SunOutlined style={{ fontSize: "22px" }} />
+              )}
             </div>
           </S.IconContainer>
           {userInfo?._id === "" ? (
@@ -241,21 +248,16 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-                <UserOutlined
-                  style={{ fontSize: "28px" }}
-                  onClick={() => handleSetNavigation("")}
-                />
-              </Link>
-
-              <Dropdown overlay={menuItems} trigger={["click"]}>
-                <CaretDownOutlined
-                  style={{
-                    fontSize: "18px",
-                    marginLeft: "0px",
-                    cursor: "pointer",
-                  }}
-                />
+              <Dropdown overlay={menuItems} trigger={["hover"]}>
+                <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+                  <Image
+                    src={userInfo?.userInfo?.avatar|| "/default-avatar.png"}
+                    alt="User Avatar"
+                    width={42}
+                    height={42}
+                    style={{ borderRadius: "50%" }}
+                  />
+                </Link>
               </Dropdown>
             </S.UserIconContainer>
           )}

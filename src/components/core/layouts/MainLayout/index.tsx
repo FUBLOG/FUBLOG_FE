@@ -11,8 +11,6 @@ import {
   EditOutlined,
   MessageOutlined,
   BellOutlined,
-  UserOutlined,
-  CaretDownOutlined,
   MessageFilled,
   HomeFilled,
   EditFilled,
@@ -51,6 +49,7 @@ import {
   useListenNotification,
 } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
+import { useGetProfile } from "@/hooks/useProfile";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -76,6 +75,10 @@ function MainLayout({ children }: LayoutProps) {
   useListenConversation();
   useListenNotification();
   useListenFriendRequest();
+
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
@@ -112,9 +115,11 @@ function MainLayout({ children }: LayoutProps) {
       setShowCreate(true);
     }
   };
+
   const handleCreatePostSuccess = () => {
     setShowCreate(false);
   };
+
   const showBellModal = () => {
     if (userInfo?._id !== "") {
       setNav("bell");
@@ -152,9 +157,7 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-          Chỉnh sửa trang cá nhân
-        </Link>
+        <Link href={`/change-password`}>Đổi mật khẩu</Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
@@ -272,10 +275,10 @@ function MainLayout({ children }: LayoutProps) {
                 <Button
                   $width="100px"
                   disabled={loading}
-                  $color={darkMode? "#fff" : "white "}
-                  $hoverColor={darkMode? "#000" : "#fff"}
-                  $borderColor={darkMode? "#fff" : "#352f44"}
-                  $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+                  $color={darkMode ? "#fff" : "white "}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                   $backgroundColor="#353839"
                 >
                   Đăng ký
@@ -286,10 +289,7 @@ function MainLayout({ children }: LayoutProps) {
             <S.UserIconContainer>
               <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                 <UserOutlined
-                  style={{
-                    fontSize: "28px",
-                    color: darkMode ? "#F7D600" : "black",
-                  }}
+                  style={{ fontSize: "28px" }}
                   onClick={() => handleSetNavigation("")}
                 />
               </Link>
@@ -300,7 +300,6 @@ function MainLayout({ children }: LayoutProps) {
                     fontSize: "18px",
                     marginLeft: "0px",
                     cursor: "pointer",
-                    color: darkMode ? "#F7D600" : "black",
                   }}
                 />
               </Dropdown>

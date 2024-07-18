@@ -70,13 +70,7 @@ function MainLayout({ children }: LayoutProps) {
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
-  const { profileSearch, getUserInfo } = useGetProfile(userInfo?.profileHash);
 
-  useEffect(() => {
-    if (userInfo?.profileHash) {
-      getUserInfo(userInfo.profileHash);
-    }
-  }, [userInfo?.profileHash]);
 
   useEffect(() => {
     if (
@@ -257,7 +251,7 @@ function MainLayout({ children }: LayoutProps) {
               <Dropdown overlay={menuItems} trigger={["hover"]}>
                 <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                   <Image
-                    src={profileSearch?.info?.avatar || "/default-avatar.png"}
+                    src={userInfo?.userInfo?.avatar|| "/default-avatar.png"}
                     alt="User Avatar"
                     width={42}
                     height={42}

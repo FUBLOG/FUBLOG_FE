@@ -184,7 +184,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
           postId={selectedPost?._id}
           existingContent={selectedPost?.postContent}
           existingTags={selectedPost?.postTagID}
-          existingFiles={selectedPost?.postLinkToImages}
+          existingFiles={selectedPost?.postLinkToImages.map((url: string) => ({ url }))}
           existingAudience={selectedPost?.postStatus}
           onSuccess={handleCreatePostSuccess}
         />

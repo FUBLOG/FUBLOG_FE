@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
-import {
-  SettingOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
+import { SettingOutlined, TagOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
 import { Radio } from "antd";
@@ -11,7 +8,12 @@ import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useUpdatePost from "@/hooks/useUpdatePost";
-import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
+import {
+  AudienceModal,
+  ContentStyleDiv,
+  TagModal,
+  CustomUploadStyled,
+} from "./style";
 import { updatePost, getAllTags } from "@/services/api/post";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -24,7 +26,14 @@ interface PostContent {
   onSuccess: () => void;
 }
 
-export const PostContent: React.FC<PostContent> = ({ postId, existingContent, existingTags, existingFiles, existingAudience, onSuccess }) => {
+export const PostContent: React.FC<PostContent> = ({
+  postId,
+  existingContent,
+  existingTags,
+  existingFiles,
+  existingAudience,
+  onSuccess,
+}) => {
   const { setShowSpinnerUpdate, setPost } = useUpdatePost();
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState(existingContent);
@@ -39,10 +48,10 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
     "Riêng Tư": "private",
     "Bạn Bè": "friend",
   };
-  
+
   useEffect(() => {
     const getTags = async () => {
-      const res: any = await getAllTags();  
+      const res: any = await getAllTags();
       res?.metadata?.map((tag: any) => {
         tags.push(tag);
       });
@@ -77,7 +86,7 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
   const handleOpenTag = () => {
     setOpenTag(true);
   };
-  
+
   const handleOk = () => {
     setOpenTag(true);
   };
@@ -100,8 +109,8 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
   };
 
   const UpdatePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
-     e.preventDefault();
-    
+    e.preventDefault();
+
     setOpenTag(false);
     setOpenAudience(false);
     setShowSpinnerUpdate(true);
@@ -116,13 +125,9 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
       });
       formData.append("postContent", postContent);
       formData.append("postTagID", tagValue._id);
-      formData.append("postStatus", 'public');
-      console.log(postContent);
-      console.log(tagValue._id);
+      formData.append("postStatus", "public");
 
-      
       const res: any = await updatePost(postId, formData);
-      console.log(res?.metadata);
       setTimeout(() => {
         setPost(res?.metadata);
         setShowSpinnerUpdate(false);
@@ -182,7 +187,7 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
               onChange={onChange}
               onPreview={onPreview}
             >
-              {fileList?.length < 5 || fileList === undefined && "+ Upload"}
+              {fileList?.length < 5 || (fileList === undefined && "+ Upload")}
             </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
@@ -207,7 +212,11 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
             >
               <h3>Chọn Thẻ</h3>
               {tags.map((tag) => (
-                <Radio value={tag?.postTagContent as string} key={tag?._id} onClick={() => handleTextChange(tag)}>
+                <Radio
+                  value={tag?.postTagContent as string}
+                  key={tag?._id}
+                  onClick={() => handleTextChange(tag)}
+                >
                   {tag?.postTagContent}
                 </Radio>
               ))}
@@ -241,6 +250,5 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
         </div>
       </div>
     </ContentStyleDiv>
-    
   );
 };

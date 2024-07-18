@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { message, Radio, Carousel, Modal, Button, Tooltip, Space, Spin } from "antd";
+import {
+  message,
+  Radio,
+  Carousel,
+  Modal,
+  Button,
+  Tooltip,
+  Space,
+  Spin,
+} from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -65,7 +74,9 @@ const Post = ({
   const [showEnsure, setShowEnsure] = useState(false);
   const [postContent, setPostContent] = useState(newfeed?.post?.postContent);
   const [postTags, setPostTags] = useState(newfeed?.post?.postTagID);
-  const [postImages, setPostImages] = useState(newfeed?.post?.postLinkToImages.map((url: string) => ({ url })));
+  const [postImages, setPostImages] = useState(
+    newfeed?.post?.postLinkToImages.map((url: string) => ({ url }))
+  );
   const [postAudience, setPostAudience] = useState(newfeed?.post?.status);
   const router = useRouter();
   let hoverTimeout: NodeJS.Timeout;
@@ -74,11 +85,13 @@ const Post = ({
     const liked = listLike?.includes(userInfo?._id);
     setLiked(liked);
   }, [newfeed, userInfo, listLike]);
-  
+
   useEffect(() => {
     setPostContent(newfeed?.post?.postContent);
     setPostTags(newfeed?.post?.postTagID);
-    setPostImages(newfeed?.post?.postLinkToImages.map((url: string) => ({ url })));
+    setPostImages(
+      newfeed?.post?.postLinkToImages.map((url: string) => ({ url }))
+    );
     setPostAudience(newfeed?.post?.status);
   }, [newfeed]);
   const togleLike = () => {
@@ -159,7 +172,7 @@ const Post = ({
               />
               <Typography
                 variant="caption-normal"
-                color={darkMode? "#fff" : "#000"}
+                color={darkMode ? "#fff" : "#000"}
                 fontSize="18px"
               >
                 {newfeed?.userId?.displayName}
@@ -184,7 +197,7 @@ const Post = ({
     try {
       await deletePost(newfeed?.post?._id);
     } catch (error) {
-      console.log(message.error("Xóa bài viết thất bại"));
+      message.error("Xóa bài viết thất bại");
     }
     setShowEnsure(false);
     setEditMyPost(false);
@@ -308,9 +321,7 @@ const Post = ({
                   onClick={togleLike}
                 />
               )}
-              <span style={{ color: darkMode ? "#fff" : "#000" }}>
-                {likes}
-              </span>
+              <span style={{ color: darkMode ? "#fff" : "#000" }}>{likes}</span>
               <CommentOutlined
                 onClick={() => handleCommentClick(newfeed)}
                 style={{
@@ -453,15 +464,15 @@ const Post = ({
           destroyOnClose={true}
           footer={false}
         >
-           <PostContent
-        postUpdate = {updatePost}
-        postId={newfeed?.post?._id}
-        existingContent={postContent}
-        existingTags={postTags}
-        existingFiles={postImages}
-        existingAudience={postAudience}
-        onSuccess={handleCreatePostSuccess}
-      />
+          <PostContent
+            postUpdate={updatePost}
+            postId={newfeed?.post?._id}
+            existingContent={postContent}
+            existingTags={postTags}
+            existingFiles={postImages}
+            existingAudience={postAudience}
+            onSuccess={handleCreatePostSuccess}
+          />
         </S.CreateModal>
       </S.PostWrapper>
     </>

@@ -55,7 +55,6 @@ const CommentModal = ({
       getPostByPostId(postId)
         .then((res) => {
           setNewFeed(res?.metadata);
-          console.log("res?.metadata", res?.metadata);
         })
         .catch((error) => {});
     }

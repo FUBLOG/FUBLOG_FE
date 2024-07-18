@@ -86,7 +86,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     try {
       await deletePost(id);
     } catch (error) {
-      console.log(message.error("Xóa bài viết thất bại"));
+      message.error("Xóa bài viết thất bại");
     }
     setShowEnsure(false);
     setEditMyPost(false);
@@ -179,7 +179,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         onCancel={handleCancel}
         destroyOnClose={true}
         footer={false}
-        
       >
         <PostContent
           postId={selectedPost?._id}
@@ -204,7 +203,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         onOk={() => {
           setEditMyPost(false);
         }}
-        
       >
         <Radio.Group
           style={{
@@ -249,7 +247,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       {editDeleteModal}
       {deleteConfirmModal}
       {postEditModal}
-      
+
       {posts?.map((newfeed: any) => (
         <S.PostWrapper
           className={darkMode ? "theme-dark" : "theme-light"}
@@ -268,8 +266,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   fontSize="18px"
                 >
                   {newfeed?.UserID?.displayName}
-                
-                  
                 </Typography>
               </S.UserInfo>
               {userInfo?.profileHash !== profileHash ? (

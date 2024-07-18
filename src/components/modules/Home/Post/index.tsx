@@ -180,10 +180,7 @@ const Post = ({
             </S.UserInfo>
           </S.PostHeader>
         </S.CustomCard>
-        <S.ButtonWrapper>
-          <Button icon={<UserOutlined />}>Bạn bè</Button>
-          <Button icon={<WechatWorkOutlined />}>Nhắn tin</Button>
-        </S.ButtonWrapper>
+        <Button icon={<WechatWorkOutlined />}>Nhắn tin</Button>
       </S.PreviewInfo>
     );
   };

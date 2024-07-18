@@ -21,6 +21,9 @@ import {
   WechatWorkOutlined,
   UserOutlined,
   LoadingOutlined,
+  GlobalOutlined,
+  LockOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import Typography from "@/components/core/common/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -80,10 +83,10 @@ const Post = ({
     newfeed?.post?.postLinkToImages.map((url: string) => ({ url }))
   );
   const [timeAgo, setTimeAgo] = useState("");
-  const audiance2: { [key: string]: string } = {
-    public: "Công Khai",
-    private: "Riêng Tư",
-    friend: "Bạn Bè",
+  const audiance2: { [key: string]: any } = {
+    public: <GlobalOutlined />,
+    private: <LockOutlined />,
+    friend: <TeamOutlined />,
   };
 
   const [postAudience, setPostAudience] = useState(newfeed?.post?.status);
@@ -236,7 +239,13 @@ const Post = ({
                   src={newfeed?.userId?.userInfo?.avatar}
                   alt={`${newfeed?.userId?.displayName}'s avatar`}
                 />
-                <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "3px",
+                  }}
+                >
                   <Typography
                     variant="caption-normal"
                     color={darkMode ? "#fff" : "#000"}
@@ -245,9 +254,17 @@ const Post = ({
                     <div>{newfeed?.userId?.displayName}</div>
                   </Typography>
 
-                  <div>
-                    {audienceValue}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      fontSize: "12px",
+                      color: "#494747",
+                      fontStyle: "oblique",
+                    }}
+                  >
                     {timeAgo}
+                    {audienceValue}
                   </div>
                 </div>
               </S.UserInfo>

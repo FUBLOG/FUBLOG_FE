@@ -65,6 +65,7 @@ export const PostHeader = styled(Flex)`
   align-items: center;
   gap: 2px;
   justify-content: space-between;
+  margin-bottom: 10px;
 `;
 export const PostHeaderModal = styled(Flex)`
   align-items: center;

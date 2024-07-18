@@ -65,7 +65,7 @@ export const PostHeader = styled(Flex)`
   align-items: center;
   gap: 2px;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 export const PostHeaderModal = styled(Flex)`
   align-items: center;
@@ -86,7 +86,7 @@ export const Avatar = styled.img`
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 export const TagWrapper = styled(Flex)`

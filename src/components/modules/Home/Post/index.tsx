@@ -259,7 +259,7 @@ const Post = ({
                       display: "flex",
                       gap: "10px",
                       fontSize: "12px",
-                      color: "#494747",
+                      color: darkMode ? "#fff" : "#494747",
                       fontStyle: "oblique",
                     }}
                   >

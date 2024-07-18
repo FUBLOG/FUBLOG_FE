@@ -118,7 +118,7 @@ const PostsRender = () => {
           loader={<h4>Loading...</h4>}
           endMessage={
             <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
+              <b>Yay! Bạn đã xem hết bài viết</b>
             </p>
           }
         >

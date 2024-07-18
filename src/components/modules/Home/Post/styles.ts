@@ -76,6 +76,7 @@ export const PostHeaderModal = styled(Flex)`
 export const UserInfo = styled(Flex)`
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 `;
 
 export const Avatar = styled.img`

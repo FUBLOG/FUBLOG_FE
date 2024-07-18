@@ -223,52 +223,45 @@ const Post = ({
       <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
         <S.CustomCard>
           <S.PostHeader>
-            <Tooltip
-              placement="top"
-              title={previewInfor}
-              mouseEnterDelay={0.5}
-              fresh
-              color="linear-gradient(90deg, rgba(227,153,237,1) 0%, rgba(162,173,228,1) 52%, rgba(222,158,227,1) 100%)"
+            <S.UserInfo
+              onClick={handleClickProfile}
+              onMouseOver={(e) => handleMouseOver(e)}
+              onMouseOut={(e) => handleMouseOut(e)}
             >
-              <S.UserInfo
-                onClick={handleClickProfile}
-                onMouseOver={(e) => handleMouseOver(e)}
-                onMouseOut={(e) => handleMouseOut(e)}
+              <S.Avatar
+                src={newfeed?.userId?.userInfo?.avatar}
+                alt={`${newfeed?.userId?.displayName}'s avatar`}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                }}
               >
-                <S.Avatar
-                  src={newfeed?.userId?.userInfo?.avatar}
-                  alt={`${newfeed?.userId?.displayName}'s avatar`}
-                />
+                <Typography
+                  variant="caption-normal"
+                  color={darkMode ? "#fff" : "#000"}
+                  fontSize="18px"
+                >
+                  <div>{newfeed?.userId?.displayName}</div>
+                </Typography>
+
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "column",
-                    gap: "3px",
+                    gap: "10px",
+                    fontSize: "12px",
+                    color: darkMode ? "#fff" : "#494747",
+                    fontStyle: "oblique",
                   }}
                 >
-                  <Typography
-                    variant="caption-normal"
-                    color={darkMode ? "#fff" : "#000"}
-                    fontSize="18px"
-                  >
-                    <div>{newfeed?.userId?.displayName}</div>
-                  </Typography>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      fontSize: "12px",
-                      color: darkMode ? "#fff" : "#494747",
-                      fontStyle: "oblique",
-                    }}
-                  >
-                    {timeAgo}
-                    {audienceValue}
-                  </div>
+                  {timeAgo}
+                  {audienceValue}
                 </div>
-              </S.UserInfo>
-            </Tooltip>
+              </div>
+            </S.UserInfo>
+
             {userInfo?._id !== newfeed?.userId?._id ? (
               <ExclamationCircleOutlined
                 style={{

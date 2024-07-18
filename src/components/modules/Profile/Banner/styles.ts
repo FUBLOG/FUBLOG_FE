@@ -71,7 +71,7 @@ export const BoxUser = styled(Flex)`
   align-items: flex-end;
 `;
 export const Typography = styled(Flex)`
-  gap: 5px;
+  gap: 8px;
   flex-direction: column;
 `;
 

@@ -3,10 +3,10 @@ import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   &.theme-dark {
-    border: 2px solid #F7D600;
--webkit-box-shadow: 0px 0px 10px 1px rgba(255,238,5,0.65);
--moz-box-shadow: 0px 0px 10px 1px rgba(255,238,5,0.65);
-box-shadow: 0px 0px 10px 1px rgba(255,238,5,0.65);
+    border: 2px solid #f7d600;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
   }
   &.theme-light {
     background-color: #faf0e6;
@@ -69,6 +69,7 @@ export const PostHeader = styled(Flex)`
   align-items: center;
   gap: 2px;
   justify-content: space-between;
+  margin-bottom: 5px;
 `;
 export const PostHeaderModal = styled(Flex)`
   align-items: center;
@@ -89,7 +90,7 @@ export const Avatar = styled.img`
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
-  margin-top: 10px;
+  padding: 0px 0px 0px 20px;
 `;
 
 export const TagWrapper = styled(Flex)`
@@ -101,7 +102,6 @@ export const Actions = styled(Flex)`
   color: #b9b4c7;
   font-size: 16px;
   align-items: center;
-  padding-left: 40px;
 `;
 
 export const Tag = styled.span`
@@ -311,7 +311,7 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 ;
+    background-color: #5c5470;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;

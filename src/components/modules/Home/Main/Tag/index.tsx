@@ -56,7 +56,7 @@ const TagRender = () => {
       >
         Tất Cả
       </Button>
-      {tags.map((tag: any, index: number) => (
+      {tags?.map((tag: any, index: number) => (
         <Button
           $color={
             !darkMode

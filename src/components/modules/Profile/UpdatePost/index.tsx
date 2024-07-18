@@ -8,6 +8,6 @@ interface CreateContentProps {
 
 export const CreateContent: React.FC<CreateContentProps> = ({onSuccess})=> {
     return(
-        <PostContent nSuccess={onSuccess}/>
+        <PostContent onSuccess={onSuccess}/>
     )
 }

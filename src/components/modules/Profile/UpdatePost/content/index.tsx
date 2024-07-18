@@ -99,7 +99,9 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
     setAudienceValue(e.target.value);
   };
 
-  const UpdatePost = async () => {
+  const UpdatePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
+     e.preventDefault();
+    
     setOpenTag(false);
     setOpenAudience(false);
     setShowSpinnerUpdate(true);

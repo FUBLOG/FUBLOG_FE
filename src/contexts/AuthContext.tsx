@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     ) {
       setLoading(true);
       checkAuth().then((res) => {
-        setUserInfo(res.metadata);
+        setUserInfo(res?.metadata);
         setLoading(false);
       });
     }

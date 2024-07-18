@@ -9,10 +9,7 @@ export const PostWrapper = styled.div`
     box-shadow: 1px 1px 4px 1px rgba(255, 238, 5, 0.65);
   }
   &.theme-light {
-    border: 1px solid #000;
-    box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
-    -webkit-box-shadow: 0px 5px 5px 2px #0000008a;
-    -moz-box-shadow: 0px 5px 5px 2px #0000008a;
+    border: 2px solid #000;
   }
 
   box-sizing: border-box;

@@ -11,8 +11,6 @@ import {
   EditOutlined,
   MessageOutlined,
   BellOutlined,
-  UserOutlined,
-  CaretDownOutlined,
   MessageFilled,
   HomeFilled,
   EditFilled,
@@ -51,6 +49,7 @@ import {
   useListenNotification,
 } from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
+import { useGetProfile } from "@/hooks/useProfile";
 
 interface LayoutProps {
   readonly children: ReactNode;
@@ -76,6 +75,12 @@ function MainLayout({ children }: LayoutProps) {
   useListenConversation();
   useListenNotification();
   useListenFriendRequest();
+
+  const darkMode = useThemeStore((state) => state.darkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
+
+
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
@@ -91,8 +96,8 @@ function MainLayout({ children }: LayoutProps) {
     webStorageClient.get(constants.REFRESH_TOKEN),
   ]);
 
-  const darkMode = useThemeStore((state) => state.darkMode);
-  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
+
+
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -112,9 +117,11 @@ function MainLayout({ children }: LayoutProps) {
       setShowCreate(true);
     }
   };
+
   const handleCreatePostSuccess = () => {
     setShowCreate(false);
   };
+
   const showBellModal = () => {
     if (userInfo?._id !== "") {
       setNav("bell");
@@ -152,8 +159,8 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-          Chỉnh sửa trang cá nhân
+        <Link href={`/change-password`}>
+          Đổi mật khẩu
         </Link>
       </Menu.Item>
       <Menu.Item
@@ -284,25 +291,16 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-                <UserOutlined
-                  style={{
-                    fontSize: "28px",
-                    color: darkMode ? "#F7D600" : "black",
-                  }}
-                  onClick={() => handleSetNavigation("")}
-                />
-              </Link>
-
-              <Dropdown overlay={menuItems} trigger={["click"]}>
-                <CaretDownOutlined
-                  style={{
-                    fontSize: "18px",
-                    marginLeft: "0px",
-                    cursor: "pointer",
-                    color: darkMode ? "#F7D600" : "black",
-                  }}
-                />
+              <Dropdown overlay={menuItems} trigger={["hover"]}>
+                <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+                  <Image
+                    src={userInfo?.userInfo?.avatar|| "/default-avatar.png"}
+                    alt="User Avatar"
+                    width={42}
+                    height={42}
+                    style={{ borderRadius: "50%" }}
+                  />
+                </Link>
               </Dropdown>
             </S.UserIconContainer>
           )}

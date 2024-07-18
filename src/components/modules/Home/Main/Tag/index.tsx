@@ -47,14 +47,14 @@ const TagRender = () => {
         $backgroundColor={
           darkMode
             ? activeTags === "Tất Cả"
-              ? "#FAF0E6 "
+              ? "#F7D600 "
               : "transparent"
             : activeTags === "Tất Cả"
-            ? "#cedaff "
-            : "transparent"
+            ? "#ffc8c8"
+              : "transparent"
         }
       >
-        Tất Cả
+         <span style={{fontWeight: "500"}}>Tất Cả</span>
       </Button>
       {tags?.map((tag: any, index: number) => (
         <Button
@@ -76,14 +76,14 @@ const TagRender = () => {
           $backgroundColor={
             darkMode
               ? activeTags === tag.postTagContent
-                ? "#FAF0E6 "
+                ? "#F7D600 "
                 : "transparent"
               : activeTags === tag.postTagContent
-              ? "#cedaff "
+              ? "#ffc8c8"
               : "transparent"
           }
         >
-          {tag.postTagContent}
+          <span style={{fontWeight: activeTags === tag.postTagContent ? "500" : "400"}}>{tag.postTagContent}</span>
         </Button>
       ))}
     </S.TagsContainer>

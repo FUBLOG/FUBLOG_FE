@@ -26,7 +26,7 @@ const MessageList = () => {
               <S.MessageTime>{extractTime(message?.createdAt)}</S.MessageTime>
             </S.ChatHeader>
             <S.MessageContent isOwnMessage={isOwnMessage}>
-              {message.message}
+              {message?.message}
             </S.MessageContent>
           </S.MessageItem>
         );

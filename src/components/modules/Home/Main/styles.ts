@@ -21,6 +21,7 @@ export const ContentWrapper = styled(Flex)`
 `;
 
 export const PostContainer = styled.div`
+
   max-width: 800px;
   width: 100%;
   .custom-spin .ant-spin-dot{

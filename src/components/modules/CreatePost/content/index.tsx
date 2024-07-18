@@ -6,9 +6,11 @@ import {
 } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
-import { Radio } from "antd";
+import { Radio, Upload } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
+import { postRequest } from "@/services/request";
+import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useCreatePost from "@/hooks/useCreatePost";
 import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
@@ -36,8 +38,8 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
   }
   useEffect(() => {
     const getTags = async () => {
-      
-      const res: any = await getAllTags();  
+
+      const res: any = await getAllTags();
       res?.metadata?.map((tag: any) => {
         tags.push(tag);
       });
@@ -118,7 +120,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       setFileList([]);
       setTagValue(tags[0]);
       setAudienceValue("Công Khai");
-      
 
     } catch (error) {
       console.error(error);

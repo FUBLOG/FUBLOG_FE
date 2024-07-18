@@ -8,8 +8,9 @@ export const ModalContainer = styled.div`
   max-height: 500px;
   background-color: #faf0e6;
   ::-webkit-scrollbar {
-    width: 0px !important;
-    height: 0px !important;
+    width: 0px ;
+    height: 0px ;
+    
   }
 `;
 

@@ -43,27 +43,36 @@ const PostsRender = () => {
   const paramComment = searchParams.get("ctId");
 
   const updatePostInList = (updatedPost: PostData) => {
-    setListPosts(currentPosts => currentPosts.map(post => post._id === updatedPost._id ? updatedPost : post));
+    setListPosts((currentPosts) =>
+      currentPosts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
   };
 
   const getMore = async () => {
     setLoading(true);
     const func = userInfo?._id === "" ? getPostForGuest : getPostForUser;
     const res = await func();
-    setListPosts(prev => [...prev, ...res?.metadata]);
+    setListPosts((prev) => [...prev, ...res?.metadata]);
     setLoading(false);
   };
 
   useEffect(() => {
     const asyncGetPosts = async () => {
       setLoading(true);
-      const res = !webStorageClient.get(constants.IS_AUTH) ? await getPostForGuest() : await getPostForUser();
+      const res = !webStorageClient.get(constants.IS_AUTH)
+        ? await getPostForGuest()
+        : await getPostForUser();
       setListPosts(res?.metadata);
       setLoading(false);
     };
     asyncGetPosts();
     if (post) {
-      setListPosts(prevPosts => [{ ...post, userId: userInfo }, ...prevPosts]);
+      setListPosts((prevPosts) => [
+        { ...post, userId: userInfo },
+        ...prevPosts,
+      ]);
       setPost(null);
     }
   }, [userInfo?._id, post]);
@@ -74,31 +83,48 @@ const PostsRender = () => {
     }
   }, [searchParams]);
 
-  const commentModal = useMemo(() => (
-    showCommentsModal ? <CommentModal open={showCommentsModal} close={handleCloseCommentsModal} /> : null
-  ), [showCommentsModal, handleCloseCommentsModal]);
+  const commentModal = useMemo(
+    () =>
+      showCommentsModal ? (
+        <CommentModal
+          open={showCommentsModal}
+          close={handleCloseCommentsModal}
+        />
+      ) : null,
+    [showCommentsModal, handleCloseCommentsModal]
+  );
 
   return (
     <>
       {showSpinner && (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Space>
-            <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} />
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />}
+            />
             <h4>Đang tạo bài viết</h4>
           </Space>
         </div>
       )}
 
-      <div id="scrollableDiv" style={{ overflow: "auto", display: "flex", flexDirection: "column" }}>
+      <div
+        id="scrollableDiv"
+        style={{ overflow: "auto", display: "flex", flexDirection: "column" }}
+      >
         <InfiniteScroll
-          dataLength={listPosts.length}
+          dataLength={listPosts?.length}
           next={getMore}
           hasMore={true}
           loader={<h4>Loading...</h4>}
-          endMessage={<p style={{ textAlign: "center" }}><b>Yay! You have seen it all</b></p>}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
         >
-          {listPosts.map((post, index) => (
-            tagValue === "Tất Cả" || post?.post?.postTagID?.postTagContent === tagValue ? (
+          {listPosts?.map((post, index) =>
+            tagValue === "Tất Cả" ||
+            post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post
                 key={post._id}
                 newfeed={post}
@@ -109,7 +135,7 @@ const PostsRender = () => {
                 setIsOpenByComment={setIsOpenByComment}
               />
             ) : null
-          ))}
+          )}
           {commentModal}
         </InfiniteScroll>
       </div>

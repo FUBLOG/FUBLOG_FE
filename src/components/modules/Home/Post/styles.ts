@@ -3,16 +3,16 @@ import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   &.theme-dark {
-    border: 2px solid #F7D600;
-    -webkit-box-shadow: 1px 1px 10px 1px rgba(255,238,5,0.65);
--moz-box-shadow: 1px 0px 10px 1px rgba(255,238,5,0.65);
-box-shadow: 1px 1px 4px 1px rgba(255,238,5,0.65);
+    border: 2px solid #f7d600;
+    -webkit-box-shadow: 1px 1px 10px 1px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 1px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    box-shadow: 1px 1px 4px 1px rgba(255, 238, 5, 0.65);
   }
   &.theme-light {
     border: 1px solid #000;
-        box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
-    -webkit-box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
-    -moz-box-shadow: 0px 0px 20px -18px rgba(53, 47, 68, 0.3);
+    box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 5px 5px 2px #0000008a;
+    -moz-box-shadow: 0px 5px 5px 2px #0000008a;
   }
 
   box-sizing: border-box;
@@ -157,7 +157,7 @@ export const CustomMenuItem = styled(Menu.Item)`
 
   &:hover {
     background-color: #e5d6c6 !important;
-    color: #352f44 ;
+    color: #352f44;
   }
 
   &:active {
@@ -298,15 +298,15 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 ;
+    background-color: #5c5470;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;
   }
   .ant-btn-default:hover {
     background: #faf0e6 !important;
-    color: #352f44 ;
-    border-color: #352f44 ;
+    color: #352f44;
+    border-color: #352f44;
   }
   .ant-btn-default {
     background: #faf0e6;
@@ -314,7 +314,7 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 50px ;
+    padding-bottom: 50px;
   }
   .ant-modal {
     top: 10%;

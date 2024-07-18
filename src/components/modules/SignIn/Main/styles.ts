@@ -7,6 +7,6 @@ export const HomeWrapper = styled(Flex)`
   align-items: flex-start;
   gap: 20px;
   span {
-    color: #b9b4c7 ;
+    color: #b9b4c7;
   }
 `;

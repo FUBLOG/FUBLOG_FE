@@ -3,11 +3,16 @@ import { Flex } from "antd";
 
 export const HomeWrapper = styled(Flex)`
   &.theme-dark {
-    background-color: #0C0C0C
+    background-color: #0c0c0c;
   }
   &.theme-light {
-    background: rgb(218,251,217);
-background: linear-gradient(146deg, rgba(218,251,217,1) 0%, rgba(206,218,255,1) 100%);
+    background: rgb(236, 250, 215);
+    background: linear-gradient(
+      0deg,
+      rgba(236, 250, 215, 1) 0%,
+      rgba(255, 200, 200, 1) 45%,
+      rgba(211, 213, 255, 1) 100%
+    );
   }
   flex-direction: column;
   align-items: center;
@@ -30,19 +35,17 @@ export const Container = styled(Flex)`
   gap: 32px;
   width: 100%;
   max-width: 1200px;
-  
 `;
 
 export const Sidebar = styled(Flex)`
-&.theme-dark {
--webkit-box-shadow: 0px 0px 18px 2px rgba(255,238,5,0.65);
--moz-box-shadow: 0px 0px 18px 2px rgba(255,238,5,0.65);
-box-shadow: 0px 0px 18px 2px rgba(255,238,5,0.65);
-  border: 2px solid #F7D600;
-
-}
+  &.theme-dark {
+    -webkit-box-shadow: 0px 0px 18px 2px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 0px 0px 18px 2px rgba(255, 238, 5, 0.65);
+    box-shadow: 0px 0px 18px 2px rgba(255, 238, 5, 0.65);
+    border: 2px solid #f7d600;
+  }
   &.theme-light {
-    background-color: #FAF0E6;
+    background-color: #faf0e6;
     border: 1px solid #352f44;
   }
   flex-direction: column;

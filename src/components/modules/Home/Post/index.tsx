@@ -32,6 +32,8 @@ import { useRouter } from "next/navigation";
 import { addLike, deletePost, unLike } from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../../UpdatePost/content";
+import moment from "moment";
+import "moment/locale/vi";
 
 interface PostProps {
   newfeed: any;
@@ -57,6 +59,7 @@ const Post = ({
   const handleCancel = () => {
     setEditPost(false);
   };
+  moment.locale("vi");
   const darkMode = useThemeStore((state) => state.darkMode);
   const { userInfo } = useAuthContext();
   const [likes, setLikes] = useState(newfeed?.post?.countLike);
@@ -70,28 +73,37 @@ const Post = ({
   const [isPostReport, setIsPostReport] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const [openPreviewInfo, setOpenPreviewInfo] = useState(false);
   const [showEnsure, setShowEnsure] = useState(false);
   const [postContent, setPostContent] = useState(newfeed?.post?.postContent);
   const [postTags, setPostTags] = useState(newfeed?.post?.postTagID);
   const [postImages, setPostImages] = useState(
     newfeed?.post?.postLinkToImages.map((url: string) => ({ url }))
   );
+  const [timeAgo, setTimeAgo] = useState("");
+  const audiance2: { [key: string]: string } = {
+    public: "Công Khai",
+    private: "Riêng Tư",
+    friend: "Bạn Bè",
+  };
+
   const [postAudience, setPostAudience] = useState(newfeed?.post?.status);
+  const audienceValue = audiance2[postAudience];
   const router = useRouter();
   let hoverTimeout: NodeJS.Timeout;
   useEffect(() => {
     setListLike(newfeed?.post?.likes);
     const liked = listLike?.includes(userInfo?._id);
     setLiked(liked);
+    setTimeAgo(moment(newfeed?.post?.updatedAt).fromNow());
   }, [newfeed, userInfo, listLike]);
 
   useEffect(() => {
     setPostContent(newfeed?.post?.postContent);
     setPostTags(newfeed?.post?.postTagID);
-    setPostImages(newfeed?.post?.postLinkToImages.map((url: string) => ({ url })));
+    setPostImages(
+      newfeed?.post?.postLinkToImages.map((url: string) => ({ url }))
+    );
     setPostAudience(newfeed?.post?.postStatus);
-    
   }, [newfeed]);
   const togleLike = () => {
     if (webStorageClient.get(constants.IS_AUTH)) {
@@ -224,13 +236,20 @@ const Post = ({
                   src={newfeed?.userId?.userInfo?.avatar}
                   alt={`${newfeed?.userId?.displayName}'s avatar`}
                 />
-                <Typography
-                  variant="caption-normal"
-                  color={darkMode ? "#fff" : "#000"}
-                  fontSize="18px"
-                >
-                  {newfeed?.userId?.displayName}
-                </Typography>
+                <div>
+                  <Typography
+                    variant="caption-normal"
+                    color={darkMode ? "#fff" : "#000"}
+                    fontSize="18px"
+                  >
+                    <div>{newfeed?.userId?.displayName}</div>
+                  </Typography>
+
+                  <div>
+                    {audienceValue}
+                    {timeAgo}
+                  </div>
+                </div>
               </S.UserInfo>
             </Tooltip>
             {userInfo?._id !== newfeed?.userId?._id ? (

@@ -410,7 +410,9 @@ const typography = css`
 
 const scrollApp = css`
   ::-webkit-scrollbar {
-    display: none;
+    display: block;
+    width: 12px;
+    z-index: 10000;
   }
 `;
 

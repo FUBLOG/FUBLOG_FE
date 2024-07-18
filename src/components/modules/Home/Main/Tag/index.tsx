@@ -37,7 +37,7 @@ const TagRender = () => {
               : "black"
             : activeTags === "Tất Cả"
             ? "#060607"
-            : "#B8B3C6"
+            : "white"
         }
         type="default"
         $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#cedaff"}
@@ -56,7 +56,7 @@ const TagRender = () => {
       >
         Tất Cả
       </Button>
-      {tags.map((tag: any, index: number) => (
+      {tags?.map((tag: any, index: number) => (
         <Button
           $color={
             !darkMode
@@ -65,7 +65,7 @@ const TagRender = () => {
                 : "black"
               : activeTags === tag.postTagContent
               ? "#060607"
-              : "#B8B3C6"
+              : "white"
           }
           key={index}
           type="default"

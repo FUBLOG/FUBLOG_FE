@@ -169,9 +169,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     setEditPost(false);
   };
   const handleCreatePostSuccess = () => {
-    setEditPost(false);
-    setEditMyPost(false);
-    fetchPosts(); // Fetch posts again to reflect the changes
+    fetchPosts(); 
   };
 
   const postEditModal = useMemo(() => {
@@ -181,6 +179,9 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         onCancel={handleCancel}
         destroyOnClose={true}
         footer={false}
+        onOk={()=>{
+          setEditPost(false);
+        }}
       >
         <PostContent
           postId={selectedPost?._id}
@@ -192,7 +193,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         />
       </S.CreateModal>
     );
-  }, [editPost, selectedPost]);
+  }, [editPost]);
 
   const editDeleteModal = useMemo(() => {
     return (

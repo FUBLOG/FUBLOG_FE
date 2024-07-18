@@ -109,7 +109,10 @@ function FormReset() {
               htmlType="submit"
               className="ButtonWrapper"
               type="default"
-              $backgroundColor="#FAF0E6"
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
               $margin="30px 0 0 0"
               $width={"100px"}
             >

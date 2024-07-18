@@ -3,17 +3,20 @@ import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   &.theme-dark {
-    border: 1px solid #ccc;
+    border: 2px solid #F7D600;
+    -webkit-box-shadow: 1px 1px 10px 1px rgba(255,238,5,0.65);
+-moz-box-shadow: 1px 0px 10px 1px rgba(255,238,5,0.65);
+box-shadow: 1px 1px 4px 1px rgba(255,238,5,0.65);
   }
   &.theme-light {
-    border: 1px solid #352f44;
-    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
-    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
-    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    border: 1px solid #000;
+        box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
+    -webkit-box-shadow: 0px 0px 30px -18px rgba(53, 47, 68, 0.3);
+    -moz-box-shadow: 0px 0px 20px -18px rgba(53, 47, 68, 0.3);
   }
 
   box-sizing: border-box;
-  margin: 20px 0;
+  margin: 40px 0;
   padding: 24px;
   max-width: 700px;
   width: 100%;

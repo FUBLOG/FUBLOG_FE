@@ -7,15 +7,15 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { io } from "socket.io-client";
-
+import verImg from "@/public/verified.png";
+import verImg2 from "@/public/verified2.png";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-import verImg from "@/public/verified.png";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import useThemeStore from "@/hooks/useTheme";
-import verImg2 from "@/public/verified2.png";
+
 
 import * as S from "./styles";
 
@@ -129,7 +129,7 @@ function FormVerification(props: PageProps) {
               style={{
                 justifyContent: "center",
                 margin: "0px 0px 10px 0px",
-                color: "#B9B4C7",
+                color: darkMode ? "#B9B4C7" : "#352F44",
               }}
             >
               <Button
@@ -144,7 +144,7 @@ function FormVerification(props: PageProps) {
               <Typography
                 style="italic"
                 variant="body-text-normal"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="xx-small"
               >
                 Đăng ký lại

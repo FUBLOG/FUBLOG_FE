@@ -30,24 +30,6 @@ function translateRelationship(relationship: string): string {
   }
 }
 
-
-function translateRelationship(relationship: string): string {
-  switch (relationship) {
-    case "single":
-      return "Độc thân";
-    case "married":
-      return "Đã kết hôn";
-    case "divorced":
-      return "Đã ly hôn";
-    case "complicated":
-      return "Có mối quan hệ phức tạp";
-    case "in a relationship":
-      return "Đang hẹn hò";
-    default:
-      return relationship;
-  }
-}
-
 function Introduce() {
   const darkMode = useThemeStore((state) => state.darkMode);
   const { profile } = useProfile();
@@ -76,7 +58,6 @@ function Introduce() {
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
             >
-              {translateRelationship(profile?.info?.relationship || "single")}
               {translateRelationship(profile?.info?.relationship || "single")}
             </Typography>
           </S.InfoItem>
@@ -130,7 +111,6 @@ function Introduce() {
             />
             <Typography className={darkMode ? "theme-dark" : "theme-light"}
               variant="body-text-small-normal"
-              color={darkMode ? "white" : "#352F44"}
               color={darkMode ? "white" : "#352F44"}
               fontSize="14px"
             >

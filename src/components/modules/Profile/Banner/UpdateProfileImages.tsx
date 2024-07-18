@@ -59,6 +59,7 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
       
       handleCancel();
       onProfileUpdate();
+      window.location.reload(); // Reload the page after the update
     } catch (error) {
       console.error(`Lỗi khi cập nhật ảnh ${imageType === "avatar" ? "đại diện" : "bìa"}:`, error);
       message.error(`Cập nhật ảnh ${imageType === "avatar" ? "đại diện" : "bìa"} thất bại`);

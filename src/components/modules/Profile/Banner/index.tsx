@@ -43,7 +43,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
   const [showUpdateImage, setShowUpdateImage] = useState(false);
-  const [imageType, setImageType] = useState(""); 
+  const [imageType, setImageType] = useState<"avatar" | "cover">("avatar"); 
 
   const handleCancel = () => {
     setShowModalGuest(false);
@@ -60,7 +60,6 @@ const Banner = ({ profileHash, setLoading }: any) => {
 
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
-    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
@@ -68,7 +67,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
 
-  const handleImageClick = (type: string) => {
+  const handleImageClick = (type: "avatar" | "cover") => { 
     setImageType(type);
     setShowUpdateImage(true);
     document.body.style.overflow = 'hidden';
@@ -159,9 +158,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
     </S.Wrapper>
   ) : (
     loading && <S.Wrapper> <NotFound /></S.Wrapper>
-    loading && <S.Wrapper> <NotFound /></S.Wrapper>
   );
 };
-
 
 export default Banner;

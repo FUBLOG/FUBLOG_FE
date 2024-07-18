@@ -60,6 +60,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
 
   const handleDisplayButton = () => {
     if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
+    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
@@ -157,6 +158,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       </S.BannerUser>
     </S.Wrapper>
   ) : (
+    loading && <S.Wrapper> <NotFound /></S.Wrapper>
     loading && <S.Wrapper> <NotFound /></S.Wrapper>
   );
 };

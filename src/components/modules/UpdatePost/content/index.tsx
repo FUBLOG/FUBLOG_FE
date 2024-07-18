@@ -136,7 +136,6 @@ export const PostContent: React.FC<PostContent> = ({
       console.log(tagValue._id);
 
       const res: any = await updatePost(postId, formData);
-      console.log(res?.metadata);
       setTimeout(() => {
         setPost(res?.metadata);
         setShowSpinnerUpdate(false);

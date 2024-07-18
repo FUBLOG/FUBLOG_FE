@@ -79,8 +79,6 @@ function MainLayout({ children }: LayoutProps) {
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
-
-
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&
@@ -95,9 +93,6 @@ function MainLayout({ children }: LayoutProps) {
     webStorageClient.get(constants.ACCESS_TOKEN),
     webStorageClient.get(constants.REFRESH_TOKEN),
   ]);
-
-
-
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -159,9 +154,7 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href={`/change-password`}>
-          Đổi mật khẩu
-        </Link>
+        <Link href={`/change-password`}>Đổi mật khẩu</Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
@@ -279,10 +272,10 @@ function MainLayout({ children }: LayoutProps) {
                 <Button
                   $width="100px"
                   disabled={loading}
-                  $color={darkMode? "#fff" : "white "}
-                  $hoverColor={darkMode? "#000" : "#fff"}
-                  $borderColor={darkMode? "#fff" : "#352f44"}
-                  $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+                  $color={darkMode ? "#fff" : "white "}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                   $backgroundColor="#353839"
                 >
                   Đăng ký
@@ -294,7 +287,7 @@ function MainLayout({ children }: LayoutProps) {
               <Dropdown overlay={menuItems} trigger={["hover"]}>
                 <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                   <Image
-                    src={userInfo?.userInfo?.avatar|| "/default-avatar.png"}
+                    src={userInfo?.userInfo?.avatar || "/default-avatar.png"}
                     alt="User Avatar"
                     width={42}
                     height={42}

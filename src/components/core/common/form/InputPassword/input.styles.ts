@@ -15,19 +15,18 @@ export const Input = styled(InputAntd.Password)`
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   font-size: ${({ theme }) => theme.fontSize.base};
   line-height: 24px;
-  color: ${(props) => props.theme.colors.newtral};
+  color: #000;
 
   &.ant-input-affix-wrapper-focused {
     border: 1px solid ${(props) => props.theme.colors.primary} !important;
   }
   .anticon.ant-input-password-icon {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
   &.ant-input-affix-wrapper {
     padding: 12px 0px 12px 16px;
 
-    background-color: ${(props) =>
-      props.theme.colors.secondaryDarker} !important;
+    background-color: #fff !important;
     span {
       margin-right: 8px;
     }
@@ -36,13 +35,13 @@ export const Input = styled(InputAntd.Password)`
       font-weight: ${({ theme }) => theme.fontWeight.regular};
       font-size: ${({ theme }) => theme.fontSize.base};
       line-height: 24px;
-      color: ${(props) => props.theme.colors.backgroundWhite};
+      color: #000;
 
       &::placeholder {
         font-weight: ${({ theme }) => theme.fontWeight.regular};
         font-size: ${({ theme }) => theme.fontSize.base};
         line-height: 24px;
-        color: ${(props) => props.theme.colors.newtralLighter};
+        color: #000;
       }
 
       &:disabled {

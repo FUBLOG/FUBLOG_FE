@@ -82,7 +82,7 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 !important;
+    background-color: #5c5470 ;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;

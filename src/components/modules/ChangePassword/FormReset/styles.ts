@@ -26,8 +26,8 @@ export const HomeWrapper = styled(Flex)`
   .ant-picker-outlined {
     padding: 12px 16px;
 
-    background-color: #352f44 !important;
-    color: #b9b4c7 !important;
+    background-color: #352f44 ;
+    color: #000 !important;
     border: 1px solid #faf0e6 !important;
   }
 
@@ -36,7 +36,7 @@ export const HomeWrapper = styled(Flex)`
   }
   .ant-picker:focus {
     background-color: #352f44;
-    color: #b9b4c7;
+    color: #000;
     border: 1px solid #faf0e6;
   }
   &::placeholder {
@@ -44,17 +44,17 @@ export const HomeWrapper = styled(Flex)`
     line-height: 24px;
   }
   .ant-picker-input {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
   .ant-picker-input-placeholder > input {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
 
   ::placeholder {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
   .ant-btn > span {
-    color: #352f44 !important;
+    color: #000 !important;
   }
   .ant-btn:hover > span {
     color: #faf0e6 !important;

@@ -7,7 +7,7 @@ export const HomeWrapper = styled(Flex)`
   flex-direction: column;
   gap: 10px;
   .ant-btn > span {
-    color: #352f44 !important;
+    color: #000 !important;
   }
   .ant-btn:hover > span {
     color: #faf0e6 !important;
@@ -17,7 +17,7 @@ export const HomeWrapper = styled(Flex)`
     transition: background-color 600000s 0s, color 600000s 0s;
   }
   input[data-autocompleted] {
-    background-color: #FAF0E6 !important;
+    background-color: #fff !important;
   }
 `;
 

@@ -52,7 +52,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
         <S.TitleLogin>
           <Typography
             variant="h1"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#000"}
             fontSize="x-large"
             align="center"
           >
@@ -64,7 +64,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           <Typography
             style="italic"
             variant="body-text-small-normal"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#000"}
             fontSize="xx-small"
           >
             Sau khi ấn xác thực HaS - Healing and Sharing sẽ gửi cho bạn một
@@ -85,10 +85,10 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined style={{color : "#FAF0E6"}} />}
+              prefix={<UserOutlined style={{color : "#000"}} />}
               isRequired
               label="Email"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
           <Link href="/sign-in">
@@ -96,13 +96,16 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
               style={{
                 justifyContent: "left",
                 margin: "0px 0px 10px 0px",
-                color: darkMode ? "#B9B4C7" : "#352F44",
+                color: darkMode ? "#F7D600" : "#000",
               }}
             >
               <Button
                 className="ButtonWrapper"
                 type="default"
-                $backgroundColor="#FAF0E6"
+                $color={darkMode ? "#fff" : "#352f44"}
+                $hoverColor={darkMode ? "#000" : "#fff"}
+                $borderColor={darkMode ? "#fff" : "#352f44"}
+                $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                 $width="10px"
               >
                 <ArrowLeftOutlined style={{ fontSize: "10px" }} />
@@ -119,10 +122,13 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           >
             <Button
               htmlType="submit"
+              style={{color: darkMode ? "#F7D600" : "#000" }}
               className="ButtonWrapper"
-              type="default"
-              $backgroundColor="#FAF0E6"
               $width={"100px"}
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
             >
               GỬI
             </Button>
@@ -130,7 +136,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
           <S.Typography>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#F7D600" : "#000"}
               fontSize="xx-small"
             >
               Tạo tài khoản mới?
@@ -138,7 +144,7 @@ function FormForgot({ setStatus, setEmail }: PageProps) {
             <Link href="/sign-up">
               <Typography
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
                 fontSize="xx-small"
                 textDecoration="underline"
               >

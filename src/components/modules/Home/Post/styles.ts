@@ -154,7 +154,7 @@ export const CustomMenuItem = styled(Menu.Item)`
 
   &:hover {
     background-color: #e5d6c6 !important;
-    color: #352f44 !important;
+    color: #352f44 ;
   }
 
   &:active {
@@ -295,15 +295,15 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 !important;
+    background-color: #5c5470 ;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;
   }
   .ant-btn-default:hover {
     background: #faf0e6 !important;
-    color: #352f44 !important;
-    border-color: #352f44 !important;
+    color: #352f44 ;
+    border-color: #352f44 ;
   }
   .ant-btn-default {
     background: #faf0e6;

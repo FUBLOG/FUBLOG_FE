@@ -48,7 +48,7 @@ function FormReset() {
       <S.HomeWrapper>
         <Typography
           variant="h1"
-          color={darkMode ? "#B9B4C7" : "#352F44"}
+          color={darkMode ? "#F7D600" : "#000"}
           fontSize="x-large"
           align="center"
         >
@@ -71,7 +71,7 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Mật khẩu cũ"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
           <FormItem
@@ -80,7 +80,7 @@ function FormReset() {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
               prefix={<LockOutlined />}
               isRequired
               label="Nhập mật khẩu mới"
@@ -95,7 +95,7 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Nhập lại mật khẩu mới"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}  
             />
           </FormItem>
           <FormItem

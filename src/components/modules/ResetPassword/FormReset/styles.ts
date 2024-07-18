@@ -26,8 +26,8 @@ export const HomeWrapper = styled(Flex)`
   .ant-picker-outlined {
     padding: 12px 16px;
 
-    background-color: #352f44 !important;
-    color: #b9b4c7 !important;
+    background-color: #000 !important;
+    color: #b9b4c7 ;
     border: 1px solid #faf0e6 !important;
   }
 
@@ -44,20 +44,20 @@ export const HomeWrapper = styled(Flex)`
     line-height: 24px;
   }
   .ant-picker-input {
-    color: #b9b4c7 !important;
+    color: #b9b4c7 ;
   }
   .ant-picker-input-placeholder > input {
-    color: #b9b4c7 !important;
+    color: #b9b4c7 ;
   }
 
   ::placeholder {
-    color: #b9b4c7 !important;
+    color: #b9b4c7 ;
   }
   .ant-btn > span {
-    color: #352f44 !important;
+    color: #352f44 ;
   }
   .ant-btn:hover > span {
-    color: #faf0e6 !important;
+    color: #faf0e6 ;
   }
 `;
 export const Typography = styled(Flex)`

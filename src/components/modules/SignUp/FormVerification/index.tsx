@@ -15,6 +15,7 @@ import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
 import useThemeStore from "@/hooks/useTheme";
+import verImg2 from "@/public/verified2.png";
 
 import * as S from "./styles";
 
@@ -82,18 +83,19 @@ function FormVerification(props: PageProps) {
     <S.HomeWrapper darkMode={darkMode}>
       <Typography
         variant="h1"
-        color="#B9B4C7"
+        color={darkMode ? "#F7D600" : "#000"}
         fontSize="x-large"
         align="center"
+        
       >
         Xác thực email
       </Typography>
       <S.Infor>
-        <Image src={verImg} alt="logo verification" />
+      <Image src={darkMode ? verImg : verImg2} alt="logo verification" />
         <Typography
           style="italic"
           variant="body-text-small-normal"
-          color="#B9B4C7"
+          color={darkMode ? "#F7D600" : "#000"}
           fontSize="xx-small"
         >
           Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui lòng
@@ -103,7 +105,7 @@ function FormVerification(props: PageProps) {
       <Typography
         style="italic"
         variant="body-text-small-normal"
-        color="#B9B4C7"
+        color={darkMode ? "#F7D600" : "#000"}
         fontSize="xx-small"
         margin="30px 0px 0px 0px"
       >
@@ -112,9 +114,10 @@ function FormVerification(props: PageProps) {
       {finish === true ? (
         <>
           <Button
-            className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
+            $color={darkMode ? "#fff" : "#352f44"}
+            $hoverColor={darkMode ? "#000" : "#fff"}
+            $borderColor={darkMode ? "#fff" : "#352f44"}
+            $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
             $width={"100px"}
             $margin="10px 0px"
             onClick={resend}
@@ -130,9 +133,10 @@ function FormVerification(props: PageProps) {
               }}
             >
               <Button
-                className="ButtonWrapper"
-                type="default"
-                $backgroundColor="#B9B4C7"
+                  $color={darkMode ? "#fff" : "#352f44"}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                 onClick={handleClick}
               >
                 <ArrowLeftOutlined style={{ fontSize: "10px" }} />

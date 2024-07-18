@@ -98,7 +98,7 @@ const PostsRender = () => {
           endMessage={<p style={{ textAlign: "center" }}><b>Yay! You have seen it all</b></p>}
         >
           {listPosts.map((post, index) => (
-            tagValue === "Tất Cả" || post.post.postTagID.postTagContent === tagValue ? (
+            tagValue === "Tất Cả" || post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post
                 key={post._id}
                 newfeed={post}

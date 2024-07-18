@@ -11,6 +11,7 @@ import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
 import CommentModal from "../../Post/Comment";
 import useTagStageStore from "@/hooks/useTags";
+import useThemeStore from "@/hooks/useTheme";
 
 interface PostData {
   _id: string;
@@ -30,6 +31,7 @@ const PostsRender = () => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isOpenByComment, setIsOpenByComment] = useState(false);
   const tagValue = useTagStageStore((state) => state.tagValue);
+  const darkmode = useThemeStore((state) => state.darkMode);
   const handleCloseCommentsModal = () => {
     if (isOpenByComment) {
       router.back();
@@ -102,7 +104,7 @@ const PostsRender = () => {
             <Spin
               indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />}
             />
-            <h4>Đang tạo bài viết</h4>
+            <h4 style={{color: darkmode ? "#F7D600" : "000"}}>Đang tạo bài viết</h4>
           </Space>
         </div>
       )}

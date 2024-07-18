@@ -8,10 +8,11 @@ import PostsRender from "./PostRender";
 import useUpdatePost from "@/hooks/useUpdatePost";
 import { Space, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import useThemeStore from "@/hooks/useTheme";
 
 function Home() {
-  const {showSpinnerUpdate} = useUpdatePost();
-
+  const { showSpinnerUpdate } = useUpdatePost();
+  const darkmode = useThemeStore((state) => state.darkMode);
   useEffect(() => {
     const setup = async () => {
       await getRequest(tagEndpoint.GET_TAG);
@@ -20,11 +21,10 @@ function Home() {
   }, []);
 
   return (
-    
     <S.HomeWrapper>
       <S.MainWrapper>
         <S.ContentWrapper>
-          <S.PostContainer>
+          <S.PostContainer className={darkmode ? "theme-dark" : "theme-light"}>
             <TagRender />
             {showSpinnerUpdate && (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -33,13 +33,13 @@ function Home() {
                     className="custom-spin"
                     indicator={
                       <LoadingOutlined
-                        color="#ccc"
+                        color="#000"
                         style={{ fontSize: 30 }}
                         spin
                       />
                     }
                   />
-                  <h4 style={{ color: "#ccc" }}>Đang Chỉnh Sửa</h4>
+                  <h4 style={{ color: darkmode ? "#F7D600" : "#000" }}>Đang Chỉnh Sửa</h4>
                 </Space>
               </div>
             )}

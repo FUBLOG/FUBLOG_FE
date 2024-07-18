@@ -24,9 +24,16 @@ export const PostContainer = styled.div`
 
   max-width: 800px;
   width: 100%;
-  .custom-spin .ant-spin-dot{
-    color: #ccc; /* Thay đổi màu sắc theo ý muốn */
-}
+  &.theme-light{
+    .custom-spin .ant-spin-dot{
+      color: blue; 
+  }
+  }
+  &.theme-dark{
+    .custom-spin .ant-spin-dot{
+      color: #F7D600; 
+  }
+  }
 `;
 
 export const TagsContainer = styled(Flex)`

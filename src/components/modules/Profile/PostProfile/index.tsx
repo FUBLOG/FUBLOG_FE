@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Button, Carousel, message, Radio } from "antd";
+import { Button, Carousel, message, Radio, Space, Spin } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -12,6 +12,7 @@ import {
   GlobalOutlined,
   LockOutlined,
   TeamOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 
 import Typography from "@/components/core/common/Typography";
@@ -27,6 +28,7 @@ import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../UpdatePost/content";
 import moment from "moment";
+import useUpdatePost from "@/hooks/useUpdatePost";
 
 interface PostProps {
   profileHash: any;
@@ -51,6 +53,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [comments, setComments] = useState(0);
   const [editPost, setEditPost] = useState(false);
   const [showEnsure, setShowEnsure] = useState(false);
+  const darkmode = useThemeStore((state) => state.darkMode);
   const audiance2: { [key: string]: any } = {
     public: <GlobalOutlined />,
     private: <LockOutlined />,
@@ -179,6 +182,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   };
   const handleCreatePostSuccess = () => {
     setEditPost(false);
+    setEditMyPost(false);
   };
 
   const postEditModal = useMemo(() => {
@@ -251,14 +255,30 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       </S.CustomModal>
     );
   }, [showEnsure, selectedPost]);
-
+  const {showSpinnerUpdate} = useUpdatePost()
   return (
-    <>
+    <S.Container className={darkmode ? "theme-dark" : "theme-light"}>
       {commentModal}
       {editDeleteModal}
       {deleteConfirmModal}
       {postEditModal}
-
+      {showSpinnerUpdate && (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Space>
+                  <Spin
+                    className="custom-spin"
+                    indicator={
+                      <LoadingOutlined
+                        color="#000"
+                        style={{ fontSize: 30 }}
+                        spin
+                      />
+                    }
+                  />
+                  <h4 style={{ color: darkmode ? "#F7D600" : "#000" }}>Đang Chỉnh Sửa</h4>
+                </Space>
+              </div>
+            )}
       {posts.length === 0 ? (
         <Typography
           variant="caption-normal"
@@ -502,7 +522,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
           />
         </S.ImageModal>
       </div>
-    </>
+    </S.Container>
   );
 };
 

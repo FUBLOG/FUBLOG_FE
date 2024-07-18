@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Upload, message, Modal } from "antd";
+import { Upload, message, Modal, Spin } from "antd";
 import ImgCrop from "antd-img-crop";
 import { UploadFile, UploadProps } from "antd/lib/upload/interface";
 import { patchRequest } from "@/services/request";
@@ -21,6 +21,7 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
 }) => {
   const [avatarFileList, setAvatarFileList] = useState<UploadFile[]>([]);
   const [coverFileList, setCoverFileList] = useState<UploadFile[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!visible) {
@@ -43,15 +44,13 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
 
     if (fileList[0]?.originFileObj) {
       formData.append("image", fileList[0].originFileObj);
-      // console.log("File được thêm vào FormData:", fileList[0].originFileObj);
-
-      // console.log("FormData trước khi gửi:");
-     
     } else {
       console.error("Không có file nào trong danh sách hoặc file không hợp lệ.");
       message.error("Không có file nào được chọn.");
       return;
     }
+
+    setLoading(true);
 
     try {
       const endpoint = imageType === "avatar" ? profileEndpoint.CHANGE_AVATAR : profileEndpoint.CHANGE_COVER;
@@ -60,9 +59,12 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
       
       handleCancel();
       onProfileUpdate();
+      window.location.reload(); // Reload the page after the update
     } catch (error) {
       console.error(`Lỗi khi cập nhật ảnh ${imageType === "avatar" ? "đại diện" : "bìa"}:`, error);
       message.error(`Cập nhật ảnh ${imageType === "avatar" ? "đại diện" : "bìa"} thất bại`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,11 +115,10 @@ const UpdateProfileImages: React.FC<UpdateProfileImagesProps> = ({
         </ImgCrop>
         <S.CustomButton
           type="primary"
-          
           onClick={handleUpload}
-          disabled={imageType === "avatar" ? avatarFileList.length === 0 : coverFileList.length === 0}
+          disabled={imageType === "avatar" ? avatarFileList.length === 0 : coverFileList.length === 0 || loading}
         >
-          Cập nhật
+          {loading ? <Spin /> : "Cập nhật"}
         </S.CustomButton>
       </S.UploadContainer>
     </S.StyledModal>

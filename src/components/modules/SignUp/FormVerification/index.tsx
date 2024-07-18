@@ -7,10 +7,10 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { io } from "socket.io-client";
-
+import verImg from "@/public/verified.png";
+import verImg2 from "@/public/verified2.png";
 import Typography from "@/components/core/common/Typography";
 import Button from "@/components/core/common/Button";
-import verImg from "@/public/verified.png";
 import { postRequest } from "@/services/request";
 import { authEndpoint } from "@/services/endpoint";
 import { constants } from "@/settings";
@@ -82,18 +82,18 @@ function FormVerification(props: PageProps) {
     <S.HomeWrapper darkMode={darkMode}>
       <Typography
         variant="h1"
-        color="#B9B4C7"
+        color={darkMode ? "#B9B4C7" : "#352F44"}
         fontSize="x-large"
         align="center"
       >
         Xác thực email
       </Typography>
       <S.Infor>
-        <Image src={verImg} alt="logo verification" />
+        <Image src={darkMode ? verImg : verImg2} alt="logo verification" />
         <Typography
           style="italic"
           variant="body-text-small-normal"
-          color="#B9B4C7"
+          color={darkMode ? "#B9B4C7" : "#352F44"}
           fontSize="xx-small"
         >
           Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui lòng
@@ -103,7 +103,7 @@ function FormVerification(props: PageProps) {
       <Typography
         style="italic"
         variant="body-text-small-normal"
-        color="#B9B4C7"
+        color={darkMode ? "#B9B4C7" : "#352F44"}
         fontSize="xx-small"
         margin="30px 0px 0px 0px"
       >
@@ -126,7 +126,7 @@ function FormVerification(props: PageProps) {
               style={{
                 justifyContent: "center",
                 margin: "0px 0px 10px 0px",
-                color: "#B9B4C7",
+                color: darkMode ? "#B9B4C7" : "#352F44",
               }}
             >
               <Button
@@ -140,7 +140,7 @@ function FormVerification(props: PageProps) {
               <Typography
                 style="italic"
                 variant="body-text-normal"
-                color="#B9B4C7"
+                color={darkMode ? "#B9B4C7" : "#352F44"}
                 fontSize="xx-small"
               >
                 Đăng ký lại

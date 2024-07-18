@@ -43,23 +43,34 @@ const Banner = ({ profileHash, setLoading }: any) => {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
   const [showUpdateImage, setShowUpdateImage] = useState(false);
-  const [imageType, setImageType] = useState<"avatar" | "cover">("avatar"); 
+  const [imageType, setImageType] = useState<"avatar" | "cover">("avatar");
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImageSrc, setModalImageSrc] = useState("");
 
   const handleCancel = () => {
     setShowModalGuest(false);
     setShowUpdateProfile(false);
     setShowUpdateImage(false);
-    document.body.style.overflow = 'auto'; 
+    setShowImageModal(false);
+    document.body.style.overflow = "auto";
   };
 
   const { profileSearch, getUserInfo } = useGetProfile(profileHash);
 
   const handleProfileUpdate = () => {
-    getUserInfo(profileHash); 
+    getUserInfo(profileHash);
   };
 
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
+    if (isMyUser)
+      return (
+        <MyUser
+          onClick={() => {
+            setShowUpdateProfile(true);
+            document.body.style.overflow = "hidden";
+          }}
+        />
+      );
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
@@ -67,10 +78,22 @@ const Banner = ({ profileHash, setLoading }: any) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
 
-  const handleImageClick = (type: "avatar" | "cover") => { 
-    setImageType(type);
-    setShowUpdateImage(true);
-    document.body.style.overflow = 'hidden';
+  const handleImageClick = (type: "avatar" | "cover") => {
+    if (isMyUser) {
+      setImageType(type);
+      setShowUpdateImage(true);
+      document.body.style.overflow = "hidden";
+    } else {
+      const imageUrl =
+        type === "avatar"
+          ? profileSearch?.info?.avatar
+          : profileSearch?.info?.cover_photo;
+      if (imageUrl) {
+        setModalImageSrc(imageUrl);
+        setShowImageModal(true);
+        document.body.style.overflow = "hidden";
+      }
+    }
   };
 
   useEffect(() => {
@@ -116,21 +139,43 @@ const Banner = ({ profileHash, setLoading }: any) => {
     checkFriend();
   };
 
+  const ImageModal = ({ src, onClose }: { src: string; onClose: () => void }) => (
+    <S.ImageModalOverlay onClick={onClose}>
+      <S.ImageModalContent>
+        <img src={src} alt="Image Preview" />
+      </S.ImageModalContent>
+    </S.ImageModalOverlay>
+  );
+
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <UpdateProfile 
-        visible={showUpdateProfile} 
-        handleCancel={handleCancel} 
-        onProfileUpdate={handleProfileUpdate} 
-      />
-      <UpdateProfileImages 
-        visible={showUpdateImage}
+      <UpdateProfile
+        visible={showUpdateProfile}
         handleCancel={handleCancel}
-        imageType={imageType}
         onProfileUpdate={handleProfileUpdate}
       />
-      <S.CoverImage src={profileSearch?.info?.cover_photo} onClick={() => handleImageClick("cover")} />
+      {isMyUser && (
+        <UpdateProfileImages
+          visible={showUpdateImage}
+          handleCancel={handleCancel}
+          imageType={imageType}
+          onProfileUpdate={handleProfileUpdate}
+        />
+      )}
+      {showImageModal && (
+        <ImageModal
+          src={modalImageSrc}
+          onClose={() => {
+            setShowImageModal(false);
+            document.body.style.overflow = "auto";
+          }}
+        />
+      )}
+      <S.CoverImage
+        src={profileSearch?.info?.cover_photo}
+        onClick={() => handleImageClick("cover")}
+      />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar onClick={() => handleImageClick("avatar")}>
@@ -157,7 +202,11 @@ const Banner = ({ profileHash, setLoading }: any) => {
       </S.BannerUser>
     </S.Wrapper>
   ) : (
-    loading && <S.Wrapper> <NotFound /></S.Wrapper>
+    loading && (
+      <S.Wrapper>
+        <NotFound />
+      </S.Wrapper>
+    )
   );
 };
 

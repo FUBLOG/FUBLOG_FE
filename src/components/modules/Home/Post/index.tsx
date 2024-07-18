@@ -79,7 +79,8 @@ const Post = ({
     setPostContent(newfeed?.post?.postContent);
     setPostTags(newfeed?.post?.postTagID);
     setPostImages(newfeed?.post?.postLinkToImages.map((url: string) => ({ url })));
-    setPostAudience(newfeed?.post?.status);
+    setPostAudience(newfeed?.post?.postStatus);
+    
   }, [newfeed]);
   const togleLike = () => {
     if (webStorageClient.get(constants.IS_AUTH)) {

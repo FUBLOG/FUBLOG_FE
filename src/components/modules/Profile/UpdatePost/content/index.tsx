@@ -32,13 +32,18 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
   const [tagValue, setTagValue] = useState<any>(existingTags);
   const [openTag, setOpenTag] = useState(false);
   const [tags] = useState<any[]>([]);
-  const [audienceValue, setAudienceValue] = useState(existingAudience);
   const [openAudience, setOpenAudience] = useState(false);
   const audiance: { [key: string]: string } = {
     "Công Khai": "public",
     "Riêng Tư": "private",
     "Bạn Bè": "friend",
-  };
+  }
+  const audiance2: { [key: string]: string } = {
+    "public": "Công Khai",
+    "private": "Riêng Tư",
+    "friend": "Bạn Bè",
+  }
+  const [audienceValue, setAudienceValue] = useState(audiance2[existingAudience]);
   
   useEffect(() => {
     const getTags = async () => {
@@ -116,7 +121,7 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
       });
       formData.append("postContent", postContent);
       formData.append("postTagID", tagValue._id);
-      formData.append("postStatus", 'public');
+      formData.append("postStatus", audiance[audienceValue]);
       console.log(postContent);
       console.log(tagValue._id);
 
@@ -182,7 +187,7 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
               onChange={onChange}
               onPreview={onPreview}
             >
-              {fileList?.length < 5 || fileList === undefined && "+ Upload"}
+              {fileList?.length < 5 || fileList === undefined && "+ "}
             </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>

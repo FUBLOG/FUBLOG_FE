@@ -54,7 +54,7 @@ const TagRender = () => {
               : "transparent"
         }
       >
-         <span style={{fontWeight: "500"}}>Tất Cả</span>
+         <span style={{fontWeight: activeTags === "Tất Cả" ? "500" : "400"}}>Tất Cả</span>
       </Button>
       {tags?.map((tag: any, index: number) => (
         <Button

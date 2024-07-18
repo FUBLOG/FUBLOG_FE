@@ -33,15 +33,15 @@ const TagRender = () => {
         $color={
           !darkMode
             ? activeTags === "Tất Cả"
-              ? "#B9B4C7"
+              ? "#352F44"
               : "black"
             : activeTags === "Tất Cả"
             ? "#060607"
-            : "#B8B3C6"
+            : "white"
         }
         type="default"
-        $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#352F44"}
-        $hoverColor={darkMode ? "#352F44" : "#FAF0E6"}
+        $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#cedaff"}
+        $hoverColor={darkMode ? "#352F44" : "#352F44"}
         $width={"84px"}
         onClick={() => handleClickTag("Tất Cả")}
         $backgroundColor={
@@ -50,7 +50,7 @@ const TagRender = () => {
               ? "#FAF0E6 "
               : "transparent"
             : activeTags === "Tất Cả"
-            ? "#352F44 "
+            ? "#cedaff "
             : "transparent"
         }
       >
@@ -61,16 +61,16 @@ const TagRender = () => {
           $color={
             !darkMode
               ? activeTags === tag.postTagContent
-                ? "white"
+                ? "#352F44"
                 : "black"
               : activeTags === tag.postTagContent
               ? "#060607"
-              : "#B8B3C6"
+              : "white"
           }
           key={index}
           type="default"
-          $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#352F44"}
-          $hoverColor={darkMode ? "#352F44" : "#FAF0E6"}
+          $hoverBackgroundColor={darkMode ? "#FAF0E6" : "#cedaff"}
+          $hoverColor={darkMode ? "#352F44" : "#352F44"}
           $width={"84px"}
           onClick={() => handleClickTag(tag.postTagContent)}
           $backgroundColor={
@@ -79,7 +79,7 @@ const TagRender = () => {
                 ? "#FAF0E6 "
                 : "transparent"
               : activeTags === tag.postTagContent
-              ? "#352F44 "
+              ? "#cedaff "
               : "transparent"
           }
         >

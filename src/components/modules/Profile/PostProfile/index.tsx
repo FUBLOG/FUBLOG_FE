@@ -22,6 +22,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
+import { PostContent } from "../UpdatePost/content";
 
 interface PostProps {
   profileHash: any;
@@ -81,7 +82,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const handleDelete = () => {
     setShowEnsure(true);
   };
-  const handleOkDelete = async (id: any) => {
+  const handleOkDelete = async (id: string) => {
     try {
       await deletePost(id);
     } catch (error) {
@@ -164,6 +165,35 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [selectedPost, showCommentsModal]);
 
   const darkMode = useThemeStore((state) => state.darkMode);
+  const handleCancel = () => {
+    setEditPost(false);
+  };
+  const handleCreatePostSuccess = () => {
+    fetchPosts(); 
+  };
+
+  const postEditModal = useMemo(() => {
+    return (
+      <S.CreateModal
+        open={editPost}
+        onCancel={handleCancel}
+        destroyOnClose={true}
+        footer={false}
+        onOk={()=>{
+          setEditPost(false);
+        }}
+      >
+        <PostContent
+          postId={selectedPost?._id}
+          existingContent={selectedPost?.postContent}
+          existingTags={selectedPost?.postTags}
+          existingFiles={selectedPost?.postImages}
+          existingAudience={selectedPost?.postAudience}
+          onSuccess={handleCreatePostSuccess}
+        />
+      </S.CreateModal>
+    );
+  }, [editPost]);
 
   const editDeleteModal = useMemo(() => {
     return (
@@ -219,7 +249,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       {commentModal}
       {editDeleteModal}
       {deleteConfirmModal}
-
+      {postEditModal}
       {posts?.map((newfeed: any) => (
         <S.PostWrapper
           className={darkMode ? "theme-dark" : "theme-light"}
@@ -234,7 +264,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 />
                 <Typography
                   variant="caption-normal"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
+                  color={darkMode ? "#fff" : "#352F44"}
                   fontSize="18px"
                 >
                   {newfeed?.UserID?.displayName}
@@ -243,7 +273,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
               {userInfo?.profileHash !== profileHash ? (
                 <ExclamationCircleOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#352F44",
                     cursor: "pointer",
                   }}
                   onClick={() => {
@@ -254,12 +284,10 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
               ) : (
                 <EllipsisOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#352F44",
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    // console.log("newfeed?._id", newfeed?._id);
-
                     setEditMyPost(true);
                     setSelectedPost(newfeed);
                   }}
@@ -270,7 +298,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
             <S.ContentWrapper>
               <Typography
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#fff" : "#352F44"}
                 fontSize="14px"
                 lineHeight="2"
               >
@@ -312,7 +340,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 {listIsLike[newfeed?._id] ? (
                   <HeartFilled
                     style={{
-                      color: darkMode ? "#B9B4C7" : "#352F44",
+                      color: darkMode ? "#fff" : "#352F44",
                       cursor: "pointer",
                     }}
                     onClick={() => handleLikeClick(newfeed?._id)}
@@ -320,23 +348,23 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 ) : (
                   <HeartOutlined
                     style={{
-                      color: darkMode ? "#B9B4C7" : "#352F44",
+                      color: darkMode ? "#fff" : "#352F44",
                       cursor: "pointer",
                     }}
                     onClick={() => handleLikeClick(newfeed?._id)}
                   />
                 )}
-                <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+                <span style={{ color: darkMode ? "#fff" : "#352F44" }}>
                   {listIsLike[newfeed?._id] ? 1 : 0}
                 </span>
                 <CommentOutlined
                   onClick={() => handleCommentClick(newfeed)}
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#352F44",
                     cursor: "pointer",
                   }}
                 />
-                <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+                <span style={{ color: darkMode ? "#fff" : "#352F44" }}>
                   {newfeed?.commentCount}
                 </span>
               </S.Actions>
@@ -344,7 +372,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                 <S.Tag>
                   <Typography
                     variant="caption-small"
-                    color={darkMode ? "#B9B4C7" : "#352F44"}
+                    color={darkMode ? "#fff" : "#352F44"}
                     fontSize="14px"
                     lineHeight="2"
                   >

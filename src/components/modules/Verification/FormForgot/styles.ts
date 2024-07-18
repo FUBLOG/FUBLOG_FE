@@ -8,10 +8,10 @@ export const HomeWrapper = styled(Flex)`
   flex-direction: column;
   gap: 10px;
   .ant-btn > span {
-    color: #352f44 !important;
+    color: #000 ;
   }
   .ant-btn:hover > span {
-    color: #faf0e6 !important;
+    color: #faf0e6 ;
   }
 `;
 export const TitleLogin = styled(Flex)`

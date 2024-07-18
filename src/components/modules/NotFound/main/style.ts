@@ -9,6 +9,6 @@ export const HomeWrapper = styled(Flex)`
   gap: 32px;
   min-height: 100vh;
   span {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
 `;

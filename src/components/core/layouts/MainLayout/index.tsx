@@ -40,8 +40,16 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
-import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
-import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
+import useSidebarBadge, {
+  useGetFriendRequestNotification,
+  useGetMessageNotification,
+  useGetNotificationCount,
+} from "@/hooks/useSidebarBadge";
+import {
+  useListenConversation,
+  useListenFriendRequest,
+  useListenNotification,
+} from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
 
 interface LayoutProps {
@@ -60,7 +68,8 @@ function MainLayout({ children }: LayoutProps) {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
+  const { messageCount, notificationCount, friendRequestCount } =
+    useSidebarBadge();
   useGetMessageNotification();
   useGetFriendRequestNotification();
   useGetNotificationCount();
@@ -82,10 +91,8 @@ function MainLayout({ children }: LayoutProps) {
     webStorageClient.get(constants.REFRESH_TOKEN),
   ]);
 
-
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
-
 
   const handleSetNavigation = (e: string) => {
     setNav(e);
@@ -164,13 +171,13 @@ function MainLayout({ children }: LayoutProps) {
   );
 
   return (
-    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"} >
+    <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <S.Header>
+      <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
         <S.GlobalStyle />
         <S.Container>
           <Image src={logo} alt="logo header" />
-          <S.IconContainer>
+          <S.IconContainer className={darkMode ? "theme-dark" : "theme-light"}>
             <Link href="/" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
@@ -195,45 +202,81 @@ function MainLayout({ children }: LayoutProps) {
                 <EditOutlined style={{ fontSize: "22px" }} />
               )}
             </Link>
-            <Badge count={messageCount} style={{
-              margin: "0.1rem 1rem 0 0"
-            }}>
+            <Badge
+              count={messageCount}
+              style={{
+                margin: "0.1rem 1rem 0 0",
+              }}
+            >
               <Button type="text" onClick={() => handleSetNavigation("mess")}>
                 {nav === "mess" ? (
-                  <MessageFilled style={{ fontSize: "22px" }} />
+                  <MessageFilled
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 ) : (
-                  <MessageOutlined style={{ fontSize: "22px" }} />
+                  <MessageOutlined
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 )}
               </Button>
             </Badge>
-            <Badge count={friendRequestCount + notificationCount} >
+            <Badge count={friendRequestCount + notificationCount}>
               <Link href="#" onClick={showBellModal}>
                 {nav === "bell" ? (
-                  <BellFilled style={{ fontSize: "22px" }} />
+                  <BellFilled
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 ) : (
-                  <BellOutlined style={{ fontSize: "22px" }} />
+                  <BellOutlined
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 )}
               </Link>
             </Badge>
-            <div onClick={toggleDarkMode} style={{cursor: "pointer"}}>
-                {darkMode ? <MoonOutlined style={{ fontSize: "22px" }} /> 
-                          : <SunOutlined style={{ fontSize: "22px" }} />}
-            
+            <div onClick={toggleDarkMode} style={{ cursor: "pointer" }}>
+              {darkMode ? (
+                <MoonOutlined style={{ fontSize: "22px" }} />
+              ) : (
+                <SunOutlined style={{ fontSize: "22px" }} />
+              )}
             </div>
           </S.IconContainer>
           {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
-                <Button type="default" $width="100px" disabled={loading}>
+                <Button
+                  type="default"
+                  $width="100px"
+                  disabled={loading}
+                  $color={darkMode ? "#fff" : "#352f44"}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                >
                   Đăng nhập
                 </Button>
               </Link>
               <Link href="/sign-up">
                 <Button
-                  color="red"
-                  type="primary"
                   $width="100px"
                   disabled={loading}
+                  $color={darkMode? "#fff" : "white "}
+                  $hoverColor={darkMode? "#000" : "#fff"}
+                  $borderColor={darkMode? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+                  $backgroundColor="#353839"
                 >
                   Đăng ký
                 </Button>
@@ -243,7 +286,10 @@ function MainLayout({ children }: LayoutProps) {
             <S.UserIconContainer>
               <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                 <UserOutlined
-                  style={{ fontSize: "28px" }}
+                  style={{
+                    fontSize: "28px",
+                    color: darkMode ? "#F7D600" : "black",
+                  }}
                   onClick={() => handleSetNavigation("")}
                 />
               </Link>
@@ -254,6 +300,7 @@ function MainLayout({ children }: LayoutProps) {
                     fontSize: "18px",
                     marginLeft: "0px",
                     cursor: "pointer",
+                    color: darkMode ? "#F7D600" : "black",
                   }}
                 />
               </Dropdown>

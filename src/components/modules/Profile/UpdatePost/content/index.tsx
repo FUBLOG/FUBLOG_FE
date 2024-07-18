@@ -22,10 +22,9 @@ interface PostContent {
   existingFiles: UploadFile[];
   existingAudience: string;
   onSuccess: () => void;
-  postUpdate: any,
 }
 
-export const PostContent: React.FC<PostContent> = ({ postId, existingContent, existingTags, existingFiles, existingAudience, onSuccess, postUpdate }) => {
+export const PostContent: React.FC<PostContent> = ({ postId, existingContent, existingTags, existingFiles, existingAudience, onSuccess }) => {
   const { setShowSpinnerUpdate, setPost } = useUpdatePost();
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState(existingContent);
@@ -125,7 +124,6 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
       setTimeout(() => {
         setPost(res?.metadata);
         setShowSpinnerUpdate(false);
-      postUpdate(res?.metadata);
         window.location.reload();
       }, 3000);
     } catch (error) {
@@ -182,7 +180,7 @@ export const PostContent: React.FC<PostContent> = ({ postId, existingContent, ex
               onChange={onChange}
               onPreview={onPreview}
             >
-              {fileList.length < 5 && "+ Upload"}
+              {fileList?.length < 5 || fileList === undefined && "+ Upload"}
             </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>

@@ -8,6 +8,6 @@ export const HomeWrapper = styled(Flex)`
   align-items: center;
   width: 100%;
   span {
-    color: #b9b4c7 !important;
+    color: #000 !important;
   }
 `;

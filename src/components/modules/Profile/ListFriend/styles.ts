@@ -8,6 +8,7 @@ export const Wrapper = styled(Flex)`
   flex-direction: column;
   gap: 20px;
   width: 100%;
+
 `;
 
 export const Title = styled(Flex)`
@@ -33,6 +34,7 @@ export const FriendContainer = styled(Flex)`
   padding: 5px;
   background-color: transparent;
   width: 300px;
+  justify-content: space-between;
 `;
 
 export const Friend = styled(Flex)`

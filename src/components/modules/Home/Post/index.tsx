@@ -67,7 +67,6 @@ const Post = ({
   const [postTags, setPostTags] = useState(newfeed?.post?.postTagID);
   const [postImages, setPostImages] = useState(newfeed?.post?.postLinkToImages.map((url: string) => ({ url })));
   const [postAudience, setPostAudience] = useState(newfeed?.post?.status);
-
   const router = useRouter();
   let hoverTimeout: NodeJS.Timeout;
   useEffect(() => {
@@ -160,7 +159,7 @@ const Post = ({
               />
               <Typography
                 variant="caption-normal"
-                color={"#352F44"}
+                color={darkMode? "#fff" : "#000"}
                 fontSize="18px"
               >
                 {newfeed?.userId?.displayName}
@@ -218,7 +217,7 @@ const Post = ({
                 />
                 <Typography
                   variant="caption-normal"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
+                  color={darkMode ? "#fff" : "#000"}
                   fontSize="18px"
                 >
                   {newfeed?.userId?.displayName}
@@ -228,7 +227,7 @@ const Post = ({
             {userInfo?._id !== newfeed?.userId?._id ? (
               <ExclamationCircleOutlined
                 style={{
-                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  color: darkMode ? "#fff" : "#000",
                   cursor: "pointer",
                 }}
                 onClick={() => {
@@ -239,7 +238,7 @@ const Post = ({
               <div style={{ position: "relative" }}>
                 <EllipsisOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#000",
                     cursor: "pointer",
                   }}
                   onClick={() => {
@@ -253,7 +252,7 @@ const Post = ({
           <S.ContentWrapper>
             <Typography
               variant="caption-small"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#fff" : "#000"}
               fontSize="14px"
               lineHeight="2"
             >
@@ -295,7 +294,7 @@ const Post = ({
               {liked ? (
                 <HeartFilled
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#000",
                     cursor: "pointer",
                   }}
                   onClick={togleLike}
@@ -303,23 +302,23 @@ const Post = ({
               ) : (
                 <HeartOutlined
                   style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
+                    color: darkMode ? "#fff" : "#000",
                     cursor: "pointer",
                   }}
                   onClick={togleLike}
                 />
               )}
-              <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+              <span style={{ color: darkMode ? "#fff" : "#000" }}>
                 {likes}
               </span>
               <CommentOutlined
                 onClick={() => handleCommentClick(newfeed)}
                 style={{
-                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  color: darkMode ? "#fff" : "#000",
                   cursor: "pointer",
                 }}
               />
-              <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
+              <span style={{ color: darkMode ? "#fff" : "#000" }}>
                 {newfeed?.post?.commentCount}
               </span>
             </S.Actions>
@@ -327,7 +326,7 @@ const Post = ({
               <S.Tag>
                 <Typography
                   variant="caption-small"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
+                  color={darkMode ? "#fff" : "#000"}
                   fontSize="14px"
                   lineHeight="2"
                 >

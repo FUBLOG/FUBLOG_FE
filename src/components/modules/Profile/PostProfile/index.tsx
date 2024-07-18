@@ -169,7 +169,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     setEditPost(false);
   };
   const handleCreatePostSuccess = () => {
-    fetchPosts(); 
+    setEditPost(false);
   };
 
   const postEditModal = useMemo(() => {
@@ -179,16 +179,14 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         onCancel={handleCancel}
         destroyOnClose={true}
         footer={false}
-        onOk={()=>{
-          setEditPost(false);
-        }}
+        
       >
         <PostContent
           postId={selectedPost?._id}
           existingContent={selectedPost?.postContent}
-          existingTags={selectedPost?.postTags}
-          existingFiles={selectedPost?.postImages}
-          existingAudience={selectedPost?.postAudience}
+          existingTags={selectedPost?.postTagID}
+          existingFiles={selectedPost?.postLinkToImages}
+          existingAudience={selectedPost?.postStatus}
           onSuccess={handleCreatePostSuccess}
         />
       </S.CreateModal>
@@ -206,6 +204,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         onOk={() => {
           setEditMyPost(false);
         }}
+        
       >
         <Radio.Group
           style={{
@@ -250,6 +249,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       {editDeleteModal}
       {deleteConfirmModal}
       {postEditModal}
+      
       {posts?.map((newfeed: any) => (
         <S.PostWrapper
           className={darkMode ? "theme-dark" : "theme-light"}
@@ -268,6 +268,8 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                   fontSize="18px"
                 >
                   {newfeed?.UserID?.displayName}
+                
+                  
                 </Typography>
               </S.UserInfo>
               {userInfo?.profileHash !== profileHash ? (

@@ -94,9 +94,6 @@ function MainLayout({ children }: LayoutProps) {
     webStorageClient.get(constants.REFRESH_TOKEN),
   ]);
 
-  const darkMode = useThemeStore((state) => state.darkMode);
-  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
-
   const handleSetNavigation = (e: string) => {
     setNav(e);
     if (e !== "home" && e !== "search" && userInfo?._id === "") {
@@ -287,21 +284,16 @@ function MainLayout({ children }: LayoutProps) {
             </Flex>
           ) : (
             <S.UserIconContainer>
-              <Link href={`/profile?pId=${userInfo?.profileHash}`}>
-                <UserOutlined
-                  style={{ fontSize: "28px" }}
-                  onClick={() => handleSetNavigation("")}
-                />
-              </Link>
-
-              <Dropdown overlay={menuItems} trigger={["click"]}>
-                <CaretDownOutlined
-                  style={{
-                    fontSize: "18px",
-                    marginLeft: "0px",
-                    cursor: "pointer",
-                  }}
-                />
+              <Dropdown overlay={menuItems} trigger={["hover"]}>
+                <Link href={`/profile?pId=${userInfo?.profileHash}`}>
+                  <Image
+                    src={userInfo?.userInfo?.avatar || "/default-avatar.png"}
+                    alt="User Avatar"
+                    width={42}
+                    height={42}
+                    style={{ borderRadius: "50%" }}
+                  />
+                </Link>
               </Dropdown>
             </S.UserIconContainer>
           )}

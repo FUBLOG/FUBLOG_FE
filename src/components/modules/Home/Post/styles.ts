@@ -87,7 +87,7 @@ export const Avatar = styled.img`
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
-  margin-top: 5px;
+  padding: 0px 0px 0px 20px;
 `;
 
 export const TagWrapper = styled(Flex)`
@@ -99,7 +99,6 @@ export const Actions = styled(Flex)`
   color: #b9b4c7;
   font-size: 16px;
   align-items: center;
-  padding-left: 40px;
 `;
 
 export const Tag = styled.span`

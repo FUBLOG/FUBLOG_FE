@@ -57,7 +57,16 @@ function AuthLayout({ children }: AuthLayoutProps) {
               />
             </Link>
             <Link href="/sign-up">
-              <Button children={"Đăng ký"} $width="100px" disabled={loading} />
+              <Button
+                children={"Đăng ký"}
+                $width="100px"
+                disabled={loading}
+                $color={darkMode? "#fff" : "white "}
+                $hoverColor={darkMode? "#000" : "#fff"}
+                $borderColor={darkMode? "#fff" : "#352f44"}
+                $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+                $backgroundColor="#353839"
+              />
             </Link>
           </Flex>
         </S.Container>

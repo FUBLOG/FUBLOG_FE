@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { Modal, DatePicker, Form as AntForm, message } from "antd";
+import {  DatePicker, Form as AntForm, message } from "antd";
 import moment from "moment";
 import { useProfile } from "@/hooks/useProfile";
 import * as S from "./styles";
@@ -18,9 +18,13 @@ import Button from "@/components/core/common/Button";
 import { patchRequest } from "@/services/request";
 import { profileEndpoint } from "@/services/endpoint";
 import useThemeStore from "@/hooks/useTheme";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 const { TextArea } = S;
 const dateFormat = 'YYYY-MM-DD';
 const CustomInput = styled(S.Input)`
@@ -84,7 +88,7 @@ const CustomDatePicker = styled(DatePicker)`
 
 interface ProfileData {
   displayName: string;
-  dateOfBirth: Date;
+  dateOfBirth: any;
   sex: string;
   relationship: string;
   bio: string;
@@ -126,7 +130,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     if (profile) {
       const updatedFormData: ProfileData = {
         displayName: profile.user?.displayName || "",
-        dateOfBirth: profile.user?.dateOfBirth,
+        dateOfBirth: dayjs(profile.user?.dateOfBirth, dateFormat).add(1, "day"),
         sex: profile.user?.sex || "",
         relationship: profile.info?.relationship || "single",
         bio: profile.info?.bio || "",
@@ -136,9 +140,9 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
       setFormData(updatedFormData);
       form.setFieldsValue({
         ...updatedFormData,
-        dateOfBirth:dayjs(updatedFormData.dateOfBirth, dateFormat)
       });
     }
+    
   }, [profile, form]);
 
   const onFinish = async (values: any) => {
@@ -203,7 +207,6 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
 
   const handleDateChange = (date: Date) => {
       setFormData({ ...formData, dateOfBirth: new Date(date)  });
-      console.log(formData.dateOfBirth);
   };
 
   const validateAge = (_: any, value: moment.Moment | null) => {

@@ -32,7 +32,12 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter } from "next/navigation";
-import { addLike, deletePost, unLike } from "@/services/api/post";
+import {
+  addLike,
+  deletePost,
+  PostReportPost,
+  unLike,
+} from "@/services/api/post";
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../../UpdatePost/content";
 import moment from "moment";
@@ -88,7 +93,7 @@ const Post = ({
     private: <LockOutlined />,
     friend: <TeamOutlined />,
   };
-
+  const [selectedPost, setSelectedPost] = useState<any>();
   const [postAudience, setPostAudience] = useState(newfeed?.post?.status);
   const audienceValue = audiance2[postAudience];
   const router = useRouter();
@@ -218,6 +223,18 @@ const Post = ({
     router.push(`/profile?pId=${newfeed?.userId?.profileHash}`);
   }
 
+  const handleReport = async () => {
+    setShowConfirmModal(false), console.log("reportReason", reportReason);
+    console.log("selectedPost?._id", selectedPost?.post?._id);
+    const data = {
+      postID: selectedPost?.post?._id,
+      reportContent: reportReason,
+    };
+    await PostReportPost(data).then(
+      message.success("Báo cáo bài viết thành công")
+    );
+  };
+
   return (
     <>
       <S.PostWrapper className={darkMode ? "theme-dark" : "theme-light"}>
@@ -270,6 +287,7 @@ const Post = ({
                 }}
                 onClick={() => {
                   setShowReportModal(true);
+                  setSelectedPost(newfeed);
                 }}
               />
             ) : (
@@ -416,8 +434,7 @@ const Post = ({
           cancelText={"Hủy"}
           okText={"Báo cáo"}
           onOk={() => {
-            setShowConfirmModal(false),
-              message.success("Báo cáo bài viết thành công");
+            handleReport();
           }}
         >
           <Typography variant="caption-small">

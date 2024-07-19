@@ -447,7 +447,6 @@ const Post = ({
           onOk={() => {
             setEditMyPost(false);
           }}
-          style={{}}
         >
           <Radio.Group
             onChange={(e) => setReportReason(e.target.value)}

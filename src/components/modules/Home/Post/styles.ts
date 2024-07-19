@@ -318,6 +318,7 @@ export const CustomModal = styled(Modal)`
     top: 10%;
     transform: translateY(0%);
   }
+    
 `;
 export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
   &.createModal {

@@ -158,11 +158,7 @@ const CommentModal = ({ close, open }: any) => {
       commentElement?.scrollIntoView();
     }, 100);
   };
-  const handleReportClick = (commentId: number) => {
-    setSelectedCommentId(commentId);
-    setIsPostReport(false);
-    setShowReportModal(true);
-  };
+
 
   const renderCommentMenu = (comment: any) => {
     return (
@@ -186,12 +182,7 @@ const CommentModal = ({ close, open }: any) => {
                   key: "reply",
                   label: "Phản hồi",
                   onClick: () => handleReplyComment(comment?._id),
-                },
-                {
-                  key: "report",
-                  label: "Báo cáo",
-                  onClick: () => handleReportClick(comment?._id),
-                },
+                },  
               ]),
         ]}
       />

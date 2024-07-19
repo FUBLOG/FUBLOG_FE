@@ -293,16 +293,16 @@ export const CustomModal = styled(Modal)`
   .ant-modal-title {
     color: #352f44;
     text-align: center;
-    font-size: 22px !important;
+    font-size: 22px ;
   }
   .ant-btn-primary {
     background-color: #5c5470;
   }
   .ant-btn-primary:hover {
-    background-color: #352f44 !important;
+    background-color: #352f44 ;
   }
   .ant-btn-default:hover {
-    background: #faf0e6 !important;
+    background: #faf0e6 ;
     color: #352f44;
     border-color: #352f44;
   }

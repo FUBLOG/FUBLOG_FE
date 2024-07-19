@@ -2,7 +2,9 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, message, Modal, Carousel } from "antd";
+import { Dropdown, Menu, Carousel } from "antd";
+import Button from "@/components/core/common/Button";
+
 import {
   addComment,
   deleteComment,
@@ -15,6 +17,7 @@ import { getPostByPostId } from "@/services/api/post";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useSearchParams } from "next/navigation";
+import useThemeStore from "@/hooks/useTheme";
 
 interface ClickViewMore {
   id: string;
@@ -41,6 +44,8 @@ const CommentModal = ({ close, open }: any) => {
   const paramComment = searchParams.get("ctId");
   const [comments, setComments] = useState(0);
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
+  const darkMode = useThemeStore((state) => state.darkMode);
+
 
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
@@ -482,13 +487,15 @@ const CommentModal = ({ close, open }: any) => {
         />
         <S.ButtonWrapper>
           <Button
-            color="red"
-            type="primary"
+            $color={darkMode ? "#fff" : "#352f44"}
+            $hoverColor={darkMode ? "#000" : "#fff"}
+            $borderColor={darkMode ? "#fff" : "#352f44"}
+            $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+            $backgroundColor={darkMode? "#000 " : "transparent"}
             style={{
               width: "100px",
               marginTop: "0px",
               padding: "5px 5px",
-              border: "none",
               marginRight: "50px",
             }}
             onClick={handleAddComment}

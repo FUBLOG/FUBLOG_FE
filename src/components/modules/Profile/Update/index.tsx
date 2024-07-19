@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { Modal, DatePicker, Form as AntForm, message } from "antd";
+import {  DatePicker, Form as AntForm, message } from "antd";
 import moment from "moment";
 import { useProfile } from "@/hooks/useProfile";
 import * as S from "./styles";
@@ -18,9 +18,15 @@ import Button from "@/components/core/common/Button";
 import { patchRequest } from "@/services/request";
 import { profileEndpoint } from "@/services/endpoint";
 import useThemeStore from "@/hooks/useTheme";
-
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 const { TextArea } = S;
-
+const dateFormat = 'YYYY-MM-DD';
 const CustomInput = styled(S.Input)`
   background: transparent !important;
   border: 1.5px solid #000 !important;
@@ -82,7 +88,7 @@ const CustomDatePicker = styled(DatePicker)`
 
 interface ProfileData {
   displayName: string;
-  dateOfBirth: string;
+  dateOfBirth: any;
   sex: string;
   relationship: string;
   bio: string;
@@ -108,7 +114,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   const initialFormData: ProfileData = {
     displayName: profile?.user?.displayName || "",
     dateOfBirth: profile?.user?.dateOfBirth
-      ? moment(profile?.user?.dateOfBirth).format(format)
+      ? (profile?.user?.dateOfBirth)
       : "",
     sex: profile?.user?.sex || "",
     relationship: profile?.info?.relationship || "single",
@@ -124,7 +130,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     if (profile) {
       const updatedFormData: ProfileData = {
         displayName: profile.user?.displayName || "",
-        dateOfBirth: profile.user?.dateOfBirth,
+        dateOfBirth: dayjs(profile.user?.dateOfBirth, dateFormat).add(1, "day"),
         sex: profile.user?.sex || "",
         relationship: profile.info?.relationship || "single",
         bio: profile.info?.bio || "",
@@ -134,11 +140,9 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
       setFormData(updatedFormData);
       form.setFieldsValue({
         ...updatedFormData,
-        dateOfBirth: profile.user?.dateOfBirth
-          ? moment(profile.user.dateOfBirth)
-          : null,
       });
     }
+    
   }, [profile, form]);
 
   const onFinish = async (values: any) => {
@@ -201,11 +205,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     form.setFieldsValue({ [name]: value });
   };
 
-  const handleDateChange = (dateString: string | string[]) => {
-    if (typeof dateString === "string") {
-      setFormData({ ...formData, dateOfBirth: dateString });
-      form.setFieldsValue({ dateOfBirth: dateString });
-    }
+  const handleDateChange = (date: Date) => {
+      setFormData({ ...formData, dateOfBirth: new Date(date)  });
   };
 
   const validateAge = (_: any, value: moment.Moment | null) => {
@@ -275,8 +276,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                     fontSize: "20px",
                   }}
                   format={format}
-                  value={moment(formData.dateOfBirth)}
-                  onChange={handleDateChange as any}
+                  onChange={(date) => handleDateChange(date as Date)}
                   placeholder="Ngày tháng năm sinh"
                   
                 />

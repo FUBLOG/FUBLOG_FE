@@ -158,10 +158,10 @@ function FormSignIn(setShowModalGuest: any) {
               $width={"100px"}
               htmlType="submit"
               disabled={loading}
-              $color={darkMode ? "#000" : "#000"}
-              $hoverColor={darkMode ? "#000" : "#fff"}
-              $borderColor={darkMode ? "#fff" : "#352f44"}
-              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                $color={darkMode ? "#000" : "#000"}
+                $hoverColor={darkMode ? "#000" : "#fff"}
+                $borderColor={darkMode ? "#fff" : "#352f44"}
+                $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
             >
               ĐĂNG NHẬP
             </Button>

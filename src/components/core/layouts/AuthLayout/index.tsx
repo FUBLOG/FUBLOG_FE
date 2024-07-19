@@ -38,9 +38,19 @@ function AuthLayout({ children }: AuthLayoutProps) {
               style={{ cursor: "pointer", translate: "-20px 5px" }}
             >
               {darkMode ? (
-                <MoonOutlined style={{ fontSize: "22px", color: darkMode ? "#F7D600" : "black" }} />
+                <MoonOutlined
+                  style={{
+                    fontSize: "22px",
+                    color: darkMode ? "#F7D600" : "black",
+                  }}
+                />
               ) : (
-                <SunOutlined style={{ fontSize: "22px", color: darkMode ? "#F7D600" : "black" }} />
+                <SunOutlined
+                  style={{
+                    fontSize: "22px",
+                    color: darkMode ? "#F7D600" : "black",
+                  }}
+                />
               )}
             </div>
             <Link href="/sign-in">
@@ -60,10 +70,10 @@ function AuthLayout({ children }: AuthLayoutProps) {
                 children={"Đăng ký"}
                 $width="100px"
                 disabled={loading}
-                $color={darkMode? "#fff" : "white "}
-                $hoverColor={darkMode? "#000" : "#fff"}
-                $borderColor={darkMode? "#fff" : "#352f44"}
-                $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+                $color={darkMode ? "#fff" : "white "}
+                $hoverColor={darkMode ? "#000" : "#fff"}
+                $borderColor={darkMode ? "#fff" : "#352f44"}
+                $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                 $backgroundColor="#353839"
               />
             </Link>

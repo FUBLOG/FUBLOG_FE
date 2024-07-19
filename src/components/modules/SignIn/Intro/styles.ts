@@ -6,6 +6,7 @@ export const HomeWrapper = styled.div`
   height: 100%;
   position: relative;
   margin-top: 20px;
+
   .ant-carousel {
     position: relative;
     bottom: 420px;

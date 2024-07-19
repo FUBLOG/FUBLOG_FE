@@ -304,6 +304,7 @@ export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
     background-color: #faf0e6 !important;
     border-radius: 10px;
   }
+    
 `;
 
 export const CustomModal = styled(Modal)`
@@ -314,6 +315,9 @@ export const CustomModal = styled(Modal)`
     position: relative;
     overflow: hidden;
   }
+    &.edit-modal .ant-modal-content{
+    height: 200px;
+    }
   .ant-modal-header {
     background-color: #faf0e6;
     border-bottom: none;

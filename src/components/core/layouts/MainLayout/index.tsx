@@ -80,6 +80,8 @@ function MainLayout({ children }: LayoutProps) {
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
+
+
   useEffect(() => {
     if (
       webStorageClient.get(constants.IS_AUTH) &&

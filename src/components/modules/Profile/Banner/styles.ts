@@ -28,11 +28,10 @@ export const Wrapper = styled.div`
 export const CoverImage = styled.img`
   width: 100%;
   height: 100%;
-
-  border-radius: 12px;
-
   object-fit: cover;
-  cursor: pointer;
+  object-position: center; 
+  border-radius: 12px;
+   position: relative;
 `;
 export const BannerUser = styled(Flex)`
   position: absolute;
@@ -51,6 +50,7 @@ export const Avatar = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
+  object-position: center; 
 `;
 
 export const UserAvatar = styled.img`
@@ -84,4 +84,23 @@ export const ButtonWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+`;
+export const ImageModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const ImageModalContent = styled.div`
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 `;

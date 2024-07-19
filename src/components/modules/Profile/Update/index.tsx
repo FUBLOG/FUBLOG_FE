@@ -278,6 +278,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   value={moment(formData.dateOfBirth)}
                   onChange={handleDateChange as any}
                   placeholder="Ngày tháng năm sinh"
+                  
                 />
               </AntForm.Item>
             </S.GridItem>

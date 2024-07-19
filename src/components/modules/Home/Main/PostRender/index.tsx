@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Post from "../../Post";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Skeleton, Space, Spin } from "antd";
@@ -11,9 +11,19 @@ import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
 import CommentModal from "../../Post/Comment";
 import useTagStageStore from "@/hooks/useTags";
+import useThemeStore from "@/hooks/useTheme";
+
+interface PostData {
+  _id: string;
+  post: {
+    postTagID: {
+      postTagContent: string;
+    };
+  };
+}
 
 const PostsRender = () => {
-  const [listPosts, setListPosts] = useState<any>([]);
+  const [listPosts, setListPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { showSpinner, post, setPost } = useCreatePost();
   const router = useRouter();
@@ -21,6 +31,7 @@ const PostsRender = () => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [isOpenByComment, setIsOpenByComment] = useState(false);
   const tagValue = useTagStageStore((state) => state.tagValue);
+  const darkmode = useThemeStore((state) => state.darkMode);
   const handleCloseCommentsModal = () => {
     if (isOpenByComment) {
       router.back();
@@ -33,10 +44,19 @@ const PostsRender = () => {
   const postId = searchParams.get("ptId");
   const paramComment = searchParams.get("ctId");
 
+  const updatePostInList = (updatedPost: PostData) => {
+    setListPosts((currentPosts) =>
+      currentPosts.map((post) =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+  };
+
   const getMore = async () => {
     setLoading(true);
-    const res = userInfo?._id === "" ? await getPostForGuest() : await getPostForUser();
-    setListPosts((prevPosts: any) => prevPosts.concat(res?.metadata));
+    const func = userInfo?._id === "" ? getPostForGuest : getPostForUser;
+    const res = await func();
+    setListPosts((prev) => [...prev, ...res?.metadata]);
     setLoading(false);
   };
 
@@ -51,16 +71,13 @@ const PostsRender = () => {
     };
     asyncGetPosts();
     if (post) {
-      setListPosts((prevPosts: any) => [
-        {
-          ...post,
-          userId: userInfo,
-        },
+      setListPosts((prevPosts) => [
+        { ...post, userId: userInfo },
         ...prevPosts,
       ]);
       setPost(null);
     }
-  }, [userInfo?._id, post, tagValue]);
+  }, [userInfo?._id, post]);
 
   useEffect(() => {
     if (postId !== null) {
@@ -68,12 +85,16 @@ const PostsRender = () => {
     }
   }, [searchParams]);
 
-  const commentModal = useMemo(() => {
-    if (!showCommentsModal) return null;
-    return (
-      <CommentModal open={showCommentsModal} close={handleCloseCommentsModal} />
-    );
-  }, [showCommentsModal, postId, handleCloseCommentsModal, paramComment]);
+  const commentModal = useMemo(
+    () =>
+      showCommentsModal ? (
+        <CommentModal
+          open={showCommentsModal}
+          close={handleCloseCommentsModal}
+        />
+      ) : null,
+    [showCommentsModal, handleCloseCommentsModal]
+  );
 
   return (
     <>
@@ -81,23 +102,16 @@ const PostsRender = () => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Space>
             <Spin
-              className="custom-spin"
-              indicator={
-                <LoadingOutlined color="#ccc" style={{ fontSize: 30 }} spin />
-              }
+              indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />}
             />
-            <h4 style={{ color: "#ccc" }}>Đang tạo bài viết</h4>
+            <h4 style={{color: darkmode ? "#F7D600" : "000"}}>Đang tạo bài viết</h4>
           </Space>
         </div>
       )}
 
       <div
         id="scrollableDiv"
-        style={{
-          overflow: "auto",
-          display: "flex",
-          flexDirection: "column",
-        }}
+        style={{ overflow: "auto", display: "flex", flexDirection: "column" }}
       >
         <InfiniteScroll
           dataLength={listPosts?.length}
@@ -106,15 +120,17 @@ const PostsRender = () => {
           loader={<h4>Loading...</h4>}
           endMessage={
             <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
+              <b>Yay! Bạn đã xem hết bài viết</b>
             </p>
           }
         >
-          {listPosts?.map((post: any, index: number) =>
-            tagValue === "Tất Cả" || post?.post?.postTagID?.postTagContent === tagValue ? (
+          {listPosts?.map((post, index) =>
+            tagValue === "Tất Cả" ||
+            post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post
-                key={post?._id}
+                key={post._id}
                 newfeed={post}
+                updatePost={updatePostInList}
                 postId={postId}
                 paramComment={paramComment}
                 setShowCommentsModal={setShowCommentsModal}
@@ -129,8 +145,6 @@ const PostsRender = () => {
   );
 };
 
-const Loading = () => {
-  return <Skeleton active round avatar title />;
-};
+const Loading = () => <Skeleton active round avatar title />;
 
 export default PostsRender;

@@ -1,9 +1,25 @@
 import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
+export const Container = styled.div`
+  &.theme-light {
+    .custom-spin .ant-spin-dot {
+      color: blue;
+    }
+  }
+  &.theme-dark {
+    .custom-spin .ant-spin-dot {
+      color: #f7d600;
+    }
+  }
+  width: 100%;
+`;
 export const PostWrapper = styled.div`
   &.theme-dark {
-    border: 1px solid #ccc;
+    border: 2px solid #f7d600;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
   }
   &.theme-light {
     background-color: #faf0e6;
@@ -66,6 +82,7 @@ export const PostHeader = styled(Flex)`
   align-items: center;
   gap: 2px;
   justify-content: space-between;
+  margin-bottom: 5px;
 `;
 export const PostHeaderModal = styled(Flex)`
   align-items: center;
@@ -86,7 +103,7 @@ export const Avatar = styled.img`
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
-  margin-top: 10px;
+  padding: 0px 0px 0px 20px;
 `;
 
 export const TagWrapper = styled(Flex)`
@@ -98,7 +115,6 @@ export const Actions = styled(Flex)`
   color: #b9b4c7;
   font-size: 16px;
   align-items: center;
-  padding-left: 40px;
 `;
 
 export const Tag = styled.span`
@@ -276,6 +292,19 @@ export const Divider = styled.div`
   background-color: #ccc;
   margin: 10px 0;
 `;
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
+  }
+  &.createModal .ant-modal-content {
+    height: 540px;
+    width: 800px;
+    background-color: #faf0e6 !important;
+    border-radius: 10px;
+  }
+`;
 
 export const CustomModal = styled(Modal)`
   .ant-modal-content {
@@ -295,7 +324,7 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 !important;
+    background-color: #5c5470;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;

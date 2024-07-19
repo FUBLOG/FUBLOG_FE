@@ -1,5 +1,5 @@
 import { postEndpoint } from "@/services/endpoint";
-import { getRequest, postRequest } from "@/services/request";
+import { deleteRequest, getRequest, patchRequest, postRequest } from "@/services/request";
 
 export const getPostForGuest = async () => {
   return await getRequest(postEndpoint.GET_POSTS_FOR_GUEST);
@@ -14,7 +14,14 @@ export const getPostForUser = async () => {
 export const getAllTags = async () => {
   return await getRequest(postEndpoint.GET_ALL_TAGS);
 };
-
+export const updatePost = async (postId, data) => {
+  return await patchRequest(
+    postEndpoint.UPDATE_POST + "/" + postId, {
+    data,
+    security: true,
+  },
+  true);
+};
 export const createPost = async (data) => {
   return await postRequest(
     postEndpoint.POST_POST,
@@ -42,6 +49,11 @@ export const addLike = async (postID) => {
       security: true,
     },
   );
+};
+export const deletePost = async (postId) => {
+  return await deleteRequest(postEndpoint.DELETE_POST + "/" + postId, {
+    security: true,
+  });
 };
 export const unLike = async (postID) => {
   return await postRequest(

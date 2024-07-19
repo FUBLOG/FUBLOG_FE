@@ -3,17 +3,17 @@ import { Flex, Modal, Menu } from "antd";
 
 export const PostWrapper = styled.div`
   &.theme-dark {
-    border: 1px solid #ccc;
+    border: 2px solid #f7d600;
+    -webkit-box-shadow: 1px 1px 10px 1px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 1px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    box-shadow: 1px 1px 4px 1px rgba(255, 238, 5, 0.65);
   }
   &.theme-light {
-    border: 1px solid #352f44;
-    box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
-    -webkit-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
-    -moz-box-shadow: 0px 0px 46px -18px rgba(53, 47, 68, 0.3);
+    border: 2px solid #000;
   }
 
   box-sizing: border-box;
-  margin: 20px 0;
+  margin: 40px 0;
   padding: 24px;
   max-width: 700px;
   width: 100%;
@@ -65,6 +65,7 @@ export const PostHeader = styled(Flex)`
   align-items: center;
   gap: 2px;
   justify-content: space-between;
+  margin-bottom: 5px;
 `;
 export const PostHeaderModal = styled(Flex)`
   align-items: center;
@@ -75,6 +76,7 @@ export const PostHeaderModal = styled(Flex)`
 export const UserInfo = styled(Flex)`
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 `;
 
 export const Avatar = styled.img`
@@ -85,7 +87,7 @@ export const Avatar = styled.img`
 
 export const PostFooter = styled(Flex)`
   justify-content: space-between;
-  margin-top: 10px;
+  padding: 0px 0px 0px 20px;
 `;
 
 export const TagWrapper = styled(Flex)`
@@ -97,7 +99,6 @@ export const Actions = styled(Flex)`
   color: #b9b4c7;
   font-size: 16px;
   align-items: center;
-  padding-left: 40px;
 `;
 
 export const Tag = styled.span`
@@ -154,7 +155,7 @@ export const CustomMenuItem = styled(Menu.Item)`
 
   &:hover {
     background-color: #e5d6c6 !important;
-    color: #352f44 !important;
+    color: #352f44;
   }
 
   &:active {
@@ -295,15 +296,15 @@ export const CustomModal = styled(Modal)`
     font-size: 22px !important;
   }
   .ant-btn-primary {
-    background-color: #5c5470 !important;
+    background-color: #5c5470;
   }
   .ant-btn-primary:hover {
     background-color: #352f44 !important;
   }
   .ant-btn-default:hover {
     background: #faf0e6 !important;
-    color: #352f44 !important;
-    border-color: #352f44 !important;
+    color: #352f44;
+    border-color: #352f44;
   }
   .ant-btn-default {
     background: #faf0e6;
@@ -311,11 +312,24 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 100px !important;
+    padding-bottom: 50px;
   }
   .ant-modal {
     top: 10%;
     transform: translateY(0%);
+  }
+`;
+export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
+  &.createModal {
+    position: relative;
+    right: 140px;
+    background-color: transparent;
+  }
+  &.createModal .ant-modal-content {
+    height: 540px;
+    width: 800px;
+    background-color: #faf0e6 !important;
+    border-radius: 10px;
   }
 `;
 
@@ -341,7 +355,7 @@ export const CommentBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 export const UserName = styled.span`

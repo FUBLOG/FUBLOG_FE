@@ -43,23 +43,31 @@ const Banner = ({ profileHash, setLoading }: any) => {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
   const [showUpdateImage, setShowUpdateImage] = useState(false);
-  const [imageType, setImageType] = useState<"avatar" | "cover">("avatar"); 
+  const [imageType, setImageType] = useState<"avatar" | "cover">("avatar");
 
   const handleCancel = () => {
     setShowModalGuest(false);
     setShowUpdateProfile(false);
     setShowUpdateImage(false);
-    document.body.style.overflow = 'auto'; 
+    document.body.style.overflow = "auto";
   };
 
   const { profileSearch, getUserInfo } = useGetProfile(profileHash);
 
   const handleProfileUpdate = () => {
-    getUserInfo(profileHash); 
+    getUserInfo(profileHash);
   };
 
   const handleDisplayButton = () => {
-    if (isMyUser) return <MyUser onClick={() => { setShowUpdateProfile(true); document.body.style.overflow = 'hidden'; }} />;
+    if (isMyUser)
+      return (
+        <MyUser
+          onClick={() => {
+            setShowUpdateProfile(true);
+            document.body.style.overflow = "hidden";
+          }}
+        />
+      );
     if (isFriend) return <FriendButton handleFriend={handleFriend} />;
     if (isRequester) return <RequesterButton handleFriend={handleFriend} />;
     if (isSendFriend) return <SendFriendButton handleFriend={handleFriend} />;
@@ -67,10 +75,10 @@ const Banner = ({ profileHash, setLoading }: any) => {
     return <DefaultButton handleFriend={handleFriend} />;
   };
 
-  const handleImageClick = (type: "avatar" | "cover") => { 
+  const handleImageClick = (type: "avatar" | "cover") => {
     setImageType(type);
     setShowUpdateImage(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   useEffect(() => {
@@ -119,18 +127,21 @@ const Banner = ({ profileHash, setLoading }: any) => {
   return !isNotFound ? (
     <S.Wrapper>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <UpdateProfile 
-        visible={showUpdateProfile} 
-        handleCancel={handleCancel} 
-        onProfileUpdate={handleProfileUpdate} 
+      <UpdateProfile
+        visible={showUpdateProfile}
+        handleCancel={handleCancel}
+        onProfileUpdate={handleProfileUpdate}
       />
-      <UpdateProfileImages 
+      <UpdateProfileImages
         visible={showUpdateImage}
         handleCancel={handleCancel}
         imageType={imageType}
         onProfileUpdate={handleProfileUpdate}
       />
-      <S.CoverImage src={profileSearch?.info?.cover_photo} onClick={() => handleImageClick("cover")} />
+      <S.CoverImage
+        src={profileSearch?.info?.cover_photo}
+        onClick={() => handleImageClick("cover")}
+      />
       <S.BannerUser>
         <S.BoxUser>
           <S.Avatar onClick={() => handleImageClick("avatar")}>
@@ -139,14 +150,14 @@ const Banner = ({ profileHash, setLoading }: any) => {
           <S.Typography>
             <Typography
               variant="body-text-small-bold"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#fff" : "#352F44"}
               fontSize="34px"
             >
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#fff" : "#352F44"}
               fontSize="14px"
             >
               {profileSearch?.info?.bio}
@@ -157,7 +168,12 @@ const Banner = ({ profileHash, setLoading }: any) => {
       </S.BannerUser>
     </S.Wrapper>
   ) : (
-    loading && <S.Wrapper> <NotFound /></S.Wrapper>
+    loading && (
+      <S.Wrapper>
+        {" "}
+        <NotFound />
+      </S.Wrapper>
+    )
   );
 };
 

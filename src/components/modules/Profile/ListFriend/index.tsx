@@ -49,7 +49,6 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
             variant="body-text-small-bold"
             color={darkMode ? "white" : "#352F44"}
             style="oblique"
-            margin="0px 34px"
             fontSize="14px"
           >
             Xem tất cả bạn bè

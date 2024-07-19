@@ -38,8 +38,16 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
 import { useRouter } from "next/navigation";
-import useSidebarBadge, { useGetFriendRequestNotification, useGetMessageNotification, useGetNotificationCount } from "@/hooks/useSidebarBadge";
-import { useListenConversation, useListenFriendRequest, useListenNotification } from "@/hooks/useListen";
+import useSidebarBadge, {
+  useGetFriendRequestNotification,
+  useGetMessageNotification,
+  useGetNotificationCount,
+} from "@/hooks/useSidebarBadge";
+import {
+  useListenConversation,
+  useListenFriendRequest,
+  useListenNotification,
+} from "@/hooks/useListen";
 import useThemeStore from "@/hooks/useTheme";
 import { useGetProfile } from "@/hooks/useProfile";
 
@@ -59,7 +67,8 @@ function MainLayout({ children }: LayoutProps) {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
+  const { messageCount, notificationCount, friendRequestCount } =
+    useSidebarBadge();
   useGetMessageNotification();
   useGetFriendRequestNotification();
   useGetNotificationCount();
@@ -69,8 +78,6 @@ function MainLayout({ children }: LayoutProps) {
 
   const darkMode = useThemeStore((state) => state.darkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
-
-
 
   useEffect(() => {
     if (
@@ -147,9 +154,7 @@ function MainLayout({ children }: LayoutProps) {
         </Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
-        <Link href={`/change-password`}>
-          Đổi mật khẩu
-        </Link>
+        <Link href={`/change-password`}>Đổi mật khẩu</Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
@@ -168,11 +173,11 @@ function MainLayout({ children }: LayoutProps) {
   return (
     <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
-      <S.Header>
+      <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
         <S.GlobalStyle />
         <S.Container>
           <Image src={logo} alt="logo header" />
-          <S.IconContainer>
+          <S.IconContainer className={darkMode ? "theme-dark" : "theme-light"}>
             <Link href="/" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (
                 <HomeFilled style={{ fontSize: "22px" }} />
@@ -205,18 +210,38 @@ function MainLayout({ children }: LayoutProps) {
             >
               <Button type="text" onClick={() => handleSetNavigation("mess")}>
                 {nav === "mess" ? (
-                  <MessageFilled style={{ fontSize: "22px" }} />
+                  <MessageFilled
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 ) : (
-                  <MessageOutlined style={{ fontSize: "22px" }} />
+                  <MessageOutlined
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 )}
               </Button>
             </Badge>
             <Badge count={friendRequestCount + notificationCount}>
               <Link href="#" onClick={showBellModal}>
                 {nav === "bell" ? (
-                  <BellFilled style={{ fontSize: "22px" }} />
+                  <BellFilled
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 ) : (
-                  <BellOutlined style={{ fontSize: "22px" }} />
+                  <BellOutlined
+                    style={{
+                      fontSize: "22px",
+                      color: darkMode ? "#F7D600" : "black",
+                    }}
+                  />
                 )}
               </Link>
             </Badge>
@@ -231,16 +256,27 @@ function MainLayout({ children }: LayoutProps) {
           {userInfo?._id === "" ? (
             <Flex gap={15} style={{ marginRight: "20px" }}>
               <Link href="/sign-in">
-                <Button type="default" $width="100px" disabled={loading}>
+                <Button
+                  type="default"
+                  $width="100px"
+                  disabled={loading}
+                  $color={darkMode ? "#fff" : "#352f44"}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                >
                   Đăng nhập
                 </Button>
               </Link>
               <Link href="/sign-up">
                 <Button
-                  color="red"
-                  type="primary"
                   $width="100px"
                   disabled={loading}
+                  $color={darkMode ? "#fff" : "white "}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                  $backgroundColor="#353839"
                 >
                   Đăng ký
                 </Button>
@@ -251,7 +287,7 @@ function MainLayout({ children }: LayoutProps) {
               <Dropdown overlay={menuItems} trigger={["hover"]}>
                 <Link href={`/profile?pId=${userInfo?.profileHash}`}>
                   <Image
-                    src={userInfo?.userInfo?.avatar|| "/default-avatar.png"}
+                    src={userInfo?.userInfo?.avatar || "/default-avatar.png"}
                     alt="User Avatar"
                     width={42}
                     height={42}

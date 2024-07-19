@@ -51,7 +51,7 @@ const Profile = () => {
       <Banner profileHash={profileHash} setLoading={setLoading} />
       <S.Main>
         <S.Container>
-          <S.Sidebar>
+          <S.Sidebar className={darkMode ? "theme-dark" : "theme-light"}>
             <Introduce />
             <ListFriend
               profileHash={profileHash}

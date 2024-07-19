@@ -24,24 +24,24 @@ export const Input = styled(InputAntd)`
   &.ant-input-affix-wrapper {
     padding: 12px 16px;
 
-    background-color: #352f44 !important;
+    background-color: #fff !important;
 
     span {
       margin-right: 8px;
     }
 
     .ant-input {
-      background-color: #352f44;
+      background-color: #fff;
       font-weight: ${({ theme }) => theme.fontWeight.regular};
       font-size: ${({ theme }) => theme.fontSize.base};
       line-height: 24px;
-      color: ${(props) => props.theme.colors.backgroundWhite};
+      color: #000;
 
       &::placeholder {
         font-weight: ${({ theme }) => theme.fontWeight.regular};
         font-size: ${({ theme }) => theme.fontSize.base};
         line-height: 24px;
-        color: ${(props) => props.theme.colors.newtralLighter};
+        color: #000;
       }
 
       &:disabled {

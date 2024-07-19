@@ -62,7 +62,7 @@ function FormSignIn(setShowModalGuest: any) {
         <S.TitleLogin>
           <Typography
             variant="h1"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#000"}
             fontSize="x-large"
             align="center"
             margin="0 0  0 0"
@@ -87,13 +87,14 @@ function FormSignIn(setShowModalGuest: any) {
               prefix={
                 <UserOutlined
                   style={{
-                    color: "#B9B4C7 ",
+                    color: "#000",
                   }}
                 />
               }
               isRequired
               label="Email"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
+              
             />
           </FormItem>
           <FormItem
@@ -105,13 +106,13 @@ function FormSignIn(setShowModalGuest: any) {
               prefix={
                 <LockOutlined
                   style={{
-                    color: "#B9B4C7 ",
+                    color: "#000 ",
                   }}
                 />
               }
               isRequired
               label="Mật khẩu"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
           <S.Label>
@@ -123,7 +124,7 @@ function FormSignIn(setShowModalGuest: any) {
               <Checkbox>
                 <Typography
                   variant="body-text-small-normal"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
+                  color={darkMode ? "#F7D600" : "#000"}
                   fontSize="xx-small"
                 >
                   Nhớ mật khẩu
@@ -137,7 +138,7 @@ function FormSignIn(setShowModalGuest: any) {
                 fontSize="xx-small"
                 align="right"
                 textDecoration="underline"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
               >
                 Quên mật khẩu?
               </Typography>
@@ -165,7 +166,7 @@ function FormSignIn(setShowModalGuest: any) {
           <S.Typography>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#F7D600" : "#000"}
               fontSize="xx-small"
               align="center"
             >
@@ -174,7 +175,7 @@ function FormSignIn(setShowModalGuest: any) {
             <Link href="/sign-up">
               <Typography
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
                 fontSize="xx-small"
                 align="right"
                 textDecoration="underline"

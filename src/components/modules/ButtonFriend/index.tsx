@@ -1,4 +1,5 @@
 import Button from "@/components/core/common/Button";
+import useThemeStore from "@/hooks/useTheme";
 import React from "react";
 
 interface ButtonProps {
@@ -7,15 +8,17 @@ interface ButtonProps {
 }
 
 const ButtonFriend = () => {
+  const darkMode = useThemeStore((state) => state.darkMode);
   const MyUser: React.FC<ButtonProps> = ({ onClick }) => {
     return (
       <Button
         type="default"
         onClick={onClick}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
+        $width="110px"
+        $color={darkMode? "#fff" : "#352f44"}
+        $hoverColor={darkMode? "#000" : "#fff"}
+        $borderColor={darkMode? "#fff" : "#352f44"}
+        $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
       >
         Chỉnh sửa
       </Button>
@@ -30,9 +33,11 @@ const ButtonFriend = () => {
         onClick={() => {
           handleFriend && handleFriend("unsent");
         }}
-        $width="100px"
-        color="#352f44"
-        $hoverColor="#faf0e6"
+        $width="110px"
+        $color={darkMode? "#fff" : "#352f44"}
+        $hoverColor={darkMode? "#000" : "#fff"}
+        $borderColor={darkMode? "#fff" : "#352f44"}
+        $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
       >
         Hủy lời mời
       </Button>
@@ -47,10 +52,11 @@ const ButtonFriend = () => {
           onClick={() => {
             handleFriend && handleFriend("accept");
           }}
-          $width="100px"
-          $backgroundColor="#FAF0E6"
-          color="#352f44"
-          $hoverColor="#faf0e6"
+          $width="110px"
+          $color={darkMode? "#fff" : "#352f44"}
+          $hoverColor={darkMode? "#000" : "#fff"}
+          $borderColor={darkMode? "#fff" : "#352f44"}
+          $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
         >
           Chấp nhận
         </Button>
@@ -59,10 +65,11 @@ const ButtonFriend = () => {
           onClick={() => {
             handleFriend && handleFriend("decline");
           }}
-          $width="100px"
-          $backgroundColor="#FAF0E6"
-          color="#352f44"
-          $hoverColor="#faf0e6"
+          $width="110px"
+          $color={darkMode? "#fff" : "#352f44"}
+          $hoverColor={darkMode? "#000" : "#fff"}
+          $borderColor={darkMode? "#fff" : "#352f44"}
+          $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
         >
           Từ chối
         </Button>
@@ -77,10 +84,11 @@ const ButtonFriend = () => {
         onClick={() => {
           handleFriend && handleFriend("addFriend");
         }}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
+        $width="110px"
+        $color={darkMode? "#fff" : "#352f44"}
+        $hoverColor={darkMode? "#000" : "#fff"}
+        $borderColor={darkMode? "#fff" : "#352f44"}
+        $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
       >
         Thêm bạn bè
       </Button>
@@ -94,10 +102,13 @@ const ButtonFriend = () => {
       <Button
         type="default"
         onClick={() => setShowModalGuest(true)}
-        $width="100px"
-        $backgroundColor="#FAF0E6"
-        color="#352f44"
-        $hoverColor="#faf0e6"
+        $width="110px"
+        $color={darkMode? "#fff" : "#000"}
+        $hoverColor={darkMode? "#000" : "#fff"}
+        $borderColor={darkMode? "#fff" : "#000"}
+        $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+        $backgroundColor={darkMode? "#000" : "#fff"}
+        
       >
         Thêm bạn bè
       </Button>
@@ -112,10 +123,14 @@ const ButtonFriend = () => {
           onClick={() => {
             handleFriend && handleFriend("unfriend");
           }}
-          $width="100px"
-          $backgroundColor="#FAF0E6"
-          color="#352f44"
-          $hoverColor="#faf0e6"
+          $width="110px"
+          $color={darkMode? "#fff" : "#000"}
+          $hoverColor={darkMode? "#000" : "#fff"}
+          $borderColor={darkMode? "#fff" : "#000"}
+          $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+          $backgroundColor={darkMode? "#000" : "#fff"}
+
+          
         >
           Hủy kết bạn
         </Button>
@@ -124,10 +139,13 @@ const ButtonFriend = () => {
           onClick={() => {
             handleFriend && handleFriend("chat");
           }}
-          $width="100px"
-          $backgroundColor="#FAF0E6"
-          color="#352f44"
-          $hoverColor="#faf0e6"
+          
+          $width="110px"
+          $color={darkMode? "#fff" : "#000"}
+          $hoverColor={darkMode? "#000" : "#fff"}
+          $borderColor={darkMode? "#fff" : "#000"}
+          $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+          $backgroundColor={darkMode? "#000" : "#fff"}
         >
           Nhắn tin
         </Button>

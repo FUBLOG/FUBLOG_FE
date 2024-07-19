@@ -6,12 +6,12 @@ export const Wrapper = styled(Flex)`
   gap: 10px;
   width: 90%;
   margin-top: 50px;
+  
 `;
 
 export const InfoContainer = styled(Flex)`
   &.theme-dark {
-    background-color: #352f44;
-    border: 1px solid #b9b4c7;
+    border: 1px solid white;
   }
   &.theme-light {
     background-color: transparent;
@@ -25,6 +25,7 @@ export const InfoContainer = styled(Flex)`
   gap: 10px;
   padding: 15px;
   border-radius: 18px;
+
 `;
 
 export const InfoItem = styled(Flex)`

@@ -50,7 +50,7 @@ const CustomSelect = styled.select`
   }
 
   option {
-    background: #FAF0E6;
+    background: #faf0e6;
     color: #000;
     padding: 10px 15px;
     font-size: 16px;
@@ -58,13 +58,13 @@ const CustomSelect = styled.select`
   }
 
   option:hover {
-    background: #352F44 !important;
-    color: #FAF0E6 !important;
+    background: #352f44 !important;
+    color: #faf0e6 !important;
   }
 
   option:checked {
-    background-color: #352F44 !important;
-    color: #FAF0E6 !important;
+    background-color: #352f44 !important;
+    color: #faf0e6 !important;
   }
 `;
 
@@ -210,7 +210,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
 
   const validateAge = (_: any, value: moment.Moment | null) => {
     if (value && moment().year() - value.year() < 16) {
-      return Promise.reject(new Error('Tuổi phải lớn hơn hoặc bằng 16'));
+      return Promise.reject(new Error("Tuổi phải lớn hơn hoặc bằng 16"));
     }
     return Promise.resolve();
   };
@@ -272,14 +272,12 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                     border: "1.5px solid #000",
                     padding: "3px 12px",
                     width: "100%",
-                    fontSize:"20px",
-                   
+                    fontSize: "20px",
                   }}
                   format={format}
                   value={moment(formData.dateOfBirth)}
                   onChange={handleDateChange as any}
                   placeholder="Ngày tháng năm sinh"
-                  
                 />
               </AntForm.Item>
             </S.GridItem>
@@ -297,7 +295,6 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                   value={formData.sex}
                   onChange={handleChange}
                 >
-                  
                   <option value="Nam">{formData.sex}</option>
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
@@ -364,7 +361,16 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
           </S.GridContainer>
 
           <S.ButtonContainer>
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ width: "100%" }}
+              disabled={loading}
+              $color={"#fff"}
+              $backgroundColor="#000"
+              $hoverColor={"#000"}
+              $hoverBackgroundColor={"#45410a"}
+            >
               <Typography
                 variant="body-text-small-bold"
                 fontSize="18px"

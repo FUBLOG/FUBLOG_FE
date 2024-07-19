@@ -19,6 +19,7 @@ const ButtonFriend = () => {
         $hoverColor={darkMode? "#000" : "#fff"}
         $borderColor={darkMode? "#fff" : "#352f44"}
         $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
+       
       >
         Chỉnh sửa
       </Button>
@@ -112,6 +113,7 @@ const ButtonFriend = () => {
         $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
         $backgroundColor={darkMode? "#000" : "#fff"}
         
+      
       >
         Thêm bạn bè
       </Button>
@@ -132,6 +134,8 @@ const ButtonFriend = () => {
           $borderColor={darkMode? "#fff" : "#000"}
           $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
           $backgroundColor={darkMode? "#000" : "#fff"}
+
+          
 
           
         >

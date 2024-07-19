@@ -67,8 +67,7 @@ function MainLayout({ children }: LayoutProps) {
   const [showModalGuest, setShowModalGuest] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const { messageCount, notificationCount, friendRequestCount } =
-    useSidebarBadge();
+  const { messageCount, notificationCount, friendRequestCount } = useSidebarBadge();
   useGetMessageNotification();
   useGetFriendRequestNotification();
   useGetNotificationCount();
@@ -155,6 +154,7 @@ function MainLayout({ children }: LayoutProps) {
       </Menu.Item>
       <Menu.Item key="editProfile" className="custom-menu-item">
         <Link href={`/change-password`}>Đổi mật khẩu</Link>
+        <Link href={`/change-password`}>Đổi mật khẩu</Link>
       </Menu.Item>
       <Menu.Item
         key="logout"
@@ -173,6 +173,7 @@ function MainLayout({ children }: LayoutProps) {
   return (
     <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <ModalGuest showModalGuest={showModalGuest} handleCancel={handleCancel} />
+      <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
       <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
         <S.GlobalStyle />
         <S.Container>
@@ -223,6 +224,7 @@ function MainLayout({ children }: LayoutProps) {
                       color: darkMode ? "#F7D600" : "black",
                     }}
                   />
+
                 )}
               </Button>
             </Badge>

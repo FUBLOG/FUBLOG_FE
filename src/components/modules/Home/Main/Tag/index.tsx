@@ -23,8 +23,6 @@ const TagRender = () => {
 
   const handleClickTag = (tag: string) => {
     setTagValue(tag);
-    console.log(activeTags);
-    
   };
 
   return (
@@ -51,10 +49,12 @@ const TagRender = () => {
               : "transparent"
             : activeTags === "Tất Cả"
             ? "#ffc8c8"
-              : "transparent"
+            : "transparent"
         }
       >
-         <span style={{fontWeight: activeTags === "Tất Cả" ? "500" : "400"}}>Tất Cả</span>
+        <span style={{ fontWeight: activeTags === "Tất Cả" ? "500" : "400" }}>
+          Tất Cả
+        </span>
       </Button>
       {tags?.map((tag: any, index: number) => (
         <Button
@@ -83,7 +83,13 @@ const TagRender = () => {
               : "transparent"
           }
         >
-          <span style={{fontWeight: activeTags === tag.postTagContent ? "500" : "400"}}>{tag.postTagContent}</span>
+          <span
+            style={{
+              fontWeight: activeTags === tag.postTagContent ? "500" : "400",
+            }}
+          >
+            {tag.postTagContent}
+          </span>
         </Button>
       ))}
     </S.TagsContainer>

@@ -46,14 +46,16 @@ export const PostContent: React.FC<PostContent> = ({
     "Công Khai": "public",
     "Riêng Tư": "private",
     "Bạn Bè": "friend",
-  }
+  };
   const audiance2: { [key: string]: string } = {
-    "public": "Công Khai",
-    "private": "Riêng Tư",
-    "friend": "Bạn Bè",
-  }
-  const [audienceValue, setAudienceValue] = useState(audiance2[existingAudience]);
-  
+    public: "Công Khai",
+    private: "Riêng Tư",
+    friend: "Bạn Bè",
+  };
+  const [audienceValue, setAudienceValue] = useState(
+    audiance2[existingAudience]
+  );
+
   useEffect(() => {
     const getTags = async () => {
       const res: any = await getAllTags();
@@ -131,10 +133,7 @@ export const PostContent: React.FC<PostContent> = ({
       formData.append("postContent", postContent);
       formData.append("postTagID", tagValue._id);
       formData.append("postStatus", audiance[audienceValue]);
-      console.log(postContent);
-      console.log(tagValue._id);
 
-      
       const res: any = await updatePost(postId, formData);
       setTimeout(() => {
         setPost(res?.metadata);
@@ -195,7 +194,7 @@ export const PostContent: React.FC<PostContent> = ({
               onChange={onChange}
               onPreview={onPreview}
             >
-              {fileList?.length < 5 || fileList === undefined && "+ "}
+              {fileList?.length < 5 || (fileList === undefined && "+ ")}
             </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>

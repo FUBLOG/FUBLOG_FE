@@ -86,6 +86,8 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [fetchPosts]);
 
   const handleCloseSuccessModal = () => {
+    setReportReason(null);
+
     setShowConfirmModal(false);
   };
 
@@ -177,6 +179,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       reportContent: reportReason,
     };
     await PostReportPost(data);
+    setReportReason(null);
     message.success("Báo cáo bài viết thành công");
   };
 

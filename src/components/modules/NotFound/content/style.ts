@@ -5,7 +5,18 @@ export const HomeWrapper = styled(Flex)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #352F44;
+  &.theme-dark {
+    background-color: #0c0c0c;
+  }
+  &.theme-light {
+    background: rgb(236, 250, 215);
+    background: linear-gradient(
+      0deg,
+      rgba(236, 250, 215, 1) 0%,
+      rgba(255, 200, 200, 1) 45%,
+      rgba(211, 213, 255, 1) 100%
+    );
+  }
   width: 100%;
   height: 100vh;
 `;

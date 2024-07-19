@@ -92,6 +92,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       setImageType(type);
       setShowUpdateImage(true);
       document.body.style.overflow = "hidden";
+      setOpen(false);
   };
   const handleShowImage = ((type: "avatar" | "cover")=> {
     const imageUrl =
@@ -102,7 +103,9 @@ const Banner = ({ profileHash, setLoading }: any) => {
         setModalImageSrc(imageUrl);
         setShowImageModal(true);
         document.body.style.overflow = "hidden";}
+        setOpen(false);
       }
+      
       
     )
   useEffect(() => {

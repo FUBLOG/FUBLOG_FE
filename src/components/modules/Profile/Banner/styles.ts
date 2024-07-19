@@ -30,10 +30,8 @@ export const CoverImage = styled.div`
   height: 100%;
 
   border-radius: 12px;
-   position: relative;
+  position: relative;
 `;
-
-
 
 export const Text = styled.div`
   position: absolute;
@@ -44,7 +42,6 @@ export const Text = styled.div`
   font-size: 18px;
   display: none;
   transition: opacity 0.3s ease;
-  
 `;
 
 export const BannerUser = styled(Flex)`
@@ -64,8 +61,8 @@ export const Avatar = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  object-position: center; 
-    &:hover .overlay {
+  object-position: center;
+  &:hover .overlay {
     opacity: 0.5;
   }
   &:hover .text {
@@ -114,13 +111,15 @@ export const ImageModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;  
   z-index: 1000;
 `;
 
 export const ImageModalContent = styled.div`
+  position: fixed;
+  left: 30%;
   img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
   }
 `;

@@ -146,13 +146,12 @@ const ButtonFriend = () => {
           onClick={() => {
             handleFriend && handleFriend("chat");
           }}
-          
           $width="110px"
-          $color={darkMode? "#fff" : "#000"}
-          $hoverColor={darkMode? "#000" : "#fff"}
-          $borderColor={darkMode? "#fff" : "#000"}
-          $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
-          $backgroundColor={darkMode? "#000" : "#fff"}
+          $color={darkMode ? "#fff" : "#000"}
+          $hoverColor={darkMode ? "#000" : "#fff"}
+          $borderColor={darkMode ? "#fff" : "#000"}
+          $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+          $backgroundColor={darkMode ? "#000" : "#fff"}
         >
           Nhắn tin
         </Button>

@@ -31,7 +31,7 @@ export const FriendContainer = styled(Flex)`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 5px;
+  padding: 5px 20px;
   background-color: transparent;
   width: 300px;
   justify-content: space-between;

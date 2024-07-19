@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { profileEndpoint } from "@/services/endpoint";
 import { getRequest } from "@/services/request";
 import { create } from "zustand";
-import { ProfileRequestResponse } from "@/model/response";
+import { useRouter } from "next/navigation";
 interface ProfileProps {
   profileHash: any;
   setProfileHash: (value: string) => void;
@@ -21,6 +21,7 @@ export const useGetProfile = (profileHash: any) => {
   const [loading, setLoading] = useState(false);
   const { setProfile, setProfileHash, profile } = useProfile();
   const [profileSearch, setProfileSearch] = useState<any>();
+  const router = useRouter();
   const getUserInfo = async (hash: any) => {
     setLoading(true);
     try {
@@ -36,7 +37,9 @@ export const useGetProfile = (profileHash: any) => {
         throw new Error("Profile metadata not found.");
       }
     } catch (error) {
-      console.error("Failed to fetch profile data:", error);
+      console.log("0", error);
+
+      router.replace("/not-found");
     } finally {
       setLoading(false);
     }

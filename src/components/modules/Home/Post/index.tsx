@@ -225,14 +225,12 @@ const Post = ({
 
   const handleReport = async () => {
     setShowConfirmModal(false), console.log("reportReason", reportReason);
-    console.log("selectedPost?._id", selectedPost?.post?._id);
     const data = {
       postID: selectedPost?.post?._id,
       reportContent: reportReason,
     };
-    await PostReportPost(data).then(
-      message.success("Báo cáo bài viết thành công")
-    );
+    await PostReportPost(data);
+    message.success("Báo cáo bài viết thành công");
   };
 
   return (

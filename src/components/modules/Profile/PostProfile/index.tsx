@@ -23,7 +23,13 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
+import {
+  addLike,
+  deletePost,
+  getPostById,
+  PostReportPost,
+  unLike,
+} from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../UpdatePost/content";
@@ -163,6 +169,15 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
 
   const icrComment = (number: number) => {
     setComments(comments + number);
+  };
+  const handleReport = async () => {
+    setShowConfirmModal(false);
+    const data = {
+      postID: selectedPost?._id,
+      reportContent: reportReason,
+    };
+    await PostReportPost(data);
+    message.success("Báo cáo bài viết thành công");
   };
 
   const commentModal = useMemo(() => {
@@ -305,15 +320,13 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const confirmReportModal = useMemo(() => {
     return (
       <S.CustomModal
-        key={selectedPost?._id}
         title="Xác nhận báo cáo"
         open={showConfirmModal}
         onCancel={handleCloseSuccessModal}
         cancelText={"Hủy"}
         okText={"Báo cáo"}
         onOk={() => {
-          setShowConfirmModal(false),
-            message.success("Báo cáo bài viết thành công");
+          handleReport();
         }}
       >
         <Typography variant="caption-small">
@@ -395,7 +408,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                         }}
                       >
                         <>
-                          {console.log("isFriend", newfeed?.postStatus)}
                           <Typography
                             variant="caption-normal"
                             color={darkMode ? "#fff" : "#352F44"}

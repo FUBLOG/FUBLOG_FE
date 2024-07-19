@@ -16,4 +16,5 @@ export const errorMessage: any = {
   "New Password not match":
     "Mật khẩu được nhập lại không trùng khớp với mật khẩu mới",
   "Invalid request": "Vui lòng load lại trang",
+  // "User Not Found":"/"
 };

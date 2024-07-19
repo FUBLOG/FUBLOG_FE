@@ -122,7 +122,7 @@ function FormSignUp(props: PageProps) {
         <S.TitleLogin>
           <Typography
             variant="h1"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#000"}
             fontSize="x-large"
             align="center"
             margin="0 0  0 0"
@@ -147,10 +147,10 @@ function FormSignUp(props: PageProps) {
             >
               <Input
                 placeholder="Nhập họ"
-                prefix={<UserOutlined />}
+                prefix={<UserOutlined style={{color: "#000"}} />}
                 isRequired
                 label="Họ"
-                colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+                colorLabel={darkMode ? "#F7D600" : "#000"}
               />
             </FormItem>
             <FormItem
@@ -161,10 +161,10 @@ function FormSignUp(props: PageProps) {
             >
               <Input
                 placeholder="Nhập tên"
-                prefix={<UserOutlined />}
+                prefix={<UserOutlined style={{color: "#000"}} />}
                 isRequired
                 label="Tên"
-                colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+                colorLabel={darkMode ? "#F7D600" : "#000"}
               />
             </FormItem>
           </div>
@@ -173,7 +173,7 @@ function FormSignUp(props: PageProps) {
               <Typography
                 padding="0 0 8px 0"
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
               >
                 Ngày tháng năm sinh <span style={{ color: "red" }}>*</span>
               </Typography>
@@ -193,14 +193,16 @@ function FormSignUp(props: PageProps) {
               <Typography
                 padding="0 0 8px 0"
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
               >
                 Giới tính <span style={{ color: "red" }}>*</span>
               </Typography>
               <FormItem name="sex">
                 <Button
-                  $color="white"
+                  $color="#000"
                   $padding="12px 16px !important"
+                  $backgroundColor="white"
+                  $hoverBackgroundColor="white"
                   type="primary"
                   style={{
                     width: "80px",
@@ -216,7 +218,7 @@ function FormSignUp(props: PageProps) {
                     >
                       <Space>
                         {sex}
-                        <DownOutlined />
+                        <DownOutlined style={{color: "#000"}} />
                       </Space>
                     </a>
                   </Dropdown>
@@ -231,10 +233,10 @@ function FormSignUp(props: PageProps) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined />}
+              prefix={<UserOutlined style={{color: "#000"}} />}
               isRequired
               label="Email"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
 
@@ -245,16 +247,16 @@ function FormSignUp(props: PageProps) {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
-              prefix={<LockOutlined />}
+              prefix={<LockOutlined style={{color: "#000"}} />}
               isRequired
               label="Mật khẩu"
-              colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
           <div>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#F7D600" : "#000"}
               fontSize="xx-small"
             >
               Việc bạn nhấn vào đăng ký, bạn đồng ý với các{" "}
@@ -263,7 +265,7 @@ function FormSignUp(props: PageProps) {
                   return modalState.openModal();
                 }}
                 style={{
-                  color: darkMode ? "#B9B4C7" : "#352F44",
+                  color: darkMode ? "#F7D600" : "#000",
                   fontSize: "xx-small",
                   textDecoration: "underline",
                 }}
@@ -285,7 +287,10 @@ function FormSignUp(props: PageProps) {
               htmlType="submit"
               className="ButtonWrapper"
               type="default"
-              $backgroundColor="#FAF0E6"
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
               $margin="30px 0 0 0"
               $width={"100px"}
             >
@@ -296,7 +301,7 @@ function FormSignUp(props: PageProps) {
           <S.Typography>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#F7D600" : "#000"}
               fontSize="xx-small"
             >
               Đã có tài khoản?
@@ -304,7 +309,7 @@ function FormSignUp(props: PageProps) {
             <Link href="/sign-in">
               <Typography
                 variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
+                color={darkMode ? "#F7D600" : "#000"}
                 fontSize="xx-small"
                 textDecoration="underline"
               >

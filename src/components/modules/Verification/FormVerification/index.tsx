@@ -85,7 +85,7 @@ function FormVerification(props: PageProps) {
         <S.TitleLogin>
           <Typography
             variant="h1"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#352F44"}
             fontSize="x-large"
             align="center"
           >
@@ -97,7 +97,7 @@ function FormVerification(props: PageProps) {
           <Typography
             style="italic"
             variant="body-text-small-normal"
-            color={darkMode ? "#B9B4C7" : "#352F44"}
+            color={darkMode ? "#F7D600" : "#000"}
             fontSize="xx-small"
           >
             Một email xác nhận đã được gửi tới {maskEmail(props.email)}, vui
@@ -107,7 +107,7 @@ function FormVerification(props: PageProps) {
         <Typography
           style="italic"
           variant="body-text-small-normal"
-          color={darkMode ? "#B9B4C7" : "#352F44"}
+          color={darkMode ? "#F7D600" : "#000"}
           fontSize="xx-small"
           margin="30px 0px 0px 0px"
         >
@@ -118,7 +118,10 @@ function FormVerification(props: PageProps) {
             <Button
               className="ButtonWrapper"
               type="default"
-              $backgroundColor="#FAF0E6"
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
               $width={"100px"}
               $margin="10px 0px"
               onClick={resend}
@@ -136,7 +139,10 @@ function FormVerification(props: PageProps) {
                 <Button
                   className="ButtonWrapper"
                   type="default"
-                  $backgroundColor="#B9B4C7"
+                  $color={darkMode ? "#fff" : "#352f44"}
+                  $hoverColor={darkMode ? "#000" : "#fff"}
+                  $borderColor={darkMode ? "#fff" : "#352f44"}
+                  $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                   onClick={handleClick}
                 >
                   <ArrowLeftOutlined style={{ fontSize: "10px" }} />
@@ -144,7 +150,7 @@ function FormVerification(props: PageProps) {
                 <Typography
                   style="italic"
                   variant="body-text-normal"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
+                  color={darkMode ? "#F7D600" : "#000"}
                   fontSize="xx-small"
                 >
                   Thay đổi email

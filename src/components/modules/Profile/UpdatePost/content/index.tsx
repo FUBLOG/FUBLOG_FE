@@ -1,54 +1,71 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
-import {
-  SettingOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
+import { SettingOutlined, TagOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
-import { Radio, Upload } from "antd";
+import { Radio } from "antd";
 import type { GetProp, RadioChangeEvent, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
-import { postRequest } from "@/services/request";
-import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
-import useCreatePost from "@/hooks/useCreatePost";
-import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
-import { createPost, getAllTags } from "@/services/api/post";
+import useUpdatePost from "@/hooks/useUpdatePost";
+import {
+  AudienceModal,
+  ContentStyleDiv,
+  TagModal,
+  CustomUploadStyled,
+} from "./style";
+import { updatePost, getAllTags } from "@/services/api/post";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
+  postId: string;
+  existingContent: string;
+  existingTags: any;
+  existingFiles: UploadFile[];
+  existingAudience: string;
   onSuccess: () => void;
 }
 
-export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
-  const { setShowSpinner, setPost } = useCreatePost()
+export const PostContent: React.FC<PostContent> = ({
+  postId,
+  existingContent,
+  existingTags,
+  existingFiles,
+  existingAudience,
+  onSuccess,
+}) => {
+  const { setShowSpinnerUpdate, setPost } = useUpdatePost();
   const { userInfo } = useAuthContext();
-  const [postContent, setPostContent] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [tagValue, setTagValue] = useState<any>({});
+  const [postContent, setPostContent] = useState(existingContent);
+  const [fileList, setFileList] = useState<UploadFile[]>(existingFiles);
+  const [tagValue, setTagValue] = useState<any>(existingTags);
   const [openTag, setOpenTag] = useState(false);
   const [tags] = useState<any[]>([]);
-  const [audienceValue, setAudienceValue] = useState("Công Khai");
   const [openAudience, setOpenAudience] = useState(false);
   const audiance: { [key: string]: string } = {
     "Công Khai": "public",
     "Riêng Tư": "private",
     "Bạn Bè": "friend",
-  }
+  };
+  const audiance2: { [key: string]: string } = {
+    public: "Công Khai",
+    private: "Riêng Tư",
+    friend: "Bạn Bè",
+  };
+  const [audienceValue, setAudienceValue] = useState(
+    audiance2[existingAudience]
+  );
+
   useEffect(() => {
     const getTags = async () => {
-
       const res: any = await getAllTags();
       res?.metadata?.map((tag: any) => {
         tags.push(tag);
       });
-      setTagValue(tags[0]);
-    }
+      setTagValue(existingTags);
+    };
     getTags();
-
   }, []);
-
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
@@ -57,6 +74,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
+
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -75,30 +93,34 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
   const handleOpenTag = () => {
     setOpenTag(true);
   };
+
   const handleOk = () => {
     setOpenTag(true);
   };
+
   const handleCancel = () => {
     setOpenTag(false);
     setOpenAudience(false);
   };
+
   const handleTextChange = (tag: any) => {
     setTagValue(tag);
   };
-  // const handleAudience =
 
   const handleOpenAudience = () => {
     setOpenAudience(true);
   };
+
   const handleAudienceChange = (e: RadioChangeEvent) => {
     setAudienceValue(e.target.value);
   };
 
+  const UpdatePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-  const CreatePost = async () => {
     setOpenTag(false);
     setOpenAudience(false);
-    setShowSpinner(true);
+    setShowSpinnerUpdate(true);
     onSuccess();
     try {
       const formData = new FormData();
@@ -108,19 +130,16 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
           formData.append("image", blob);
         }
       });
-      formData.append("content", postContent);
-      formData.append("tagId", tagValue._id);
-      formData.append("status", audiance[audienceValue]);
-      const res: any = await createPost(formData);
-      setTimeout(() => {
-        setPost(res?.metadata); 
-        setShowSpinner(false);
-      }, 3000);
-      setPostContent("");
-      setFileList([]);
-      setTagValue(tags[0]);
-      setAudienceValue("Công Khai");
+      formData.append("postContent", postContent);
+      formData.append("postTagID", tagValue._id);
+      formData.append("postStatus", audiance[audienceValue]);
 
+      const res: any = await updatePost(postId, formData);
+      setTimeout(() => {
+        setPost(res?.metadata);
+        setShowSpinnerUpdate(false);
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       console.error(error);
     }
@@ -128,7 +147,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
 
   return (
     <ContentStyleDiv>
-      <h2>Bài Viết Mới</h2>
+      <h2>Chỉnh Sửa Bài Viết</h2>
       <div className="contentHeader">
         <div className="user-wrapper">
           <div className="image-wrapper">
@@ -167,7 +186,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
               resize: "none",
             }}
           />
-
           <ImgCrop modalTitle="Chỉnh sửa" rotationSlider>
             <CustomUploadStyled
               multiple={true}
@@ -176,7 +194,7 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
               onChange={onChange}
               onPreview={onPreview}
             >
-              {fileList.length < 5 && "+ Upload"}
+              {fileList?.length < 5 || (fileList === undefined && "+ ")}
             </CustomUploadStyled>
           </ImgCrop>
           <div className="display-Tag" style={{ display: "flex", gap: "12px" }}>
@@ -184,8 +202,8 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
             <p>{tagValue?.postTagContent}</p>
           </div>
           <div className="create-btn">
-            <Button $width={"100px"} onClick={CreatePost}>
-              Đăng
+            <Button $width={"100px"} onClick={UpdatePost}>
+              Cập Nhật
             </Button>
           </div>
           <TagModal
@@ -201,7 +219,11 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
             >
               <h3>Chọn Thẻ</h3>
               {tags.map((tag) => (
-                <Radio value={tag?.postTagContent as string} key={tag?._id} onClick={() => handleTextChange(tag)}>
+                <Radio
+                  value={tag?.postTagContent as string}
+                  key={tag?._id}
+                  onClick={() => handleTextChange(tag)}
+                >
                   {tag?.postTagContent}
                 </Radio>
               ))}

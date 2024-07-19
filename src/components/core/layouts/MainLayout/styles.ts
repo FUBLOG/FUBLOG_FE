@@ -3,10 +3,16 @@ import styled, { createGlobalStyle } from "styled-components";
 
 export const LayoutWrapper = styled.main`
   &.theme-dark {
-    background-color: ${(props) => props?.theme?.colors?.backgroundGray};
+    background-color: #0c0c0c;
   }
   &.theme-light {
-    background-color: ${(props) => props?.theme?.colors?.backgroundWhite };
+    background: rgb(236, 250, 215);
+    background: linear-gradient(
+      0deg,
+      rgba(236, 250, 215, 1) 0%,
+      rgba(255, 200, 200, 1) 45%,
+      rgba(211, 213, 255, 1) 100%
+    );
   }
   min-height: 100vh;
   display: flex;
@@ -22,14 +28,19 @@ export const GlobalStyle = createGlobalStyle`
   }
   `;
 export const Header = styled.header`
-  background-color: ${(props) => props?.theme?.colors?.backgroundWhite};
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
+  &.theme-dark {
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+    box-shadow: 0px 0px 10px 1px rgba(255, 238, 5, 0.65);
+  }
 
+  box-shadow: 0 4px 4px 0 #00000078;
+  backdrop-filter: blur(20px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 10 ;
 `;
 
 export const LogoContainer = styled.div`
@@ -42,11 +53,14 @@ export const LogoContainer = styled.div`
 `;
 
 export const IconContainer = styled(Flex)`
+  &.theme-dark {
+    color: #f7d600;
+  }
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-
   gap: 120px;
+  color: black;
 `;
 
 export const UserIconContainer = styled(Flex)`

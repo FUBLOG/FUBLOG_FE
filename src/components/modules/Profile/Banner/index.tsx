@@ -184,14 +184,14 @@ const Banner = ({ profileHash, setLoading }: any) => {
           <S.Typography>
             <Typography
               variant="body-text-small-bold"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#fff" : "#352F44"}
               fontSize="34px"
             >
               {profileSearch?.user?.displayName}
             </Typography>
             <Typography
               variant="body-text-small-normal"
-              color={darkMode ? "#B9B4C7" : "#352F44"}
+              color={darkMode ? "#fff" : "#352F44"}
               fontSize="14px"
             >
               {profileSearch?.info?.bio}
@@ -204,6 +204,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
   ) : (
     loading && (
       <S.Wrapper>
+        {" "}
         <NotFound />
       </S.Wrapper>
     )

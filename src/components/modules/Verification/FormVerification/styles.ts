@@ -8,13 +8,13 @@ export const HomeWrapper = styled(Flex)<{ darkMode: boolean }>`
   flex-direction: column;
   gap: 10px;
   .ant-btn > span {
-    color: #352f44 !important;
+    color: #352f44 ;
   }
   .ant-btn:hover > span {
-    color: #faf0e6 !important;
+    color: #faf0e6 ;
   }
   .ant-statistic-content-value {
-    color: ${(props) => (props.darkMode ? "#B9B4C7" : "#352F44")} !important;
+    color: ${(props) => (props.darkMode ? "#F7D600" : "#000")} !important;
   }
 `;
 

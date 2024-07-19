@@ -33,6 +33,7 @@ export const FriendContainer = styled(Flex)`
   padding: 5px;
   background-color: transparent;
   width: 300px;
+  justify-content: flex-start;
 `;
 
 export const Friend = styled(Flex)`

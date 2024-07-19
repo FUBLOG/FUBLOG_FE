@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Button, Carousel, message, Radio } from "antd";
+import { Button, Carousel, message, Radio, Space, Spin } from "antd";
 import {
   HeartOutlined,
   HeartFilled,
@@ -9,6 +9,10 @@ import {
   EllipsisOutlined,
   EditFilled,
   DeleteOutlined,
+  GlobalOutlined,
+  LockOutlined,
+  TeamOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 
 import Typography from "@/components/core/common/Typography";
@@ -19,9 +23,12 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, getPostById, unLike } from "@/services/api/post";
+import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
+import { PostContent } from "../UpdatePost/content";
+import moment from "moment";
+import useUpdatePost from "@/hooks/useUpdatePost";
 
 interface PostProps {
   profileHash: any;
@@ -44,7 +51,17 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const postId = searchParams.get("pptId");
   const [comments, setComments] = useState(0);
-
+  const [editPost, setEditPost] = useState(false);
+  const [showEnsure, setShowEnsure] = useState(false);
+  const darkmode = useThemeStore((state) => state.darkMode);
+  const audiance2: { [key: string]: any } = {
+    public: <GlobalOutlined />,
+    private: <LockOutlined />,
+    friend: <TeamOutlined />,
+  };
+  const isFriend = profileSearch?.info?.friendList?.find(
+    (friendID: any) => friendID === userInfo?._id
+  );
   const fetchPosts = useCallback(async () => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
@@ -73,7 +90,21 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [postId]);
 
   const router = useRouter();
-
+  const handleUpdate = () => {
+    setEditPost(true);
+  };
+  const handleDelete = () => {
+    setShowEnsure(true);
+  };
+  const handleOkDelete = async (id: string) => {
+    try {
+      await deletePost(id);
+    } catch (error) {
+      message.error("Xóa bài viết thất bại");
+    }
+    setShowEnsure(false);
+    setEditMyPost(false);
+  };
   const handleCommentClick = (newfeed: any) => {
     if (webStorageClient.get(constants.IS_AUTH)) {
       setSelectedPost(newfeed);
@@ -148,228 +179,346 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [selectedPost, showCommentsModal]);
 
   const darkMode = useThemeStore((state) => state.darkMode);
+  const handleCancel = () => {
+    setEditPost(false);
+  };
+  const handleCreatePostSuccess = () => {
+    setEditPost(false);
+    setEditMyPost(false);
+  };
 
-  return (
-    <>
-      {commentModal}
+  const postEditModal = useMemo(() => {
+    return (
+      <S.CreateModal
+        open={editPost}
+        onCancel={handleCancel}
+        destroyOnClose={true}
+        footer={false}
+      >
+        <PostContent
+          postId={selectedPost?._id}
+          existingContent={selectedPost?.postContent}
+          existingTags={selectedPost?.postTagID}
+          existingFiles={selectedPost?.postLinkToImages.map((url: string) => ({
+            url,
+          }))}
+          existingAudience={selectedPost?.postStatus}
+          onSuccess={handleCreatePostSuccess}
+        />
+      </S.CreateModal>
+    );
+  }, [editPost]);
 
-      {posts?.map((newfeed: any) => (
-        <S.PostWrapper
-          className={darkMode ? "theme-dark" : "theme-light"}
-          key={newfeed?._id}
+  const editDeleteModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        title={"Quản lý bài viết"}
+        open={showEditMyPost}
+        onCancel={() => setEditMyPost(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          setEditMyPost(false);
+        }}
+      >
+        <Radio.Group
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          <S.CustomCard>
-            <S.PostHeader>
-              <S.UserInfo>
-                <S.Avatar
-                  src={newfeed?.UserID?.userInfo?.avatar}
-                  alt={`${newfeed?.UserID?.displayName}'s avatar`}
-                />
-                <Typography
-                  variant="caption-normal"
-                  color={darkMode ? "#B9B4C7" : "#352F44"}
-                  fontSize="18px"
-                >
-                  {newfeed?.UserID?.displayName}
-                </Typography>
-              </S.UserInfo>
-              {userInfo?.profileHash !== profileHash ? (
-                <ExclamationCircleOutlined
-                  style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setShowReportModal(true);
-                  }}
-                />
-              ) : (
-                <EllipsisOutlined
-                  style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    setEditMyPost(true);
-                  }}
-                />
-              )}
-            </S.PostHeader>
+          {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
+            <Button
+              key={index}
+              onClick={index === 0 ? handleUpdate : handleDelete}
+            >
+              {index === 0 ? <EditFilled /> : <DeleteOutlined />}
+              {reason}
+            </Button>
+          ))}
+        </Radio.Group>
+      </S.CustomModal>
+    );
+  }, [showEditMyPost]);
 
-            <S.ContentWrapper>
-              <Typography
-                variant="caption-small"
-                color={darkMode ? "#B9B4C7" : "#352F44"}
-                fontSize="14px"
-                lineHeight="2"
-              >
-                {newfeed?.postContent}
-              </Typography>
-            </S.ContentWrapper>
-
-            {newfeed?.postLinkToImages?.length === 1 && (
-              <S.ImagesWrapper
-                className={`images-${newfeed?.postLinkToImages.length}`}
-              >
-                <img
-                  src={newfeed?.postLinkToImages[0]}
-                  alt=""
-                  className="post-image"
-                  onClick={() => onPreview(newfeed?.postLinkToImages[0])}
-                />
-              </S.ImagesWrapper>
-            )}
-
-            {newfeed?.postLinkToImages?.length > 1 && (
-              <S.ImagesWrapper2>
-                <Carousel arrows={true}>
-                  {newfeed?.postLinkToImages?.map((src: any) => (
-                    <img
-                      key={src}
-                      src={src}
-                      alt="Post Image"
-                      className="post-image"
-                      onClick={() => onPreview(src)}
-                    />
-                  ))}
-                </Carousel>
-              </S.ImagesWrapper2>
-            )}
-
-            <S.PostFooter>
-              <S.Actions>
-                {listIsLike[newfeed?._id] ? (
-                  <HeartFilled
-                    style={{
-                      color: darkMode ? "#B9B4C7" : "#352F44",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleLikeClick(newfeed?._id)}
-                  />
-                ) : (
-                  <HeartOutlined
-                    style={{
-                      color: darkMode ? "#B9B4C7" : "#352F44",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleLikeClick(newfeed?._id)}
-                  />
-                )}
-                <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
-                  {listIsLike[newfeed?._id] ? 1 : 0}
-                </span>
-                <CommentOutlined
-                  onClick={() => handleCommentClick(newfeed)}
-                  style={{
-                    color: darkMode ? "#B9B4C7" : "#352F44",
-                    cursor: "pointer",
-                  }}
-                />
-                <span style={{ color: darkMode ? "#B9B4C7" : "#352F44" }}>
-                  {newfeed?.commentCount}
-                </span>
-              </S.Actions>
-              <S.TagWrapper>
-                <S.Tag>
-                  <Typography
-                    variant="caption-small"
-                    color={darkMode ? "#B9B4C7" : "#352F44"}
-                    fontSize="14px"
-                    lineHeight="2"
-                  >
-                    <TagOutlined style={{ marginRight: "10px" }} />
-                    {newfeed?.postTagID?.postTagContent}
-                  </Typography>
-                </S.Tag>
-              </S.TagWrapper>
-            </S.PostFooter>
-          </S.CustomCard>
-
-          <S.CustomModal
-            title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
-            open={showReportModal}
-            onCancel={() => setShowReportModal(false)}
-            cancelText={"Hủy"}
-            okText={"Tiếp tục"}
-            onOk={() => {
-              if (!reportReason) {
-                message.warning("Vui lòng chọn lý do báo cáo.");
-                return;
+  const deleteConfirmModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        title={"Bạn Có Muốn Xóa Bài Viết ?"}
+        open={showEnsure}
+        onCancel={() => setShowEnsure(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          handleOkDelete(selectedPost?._id);
+        }}
+      >
+        Bài viết này sẽ xóa vĩnh viễn
+      </S.CustomModal>
+    );
+  }, [showEnsure, selectedPost]);
+  const { showSpinnerUpdate } = useUpdatePost();
+  return (
+    <S.Container className={darkmode ? "theme-dark" : "theme-light"}>
+      {commentModal}
+      {editDeleteModal}
+      {deleteConfirmModal}
+      {postEditModal}
+      {showSpinnerUpdate && (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Space>
+            <Spin
+              className="custom-spin"
+              indicator={
+                <LoadingOutlined color="#000" style={{ fontSize: 30 }} spin />
               }
-              setShowConfirmModal(true);
-              setShowReportModal(false);
-            }}
-          >
-            <Typography variant="caption-small">Hãy chọn vấn đề:</Typography>
-            <Radio.Group
-              onChange={(e) => setReportReason(e.target.value)}
-              value={reportReason}
-              style={{ display: "flex", flexDirection: "column" }}
-            >
-              {[
-                "Nội dung phản cảm",
-                "Bạo lực",
-                "Quấy rối",
-                "Tự tử hoặc tự gây thương tích",
-                "Thông tin sai sự thật",
-                "Spam",
-                "Chất cấm, chất gây nghiện",
-                "Bán hàng trái phép",
-                "khác",
-              ].map((reason) => (
-                <Radio value={reason} key={reason}>
-                  {reason}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </S.CustomModal>
+            />
+            <h4 style={{ color: darkmode ? "#F7D600" : "#000" }}>
+              Đang Chỉnh Sửa
+            </h4>
+          </Space>
+        </div>
+      )}
+      {posts.length === 0 ? (
+        <Typography
+          variant="caption-normal"
+          color={darkMode ? "#fff" : "#352F44"}
+          fontSize="18px"
+          margin="50px 0px"
+        >
+          Chưa có bài viết
+        </Typography>
+      ) : (
+        posts
+          ?.slice()
+          .reverse()
+          ?.map((newfeed: any) =>
+            userInfo?.profileHash === profileHash ||
+            (userInfo?.profileHash !== profileHash &&
+              newfeed?.postStatus === "public") ||
+            (userInfo?.profileHash !== profileHash &&
+              isFriend !== undefined &&
+              newfeed?.post != "private") ? (
+              <S.PostWrapper
+                className={darkMode ? "theme-dark" : "theme-light"}
+                key={newfeed?._id}
+              >
+                <S.CustomCard>
+                  <S.PostHeader>
+                    <S.UserInfo>
+                      <S.Avatar
+                        src={newfeed?.UserID?.userInfo?.avatar}
+                        alt={`${newfeed?.UserID?.displayName}'s avatar`}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "3px",
+                        }}
+                      >
+                        <Typography
+                          variant="caption-normal"
+                          color={darkMode ? "#fff" : "#352F44"}
+                          fontSize="18px"
+                        >
+                          {newfeed?.UserID?.displayName}
+                        </Typography>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "10px",
+                            fontSize: "12px",
+                            color: darkMode ? "#fff" : "#494747",
+                            fontStyle: "oblique",
+                          }}
+                        >
+                          {moment(newfeed?.updatedAt).fromNow()}
+                          {audiance2[newfeed?.postStatus]}
+                        </div>
+                      </div>
+                    </S.UserInfo>
+                    {userInfo?.profileHash !== profileHash ? (
+                      <ExclamationCircleOutlined
+                        style={{
+                          color: darkMode ? "#fff" : "#352F44",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          setShowReportModal(true);
+                          setSelectedPost(newfeed);
+                        }}
+                      />
+                    ) : (
+                      <EllipsisOutlined
+                        style={{
+                          color: darkMode ? "#fff" : "#352F44",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          setEditMyPost(true);
+                          setSelectedPost(newfeed);
+                        }}
+                      />
+                    )}
+                  </S.PostHeader>
 
-          <S.CustomModal
-            title={"Quản lý bài viết"}
-            open={showEditMyPost}
-            onCancel={() => setEditMyPost(false)}
-            cancelText={"Hủy"}
-            okText={"Tiếp tục"}
-            onOk={() => {
-              setEditMyPost(false);
-            }}
-          >
-            <Radio.Group
-              onChange={(e) => setReportReason(e.target.value)}
-              value={reportReason}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {[` Chỉnh sửa bài viết`, `Xóa bài viết`].map((reason, index) => (
-                <Button key={index}>
-                  {index === 0 ? <EditFilled /> : <DeleteOutlined />}
-                  {reason}
-                </Button>
-              ))}
-            </Radio.Group>
-          </S.CustomModal>
+                  <S.ContentWrapper>
+                    <Typography
+                      variant="caption-small"
+                      color={darkMode ? "#fff" : "#352F44"}
+                      fontSize="14px"
+                      lineHeight="2"
+                    >
+                      {newfeed?.postContent}
+                    </Typography>
+                  </S.ContentWrapper>
 
-          <S.CustomModal
-            title="Xác nhận báo cáo"
-            open={showConfirmModal}
-            onCancel={handleCloseSuccessModal}
-            cancelText={"Hủy"}
-            okText={"Báo cáo"}
-            onOk={() => {
-              setShowConfirmModal(false),
-                message.success("Báo cáo bài viết thành công");
-            }}
-          >
-            <Typography variant="caption-small">
-              {isPostReport
-                ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
-                : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
-            </Typography>
-          </S.CustomModal>
-        </S.PostWrapper>
-      ))}
+                  {newfeed?.postLinkToImages?.length === 1 && (
+                    <S.ImagesWrapper
+                      className={`images-${newfeed?.postLinkToImages.length}`}
+                    >
+                      <img
+                        src={newfeed?.postLinkToImages[0]}
+                        alt=""
+                        className="post-image"
+                        onClick={() => onPreview(newfeed?.postLinkToImages[0])}
+                      />
+                    </S.ImagesWrapper>
+                  )}
+
+                  {newfeed?.postLinkToImages?.length > 1 && (
+                    <S.ImagesWrapper2>
+                      <Carousel arrows={true}>
+                        {newfeed?.postLinkToImages?.map((src: any) => (
+                          <img
+                            key={src}
+                            src={src}
+                            alt="Post Image"
+                            className="post-image"
+                            onClick={() => onPreview(src)}
+                          />
+                        ))}
+                      </Carousel>
+                    </S.ImagesWrapper2>
+                  )}
+
+                  <S.PostFooter>
+                    <S.Actions>
+                      {listIsLike[newfeed?._id] ? (
+                        <HeartFilled
+                          style={{
+                            color: darkMode ? "#fff" : "#352F44",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleLikeClick(newfeed?._id)}
+                        />
+                      ) : (
+                        <HeartOutlined
+                          style={{
+                            color: darkMode ? "#fff" : "#352F44",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleLikeClick(newfeed?._id)}
+                        />
+                      )}
+                      <span style={{ color: darkMode ? "#fff" : "#352F44" }}>
+                        {listIsLike[newfeed?._id] ? 1 : 0}
+                      </span>
+                      <CommentOutlined
+                        onClick={() => handleCommentClick(newfeed)}
+                        style={{
+                          color: darkMode ? "#fff" : "#352F44",
+                          cursor: "pointer",
+                        }}
+                      />
+                      <span style={{ color: darkMode ? "#fff" : "#352F44" }}>
+                        {newfeed?.commentCount}
+                      </span>
+                    </S.Actions>
+                    <S.TagWrapper>
+                      <S.Tag>
+                        <Typography
+                          variant="caption-small"
+                          color={darkMode ? "#fff" : "#352F44"}
+                          fontSize="14px"
+                          lineHeight="2"
+                        >
+                          <TagOutlined style={{ marginRight: "10px" }} />
+                          {newfeed?.postTagID?.postTagContent}
+                        </Typography>
+                      </S.Tag>
+                    </S.TagWrapper>
+                  </S.PostFooter>
+                </S.CustomCard>
+
+                <S.CustomModal
+                  key={newfeed?._id}
+                  title={
+                    isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"
+                  }
+                  open={showReportModal}
+                  onCancel={() => setShowReportModal(false)}
+                  cancelText={"Hủy"}
+                  okText={"Tiếp tục"}
+                  onOk={() => {
+                    if (!reportReason) {
+                      message.warning("Vui lòng chọn lý do báo cáo.");
+                      return;
+                    }
+                    setShowConfirmModal(true);
+                    setShowReportModal(false);
+                  }}
+                >
+                  <Typography variant="caption-small">
+                    Hãy chọn vấn đề:
+                  </Typography>
+                  <Radio.Group
+                    onChange={(e) => setReportReason(e.target.value)}
+                    value={reportReason}
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    {[
+                      "Nội dung phản cảm",
+                      "Bạo lực",
+                      "Quấy rối",
+                      "Tự tử hoặc tự gây thương tích",
+                      "Thông tin sai sự thật",
+                      "Spam",
+                      "Chất cấm, chất gây nghiện",
+                      "Bán hàng trái phép",
+                      "khác",
+                    ].map((reason) => (
+                      <Radio value={reason} key={reason}>
+                        {reason}
+                      </Radio>
+                    ))}
+                  </Radio.Group>
+                </S.CustomModal>
+                <S.CustomModal
+                  key={newfeed?._id}
+                  title="Xác nhận báo cáo"
+                  open={showConfirmModal}
+                  onCancel={handleCloseSuccessModal}
+                  cancelText={"Hủy"}
+                  okText={"Báo cáo"}
+                  onOk={() => {
+                    setShowConfirmModal(false),
+                      message.success("Báo cáo bài viết thành công");
+                  }}
+                >
+                  <Typography variant="caption-small">
+                    {isPostReport
+                      ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
+                      : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
+                  </Typography>
+                </S.CustomModal>
+              </S.PostWrapper>
+            ) : (
+              <></>
+            )
+          )
+      )}
       <div className="imgWrapper">
         <S.ImageModal
           open={open}
@@ -384,7 +533,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
           />
         </S.ImageModal>
       </div>
-    </>
+    </S.Container>
   );
 };
 

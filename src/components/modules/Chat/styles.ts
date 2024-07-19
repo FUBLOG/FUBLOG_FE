@@ -8,8 +8,8 @@ export const ModalContainer = styled.div`
   max-height: 500px;
   background-color: #faf0e6;
   ::-webkit-scrollbar {
-    width: 0px !important;
-    height: 0px !important;
+    width: 0px;
+    height: 0px;
   }
 `;
 
@@ -146,7 +146,6 @@ export const MessageAvatar = styled.img`
   margin-right: 10px;
   object-fit: cover;
 `;
-
 
 export const NoChatSelected = styled.div`
   display: flex;
@@ -345,12 +344,10 @@ export const ChatHeader = styled.div<{ isOwnMessage?: boolean }>`
       : "justify-content: flex-start;"}
 `;
 
-
-
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-left: -40px; 
+  margin-left: -40px;
 
   .picture-upload {
     display: flex;
@@ -373,7 +370,7 @@ export const InputWrapper = styled.div`
   width: 100%;
 
   .ant-input-textarea {
-    padding-right: 40px; 
+    padding-right: 40px;
   }
 
   .picture-upload {
@@ -388,7 +385,6 @@ export const InputWrapper = styled.div`
   }
 `;
 
-
 export const NoChatSelectedContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -402,7 +398,6 @@ export const NoChatImage = styled.img`
   width: 150px;
   margin-bottom: 20px;
 `;
-
 
 export const IntroductionText = styled.div`
   font-size: 16px;

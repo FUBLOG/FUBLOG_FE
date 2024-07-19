@@ -383,10 +383,10 @@ const CommentModal = ({
       <S.PostContentWrapper>
         <S.PostHeaderModal>
           <S.Avatar
-            src={userInfo?.userInfo?.avatar}
-            alt={`${userInfo?.displayName}'s avatar`}
+            src={post?.UserID?.userInfo?.avatar}
+            alt={`${post?.UserID?.displayName}'s avatar`}
           />
-          <S.UserName>{userInfo?.displayName}</S.UserName>
+          <S.UserName>{post?.UserID?.displayName}</S.UserName>
         </S.PostHeaderModal>
         <Typography
           variant="caption-small"

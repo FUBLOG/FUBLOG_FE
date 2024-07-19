@@ -258,6 +258,12 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     );
   }, [showEnsure, selectedPost]);
   const { showSpinnerUpdate } = useUpdatePost();
+  function handleClickReportPost(newfeed: any): void {
+    setIsPostReport(true);
+    setShowReportModal(true);
+    setSelectedPost(newfeed);
+  }
+
   return (
     <S.Container className={darkmode ? "theme-dark" : "theme-light"}>
       {commentModal}
@@ -344,10 +350,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                           color: darkMode ? "#fff" : "#352F44",
                           cursor: "pointer",
                         }}
-                        onClick={() => {
-                          setShowReportModal(true);
-                          setSelectedPost(newfeed);
-                        }}
+                        onClick={() => handleClickReportPost(newfeed)}
                       />
                     ) : (
                       <EllipsisOutlined

@@ -523,7 +523,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                     </S.TagWrapper>
                   </S.PostFooter>
                 </S.CustomCard>
-                        {/*  báo nội dung báo cáo */}
               </S.PostWrapper>
             ) : (
               <></>

@@ -16,8 +16,18 @@ import NotFound from "../../NotFound/main";
 import UpdateProfile from "../Update";
 import UpdateProfileImages from "./UpdateProfileImages";
 import useThemeStore from "@/hooks/useTheme";
+import { Button, Popover } from "antd";
+import { EditOutlined, ExpandOutlined } from "@ant-design/icons";
 
 const Banner = ({ profileHash, setLoading }: any) => {
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
   const darkMode = useThemeStore((state) => state.darkMode);
   const {
     isFriend,
@@ -79,23 +89,22 @@ const Banner = ({ profileHash, setLoading }: any) => {
   };
 
   const handleImageClick = (type: "avatar" | "cover") => {
-    if (isMyUser) {
       setImageType(type);
       setShowUpdateImage(true);
       document.body.style.overflow = "hidden";
-    } else {
-      const imageUrl =
+  };
+  const handleShowImage = ((type: "avatar" | "cover")=> {
+    const imageUrl =
         type === "avatar"
           ? profileSearch?.info?.avatar
           : profileSearch?.info?.cover_photo;
       if (imageUrl) {
         setModalImageSrc(imageUrl);
         setShowImageModal(true);
-        document.body.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";}
       }
-    }
-  };
-
+      
+    )
   useEffect(() => {
     setLoading(true);
     const updateInfor = async () => {
@@ -139,7 +148,13 @@ const Banner = ({ profileHash, setLoading }: any) => {
     checkFriend();
   };
 
-  const ImageModal = ({ src, onClose }: { src: string; onClose: () => void }) => (
+  const ImageModal = ({
+    src,
+    onClose,
+  }: {
+    src: string;
+    onClose: () => void;
+  }) => (
     <S.ImageModalOverlay onClick={onClose}>
       <S.ImageModalContent>
         <img src={src} alt="Image Preview" />
@@ -172,15 +187,62 @@ const Banner = ({ profileHash, setLoading }: any) => {
           }}
         />
       )}
-      <S.CoverImage
-        src={profileSearch?.info?.cover_photo}
-        onClick={() => handleImageClick("cover")}
-      />
+      <S.CoverImage>
+        <img
+          src={profileSearch?.info?.cover_photo}
+          onClick={() =>  handleShowImage("cover")}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+        {isMyUser && (
+          <Button
+            onClick={()=> handleImageClick("cover")}
+            style={{
+              position: "absolute",
+              bottom: "10px",
+              right: "10px",
+              zIndex: 100,
+            }}
+          >
+            <EditOutlined />
+            Chỉnh sửa ảnh bìa
+          </Button>
+        )}
+      </S.CoverImage>
       <S.BannerUser>
         <S.BoxUser>
-          <S.Avatar onClick={() => handleImageClick("avatar")}>
-            <S.UserAvatar src={profileSearch?.info?.avatar} />
-          </S.Avatar>
+          <Popover
+            content={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {isMyUser && (
+                  <Button onClick={() => handleImageClick("avatar")}>
+                  <EditOutlined />
+                  Chỉnh sửa ảnh đại diện
+                </Button>
+                )}
+                <Button onClick={()=> handleShowImage("avatar")}>
+                  <ExpandOutlined /> Xem ảnh đại diện
+                </Button>{" "}
+              </div>
+            }
+            trigger="click"
+            open={open}
+            onOpenChange={handleOpenChange}
+          >
+            <S.Avatar /*=onClick={() => handleImageClick("avatar")}*/>
+              <S.UserAvatar src={profileSearch?.info?.avatar} />
+            </S.Avatar>
+          </Popover>
           <S.Typography>
             <Typography
               variant="body-text-small-bold"

@@ -29,7 +29,6 @@ const ButtonFriend = () => {
     return (
       <Button
         type="default"
-        $backgroundColor="#FAF0E6"
         onClick={() => {
           handleFriend && handleFriend("unsent");
         }}

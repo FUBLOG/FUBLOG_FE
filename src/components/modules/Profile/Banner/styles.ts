@@ -72,7 +72,7 @@ export const Avatar = styled.div`
 
 export const UserAvatar = styled.img`
   position: absolute;
-
+  object-fit: cover;
   width: 100%;
   height: 100%;
 
@@ -111,7 +111,7 @@ export const ImageModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   z-index: 1000;
 `;
 

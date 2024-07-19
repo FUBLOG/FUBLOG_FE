@@ -312,7 +312,7 @@ export const CustomModal = styled(Modal)`
   .ant-modal-body {
     max-height: 70vh;
     overflow-y: auto;
-    padding-bottom: 50px;
+    padding-bottom: 100px !important;
   }
   .ant-modal {
     top: 10%;

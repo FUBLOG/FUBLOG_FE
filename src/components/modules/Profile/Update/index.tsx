@@ -18,9 +18,11 @@ import Button from "@/components/core/common/Button";
 import { patchRequest } from "@/services/request";
 import { profileEndpoint } from "@/services/endpoint";
 import useThemeStore from "@/hooks/useTheme";
-
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 const { TextArea } = S;
-
+const dateFormat = 'YYYY-MM-DD';
 const CustomInput = styled(S.Input)`
   background: transparent !important;
   border: 1.5px solid #000 !important;
@@ -82,7 +84,7 @@ const CustomDatePicker = styled(DatePicker)`
 
 interface ProfileData {
   displayName: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   sex: string;
   relationship: string;
   bio: string;
@@ -108,7 +110,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
   const initialFormData: ProfileData = {
     displayName: profile?.user?.displayName || "",
     dateOfBirth: profile?.user?.dateOfBirth
-      ? moment(profile?.user?.dateOfBirth).format(format)
+      ? (profile?.user?.dateOfBirth)
       : "",
     sex: profile?.user?.sex || "",
     relationship: profile?.info?.relationship || "single",
@@ -134,9 +136,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
       setFormData(updatedFormData);
       form.setFieldsValue({
         ...updatedFormData,
-        dateOfBirth: profile.user?.dateOfBirth
-          ? moment(profile.user.dateOfBirth)
-          : null,
+        dateOfBirth:dayjs(updatedFormData.dateOfBirth, dateFormat)
       });
     }
   }, [profile, form]);
@@ -201,11 +201,9 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
     form.setFieldsValue({ [name]: value });
   };
 
-  const handleDateChange = (dateString: string | string[]) => {
-    if (typeof dateString === "string") {
-      setFormData({ ...formData, dateOfBirth: dateString });
-      form.setFieldsValue({ dateOfBirth: dateString });
-    }
+  const handleDateChange = (date: Date) => {
+      setFormData({ ...formData, dateOfBirth: new Date(date)  });
+      console.log(formData.dateOfBirth);
   };
 
   const validateAge = (_: any, value: moment.Moment | null) => {
@@ -275,8 +273,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({
                     fontSize: "20px",
                   }}
                   format={format}
-                  value={moment(formData.dateOfBirth)}
-                  onChange={handleDateChange as any}
+                  onChange={(date) => handleDateChange(date as Date)}
                   placeholder="Ngày tháng năm sinh"
                   
                 />

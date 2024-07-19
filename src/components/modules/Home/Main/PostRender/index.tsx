@@ -78,8 +78,6 @@ const PostsRender = () => {
     };
     asyncGetPosts();
     if (post) {
-      console.log("post", post);
-
       setListPosts((prevPosts) => [
         { ...post, userId: userInfo },
         ...prevPosts,

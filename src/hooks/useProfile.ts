@@ -37,8 +37,6 @@ export const useGetProfile = (profileHash: any) => {
         throw new Error("Profile metadata not found.");
       }
     } catch (error) {
-      console.log("0", error);
-
       router.replace("/not-found");
     } finally {
       setLoading(false);

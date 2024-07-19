@@ -224,7 +224,7 @@ const Post = ({
   }
 
   const handleReport = async () => {
-    setShowConfirmModal(false), console.log("reportReason", reportReason);
+    setShowConfirmModal(false);
     const data = {
       postID: selectedPost?.post?._id,
       reportContent: reportReason,

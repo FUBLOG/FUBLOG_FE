@@ -56,7 +56,11 @@ const PostsRender = () => {
     setLoading(true);
     const func = userInfo?._id === "" ? getPostForGuest : getPostForUser;
     const res = await func();
-    setListPosts((prev) => [...prev, ...res?.metadata]);
+    const postNotNull = res?.metadata?.filter(
+      (post: any) => post?.post !== null
+    );
+
+    setListPosts((prev) => [...prev, ...postNotNull]);
     setLoading(false);
   };
 
@@ -74,8 +78,6 @@ const PostsRender = () => {
     };
     asyncGetPosts();
     if (post) {
-      console.log("post", post);
-
       setListPosts((prevPosts) => [
         { ...post, userId: userInfo },
         ...prevPosts,
@@ -131,7 +133,7 @@ const PostsRender = () => {
             </p>
           }
         >
-          {listPosts?.map((post, index) =>
+          {listPosts?.map((post) =>
             tagValue === "Tất Cả" ||
             post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post

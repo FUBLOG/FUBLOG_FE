@@ -20,7 +20,7 @@ export const updatePost = async (postId, data) => {
     data,
     security: true,
   },
-  true);
+    true);
 };
 export const createPost = async (data) => {
   return await postRequest(
@@ -60,6 +60,15 @@ export const unLike = async (postID) => {
     postEndpoint.UN_LIKE,
     {
       data: postID,
+      security: true,
+    },
+  );
+};
+export const PostReportPost = async (data) => {
+  return await postRequest(
+    postEndpoint.REPORT_POST,
+    {
+      data,
       security: true,
     },
   );

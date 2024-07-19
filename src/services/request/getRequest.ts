@@ -48,8 +48,8 @@ const getRequest = async (
       }
     })
     .catch((err: any) => {
-      message.error(errorMessage[err?.message]);
-      return Promise.reject(err);
+      // message.error(errorMessage[err?.message]);
+      // return Promise.reject(err);
     });
 };
 

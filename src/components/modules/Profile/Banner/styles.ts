@@ -25,14 +25,25 @@ export const Wrapper = styled.div`
 
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 `;
-export const CoverImage = styled.img`
+export const CoverImage = styled.div`
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center; 
+
   border-radius: 12px;
-   position: relative;
+  position: relative;
 `;
+
+export const Text = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  display: none;
+  transition: opacity 0.3s ease;
+`;
+
 export const BannerUser = styled(Flex)`
   position: absolute;
   bottom: -24%;
@@ -50,12 +61,18 @@ export const Avatar = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  object-position: center; 
+  object-position: center;
+  &:hover .overlay {
+    opacity: 0.5;
+  }
+  &:hover .text {
+    opacity: 1;
+  }
 `;
 
 export const UserAvatar = styled.img`
   position: absolute;
-
+  object-fit: cover;
   width: 100%;
   height: 100%;
 
@@ -99,8 +116,10 @@ export const ImageModalOverlay = styled.div`
 `;
 
 export const ImageModalContent = styled.div`
+  position: fixed;
+  left: 30%;
   img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
   }
 `;

@@ -23,7 +23,13 @@ import * as S from "./styles";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addLike, deletePost, getPostById, unLike } from "@/services/api/post";
+import {
+  addLike,
+  deletePost,
+  getPostById,
+  PostReportPost,
+  unLike,
+} from "@/services/api/post";
 
 import useThemeStore from "@/hooks/useTheme";
 import { PostContent } from "../UpdatePost/content";
@@ -80,6 +86,8 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   }, [fetchPosts]);
 
   const handleCloseSuccessModal = () => {
+    setReportReason(null);
+
     setShowConfirmModal(false);
   };
 
@@ -164,6 +172,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const icrComment = (number: number) => {
     setComments(comments + number);
   };
+  const handleReport = async () => {
+    setShowConfirmModal(false);
+    const data = {
+      postID: selectedPost?._id,
+      reportContent: reportReason,
+    };
+    await PostReportPost(data);
+    setReportReason(null);
+    message.success("Báo cáo bài viết thành công");
+  };
 
   const commentModal = useMemo(() => {
     if (!selectedPost || !showCommentsModal) return null;
@@ -212,6 +230,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const editDeleteModal = useMemo(() => {
     return (
       <S.CustomModal
+        className="edit-modal"
         title={"Quản lý bài viết"}
         open={showEditMyPost}
         onCancel={() => setEditMyPost(false)}
@@ -257,6 +276,70 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       </S.CustomModal>
     );
   }, [showEnsure, selectedPost]);
+  const reportModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        key={selectedPost?._id}
+        title={isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"}
+        open={showReportModal}
+        onCancel={() => setShowReportModal(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => {
+          if (!reportReason) {
+            message.warning("Vui lòng chọn lý do báo cáo.");
+            return;
+          }
+          setShowConfirmModal(true);
+          setShowReportModal(false);
+        }}
+      >
+        <Typography variant="caption-small">Hãy chọn vấn đề:</Typography>
+        <Radio.Group
+          onChange={(e) => setReportReason(e.target.value)}
+          value={reportReason}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          {[
+            "Nội dung phản cảm",
+            "Bạo lực",
+            "Quấy rối",
+            "Tự tử hoặc tự gây thương tích",
+            "Thông tin sai sự thật",
+            "Spam",
+            "Chất cấm, chất gây nghiện",
+            "Bán hàng trái phép",
+            "khác",
+          ].map((reason) => (
+            <Radio value={reason} key={reason}>
+              {reason}
+            </Radio>
+          ))}
+        </Radio.Group>
+      </S.CustomModal>
+    );
+  }, [showReportModal, reportReason, selectedPost]);
+
+  const confirmReportModal = useMemo(() => {
+    return (
+      <S.CustomModal
+        title="Xác nhận báo cáo"
+        open={showConfirmModal}
+        onCancel={handleCloseSuccessModal}
+        cancelText={"Hủy"}
+        okText={"Báo cáo"}
+        onOk={() => {
+          handleReport();
+        }}
+      >
+        <Typography variant="caption-small">
+          {isPostReport
+            ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
+            : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
+        </Typography>
+      </S.CustomModal>
+    );
+  }, [showConfirmModal, isPostReport, selectedPost]);
   const { showSpinnerUpdate } = useUpdatePost();
   function handleClickReportPost(newfeed: any): void {
     setIsPostReport(true);
@@ -267,6 +350,8 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   return (
     <S.Container className={darkmode ? "theme-dark" : "theme-light"}>
       {commentModal}
+      {confirmReportModal}
+      {reportModal}
       {editDeleteModal}
       {deleteConfirmModal}
       {postEditModal}
@@ -286,25 +371,28 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         </div>
       )}
       {posts.length === 0 ? (
-        <Typography
-          variant="caption-normal"
-          color={darkMode ? "#fff" : "#352F44"}
-          fontSize="18px"
-          margin="50px 0px"
-        >
-          Chưa có bài viết
-        </Typography>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Typography
+            variant="caption-normal"
+            color={darkMode ? "#fff" : "#352F44"}
+            fontSize="18px"
+            margin="50px 0px"
+          >
+            Chưa có bài viết
+          </Typography>
+        </div>
       ) : (
         posts
           ?.slice()
           .reverse()
           ?.map((newfeed: any) =>
             userInfo?.profileHash === profileHash ||
-            (userInfo?.profileHash !== profileHash &&
+            (isFriend === undefined &&
+              userInfo?.profileHash !== profileHash &&
               newfeed?.postStatus === "public") ||
             (userInfo?.profileHash !== profileHash &&
               isFriend !== undefined &&
-              newfeed?.post != "private") ? (
+              newfeed?.postStatus != "private") ? (
               <S.PostWrapper
                 className={darkMode ? "theme-dark" : "theme-light"}
                 key={newfeed?._id}
@@ -316,6 +404,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                         src={newfeed?.UserID?.userInfo?.avatar}
                         alt={`${newfeed?.UserID?.displayName}'s avatar`}
                       />
+
                       <div
                         style={{
                           display: "flex",
@@ -323,13 +412,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                           gap: "3px",
                         }}
                       >
-                        <Typography
-                          variant="caption-normal"
-                          color={darkMode ? "#fff" : "#352F44"}
-                          fontSize="18px"
-                        >
-                          {newfeed?.UserID?.displayName}
-                        </Typography>
+                        <>
+                          <Typography
+                            variant="caption-normal"
+                            color={darkMode ? "#fff" : "#352F44"}
+                            fontSize="18px"
+                          >
+                            {newfeed?.UserID?.displayName}
+                          </Typography>
+                        </>
+
                         <div
                           style={{
                             display: "flex",
@@ -454,68 +546,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                     </S.TagWrapper>
                   </S.PostFooter>
                 </S.CustomCard>
-
-                <S.CustomModal
-                  key={newfeed?._id}
-                  title={
-                    isPostReport ? "Báo cáo bài viết" : "Báo cáo bình luận"
-                  }
-                  open={showReportModal}
-                  onCancel={() => setShowReportModal(false)}
-                  cancelText={"Hủy"}
-                  okText={"Tiếp tục"}
-                  onOk={() => {
-                    if (!reportReason) {
-                      message.warning("Vui lòng chọn lý do báo cáo.");
-                      return;
-                    }
-                    setShowConfirmModal(true);
-                    setShowReportModal(false);
-                  }}
-                >
-                  <Typography variant="caption-small">
-                    Hãy chọn vấn đề:
-                  </Typography>
-                  <Radio.Group
-                    onChange={(e) => setReportReason(e.target.value)}
-                    value={reportReason}
-                    style={{ display: "flex", flexDirection: "column" }}
-                  >
-                    {[
-                      "Nội dung phản cảm",
-                      "Bạo lực",
-                      "Quấy rối",
-                      "Tự tử hoặc tự gây thương tích",
-                      "Thông tin sai sự thật",
-                      "Spam",
-                      "Chất cấm, chất gây nghiện",
-                      "Bán hàng trái phép",
-                      "khác",
-                    ].map((reason) => (
-                      <Radio value={reason} key={reason}>
-                        {reason}
-                      </Radio>
-                    ))}
-                  </Radio.Group>
-                </S.CustomModal>
-                <S.CustomModal
-                  key={newfeed?._id}
-                  title="Xác nhận báo cáo"
-                  open={showConfirmModal}
-                  onCancel={handleCloseSuccessModal}
-                  cancelText={"Hủy"}
-                  okText={"Báo cáo"}
-                  onOk={() => {
-                    setShowConfirmModal(false),
-                      message.success("Báo cáo bài viết thành công");
-                  }}
-                >
-                  <Typography variant="caption-small">
-                    {isPostReport
-                      ? "Bạn có chắc chắn muốn báo cáo bài viết này không?"
-                      : "Bạn có chắc chắn muốn báo cáo bình luận này không?"}
-                  </Typography>
-                </S.CustomModal>
               </S.PostWrapper>
             ) : (
               <></>

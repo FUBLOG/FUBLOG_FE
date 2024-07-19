@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/legacy/image";
-import {
-  SettingOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
+import { SettingOutlined, TagOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import Button from "@/components/core/common/Button";
 import { Radio, Upload } from "antd";
@@ -13,8 +10,14 @@ import { postRequest } from "@/services/request";
 import { postEndpoint } from "@/services/endpoint";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useCreatePost from "@/hooks/useCreatePost";
-import { AudienceModal, ContentStyleDiv, TagModal, CustomUploadStyled } from "./style";
+import {
+  AudienceModal,
+  ContentStyleDiv,
+  TagModal,
+  CustomUploadStyled,
+} from "./style";
 import { createPost, getAllTags } from "@/services/api/post";
+import useThemeStore from "@/hooks/useTheme";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
 interface PostContent {
@@ -22,7 +25,9 @@ interface PostContent {
 }
 
 export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
-  const { setShowSpinner, setPost } = useCreatePost()
+  const darkMode = useThemeStore((state) => state.darkMode);
+
+  const { setShowSpinner, setPost } = useCreatePost();
   const { userInfo } = useAuthContext();
   const [postContent, setPostContent] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -35,20 +40,17 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     "Công Khai": "public",
     "Riêng Tư": "private",
     "Bạn Bè": "friend",
-  }
+  };
   useEffect(() => {
     const getTags = async () => {
-
       const res: any = await getAllTags();
       res?.metadata?.map((tag: any) => {
         tags.push(tag);
       });
       setTagValue(tags[0]);
-    }
+    };
     getTags();
-
   }, []);
-
 
   const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostContent(e.target.value);
@@ -94,7 +96,6 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
     setAudienceValue(e.target.value);
   };
 
-
   const CreatePost = async () => {
     setOpenTag(false);
     setOpenAudience(false);
@@ -113,14 +114,13 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
       formData.append("status", audiance[audienceValue]);
       const res: any = await createPost(formData);
       setTimeout(() => {
-        setPost(res?.metadata); 
+        setPost(res?.metadata);
         setShowSpinner(false);
       }, 3000);
       setPostContent("");
       setFileList([]);
       setTagValue(tags[0]);
       setAudienceValue("Công Khai");
-
     } catch (error) {
       console.error(error);
     }
@@ -184,7 +184,15 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
             <p>{tagValue?.postTagContent}</p>
           </div>
           <div className="create-btn">
-            <Button $width={"100px"} onClick={CreatePost}>
+            <Button
+              $width={"100px"}
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+              $backgroundColor={darkMode ? "#000  " : "transparent" }
+              onClick={CreatePost}
+            >
               Đăng
             </Button>
           </div>
@@ -201,7 +209,11 @@ export const PostContent: React.FC<PostContent> = ({ onSuccess }) => {
             >
               <h3>Chọn Thẻ</h3>
               {tags.map((tag) => (
-                <Radio value={tag?.postTagContent as string} key={tag?._id} onClick={() => handleTextChange(tag)}>
+                <Radio
+                  value={tag?.postTagContent as string}
+                  key={tag?._id}
+                  onClick={() => handleTextChange(tag)}
+                >
                   {tag?.postTagContent}
                 </Radio>
               ))}

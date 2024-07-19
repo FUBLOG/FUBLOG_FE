@@ -92,7 +92,6 @@ function FormSignUp(props: PageProps) {
     } catch (error) {}
   };
   const darkMode = useThemeStore((state) => state.darkMode);
-  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   return (
     <>
       <Modal

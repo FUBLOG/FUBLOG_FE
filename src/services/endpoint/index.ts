@@ -37,7 +37,7 @@ const postEndpoint = {
   UN_LIKE: `/post/unlike`,
   DELETE_POST: `/post`,
   UPDATE_POST: `/post`,
-
+  REPORT_POST: `/report/new`,
 };
 
 const editProfileEndpoint = {
@@ -73,9 +73,9 @@ const search = {
 
 const profileEndpoint = {
   PROFILE_HASH: `/profile/`,
-  CHANGE_PROFILE:`/profile`,
-  CHANGE_COVER : '/profile/coverPhoto',
-  CHANGE_AVATAR :'/profile/avatar',
+  CHANGE_PROFILE: `/profile`,
+  CHANGE_COVER: "/profile/coverPhoto",
+  CHANGE_AVATAR: "/profile/avatar",
 };
 
 const commentEndpoint = {
@@ -85,6 +85,7 @@ const commentEndpoint = {
   EDIT_COMMENT: `/comment/updateComments`,
   GET_VIEW_MORE_COMMENT: `/comment/getComments`,
 };
+
 //export endpoint
 export {
   profileEndpoint,

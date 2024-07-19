@@ -94,7 +94,6 @@ function FormSignIn(setShowModalGuest: any) {
               isRequired
               label="Email"
               colorLabel={darkMode ? "#F7D600" : "#000"}
-              
             />
           </FormItem>
           <FormItem
@@ -159,6 +158,10 @@ function FormSignIn(setShowModalGuest: any) {
               $width={"100px"}
               htmlType="submit"
               disabled={loading}
+                $color={darkMode ? "#000" : "#000"}
+                $hoverColor={darkMode ? "#000" : "#000"}
+                $borderColor={darkMode ? "#fff" : "#352f44"}
+                $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
             >
               ĐĂNG NHẬP
             </Button>

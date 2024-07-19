@@ -69,7 +69,7 @@ function FormReset() {
     <S.HomeWrapper>
       <Typography
         variant="h1"
-        color={darkMode ? "#B9B4C7" : "#352F44"}
+        color={darkMode ? "#000" : "#fff"}
         fontSize="x-large"
         align="center"
       >
@@ -105,6 +105,7 @@ function FormReset() {
             isRequired
             label="Nhập lại mật khẩu mới"
             colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+            
           />
         </FormItem>
         <FormItem
@@ -117,10 +118,13 @@ function FormReset() {
           <Button
             htmlType="submit"
             className="ButtonWrapper"
-            type="default"
-            $backgroundColor="#FAF0E6"
             $margin="30px 0 0 0"
             $width={"100px"}
+            $color={darkMode ? "#000" : "#000"}
+            $backgroundColor="#FAF0E6"
+            $hoverColor={darkMode ? "#000" : "#fff"}
+            $borderColor={darkMode ? "#fff" : "#352f44"}
+            $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
           >
             LƯU
           </Button>

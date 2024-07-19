@@ -1,4 +1,5 @@
 
+import webStorageClient from '@/utils/webStorageClient';
 import {create} from 'zustand';
 
 interface ThemeState {
@@ -11,7 +12,7 @@ const useThemeStore = create<ThemeState>((set) => ({
   toggleDarkMode: () => set((state) => {
     const newMode = !state.darkMode;
     if (typeof window !== 'undefined') {
-      localStorage.setItem('displayMode', newMode ? 'dark' : 'light');
+      webStorageClient.set('displayMode', newMode ? 'dark' : 'light');
     }
     return { darkMode: newMode };
   }),

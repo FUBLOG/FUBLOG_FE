@@ -371,14 +371,16 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         </div>
       )}
       {posts.length === 0 ? (
-        <Typography
-          variant="caption-normal"
-          color={darkMode ? "#fff" : "#352F44"}
-          fontSize="18px"
-          margin="50px 0px"
-        >
-          Chưa có bài viết
-        </Typography>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Typography
+            variant="caption-normal"
+            color={darkMode ? "#fff" : "#352F44"}
+            fontSize="18px"
+            margin="50px 0px"
+          >
+            Chưa có bài viết
+          </Typography>
+        </div>
       ) : (
         posts
           ?.slice()

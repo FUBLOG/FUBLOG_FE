@@ -60,7 +60,7 @@ const CommentModal = ({
     }
   }, [postId]);
   const setClick = (commentsData: any) => {
-    const newClickViewMore = commentsData.map((m: any) => ({
+    const newClickViewMore = commentsData?.map((m: any) => ({
       id: m._id,
       view: false,
     }));
@@ -140,7 +140,6 @@ const CommentModal = ({
                   label: "Phản hồi",
                   onClick: () => handleReplyComment(comment?._id),
                 },
-
               ]),
         ]}
       />

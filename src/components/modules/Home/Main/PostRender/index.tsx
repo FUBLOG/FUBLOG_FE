@@ -70,12 +70,9 @@ const PostsRender = () => {
       const res = !webStorageClient.get(constants.IS_AUTH)
         ? await getPostForGuest()
         : await getPostForUser();
-      const postNotNull = res?.metadata?.filter(
+      const postNotNull = res?.metadata.filter(
         (post: any) => post?.post !== null
       );
-      console.log("postNotNull", postNotNull);
-      console.log("postNotNull", res?.metadata);
-
       setListPosts(postNotNull || []);
       setLoading(false);
     };

@@ -212,7 +212,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const editDeleteModal = useMemo(() => {
     return (
       <S.CustomModal
-      className="edit-modal"
+        className="edit-modal"
         title={"Quản lý bài viết"}
         open={showEditMyPost}
         onCancel={() => setEditMyPost(false)}
@@ -369,11 +369,12 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
           .reverse()
           ?.map((newfeed: any) =>
             userInfo?.profileHash === profileHash ||
-            (userInfo?.profileHash !== profileHash &&
+            (isFriend === undefined &&
+              userInfo?.profileHash !== profileHash &&
               newfeed?.postStatus === "public") ||
             (userInfo?.profileHash !== profileHash &&
               isFriend !== undefined &&
-              newfeed?.post != "private") ? (
+              newfeed?.postStatus != "private") ? (
               <S.PostWrapper
                 className={darkMode ? "theme-dark" : "theme-light"}
                 key={newfeed?._id}
@@ -385,6 +386,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                         src={newfeed?.UserID?.userInfo?.avatar}
                         alt={`${newfeed?.UserID?.displayName}'s avatar`}
                       />
+
                       <div
                         style={{
                           display: "flex",
@@ -392,13 +394,17 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                           gap: "3px",
                         }}
                       >
-                        <Typography
-                          variant="caption-normal"
-                          color={darkMode ? "#fff" : "#352F44"}
-                          fontSize="18px"
-                        >
-                          {newfeed?.UserID?.displayName}
-                        </Typography>
+                        <>
+                          {console.log("isFriend", newfeed?.postStatus)}
+                          <Typography
+                            variant="caption-normal"
+                            color={darkMode ? "#fff" : "#352F44"}
+                            fontSize="18px"
+                          >
+                            {newfeed?.UserID?.displayName}
+                          </Typography>
+                        </>
+
                         <div
                           style={{
                             display: "flex",
@@ -523,7 +529,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                     </S.TagWrapper>
                   </S.PostFooter>
                 </S.CustomCard>
-                        {/*  báo nội dung báo cáo */}
+                {/*  báo nội dung báo cáo */}
               </S.PostWrapper>
             ) : (
               <></>

@@ -1,19 +1,19 @@
 import styled from "styled-components";
 import { Flex, Modal, Menu } from "antd";
 
-
 export const Container = styled.div`
-  &.theme-light{
-    .custom-spin .ant-spin-dot{
-      color: blue; 
+  &.theme-light {
+    .custom-spin .ant-spin-dot {
+      color: blue;
+    }
   }
+  &.theme-dark {
+    .custom-spin .ant-spin-dot {
+      color: #f7d600;
+    }
   }
-  &.theme-dark{
-    .custom-spin .ant-spin-dot{
-      color: #F7D600; 
-  }
-  }
-`
+  width: 100%;
+`;
 export const PostWrapper = styled.div`
   &.theme-dark {
     border: 2px solid #f7d600;

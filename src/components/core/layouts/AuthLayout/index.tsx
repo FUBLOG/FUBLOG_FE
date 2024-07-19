@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuthStatus";
 import Button from "../../common/Button";
 
 import logo from "@/public/logo.png";
+import logoDark from "@/public/logoDark.png";
 
 import * as S from "./styles";
 import useThemeStore from "@/hooks/useTheme";
@@ -23,12 +24,20 @@ function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <S.LayoutWrapper className={darkMode ? "theme-dark" : "theme-light"}>
       <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
+      <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
         <S.Container>
           <Link href="/">
-            <Image src={logo} alt="logo header" />
+            {darkMode ? (
+              <Image src={logoDark} alt="logo header dark" />
+            ) : (
+              <Image src={logo} alt="logo header" />
+            )}
           </Link>
           <Flex gap={15} style={{ marginRight: "20px" }}>
-            <div onClick={toggleDarkMode} style={{ cursor: "pointer", translate: "-20px 5px" }}>
+            <div
+              onClick={toggleDarkMode}
+              style={{ cursor: "pointer", translate: "-20px 5px" }}
+            >
               {darkMode ? (
                 <MoonOutlined style={{ fontSize: "22px", color: darkMode ? "#F7D600" : "black" }} />
               ) : (
@@ -48,16 +57,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
               />
             </Link>
             <Link href="/sign-up">
-              <Button
-                children={"Đăng ký"}
-                $width="100px"
-                disabled={loading}
-                $color={darkMode? "#fff" : "white "}
-                $hoverColor={darkMode? "#000" : "#fff"}
-                $borderColor={darkMode? "#fff" : "#352f44"}
-                $hoverBackgroundColor={darkMode? "#F7D600" : "#000"}
-                $backgroundColor="#353839"
-              />
+              <Button children={"Đăng ký"} $width="100px" disabled={loading} />
             </Link>
           </Flex>
         </S.Container>

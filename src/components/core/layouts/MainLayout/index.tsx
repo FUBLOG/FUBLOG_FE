@@ -37,7 +37,8 @@ import webStorageClient from "@/utils/webStorageClient";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ProfileRequestResponseList } from "@/model/response";
 import { CreateContent } from "@/components/modules/CreatePost";
-import { useRouter } from "next/navigation";
+import logoDark from "@/public/logoDark.png";
+
 import useSidebarBadge, {
   useGetFriendRequestNotification,
   useGetMessageNotification,
@@ -176,7 +177,11 @@ function MainLayout({ children }: LayoutProps) {
       <S.Header className={darkMode ? "theme-dark" : "theme-light"}>
         <S.GlobalStyle />
         <S.Container>
-          <Image src={logo} alt="logo header" />
+          {darkMode ? (
+            <Image src={logoDark} alt="logo header dark" />
+          ) : (
+            <Image src={logo} alt="logo header" />
+          )}
           <S.IconContainer className={darkMode ? "theme-dark" : "theme-light"}>
             <Link href="/" onClick={() => handleSetNavigation("home")}>
               {nav === "home" ? (

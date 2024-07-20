@@ -136,6 +136,8 @@ const CommentModal = ({ close, open }: any) => {
     });
   };
 
+
+
   useEffect(() => {
     if (open) {
       asyncGetComments();
@@ -238,7 +240,7 @@ const CommentModal = ({ close, open }: any) => {
 
     if (isParentComment) {
       const replyContent = !condition
-        ? `@${isParentComment?.comment_userId?.displayName}`
+        ? `@${isParentComment?.comment_userId?.displayName} `
         : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
@@ -257,9 +259,10 @@ const CommentModal = ({ close, open }: any) => {
       const child = parent.replies?.find(
         (child: any) => child._id === commentId
       );
+      
       const condition = parent.comment_userId._id === child.comment_userId._id;
       const replyContent = !condition
-        ? `@${isParentComment?.comment_userId?.displayName}`
+        ? `@${child?.comment_userId?.displayName} `
         : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
@@ -337,6 +340,9 @@ const CommentModal = ({ close, open }: any) => {
       setSign(true);
     }
   };
+
+  
+
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Dropdown, Menu, Carousel } from "antd";
+import { Dropdown, Menu, Carousel, message } from "antd";
 import Button from "@/components/core/common/Button";
 
 import {
@@ -34,6 +34,12 @@ const CommentModal = ({ close, open }: any) => {
   const [editComment, setEditComment] = useState("");
   const [editMode, setEditMode] = useState<any | null>(null);
   const [selectedCommentId, setSelectedCommentId] = useState<any | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<any | null>(null);
+  const [childCommentId, setChildCommentId] = useState<any | null>(null);
+  const [lastCommentChildId, setLastCommentChildId] = useState<any | null>(
+    null
+  );
+
   const [showReportModal, setShowReportModal] = useState(false);
   const [isPostReport, setIsPostReport] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -55,7 +61,7 @@ const CommentModal = ({ close, open }: any) => {
 
   useEffect(() => {
     if (sign) {
-      asyncGetComments();
+      // asyncGetComments();
       setSign(false);
     }
   }, [sign]);
@@ -105,7 +111,7 @@ const CommentModal = ({ close, open }: any) => {
     }
   };
   const setClick = (commentsData: any) => {
-    const newClickViewMore = commentsData.map((m: any) => ({
+    const newClickViewMore = commentsData?.map((m: any) => ({
       id: m._id,
       view: false,
     }));
@@ -135,8 +141,6 @@ const CommentModal = ({ close, open }: any) => {
       }, 100);
     });
   };
-
-
 
   useEffect(() => {
     if (open) {
@@ -209,7 +213,6 @@ const CommentModal = ({ close, open }: any) => {
   };
 
   const handleUpdateComment = async () => {
-
     if (editMode !== null) {
       setLoadingUpdate(true);
       await editCommentApi(editMode, editComment);
@@ -231,19 +234,90 @@ const CommentModal = ({ close, open }: any) => {
     setSign(true);
   };
 
+  // const handleReplyComment = (commentId: any) => {
+  //   setEditMode("");
+  //   const isParentComment = commentsData.find(
+  //     (comment: any) => comment._id === commentId
+  //   );
+
+  //   if (isParentComment) {
+  //     const condition = userInfo._id === isParentComment?.comment_userId._id;
+
+  //     const replyContent = !condition
+  //       ? `@${isParentComment?.comment_userId?.displayName} `
+  //       : ``;
+  //     setReplyComment(replyContent);
+  //     setSelectedCommentId(commentId);
+  //     setParentCommentId(commentId);
+  //     setChildCommentId(null);
+
+  //     setTimeout(() => {
+  //       if (editInputRef.current) {
+  //         editInputRef.current.focus();
+  //         const len = replyContent.length;
+  //         editInputRef.current.setSelectionRange(len, len);
+  //       }
+  //     }, 100);
+  //   } else {
+  //     const findComment = (comments: any[], commentId: any): any => {
+  //       for (const comment of comments) {
+  //         if (comment._id === commentId) {
+  //           return comment;
+  //         }
+  //         if (comment.replies) {
+  //           const found = findComment(comment.replies, commentId);
+  //           if (found) {
+  //             return found;
+  //           }
+  //         }
+  //       }
+  //       return null;
+  //     };
+
+  //     const parent = commentsData?.find((parentComment: any) =>
+  //       parentComment.replies?.some((child: any) => child._id === commentId)
+  //     );
+
+  //     if (parent) {
+  //       const child = findComment(parent.replies, commentId);
+  //       const condition = userInfo._id === child?.comment_userId?._id;
+  //       const replyContent = !condition
+  //         ? `@${child?.comment_userId?.displayName} `
+  //         : ``;
+  //       setReplyComment(replyContent);
+  //       setSelectedCommentId(commentId);
+
+  //       setParentCommentId(parent?._id);
+  //       setChildCommentId(child?._id);
+
+  //       setTimeout(() => {
+  //         if (editInputRef.current) {
+  //           editInputRef.current.focus();
+  //           const len = replyContent.length;
+  //           editInputRef.current.setSelectionRange(len, len);
+  //         }
+  //       }, 100);
+  //     }
+  //   }
+  // };
+
   const handleReplyComment = (commentId: any) => {
     setEditMode("");
     const isParentComment = commentsData.find(
       (comment: any) => comment._id === commentId
     );
-    const condition = userInfo._id === isParentComment?.comment_userId._id;
 
     if (isParentComment) {
+      const condition = userInfo._id === isParentComment?.comment_userId._id;
+
       const replyContent = !condition
         ? `@${isParentComment?.comment_userId?.displayName} `
         : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
+      setParentCommentId(commentId);
+      setLastCommentChildId(commentId);
+      setChildCommentId(null);
 
       setTimeout(() => {
         if (editInputRef.current) {
@@ -253,26 +327,46 @@ const CommentModal = ({ close, open }: any) => {
         }
       }, 100);
     } else {
-      const parent = commentsData?.find((parentComment: any) =>
-        parentComment.replies?.find((child: any) => child._id === commentId)
-      );
-      const child = parent.replies?.find(
-        (child: any) => child._id === commentId
-      );
-      
-      const condition = parent.comment_userId._id === child.comment_userId._id;
-      const replyContent = !condition
-        ? `@${child?.comment_userId?.displayName} `
-        : ``;
-      setReplyComment(replyContent);
-      setSelectedCommentId(commentId);
-      setTimeout(() => {
-        if (editInputRef.current) {
-          editInputRef.current.focus();
-          const len = replyContent.length;
-          editInputRef.current.setSelectionRange(len, len);
+      const findComment = (comments: any[], commentId: any): any => {
+        for (const comment of comments) {
+          if (comment._id === commentId) {
+            return comment;
+          }
+          if (comment.replies) {
+            const found = findComment(comment.replies, commentId);
+            if (found) {
+              return found;
+            }
+          }
         }
-      }, 100);
+        return null;
+      };
+
+      const parent = commentsData?.find((parentComment: any) =>
+        parentComment.replies?.some((child: any) => child._id === commentId)
+      );
+      setLastCommentChildId(parent?.replies[parent?.replies?.length - 1]?._id);
+      if (parent) {
+        const child = findComment(parent.replies, commentId);
+
+        const condition = userInfo._id === child?.comment_userId?._id;
+        const replyContent = !condition
+          ? `@${child?.comment_userId?.displayName} `
+          : ``;
+        setReplyComment(replyContent);
+        setSelectedCommentId(commentId);
+
+        setParentCommentId(parent?._id);
+        setChildCommentId(child?._id);
+
+        setTimeout(() => {
+          if (editInputRef.current) {
+            editInputRef.current.focus();
+            const len = replyContent.length;
+            editInputRef.current.setSelectionRange(len, len);
+          }
+        }, 100);
+      }
     }
   };
 
@@ -284,7 +378,7 @@ const CommentModal = ({ close, open }: any) => {
     if (isParentComment) {
       setEditMode(commentId);
       setEditComment(isParentComment?.comment_content);
-    } else{
+    } else {
       const parent = commentsData?.find((parentComment: any) =>
         parentComment.replies?.find((child: any) => child._id === commentId)
       );
@@ -293,9 +387,7 @@ const CommentModal = ({ close, open }: any) => {
       );
       setEditMode(commentId);
       setEditComment(child?.comment_content);
-      
     }
-
   };
 
   const handleDeleteComment = async (commentId: number) => {
@@ -308,25 +400,45 @@ const CommentModal = ({ close, open }: any) => {
     setEnsure(false);
     setSign(true);
   };
-
-  const handleReply = async () => { 
+  const handleReply = async () => {
     if (replyComment.trim() && selectedCommentId !== null) {
       const replyData = await addComment(
         post?._id,
         replyComment,
-        selectedCommentId
+        parentCommentId
       );
 
       const updatedComments = commentsData.map((comment: any) => {
-        if (comment?._id === selectedCommentId) {
+        if (comment._id === parentCommentId) {
           return {
             ...comment,
             replies: [
+              ...(comment.replies || []),
               {
                 ...replyData?.metadata,
                 comment_userId: userInfo,
               },
-              ...(comment?.replies || []),
+            ],
+          };
+        } else if (comment._id === selectedCommentId) {
+          return {
+            ...comment,
+            replies: [
+              ...(comment.replies || []).map((reply: any) => {
+                if (reply._id === childCommentId) {
+                  return {
+                    ...reply,
+                    replies: [
+                      ...(reply.replies || []),
+                      {
+                        ...replyData?.metadata,
+                        comment_userId: userInfo,
+                      },
+                    ],
+                  };
+                }
+                return reply;
+              }),
             ],
           };
         }
@@ -337,11 +449,11 @@ const CommentModal = ({ close, open }: any) => {
       icrComment(1);
       setReplyComment("");
       setSelectedCommentId(null);
-      setSign(true);
+      setParentCommentId(null);
+      setChildCommentId(null);
+      setLastCommentChildId(null);
     }
   };
-
-  
 
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
@@ -370,6 +482,8 @@ const CommentModal = ({ close, open }: any) => {
       };
 
       const viewReply = clickViewMore?.find((m) => m.id === comment?._id);
+      const isChild = comment?.comment_right - comment?.comment_left === 2;
+
       return (
         <Fragment key={comment?._id}>
           <S.Comment
@@ -437,37 +551,40 @@ const CommentModal = ({ close, open }: any) => {
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {webStorageClient.get(constants.IS_AUTH) &&
-              !showReportModal &&
-              !isPostReport &&
-              selectedCommentId === comment._id && (
-                <S.ReplyBox>
-                  <S.TextArea
-                    value={replyComment}
-                    onChange={(e) => setReplyComment(e.target.value)}
-                    placeholder="Viết phản hồi..."
-                    ref={editInputRef}
-                  />
-                  <S.ButtonWrapper>
-                    <Button
-                      $color={darkMode ? "#fff" : "#352f44"}
-                      $hoverColor={darkMode ? "#000" : "#fff"}
-                      $borderColor={darkMode ? "#fff" : "#352f44"}
-                      $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
-                      $backgroundColor={darkMode ? "#000 " : "transparent"}
-                      style={{
-                        width: "100px",
-                        marginTop: "0px",
-                        padding: "5px 5px",
-                        marginRight: "50px",
-                      }}
-                      onClick={handleReply}
-                    >
-                      Phản hồi
-                    </Button>
-                  </S.ButtonWrapper>
-                </S.ReplyBox>
-              )}
+
+            {lastCommentChildId === comment._id && (
+              <S.ReplyBox
+                style={{
+                  marginTop: isChild ? "10px" : "0px",
+                  marginBottom: "10px",
+                }}
+              >
+                <S.TextArea
+                  value={replyComment}
+                  onChange={(e) => setReplyComment(e.target.value)}
+                  placeholder="Viết phản hồi..."
+                  ref={editInputRef}
+                />
+                <S.ButtonWrapper>
+                  <Button
+                    $color={darkMode ? "#fff" : "#352f44"}
+                    $hoverColor={darkMode ? "#000" : "#fff"}
+                    $borderColor={darkMode ? "#fff" : "#352f44"}
+                    $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                    $backgroundColor={darkMode ? "#000 " : "transparent"}
+                    style={{
+                      width: "100px",
+                      marginTop: "0px",
+                      padding: "5px 5px",
+                      marginRight: "50px",
+                    }}
+                    onClick={handleReply}
+                  >
+                    Phản hồi
+                  </Button>
+                </S.ButtonWrapper>
+              </S.ReplyBox>
+            )}
           </S.Comment>
           {comment.replies && renderComments(comment.replies, depth + 1)}
         </Fragment>

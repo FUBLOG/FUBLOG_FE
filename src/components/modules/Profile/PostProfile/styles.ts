@@ -304,7 +304,6 @@ export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
     background-color: #faf0e6 !important;
     border-radius: 10px;
   }
-    
 `;
 
 export const CustomModal = styled(Modal)`
@@ -315,9 +314,9 @@ export const CustomModal = styled(Modal)`
     position: relative;
     overflow: hidden;
   }
-    &.edit-modal .ant-modal-content{
+  &.edit-modal .ant-modal-content {
     height: 200px;
-    }
+  }
   .ant-modal-header {
     background-color: #faf0e6;
     border-bottom: none;
@@ -367,17 +366,16 @@ export const CustomModal2 = styled(Modal)`
   .ant-modal-title {
     color: #352f44;
     text-align: center;
-    font-size: 22px ;
-    
+    font-size: 22px;
   }
   .ant-btn-primary {
     background-color: #5c5470;
   }
   .ant-btn-primary:hover {
-    background-color: #352f44 ;
+    background-color: #352f44;
   }
   .ant-btn-default:hover {
-    background: #faf0e6 ;
+    background: #faf0e6;
     color: #352f44;
     border-color: #352f44;
   }
@@ -391,9 +389,7 @@ export const CustomModal2 = styled(Modal)`
   .ant-modal {
     top: 10%;
     transform: translateY(0%);
-    
   }
-    
 `;
 export const PostContentWrapper = styled.div`
   padding: 20px 20px 20px 60px;
@@ -438,4 +434,10 @@ export const CommentHeader = styled.div`
 
 export const CommentContent = styled.div`
   padding: 5px 0 5px 40px;
+  p {
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
 `;

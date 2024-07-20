@@ -470,7 +470,7 @@ const CommentModal = ({ close, open, icrComment }: any) => {
                 <S.CommentContent>{comment?.comment_content}</S.CommentContent>
                 {viewReply?.view === false && childrenCount > 0 && (
                   <S.CommentContent onClick={() => viewMore(comment._id)}>
-                    Xem thêm {childrenCount} bình luận
+                    <p> Xem thêm {childrenCount} bình luận</p>
                   </S.CommentContent>
                 )}
               </>

@@ -179,16 +179,7 @@ export const CustomMenuItem = styled(Menu.Item)`
   }
 `;
 
-export const ReplyBox = styled(Flex)`
-  flex-direction: row;
-  align-items: flex-start;
-  margin-top: 10px;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 8px;
-  background-color: #faf0e6;
-  width: 100%;
-`;
+export const ReplyBox = styled(Flex)``;
 
 export const ImagesWrapper2 = styled.div`
   img {

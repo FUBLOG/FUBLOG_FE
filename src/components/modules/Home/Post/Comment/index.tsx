@@ -20,8 +20,9 @@ import useThemeStore from "@/hooks/useTheme";
 interface ClickViewMore {
   id: string;
   view: boolean;
+  icrComment: any;
 }
-const CommentModal = ({ close, open }: any) => {
+const CommentModal = ({ close, open, icrComment }: any) => {
   const commentsWrapperRef = useRef<HTMLDivElement | null>(null);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -44,7 +45,6 @@ const CommentModal = ({ close, open }: any) => {
   const searchParams = useSearchParams();
   const postId = searchParams.get("ptId");
   const paramComment = searchParams.get("ctId");
-  const [comments, setComments] = useState(0);
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
   const darkMode = useThemeStore((state) => state.darkMode);
   const [ensure, setEnsure] = useState(false);
@@ -90,14 +90,11 @@ const CommentModal = ({ close, open }: any) => {
       getPostByPostId(postId)
         .then((res) => {
           setNewFeed(res?.metadata);
-          setComments(res?.commentCount);
         })
         .catch((error) => {});
     }
   }, []);
-  const icrComment = (number: number) => {
-    setComments(comments + number);
-  };
+
   const handleInput = () => {
     if (paramComment !== null) {
       const commentElement = document.getElementById(`${paramComment}`);
@@ -165,7 +162,7 @@ const CommentModal = ({ close, open }: any) => {
 
     setCommentsData(updatedComments);
     setNewComment("");
-    icrComment(1);
+    icrComment(postId, 1);
 
     // Scroll to the latest comment
     setTimeout(() => {
@@ -325,7 +322,7 @@ const CommentModal = ({ close, open }: any) => {
       (comment: any) => comment._id !== commentId
     );
     setCommentsData(updatedComments);
-    icrComment(-1);
+    icrComment(postId, -1);
     setEnsure(false);
     setSign(true);
   };
@@ -375,7 +372,7 @@ const CommentModal = ({ close, open }: any) => {
       });
 
       setCommentsData(updatedComments);
-      icrComment(1);
+      icrComment(postId, 1);
       setReplyComment("");
       setSelectedCommentId(null);
       setParentCommentId(null);

@@ -80,7 +80,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);
-      console.log("post", data?.metadata);
 
       const initialLikes = data?.metadata.reduce((acc: any, post: any) => {
         acc[post._id] = post?.likes.includes(userInfo?._id);

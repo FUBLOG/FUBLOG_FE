@@ -298,7 +298,7 @@ function MainLayout({ children }: LayoutProps) {
                     alt="User Avatar"
                     width={42}
                     height={42}
-                    style={{ borderRadius: "50%" }}
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
                   />
                 </Link>
               </Dropdown>

@@ -412,7 +412,7 @@ const CommentModal = ({
                   <Button
                     loading={loadingUpdate}
                     $color={darkMode ? "#fff" : "#352f44"}
-                    $hoverColor={darkMode ? "#000" : "#fff"}
+                    $hoverColor="#000"
                     $borderColor={darkMode ? "#fff" : "#352f44"}
                     $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                     $backgroundColor={darkMode ? "#000 " : "transparent"}
@@ -457,7 +457,7 @@ const CommentModal = ({
                 <S.ButtonWrapper>
                   <Button
                     $color={darkMode ? "#fff" : "#352f44"}
-                    $hoverColor={darkMode ? "#000" : "#fff"}
+                    $hoverColor="#000"
                     $borderColor={darkMode ? "#fff" : "#352f44"}
                     $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                     $backgroundColor={darkMode ? "#000 " : "transparent"}
@@ -558,7 +558,7 @@ const CommentModal = ({
           <S.ButtonWrapper>
             <Button
               $color={darkMode ? "#fff" : "#352f44"}
-              $hoverColor={darkMode ? "#000" : "#fff"}
+              $hoverColor="#000"
               $borderColor={darkMode ? "#fff" : "#352f44"}
               $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
               $backgroundColor={darkMode ? "#000 " : "transparent"}

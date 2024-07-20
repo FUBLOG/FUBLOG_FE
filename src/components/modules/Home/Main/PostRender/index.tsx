@@ -146,15 +146,7 @@ const PostsRender = () => {
                 setIsOpenByComment={setIsOpenByComment}
               />
             ) : (
-              <div
-                style={{
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <b>Yay! Bạn đã xem hết bài viết</b>
-              </div>
+              <></>
             )
           )}
           {commentModal}
@@ -163,7 +155,5 @@ const PostsRender = () => {
     </>
   );
 };
-
-const Loading = () => <Skeleton active round avatar title />;
 
 export default PostsRender;

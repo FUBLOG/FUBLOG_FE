@@ -129,7 +129,7 @@ const CommentModal = ({
 
     setCommentsData(updatedComments);
     setNewComment("");
-    icrComment(1);
+    icrComment(postId, 1);
 
     // Scroll to the latest comment
     setTimeout(() => {
@@ -285,7 +285,7 @@ const CommentModal = ({
       (comment: any) => comment._id !== commentId
     );
     setCommentsData(updatedComments);
-    icrComment(-1);
+    icrComment(postId, -1);
     setSign(true);
     setEnsure(false);
   };
@@ -336,7 +336,7 @@ const CommentModal = ({
       });
 
       setCommentsData(updatedComments);
-      icrComment(1);
+      icrComment(postId, 1);
       setReplyComment("");
       setSelectedCommentId(null);
       setParentCommentId(null);

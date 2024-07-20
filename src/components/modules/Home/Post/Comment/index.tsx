@@ -38,8 +38,6 @@ const CommentModal = ({ close, open }: any) => {
     null
   );
 
-  const [showReportModal, setShowReportModal] = useState(false);
-  const [isPostReport, setIsPostReport] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);

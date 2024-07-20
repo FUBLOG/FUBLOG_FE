@@ -56,7 +56,15 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const postId = searchParams.get("pptId");
-  const [comments, setComments] = useState(0);
+  const [comments, setComments] = useState<Record<string, number>>({});
+
+  const icrComment = (postId: string, number: number) => {
+    setComments((prevComments) => ({
+      ...prevComments,
+      [postId]: (prevComments[postId] || 0) + number,
+    }));
+  };
+
   const [editPost, setEditPost] = useState(false);
   const [showEnsure, setShowEnsure] = useState(false);
   const darkmode = useThemeStore((state) => state.darkMode);
@@ -74,10 +82,15 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       setPosts(data?.metadata || []);
 
       const initialLikes = data?.metadata.reduce((acc: any, post: any) => {
-        acc[post._id] = post.likes.includes(userInfo?._id);
+        acc[post._id] = post?.likes.includes(userInfo?._id);
         return acc;
       }, {});
       setListIsLike(initialLikes);
+      const initialComment = data?.metadata.reduce((acc: any, post: any) => {
+        acc[post._id] = post?.commentCount || 0;
+        return acc;
+      }, {});
+      setComments(initialComment);
     }
   }, [profileSearch, userInfo]);
 
@@ -169,9 +182,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       .catch((error) => {});
   };
 
-  const icrComment = (number: number) => {
-    setComments(comments + number);
-  };
   const handleReport = async () => {
     setShowConfirmModal(false);
     const data = {
@@ -191,7 +201,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         open={showCommentsModal}
         close={handleCloseCommentsModal}
         newfeed={selectedPost}
-        icrComment={() => icrComment(selectedPost?.commentCount)}
+        icrComment={icrComment}
       />
     );
   }, [selectedPost, showCommentsModal]);
@@ -528,7 +538,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
                         }}
                       />
                       <span style={{ color: darkMode ? "#fff" : "#352F44" }}>
-                        {newfeed?.commentCount}
+                        {comments[newfeed?._id] || newfeed?.commentCount || 0}
                       </span>
                     </S.Actions>
                     <S.TagWrapper>

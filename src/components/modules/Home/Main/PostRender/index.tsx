@@ -15,11 +15,7 @@ import useThemeStore from "@/hooks/useTheme";
 
 interface PostData {
   _id: string;
-  post: {
-    postTagID: {
-      postTagContent: string;
-    };
-  };
+  post: any;
 }
 
 const PostsRender = () => {
@@ -32,6 +28,18 @@ const PostsRender = () => {
   const [isOpenByComment, setIsOpenByComment] = useState(false);
   const tagValue = useTagStageStore((state) => state.tagValue);
   const darkmode = useThemeStore((state) => state.darkMode);
+  const searchParams = useSearchParams();
+  const paramComment = searchParams.get("ctId");
+
+  const postId = searchParams.get("ptId");
+
+  const [comments, setComments] = useState<{ [key: string]: number }>({});
+  const icrComment = (postId: string, number: number) => {
+    setComments((prevComments) => ({
+      ...prevComments,
+      [postId]: (prevComments[postId] || 0) + number,
+    }));
+  };
   const handleCloseCommentsModal = () => {
     if (isOpenByComment) {
       router.back();
@@ -40,9 +48,6 @@ const PostsRender = () => {
     }
     setShowCommentsModal(false);
   };
-  const searchParams = useSearchParams();
-  const postId = searchParams.get("ptId");
-  const paramComment = searchParams.get("ctId");
 
   const updatePostInList = (updatedPost: PostData) => {
     setListPosts((currentPosts) =>
@@ -59,7 +64,6 @@ const PostsRender = () => {
     const postNotNull = res?.metadata?.filter(
       (post: any) => post?.post !== null
     );
-
     setListPosts((prev) => [...prev, ...postNotNull]);
     setLoading(false);
   };
@@ -74,8 +78,15 @@ const PostsRender = () => {
         (post: any) => post?.post !== null
       );
       setListPosts(postNotNull || []);
+
+      const initialComment = postNotNull?.reduce((acc: any, post: any) => {
+        acc[post?.post._id] = post?.post?.commentCount || 0;
+        return acc;
+      }, {});
+      setComments(initialComment);
       setLoading(false);
     };
+
     asyncGetPosts();
     if (post) {
       setListPosts((prevPosts) => [
@@ -98,6 +109,7 @@ const PostsRender = () => {
         <CommentModal
           open={showCommentsModal}
           close={handleCloseCommentsModal}
+          icrComment={icrComment}
         />
       ) : null,
     [showCommentsModal, handleCloseCommentsModal]
@@ -137,24 +149,17 @@ const PostsRender = () => {
             tagValue === "Tất Cả" ||
             post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post
-                key={post._id}
+                key={post?.post?._id}
                 newfeed={post}
                 updatePost={updatePostInList}
                 postId={postId}
                 paramComment={paramComment}
                 setShowCommentsModal={setShowCommentsModal}
                 setIsOpenByComment={setIsOpenByComment}
+                comment={comments[post?.post?._id] || 0}
               />
             ) : (
-              <div
-                style={{
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <b>Yay! Bạn đã xem hết bài viết</b>
-              </div>
+              <></>
             )
           )}
           {commentModal}
@@ -163,7 +168,5 @@ const PostsRender = () => {
     </>
   );
 };
-
-const Loading = () => <Skeleton active round avatar title />;
 
 export default PostsRender;

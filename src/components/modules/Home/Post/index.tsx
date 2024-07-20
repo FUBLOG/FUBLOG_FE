@@ -50,9 +50,11 @@ interface PostProps {
   setShowCommentsModal: any;
   setIsOpenByComment: any;
   updatePost: any;
+  comment: any;
 }
 
 const Post = ({
+  comment,
   updatePost,
   newfeed,
   setShowCommentsModal,
@@ -371,7 +373,7 @@ const Post = ({
                 }}
               />
               <span style={{ color: darkMode ? "#fff" : "#000" }}>
-                {newfeed?.post?.commentCount}
+                {comment}
               </span>
             </S.Actions>
             <S.TagWrapper>

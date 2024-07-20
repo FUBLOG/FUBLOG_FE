@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, message, Modal, Carousel } from "antd";
+import { Dropdown, Menu, Carousel } from "antd";
 import {
   addComment,
   deleteComment,
@@ -14,6 +14,8 @@ import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
+import useThemeStore from "@/hooks/useTheme";
+import Button from "@/components/core/common/Button";
 
 interface ClickViewMore {
   id: string;
@@ -34,6 +36,11 @@ const CommentModal = ({
   const [editComment, setEditComment] = useState("");
   const [editMode, setEditMode] = useState<any | null>(null);
   const [selectedCommentId, setSelectedCommentId] = useState<any | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<any | null>(null);
+  const [childCommentId, setChildCommentId] = useState<any | null>(null);
+  const [lastCommentChildId, setLastCommentChildId] = useState<any | null>(
+    null
+  );
   const [showReportModal, setShowReportModal] = useState(false);
   const [isPostReport, setIsPostReport] = useState(false);
   const editInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -41,6 +48,20 @@ const CommentModal = ({
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
+  const [deleteCommentId, setDeleteCommentId] = useState<any | null>(null);
+  const [ensure, setEnsure] = useState(false);
+  const [sign, setSign] = useState(false);
+  const handleEndsure = (comment_id: any) => {
+    setDeleteCommentId(comment_id);
+    setEnsure(true);
+  };
+  const darkMode = useThemeStore((state) => state.darkMode);
+  useEffect(() => {
+    if (sign) {
+      asyncGetComments();
+      setSign(false);
+    }
+  }, [sign]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -108,7 +129,7 @@ const CommentModal = ({
 
     setCommentsData(updatedComments);
     setNewComment("");
-    icrComment(1);
+    icrComment(postId, 1);
 
     // Scroll to the latest comment
     setTimeout(() => {
@@ -131,7 +152,12 @@ const CommentModal = ({
                 {
                   key: "delete",
                   label: "Xóa",
-                  onClick: () => handleDeleteComment(comment?._id),
+                  onClick: () => handleEndsure(comment?._id),
+                },
+                {
+                  key: "reply",
+                  label: "Phản hồi",
+                  onClick: () => handleReplyComment(comment?._id),
                 },
               ]
             : [
@@ -161,16 +187,26 @@ const CommentModal = ({
       setEditComment("");
       setEditMode(null);
     }
+    setSign(true);
   };
 
   const handleReplyComment = (commentId: any) => {
-    const parentComment = commentsData.find(
+    setEditMode("");
+    const isParentComment = commentsData.find(
       (comment: any) => comment._id === commentId
     );
-    if (parentComment) {
-      const replyContent = `@${parentComment?.comment_userId?.displayName} `;
+
+    if (isParentComment) {
+      const condition = userInfo._id === isParentComment?.comment_userId._id;
+
+      const replyContent = !condition
+        ? `@${isParentComment?.comment_userId?.displayName} `
+        : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
+      setParentCommentId(commentId);
+      setLastCommentChildId(commentId);
+      setChildCommentId(null);
 
       setTimeout(() => {
         if (editInputRef.current) {
@@ -179,16 +215,67 @@ const CommentModal = ({
           editInputRef.current.setSelectionRange(len, len);
         }
       }, 100);
+    } else {
+      const findComment = (comments: any[], commentId: any): any => {
+        for (const comment of comments) {
+          if (comment._id === commentId) {
+            return comment;
+          }
+          if (comment.replies) {
+            const found = findComment(comment.replies, commentId);
+            if (found) {
+              return found;
+            }
+          }
+        }
+        return null;
+      };
+
+      const parent = commentsData?.find((parentComment: any) =>
+        parentComment.replies?.some((child: any) => child._id === commentId)
+      );
+      setLastCommentChildId(parent?.replies[parent?.replies?.length - 1]?._id);
+      if (parent) {
+        const child = findComment(parent.replies, commentId);
+
+        const condition = userInfo._id === child?.comment_userId?._id;
+        const replyContent = !condition
+          ? `@${child?.comment_userId?.displayName} `
+          : ``;
+        setReplyComment(replyContent);
+        setSelectedCommentId(commentId);
+
+        setParentCommentId(parent?._id);
+        setChildCommentId(child?._id);
+
+        setTimeout(() => {
+          if (editInputRef.current) {
+            editInputRef.current.focus();
+            const len = replyContent.length;
+            editInputRef.current.setSelectionRange(len, len);
+          }
+        }, 100);
+      }
     }
   };
 
   const handleEditComment = (commentId: number) => {
-    const commentToEdit = commentsData.find(
+    setSelectedCommentId("");
+    const isParentComment = commentsData.find(
       (comment: any) => comment._id === commentId
     );
-    if (commentToEdit) {
+    if (isParentComment) {
       setEditMode(commentId);
-      setEditComment(commentToEdit?.comment_content);
+      setEditComment(isParentComment?.comment_content);
+    } else {
+      const parent = commentsData?.find((parentComment: any) =>
+        parentComment.replies?.find((child: any) => child._id === commentId)
+      );
+      const child = parent?.replies?.find(
+        (child: any) => child._id === commentId
+      );
+      setEditMode(commentId);
+      setEditComment(child?.comment_content);
     }
   };
 
@@ -198,7 +285,9 @@ const CommentModal = ({
       (comment: any) => comment._id !== commentId
     );
     setCommentsData(updatedComments);
-    icrComment(-1);
+    icrComment(postId, -1);
+    setSign(true);
+    setEnsure(false);
   };
 
   const handleReply = async () => {
@@ -206,19 +295,40 @@ const CommentModal = ({
       const replyData = await addComment(
         post?._id,
         replyComment,
-        selectedCommentId
+        parentCommentId
       );
 
       const updatedComments = commentsData.map((comment: any) => {
-        if (comment?._id === selectedCommentId) {
+        if (comment._id === parentCommentId) {
           return {
             ...comment,
             replies: [
+              ...(comment.replies || []),
               {
                 ...replyData?.metadata,
                 comment_userId: userInfo,
               },
-              ...(comment?.replies || []),
+            ],
+          };
+        } else if (comment._id === selectedCommentId) {
+          return {
+            ...comment,
+            replies: [
+              ...(comment.replies || []).map((reply: any) => {
+                if (reply._id === childCommentId) {
+                  return {
+                    ...reply,
+                    replies: [
+                      ...(reply.replies || []),
+                      {
+                        ...replyData?.metadata,
+                        comment_userId: userInfo,
+                      },
+                    ],
+                  };
+                }
+                return reply;
+              }),
             ],
           };
         }
@@ -226,12 +336,14 @@ const CommentModal = ({
       });
 
       setCommentsData(updatedComments);
-      icrComment(1);
+      icrComment(postId, 1);
       setReplyComment("");
       setSelectedCommentId(null);
+      setParentCommentId(null);
+      setChildCommentId(null);
+      setLastCommentChildId(null);
     }
   };
-
   const renderComments = (commentsArray: any, depth = 0) => {
     return commentsArray?.map((comment: any) => {
       const childrenCount =
@@ -259,6 +371,7 @@ const CommentModal = ({
       };
 
       const viewReply = clickViewMore?.find((m) => m.id === comment?._id);
+      const isChild = comment?.comment_right - comment?.comment_left === 2;
 
       return (
         <Fragment key={comment?._id}>
@@ -266,7 +379,8 @@ const CommentModal = ({
             id={comment?._id}
             style={{
               marginLeft: `${depth * 40}px`,
-              border: editMode === comment?._id ? "3px solid #5c5470" : "none",
+              border: editMode === comment?._id ? "1px solid #5c5470" : "none",
+              padding: "10px",
             }}
           >
             <S.CommentHeader>
@@ -297,13 +411,16 @@ const CommentModal = ({
                 <S.ButtonWrapper>
                   <Button
                     loading={loadingUpdate}
-                    color="red"
-                    type="primary"
+                    $color={darkMode ? "#fff" : "#352f44"}
+                    $hoverColor="#000"
+                    $borderColor={darkMode ? "#fff" : "#352f44"}
+                    $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                    $backgroundColor={darkMode ? "#000 " : "transparent"}
                     style={{
-                      width: "80px",
+                      width: "100px",
                       marginTop: "0px",
                       padding: "5px 5px",
-                      border: "none",
+                      marginRight: "50px",
                     }}
                     onClick={handleUpdateComment}
                   >
@@ -314,44 +431,49 @@ const CommentModal = ({
             ) : childrenCount > 0 ? (
               <>
                 <S.CommentContent>{comment?.comment_content}</S.CommentContent>
-
                 {viewReply?.view === false && childrenCount > 0 && (
                   <S.CommentContent onClick={() => viewMore(comment._id)}>
-                    Xem thêm {childrenCount} bình luận
+                    <p> Xem thêm {childrenCount} bình luận</p>
                   </S.CommentContent>
                 )}
               </>
             ) : (
               <S.CommentContent>{comment?.comment_content}</S.CommentContent>
             )}
-            {webStorageClient.get(constants.IS_AUTH) &&
-              !showReportModal &&
-              !isPostReport &&
-              selectedCommentId === comment._id && (
-                <S.ReplyBox>
-                  <S.TextArea
-                    value={replyComment}
-                    onChange={(e) => setReplyComment(e.target.value)}
-                    placeholder="Viết phản hồi..."
-                    ref={editInputRef}
-                  />
-                  <S.ButtonWrapper>
-                    <Button
-                      color="red"
-                      type="primary"
-                      style={{
-                        width: "80px",
-                        marginTop: "40px",
-                        padding: "5px 5px",
-                        border: "none",
-                      }}
-                      onClick={handleReply}
-                    >
-                      Phản hồi
-                    </Button>
-                  </S.ButtonWrapper>
-                </S.ReplyBox>
-              )}
+
+            {lastCommentChildId === comment._id && (
+              <S.ReplyBox
+                style={{
+                  marginTop: isChild ? "10px" : "0px",
+                  marginBottom: "10px",
+                }}
+              >
+                <S.TextArea
+                  value={replyComment}
+                  onChange={(e) => setReplyComment(e.target.value)}
+                  placeholder="Viết phản hồi..."
+                  ref={editInputRef}
+                />
+                <S.ButtonWrapper>
+                  <Button
+                    $color={darkMode ? "#fff" : "#352f44"}
+                    $hoverColor="#000"
+                    $borderColor={darkMode ? "#fff" : "#352f44"}
+                    $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                    $backgroundColor={darkMode ? "#000 " : "transparent"}
+                    style={{
+                      width: "100px",
+                      marginTop: "0px",
+                      padding: "5px 5px",
+                      marginRight: "50px",
+                    }}
+                    onClick={handleReply}
+                  >
+                    Phản hồi
+                  </Button>
+                </S.ButtonWrapper>
+              </S.ReplyBox>
+            )}
           </S.Comment>
           {comment.replies && renderComments(comment.replies, depth + 1)}
         </Fragment>
@@ -360,96 +482,110 @@ const CommentModal = ({
   };
 
   return (
-    <S.CustomModal
-      title="Bài viết"
-      open={open}
-      onOk={close}
-      onCancel={close}
-      destroyOnClose={true}
-      footer={null}
-      centered
-      width={800}
-    >
-      <S.PostContentWrapper>
-        <S.PostHeaderModal>
-          <S.Avatar
-            src={post?.UserID?.userInfo?.avatar}
-            alt={`${post?.UserID?.displayName}'s avatar`}
-          />
-          <S.UserName>{post?.UserID?.displayName}</S.UserName>
-        </S.PostHeaderModal>
-        <Typography
-          variant="caption-small"
-          color="#352f44"
-          fontSize="16px"
-          lineHeight="2"
-          margin="5px 20px"
-        >
-          {post?.postContent}
-        </Typography>
-
-        {post?.postLinkToImages?.length === 1 && (
-          <S.ImagesWrapper>
-            <img
-              src={post?.postLinkToImages[0]}
-              alt="Post Image"
-              className="post-image image-modal"
+    <>
+      <S.CustomModal
+        title="Bài viết"
+        open={open}
+        onOk={close}
+        onCancel={close}
+        destroyOnClose={true}
+        footer={null}
+        centered
+        width={800}
+      >
+        <S.PostContentWrapper>
+          <S.PostHeaderModal>
+            <S.Avatar
+              src={post?.UserID?.userInfo?.avatar}
+              alt={`${post?.UserID?.displayName}'s avatar`}
             />
-          </S.ImagesWrapper>
-        )}
-        {post?.postLinkToImages?.length > 1 && (
-          <S.ImagesWrapper2>
-            <Carousel arrows={true}>
-              {post?.postLinkToImages?.map((src: any) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt="Post Image"
-                  className="post-image image-modal"
-                />
-              ))}
-            </Carousel>
-          </S.ImagesWrapper2>
-        )}
-      </S.PostContentWrapper>
-      <S.CommentSection>
-        <S.CommentsWrapper ref={commentsWrapperRef}>
-          {renderComments(commentsData)}
-        </S.CommentsWrapper>
-      </S.CommentSection>
-      <S.CommentBox>
-        <S.CommentHeader>
-          <S.Avatar
-            src={userInfo?.userInfo?.avatar}
-            alt={`${userInfo?.displayName}'s avatar`}
-          />
-          <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
-        </S.CommentHeader>
-        <S.TextArea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Viết bình luận..."
-          ref={editInputRef}
-          className="comment-textarea"
-        />
-        <S.ButtonWrapper>
-          <Button
-            color="red"
-            type="primary"
-            style={{
-              width: "100px",
-              marginTop: "0px",
-              padding: "5px 5px",
-              border: "none",
-              marginRight: "50px",
-            }}
-            onClick={handleAddComment}
+            <S.UserName>{post?.UserID?.displayName}</S.UserName>
+          </S.PostHeaderModal>
+          <Typography
+            variant="caption-small"
+            color="#352f44"
+            fontSize="16px"
+            lineHeight="2"
+            margin="5px 20px"
           >
-            Đăng
-          </Button>
-        </S.ButtonWrapper>
-      </S.CommentBox>
-    </S.CustomModal>
+            {post?.postContent}
+          </Typography>
+
+          {post?.postLinkToImages?.length === 1 && (
+            <S.ImagesWrapper>
+              <img
+                src={post?.postLinkToImages[0]}
+                alt="Post Image"
+                className="post-image image-modal"
+              />
+            </S.ImagesWrapper>
+          )}
+          {post?.postLinkToImages?.length > 1 && (
+            <S.ImagesWrapper2>
+              <Carousel arrows={true}>
+                {post?.postLinkToImages?.map((src: any) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt="Post Image"
+                    className="post-image image-modal"
+                  />
+                ))}
+              </Carousel>
+            </S.ImagesWrapper2>
+          )}
+        </S.PostContentWrapper>
+        <S.CommentSection>
+          <S.CommentsWrapper ref={commentsWrapperRef}>
+            {renderComments(commentsData)}
+          </S.CommentsWrapper>
+        </S.CommentSection>
+        <S.CommentBox>
+          <S.CommentHeader>
+            <S.Avatar
+              src={userInfo?.userInfo?.avatar}
+              alt={`${userInfo?.displayName}'s avatar`}
+            />
+            <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
+          </S.CommentHeader>
+          <S.TextArea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Viết bình luận..."
+            ref={editInputRef}
+            className="comment-textarea"
+          />
+          <S.ButtonWrapper>
+            <Button
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor="#000"
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+              $backgroundColor={darkMode ? "#000 " : "transparent"}
+              style={{
+                width: "100px",
+                marginTop: "0px",
+                padding: "5px 5px",
+                marginRight: "50px",
+              }}
+              onClick={handleAddComment}
+            >
+              Đăng
+            </Button>
+          </S.ButtonWrapper>
+        </S.CommentBox>
+      </S.CustomModal>
+      <S.CustomModal2
+        title={"Bạn Có Muốn Xóa Bình Luận ?"}
+        open={ensure}
+        onCancel={() => setEnsure(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => handleDeleteComment(deleteCommentId)}
+      >
+        Bình luận này sẽ xóa vĩnh viễn{" "}
+      </S.CustomModal2>
+    </>
   );
 };
 

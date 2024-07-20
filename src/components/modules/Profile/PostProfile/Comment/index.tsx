@@ -210,7 +210,7 @@ const CommentModal = ({
     const updatedComments = commentsData.filter(
       (comment: any) => comment._id !== commentId
     );
-    setCommentsData(updatedComments);p
+    setCommentsData(updatedComments);
     icrComment(-1);
     setSign(true);
     setEnsure(false);

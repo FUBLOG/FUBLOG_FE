@@ -14,8 +14,6 @@ import {
 } from "@/services/api/comment";
 import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
-import webStorageClient from "@/utils/webStorageClient";
-import { constants } from "@/settings";
 import { useSearchParams } from "next/navigation";
 import useThemeStore from "@/hooks/useTheme";
 
@@ -233,73 +231,6 @@ const CommentModal = ({ close, open }: any) => {
     }
     setSign(true);
   };
-
-  // const handleReplyComment = (commentId: any) => {
-  //   setEditMode("");
-  //   const isParentComment = commentsData.find(
-  //     (comment: any) => comment._id === commentId
-  //   );
-
-  //   if (isParentComment) {
-  //     const condition = userInfo._id === isParentComment?.comment_userId._id;
-
-  //     const replyContent = !condition
-  //       ? `@${isParentComment?.comment_userId?.displayName} `
-  //       : ``;
-  //     setReplyComment(replyContent);
-  //     setSelectedCommentId(commentId);
-  //     setParentCommentId(commentId);
-  //     setChildCommentId(null);
-
-  //     setTimeout(() => {
-  //       if (editInputRef.current) {
-  //         editInputRef.current.focus();
-  //         const len = replyContent.length;
-  //         editInputRef.current.setSelectionRange(len, len);
-  //       }
-  //     }, 100);
-  //   } else {
-  //     const findComment = (comments: any[], commentId: any): any => {
-  //       for (const comment of comments) {
-  //         if (comment._id === commentId) {
-  //           return comment;
-  //         }
-  //         if (comment.replies) {
-  //           const found = findComment(comment.replies, commentId);
-  //           if (found) {
-  //             return found;
-  //           }
-  //         }
-  //       }
-  //       return null;
-  //     };
-
-  //     const parent = commentsData?.find((parentComment: any) =>
-  //       parentComment.replies?.some((child: any) => child._id === commentId)
-  //     );
-
-  //     if (parent) {
-  //       const child = findComment(parent.replies, commentId);
-  //       const condition = userInfo._id === child?.comment_userId?._id;
-  //       const replyContent = !condition
-  //         ? `@${child?.comment_userId?.displayName} `
-  //         : ``;
-  //       setReplyComment(replyContent);
-  //       setSelectedCommentId(commentId);
-
-  //       setParentCommentId(parent?._id);
-  //       setChildCommentId(child?._id);
-
-  //       setTimeout(() => {
-  //         if (editInputRef.current) {
-  //           editInputRef.current.focus();
-  //           const len = replyContent.length;
-  //           editInputRef.current.setSelectionRange(len, len);
-  //         }
-  //       }, 100);
-  //     }
-  //   }
-  // };
 
   const handleReplyComment = (commentId: any) => {
     setEditMode("");

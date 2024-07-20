@@ -89,25 +89,23 @@ const Banner = ({ profileHash, setLoading }: any) => {
   };
 
   const handleImageClick = (type: "avatar" | "cover") => {
-      setImageType(type);
-      setShowUpdateImage(true);
-      document.body.style.overflow = "hidden";
-      setOpen(false);
+    setImageType(type);
+    setShowUpdateImage(true);
+    document.body.style.overflow = "hidden";
+    setOpen(false);
   };
-  const handleShowImage = ((type: "avatar" | "cover")=> {
+  const handleShowImage = (type: "avatar" | "cover") => {
     const imageUrl =
-        type === "avatar"
-          ? profileSearch?.info?.avatar
-          : profileSearch?.info?.cover_photo;
-      if (imageUrl) {
-        setModalImageSrc(imageUrl);
-        setShowImageModal(true);
-        document.body.style.overflow = "hidden";}
-        setOpen(false);
-      }
-      
-      
-    )
+      type === "avatar"
+        ? profileSearch?.info?.avatar
+        : profileSearch?.info?.cover_photo;
+    if (imageUrl) {
+      setModalImageSrc(imageUrl);
+      setShowImageModal(true);
+      document.body.style.overflow = "hidden";
+    }
+    setOpen(false);
+  };
   useEffect(() => {
     setLoading(true);
     const updateInfor = async () => {
@@ -193,7 +191,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
       <S.CoverImage>
         <img
           src={profileSearch?.info?.cover_photo}
-          onClick={() =>  handleShowImage("cover")}
+          onClick={() => handleShowImage("cover")}
           style={{
             width: "100%",
             height: "100%",
@@ -203,7 +201,7 @@ const Banner = ({ profileHash, setLoading }: any) => {
         />
         {isMyUser && (
           <Button
-            onClick={()=> handleImageClick("cover")}
+            onClick={() => handleImageClick("cover")}
             style={{
               position: "absolute",
               bottom: "10px",
@@ -229,11 +227,11 @@ const Banner = ({ profileHash, setLoading }: any) => {
               >
                 {isMyUser && (
                   <Button onClick={() => handleImageClick("avatar")}>
-                  <EditOutlined />
-                  Chỉnh sửa ảnh đại diện
-                </Button>
+                    <EditOutlined />
+                    Chỉnh sửa ảnh đại diện
+                  </Button>
                 )}
-                <Button onClick={()=> handleShowImage("avatar")}>
+                <Button onClick={() => handleShowImage("avatar")}>
                   <ExpandOutlined /> Xem ảnh đại diện
                 </Button>{" "}
               </div>

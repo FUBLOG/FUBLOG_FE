@@ -247,6 +247,7 @@ export const ButtonWrapper = styled.div`
 export const TextArea = styled.textarea`
   width: 100%;
   max-height: 100px;
+
   padding: 10px;
   border-radius: 10px;
   border: none;

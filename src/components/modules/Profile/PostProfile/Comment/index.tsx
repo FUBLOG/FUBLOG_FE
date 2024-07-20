@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as S from "../styles";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, message, Modal, Carousel } from "antd";
+import { Dropdown, Menu, message, Modal, Carousel } from "antd";
 import {
   addComment,
   deleteComment,
@@ -14,6 +14,8 @@ import Typography from "@/components/core/common/Typography";
 import { getPostByPostId } from "@/services/api/post";
 import webStorageClient from "@/utils/webStorageClient";
 import { constants } from "@/settings";
+import useThemeStore from "@/hooks/useTheme";
+import Button from "@/components/core/common/Button";
 
 interface ClickViewMore {
   id: string;
@@ -43,15 +45,16 @@ const CommentModal = ({
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
   const [deleteCommentId, setDeleteCommentId] = useState<any | null>(null);
   const [ensure, setEnsure] = useState(false);
-  const [sign,setSign] = useState(false);
+  const [sign, setSign] = useState(false);
   const handleEndsure = (comment_id: any) => {
     setDeleteCommentId(comment_id);
     setEnsure(true);
-  }
+  };
+  const darkMode = useThemeStore((state) => state.darkMode);
   useEffect(() => {
     if (sign) {
-      asyncGetComments(); 
-      setSign(false); 
+      asyncGetComments();
+      setSign(false);
     }
   }, [sign]);
   useEffect(() => {
@@ -146,6 +149,11 @@ const CommentModal = ({
                   label: "Xóa",
                   onClick: () => handleEndsure(comment?._id),
                 },
+                {
+                  key: "reply",
+                  label: "Phản hồi",
+                  onClick: () => handleReplyComment(comment?._id),
+                },
               ]
             : [
                 {
@@ -174,17 +182,43 @@ const CommentModal = ({
       setEditComment("");
       setEditMode(null);
     }
+    setSign(true);
   };
 
   const handleReplyComment = (commentId: any) => {
-    const parentComment = commentsData.find(
+    setEditMode("");
+    const isParentComment = commentsData.find(
       (comment: any) => comment._id === commentId
     );
-    if (parentComment) {
-      const replyContent = `@${parentComment?.comment_userId?.displayName} `;
+    const condition = userInfo._id === isParentComment?.comment_userId._id;
+
+    if (isParentComment) {
+      const replyContent = !condition
+        ? `@${isParentComment?.comment_userId?.displayName}`
+        : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
 
+      setTimeout(() => {
+        if (editInputRef.current) {
+          editInputRef.current.focus();
+          const len = replyContent.length;
+          editInputRef.current.setSelectionRange(len, len);
+        }
+      }, 100);
+    } else {
+      const parent = commentsData?.find((parentComment: any) =>
+        parentComment.replies?.find((child: any) => child._id === commentId)
+      );
+      const child = parent.replies?.find(
+        (child: any) => child._id === commentId
+      );
+      const condition = parent.comment_userId._id === child.comment_userId._id;
+      const replyContent = !condition
+        ? `@${isParentComment?.comment_userId?.displayName}`
+        : ``;
+      setReplyComment(replyContent);
+      setSelectedCommentId(commentId);
       setTimeout(() => {
         if (editInputRef.current) {
           editInputRef.current.focus();
@@ -196,12 +230,22 @@ const CommentModal = ({
   };
 
   const handleEditComment = (commentId: number) => {
-    const commentToEdit = commentsData.find(
+    setSelectedCommentId("");
+    const isParentComment = commentsData.find(
       (comment: any) => comment._id === commentId
     );
-    if (commentToEdit) {
+    if (isParentComment) {
       setEditMode(commentId);
-      setEditComment(commentToEdit?.comment_content);
+      setEditComment(isParentComment?.comment_content);
+    } else {
+      const parent = commentsData?.find((parentComment: any) =>
+        parentComment.replies?.find((child: any) => child._id === commentId)
+      );
+      const child = parent?.replies?.find(
+        (child: any) => child._id === commentId
+      );
+      setEditMode(commentId);
+      setEditComment(child?.comment_content);
     }
   };
 
@@ -245,6 +289,7 @@ const CommentModal = ({
       setReplyComment("");
       setSelectedCommentId(null);
     }
+    setSign(true);
   };
 
   const renderComments = (commentsArray: any, depth = 0) => {
@@ -312,13 +357,16 @@ const CommentModal = ({
                 <S.ButtonWrapper>
                   <Button
                     loading={loadingUpdate}
-                    color="red"
-                    type="primary"
+                    $color={darkMode ? "#fff" : "#352f44"}
+                    $hoverColor={darkMode ? "#000" : "#fff"}
+                    $borderColor={darkMode ? "#fff" : "#352f44"}
+                    $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                    $backgroundColor={darkMode ? "#000 " : "transparent"}
                     style={{
-                      width: "80px",
+                      width: "100px",
                       marginTop: "0px",
                       padding: "5px 5px",
-                      border: "none",
+                      marginRight: "50px",
                     }}
                     onClick={handleUpdateComment}
                   >
@@ -352,14 +400,17 @@ const CommentModal = ({
                   />
                   <S.ButtonWrapper>
                     <Button
-                      color="red"
-                      type="primary"
-                      style={{
-                        width: "80px",
-                        marginTop: "40px",
-                        padding: "5px 5px",
-                        border: "none",
-                      }}
+                     $color={darkMode ? "#fff" : "#352f44"}
+                     $hoverColor={darkMode ? "#000" : "#fff"}
+                     $borderColor={darkMode ? "#fff" : "#352f44"}
+                     $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                     $backgroundColor={darkMode ? "#000 " : "transparent"}
+                     style={{
+                       width: "100px",
+                       marginTop: "0px",
+                       padding: "5px 5px",
+                       marginRight: "50px",
+                     }}
                       onClick={handleReply}
                     >
                       Phản hồi
@@ -376,108 +427,109 @@ const CommentModal = ({
 
   return (
     <>
-    <S.CustomModal
-      title="Bài viết"
-      open={open}
-      onOk={close}
-      onCancel={close}
-      destroyOnClose={true}
-      footer={null}
-      centered
-      width={800}
-    >
-      <S.PostContentWrapper>
-        <S.PostHeaderModal>
-          <S.Avatar
-            src={post?.UserID?.userInfo?.avatar}
-            alt={`${post?.UserID?.displayName}'s avatar`}
-          />
-          <S.UserName>{post?.UserID?.displayName}</S.UserName>
-        </S.PostHeaderModal>
-        <Typography
-          variant="caption-small"
-          color="#352f44"
-          fontSize="16px"
-          lineHeight="2"
-          margin="5px 20px"
-        >
-          {post?.postContent}
-        </Typography>
-
-        {post?.postLinkToImages?.length === 1 && (
-          <S.ImagesWrapper>
-            <img
-              src={post?.postLinkToImages[0]}
-              alt="Post Image"
-              className="post-image image-modal"
+      <S.CustomModal
+        title="Bài viết"
+        open={open}
+        onOk={close}
+        onCancel={close}
+        destroyOnClose={true}
+        footer={null}
+        centered
+        width={800}
+      >
+        <S.PostContentWrapper>
+          <S.PostHeaderModal>
+            <S.Avatar
+              src={post?.UserID?.userInfo?.avatar}
+              alt={`${post?.UserID?.displayName}'s avatar`}
             />
-          </S.ImagesWrapper>
-        )}
-        {post?.postLinkToImages?.length > 1 && (
-          <S.ImagesWrapper2>
-            <Carousel arrows={true}>
-              {post?.postLinkToImages?.map((src: any) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt="Post Image"
-                  className="post-image image-modal"
-                />
-              ))}
-            </Carousel>
-          </S.ImagesWrapper2>
-        )}
-      </S.PostContentWrapper>
-      <S.CommentSection>
-        <S.CommentsWrapper ref={commentsWrapperRef}>
-          {renderComments(commentsData)}
-        </S.CommentsWrapper>
-      </S.CommentSection>
-      <S.CommentBox>
-        <S.CommentHeader>
-          <S.Avatar
-            src={userInfo?.userInfo?.avatar}
-            alt={`${userInfo?.displayName}'s avatar`}
-          />
-          <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
-        </S.CommentHeader>
-        <S.TextArea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Viết bình luận..."
-          ref={editInputRef}
-          className="comment-textarea"
-        />
-        <S.ButtonWrapper>
-          <Button
-            color="red"
-            type="primary"
-            style={{
-              width: "100px",
-              marginTop: "0px",
-              padding: "5px 5px",
-              border: "none",
-              marginRight: "50px",
-            }}
-            onClick={handleAddComment}
+            <S.UserName>{post?.UserID?.displayName}</S.UserName>
+          </S.PostHeaderModal>
+          <Typography
+            variant="caption-small"
+            color="#352f44"
+            fontSize="16px"
+            lineHeight="2"
+            margin="5px 20px"
           >
-            Đăng
-          </Button>
-        </S.ButtonWrapper>
-      </S.CommentBox>
-    </S.CustomModal>
-    <S.CustomModal2
-          title={"Bạn Có Muốn Xóa Bình Luận ?"}
-          open={ensure}
-          onCancel={() => setEnsure(false)}
-          cancelText={"Hủy"}
-          okText={"Tiếp tục"}
-          onOk={() => handleDeleteComment(deleteCommentId)}
-        >
-          Bình luận này sẽ xóa vĩnh viễn{" "}
-        </S.CustomModal2>
+            {post?.postContent}
+          </Typography>
+
+          {post?.postLinkToImages?.length === 1 && (
+            <S.ImagesWrapper>
+              <img
+                src={post?.postLinkToImages[0]}
+                alt="Post Image"
+                className="post-image image-modal"
+              />
+            </S.ImagesWrapper>
+          )}
+          {post?.postLinkToImages?.length > 1 && (
+            <S.ImagesWrapper2>
+              <Carousel arrows={true}>
+                {post?.postLinkToImages?.map((src: any) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt="Post Image"
+                    className="post-image image-modal"
+                  />
+                ))}
+              </Carousel>
+            </S.ImagesWrapper2>
+          )}
+        </S.PostContentWrapper>
+        <S.CommentSection>
+          <S.CommentsWrapper ref={commentsWrapperRef}>
+            {renderComments(commentsData)}
+          </S.CommentsWrapper>
+        </S.CommentSection>
+        <S.CommentBox>
+          <S.CommentHeader>
+            <S.Avatar
+              src={userInfo?.userInfo?.avatar}
+              alt={`${userInfo?.displayName}'s avatar`}
+            />
+            <S.CommentUser>{userInfo?.displayName}</S.CommentUser>
+          </S.CommentHeader>
+          <S.TextArea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Viết bình luận..."
+            ref={editInputRef}
+            className="comment-textarea"
+          />
+          <S.ButtonWrapper>
+            <Button
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+              $backgroundColor={darkMode ? "#000 " : "transparent"}
+              style={{
+                width: "100px",
+                marginTop: "0px",
+                padding: "5px 5px",
+                marginRight: "50px",
+              }}
+              onClick={handleAddComment}
+            >
+              Đăng
+            </Button>
+          </S.ButtonWrapper>
+        </S.CommentBox>
+      </S.CustomModal>
+      <S.CustomModal2
+        title={"Bạn Có Muốn Xóa Bình Luận ?"}
+        open={ensure}
+        onCancel={() => setEnsure(false)}
+        cancelText={"Hủy"}
+        okText={"Tiếp tục"}
+        onOk={() => handleDeleteComment(deleteCommentId)}
+      >
+        Bình luận này sẽ xóa vĩnh viễn{" "}
+      </S.CustomModal2>
     </>
-    
   );
 };
 

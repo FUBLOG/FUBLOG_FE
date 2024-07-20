@@ -56,7 +56,11 @@ const PostsRender = () => {
     setLoading(true);
     const func = userInfo?._id === "" ? getPostForGuest : getPostForUser;
     const res = await func();
-    setListPosts((prev) => [...prev, ...res?.metadata]);
+    const postNotNull = res?.metadata?.filter(
+      (post: any) => post?.post !== null
+    );
+
+    setListPosts((prev) => [...prev, ...postNotNull]);
     setLoading(false);
   };
 
@@ -66,7 +70,10 @@ const PostsRender = () => {
       const res = !webStorageClient.get(constants.IS_AUTH)
         ? await getPostForGuest()
         : await getPostForUser();
-      setListPosts(res?.metadata);
+      const postNotNull = res?.metadata.filter(
+        (post: any) => post?.post !== null
+      );
+      setListPosts(postNotNull || []);
       setLoading(false);
     };
     asyncGetPosts();
@@ -104,7 +111,9 @@ const PostsRender = () => {
             <Spin
               indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />}
             />
-            <h4 style={{color: darkmode ? "#F7D600" : "000"}}>Đang tạo bài viết</h4>
+            <h4 style={{ color: darkmode ? "#F7D600" : "000" }}>
+              Đang tạo bài viết
+            </h4>
           </Space>
         </div>
       )}
@@ -124,7 +133,7 @@ const PostsRender = () => {
             </p>
           }
         >
-          {listPosts?.map((post, index) =>
+          {listPosts?.map((post) =>
             tagValue === "Tất Cả" ||
             post?.post?.postTagID?.postTagContent === tagValue ? (
               <Post
@@ -136,7 +145,17 @@ const PostsRender = () => {
                 setShowCommentsModal={setShowCommentsModal}
                 setIsOpenByComment={setIsOpenByComment}
               />
-            ) : null
+            ) : (
+              <div
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <b>Yay! Bạn đã xem hết bài viết</b>
+              </div>
+            )
           )}
           {commentModal}
         </InfiniteScroll>

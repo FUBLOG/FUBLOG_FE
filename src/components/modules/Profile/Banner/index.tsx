@@ -12,7 +12,7 @@ import {
 } from "@/services/api/friend";
 import ModalGuest from "../../ModalGuest";
 import ButtonFriend from "../../ButtonFriend";
-import NotFound from "../../NotFound/main";
+import NotFound from "../../NotFound";
 import UpdateProfile from "../Update";
 import UpdateProfileImages from "./UpdateProfileImages";
 import useThemeStore from "@/hooks/useTheme";

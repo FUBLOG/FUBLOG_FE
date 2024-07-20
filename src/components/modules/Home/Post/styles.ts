@@ -320,6 +320,49 @@ export const CustomModal = styled(Modal)`
   }
     
 `;
+export const CustomModal2 = styled(Modal)`
+  .ant-modal-content {
+    background-color: #faf0e6 !important;
+    padding: 0;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ant-modal-header {
+    background-color: #faf0e6;
+    border-bottom: none;
+  }
+  .ant-modal-title {
+    color: #352f44;
+    text-align: center;
+    font-size: 22px ;
+    
+  }
+  .ant-btn-primary {
+    background-color: #5c5470;
+  }
+  .ant-btn-primary:hover {
+    background-color: #352f44 ;
+  }
+  .ant-btn-default:hover {
+    background: #faf0e6 ;
+    color: #352f44;
+    border-color: #352f44;
+  }
+  .ant-btn-default {
+    background: #faf0e6;
+  }
+  .ant-modal-body {
+    height: 50px;
+    overflow-y: auto;
+  }
+  .ant-modal {
+    top: 10%;
+    transform: translateY(0%);
+    
+  }
+    
+`;
 export const CreateModal = styled(Modal).attrs({ className: "createModal" })`
   &.createModal {
     position: relative;

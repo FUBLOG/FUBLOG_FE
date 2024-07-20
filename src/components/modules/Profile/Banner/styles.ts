@@ -72,7 +72,7 @@ export const Avatar = styled.div`
 
 export const UserAvatar = styled.img`
   position: absolute;
-
+  object-fit: cover;
   width: 100%;
   height: 100%;
 

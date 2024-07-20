@@ -41,6 +41,19 @@ const CommentModal = ({
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [post, setNewFeed] = useState<any>([]);
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
+  const [deleteCommentId, setDeleteCommentId] = useState<any | null>(null);
+  const [ensure, setEnsure] = useState(false);
+  const [sign,setSign] = useState(false);
+  const handleEndsure = (comment_id: any) => {
+    setDeleteCommentId(comment_id);
+    setEnsure(true);
+  }
+  useEffect(() => {
+    if (sign) {
+      asyncGetComments(); 
+      setSign(false); 
+    }
+  }, [sign]);
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
       editInputRef.current.focus();
@@ -131,7 +144,7 @@ const CommentModal = ({
                 {
                   key: "delete",
                   label: "Xóa",
-                  onClick: () => handleDeleteComment(comment?._id),
+                  onClick: () => handleEndsure(comment?._id),
                 },
               ]
             : [
@@ -197,8 +210,10 @@ const CommentModal = ({
     const updatedComments = commentsData.filter(
       (comment: any) => comment._id !== commentId
     );
-    setCommentsData(updatedComments);
+    setCommentsData(updatedComments);p
     icrComment(-1);
+    setSign(true);
+    setEnsure(false);
   };
 
   const handleReply = async () => {
@@ -360,6 +375,7 @@ const CommentModal = ({
   };
 
   return (
+    <>
     <S.CustomModal
       title="Bài viết"
       open={open}
@@ -450,6 +466,18 @@ const CommentModal = ({
         </S.ButtonWrapper>
       </S.CommentBox>
     </S.CustomModal>
+    <S.CustomModal2
+          title={"Bạn Có Muốn Xóa Bình Luận ?"}
+          open={ensure}
+          onCancel={() => setEnsure(false)}
+          cancelText={"Hủy"}
+          okText={"Tiếp tục"}
+          onOk={() => handleDeleteComment(deleteCommentId)}
+        >
+          Bình luận này sẽ xóa vĩnh viễn{" "}
+        </S.CustomModal2>
+    </>
+    
   );
 };
 

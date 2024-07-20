@@ -45,7 +45,21 @@ const CommentModal = ({ close, open }: any) => {
   const [comments, setComments] = useState(0);
   const [clickViewMore, setClickViewMore] = useState<ClickViewMore[]>([]);
   const darkMode = useThemeStore((state) => state.darkMode);
+  const [ensure, setEnsure] = useState(false);
+  const [deleteCommentId, setDeleteCommentId] = useState<any | null>(null);
+const [sign,setSign] = useState(false);
+const handleEndsure = (comment_id: any) => {
+  setDeleteCommentId(comment_id);
+  setEnsure(true);
+}
 
+
+useEffect(() => {
+  if (sign) {
+    asyncGetComments(); // Gọi hàm lấy lại dữ liệu bình luận
+    setSign(false); // Reset state deleteAction sau khi cập nhật
+  }
+}, [sign]);
 
   useEffect(() => {
     if (editInputRef.current && editMode !== null) {
@@ -174,7 +188,7 @@ const CommentModal = ({ close, open }: any) => {
                 {
                   key: "delete",
                   label: "Xóa",
-                  onClick: () => handleDeleteComment(comment?._id),
+                  onClick: () => handleEndsure(comment?._id),
                 },
               ]
             : [
@@ -246,6 +260,9 @@ const CommentModal = ({ close, open }: any) => {
     );
     setCommentsData(updatedComments);
     icrComment(-1);
+    setEnsure(false);
+    setSign(true);
+    
   };
 
   const handleReply = async () => {
@@ -381,14 +398,17 @@ const CommentModal = ({ close, open }: any) => {
                   />
                   <S.ButtonWrapper>
                     <Button
-                      color="red"
-                      type="primary"
-                      style={{
-                        width: "80px",
-                        marginTop: "40px",
-                        padding: "5px 5px",
-                        border: "none",
-                      }}
+                    $color={darkMode ? "#fff" : "#352f44"}
+                    $hoverColor={darkMode ? "#000" : "#fff"}
+                    $borderColor={darkMode ? "#fff" : "#352f44"}
+                    $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+                    $backgroundColor={darkMode? "#000 " : "transparent"}
+                    style={{
+                      width: "100px",
+                      marginTop: "0px",
+                      padding: "5px 5px",
+                      marginRight: "50px",
+                    }}
                       onClick={handleReply}
                     >
                       Phản hồi
@@ -404,6 +424,7 @@ const CommentModal = ({ close, open }: any) => {
   };
 
   return (
+    <> 
     <S.CustomModal
       title="Bài viết"
       open={open}
@@ -496,6 +517,18 @@ const CommentModal = ({ close, open }: any) => {
         </S.ButtonWrapper>
       </S.CommentBox>
     </S.CustomModal>
+    <S.CustomModal2
+          title={"Bạn Có Muốn Xóa Bình Luận ?"}
+          open={ensure}
+          onCancel={() => setEnsure(false)}
+          cancelText={"Hủy"}
+          okText={"Tiếp tục"}
+          onOk={() => handleDeleteComment(deleteCommentId)}
+        >
+          Bình luận này sẽ xóa vĩnh viễn{" "}
+        </S.CustomModal2>
+    </>
+    
   );
 };
 

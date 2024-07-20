@@ -194,7 +194,7 @@ const CommentModal = ({
 
     if (isParentComment) {
       const replyContent = !condition
-        ? `@${isParentComment?.comment_userId?.displayName}`
+        ? `@${isParentComment?.comment_userId?.displayName} `
         : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);
@@ -213,9 +213,10 @@ const CommentModal = ({
       const child = parent.replies?.find(
         (child: any) => child._id === commentId
       );
+      
       const condition = parent.comment_userId._id === child.comment_userId._id;
       const replyContent = !condition
-        ? `@${isParentComment?.comment_userId?.displayName}`
+        ? `@${child?.comment_userId?.displayName} `
         : ``;
       setReplyComment(replyContent);
       setSelectedCommentId(commentId);

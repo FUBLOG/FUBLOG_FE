@@ -412,7 +412,7 @@ const CommentModal = ({
                   <Button
                     loading={loadingUpdate}
                     $color={darkMode ? "#fff" : "#352f44"}
-                    $hoverColor="#000"
+                    $hoverColor={darkMode ? "#000000" : "#ffffff"}
                     $borderColor={darkMode ? "#fff" : "#352f44"}
                     $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                     $backgroundColor={darkMode ? "#000 " : "transparent"}
@@ -433,7 +433,7 @@ const CommentModal = ({
                 <S.CommentContent>{comment?.comment_content}</S.CommentContent>
                 {viewReply?.view === false && childrenCount > 0 && (
                   <S.CommentContent onClick={() => viewMore(comment._id)}>
-                    Xem thêm {childrenCount} bình luận
+                    <p> Xem thêm {childrenCount} bình luận</p>
                   </S.CommentContent>
                 )}
               </>
@@ -442,10 +442,11 @@ const CommentModal = ({
             )}
 
             {lastCommentChildId === comment._id && (
-              <S.ReplyBox
+              <div
                 style={{
-                  marginTop: isChild ? "10px" : "0px",
-                  marginBottom: "10px",
+                  border: "1px solid rgb(92, 84, 112)",
+                  padding: "10px",
+                  marginLeft: "40px",
                 }}
               >
                 <S.TextArea
@@ -457,7 +458,7 @@ const CommentModal = ({
                 <S.ButtonWrapper>
                   <Button
                     $color={darkMode ? "#fff" : "#352f44"}
-                    $hoverColor="#000"
+                    $hoverColor={darkMode ? "#000000" : "#ffffff"}
                     $borderColor={darkMode ? "#fff" : "#352f44"}
                     $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
                     $backgroundColor={darkMode ? "#000 " : "transparent"}
@@ -465,14 +466,13 @@ const CommentModal = ({
                       width: "100px",
                       marginTop: "0px",
                       padding: "5px 5px",
-                      marginRight: "50px",
                     }}
                     onClick={handleReply}
                   >
                     Phản hồi
                   </Button>
                 </S.ButtonWrapper>
-              </S.ReplyBox>
+              </div>
             )}
           </S.Comment>
           {comment.replies && renderComments(comment.replies, depth + 1)}
@@ -558,7 +558,7 @@ const CommentModal = ({
           <S.ButtonWrapper>
             <Button
               $color={darkMode ? "#fff" : "#352f44"}
-              $hoverColor="#000"
+              $hoverColor={darkMode ? "#000000" : "#ffffff"}
               $borderColor={darkMode ? "#fff" : "#352f44"}
               $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
               $backgroundColor={darkMode ? "#000 " : "transparent"}

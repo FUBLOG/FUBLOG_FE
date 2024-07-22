@@ -1,7 +1,7 @@
 "use client";
 
 import { LockOutlined, UserOutlined, DownOutlined } from "@ant-design/icons";
-import { DatePicker, Dropdown, Form, List, MenuProps, Space } from "antd";
+import { DatePicker, Dropdown, Form, List, MenuProps, message, Space } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Modal from "antd/es/modal/Modal";
 import useModal from "@/hooks/useModal";
@@ -24,8 +24,10 @@ interface PageProps {
   readonly setEmail: Dispatch<SetStateAction<string>>;
 }
 function FormSignUp(props: PageProps) {
+  const [validatePassword, setValidatePassword] = useState<boolean | null>(null);
   const modalState = useModal();
   const [sex, setSex] = useState("Nam");
+  const [signal, setSignal] = useState(false);
   const items: MenuProps["items"] = [
     {
       label: "Nam",
@@ -70,26 +72,35 @@ function FormSignUp(props: PageProps) {
     }
     return Promise.resolve();
   };
-
+  const handleValidatePassword = (value: any) => {
+    const regrex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,32}$/;
+    if (!regrex.test(value)) setValidatePassword(false);
+    else setValidatePassword(true);
+    console.log(validatePassword);
+  };
   const onFinish = async (values: any) => {
-    try {
-      props.setEmail(values?.email);
-      const data = {
-        firstName: values?.firstName!,
-        lastName: values?.lastName!,
-        email: values?.email!,
-        password: values?.password!,
-        dateOfBirth: values?.dateOfBirth!,
-        sex: sex!,
-      };
-      props.setFormData(data);
+    if (validatePassword) {
+      try {
+        props.setEmail(values?.email);
+        const data = {
+          firstName: values?.firstName!,
+          lastName: values?.lastName!,
+          email: values?.email!,
+          password: values?.password!,
+          dateOfBirth: values?.dateOfBirth!,
+          sex: sex!,
+        };
+        props.setFormData(data);
 
-      await postRequest(authEndpoint.SIGN_UP, {
-        data: data,
-        security: true,
-      });
-      props.setNextStep("verification");
-    } catch (error) {}
+        await postRequest(authEndpoint.SIGN_UP, {
+          data: data,
+          security: true,
+        });
+        props.setNextStep("verification");
+      } catch (error) {}
+    } else{
+      message.info("Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt.");
+    }
   };
   const darkMode = useThemeStore((state) => state.darkMode);
   return (
@@ -146,7 +157,7 @@ function FormSignUp(props: PageProps) {
             >
               <Input
                 placeholder="Nhập họ"
-                prefix={<UserOutlined style={{color: "#000"}} />}
+                prefix={<UserOutlined style={{ color: "#000" }} />}
                 isRequired
                 label="Họ"
                 colorLabel={darkMode ? "#F7D600" : "#000"}
@@ -160,7 +171,7 @@ function FormSignUp(props: PageProps) {
             >
               <Input
                 placeholder="Nhập tên"
-                prefix={<UserOutlined style={{color: "#000"}} />}
+                prefix={<UserOutlined style={{ color: "#000" }} />}
                 isRequired
                 label="Tên"
                 colorLabel={darkMode ? "#F7D600" : "#000"}
@@ -217,7 +228,7 @@ function FormSignUp(props: PageProps) {
                     >
                       <Space>
                         {sex}
-                        <DownOutlined style={{color: "#000"}} />
+                        <DownOutlined style={{ color: "#000" }} />
                       </Space>
                     </a>
                   </Dropdown>
@@ -232,7 +243,7 @@ function FormSignUp(props: PageProps) {
           >
             <Input
               placeholder="Nhập email"
-              prefix={<UserOutlined style={{color: "#000"}} />}
+              prefix={<UserOutlined style={{ color: "#000" }} />}
               isRequired
               label="Email"
               colorLabel={darkMode ? "#F7D600" : "#000"}
@@ -246,10 +257,11 @@ function FormSignUp(props: PageProps) {
           >
             <InputPassword
               placeholder="Nhập mật khẩu"
-              prefix={<LockOutlined style={{color: "#000"}} />}
+              prefix={<LockOutlined style={{ color: "#000" }} />}
               isRequired
               label="Mật khẩu"
               colorLabel={darkMode ? "#F7D600" : "#000"}
+              onChange={(e) => handleValidatePassword(e.target.value)}
             />
           </FormItem>
           <div>

@@ -19,21 +19,36 @@ function FormReset() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const [_, setCountdown] = useState(3);
+  const [validatePassword, setValidatePassword] = useState<boolean | null>(
+    null
+  );
+  const [signal, setSignal] = useState(false);
 
   async function onFinish(values: any): Promise<void> {
-    const data = {
-      password: values?.newPassword!,
-      confirmPassword: values?.confirmPassword!,
-      otp: token,
-    };
-    try {
-      await postRequest(authEndpoint.RESET_PASSWORD, { data });
-      message.success("Đặt lại mật khẩu thành công");
-      startCountdown(3);
-    } catch (error) {
-      message.error("Đặt lại mật khẩu thất bại");
+    if (validatePassword) {
+      const data = {
+        password: values?.newPassword!,
+        confirmPassword: values?.confirmPassword!,
+        otp: token,
+      };
+      try {
+        await postRequest(authEndpoint.RESET_PASSWORD, { data });
+        message.success("Đặt lại mật khẩu thành công");
+        startCountdown(3);
+      } catch (error) {
+        message.error("Đặt lại mật khẩu thất bại");
+      }
+    } else {
+      message.info("Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt.");
     }
   }
+
+  const handleValidatePassword = (value: any) => {
+    const regrex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,32}$/;
+    if (!regrex.test(value)) setValidatePassword(false);
+    else setValidatePassword(true);
+    console.log(validatePassword);
+  };
 
   const startCountdown = (initialCountdown: SetStateAction<number>) => {
     setCountdown(initialCountdown);
@@ -64,12 +79,12 @@ function FormReset() {
   const closeWindow = () => {
     window.close();
   };
-  const darkMode = useThemeStore((state)=> state.darkMode);
+  const darkMode = useThemeStore((state) => state.darkMode);
   return (
     <S.HomeWrapper>
       <Typography
         variant="h1"
-        color={darkMode ? "#000" : "#fff"}
+        color={darkMode ? "#fff" : "#000"}
         fontSize="x-large"
         align="center"
       >
@@ -93,6 +108,7 @@ function FormReset() {
             isRequired
             label="Nhập mật khẩu mới"
             colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
+            onChange={(e) => handleValidatePassword(e.target.value)}
           />
         </FormItem>{" "}
         <FormItem
@@ -105,8 +121,14 @@ function FormReset() {
             isRequired
             label="Nhập lại mật khẩu mới"
             colorLabel={darkMode ? "#B9B4C7" : "#352F44"}
-            
+            onChange={(e) => handleValidatePassword(e.target.value)}
           />
+          {signal && (
+            <span style={{ color: "red", fontSize: "12px", width:"280px", display: "block" }}>
+              * Mật khẩu phải bao gồm từ 8 đến 32 ký tự, chứa 1 chữ cái viết
+              hoa, chứa 1 kí tự đặc biệt.*{" "}
+            </span>
+          )}
         </FormItem>
         <FormItem
           style={{

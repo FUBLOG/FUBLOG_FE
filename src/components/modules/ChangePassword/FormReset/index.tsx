@@ -16,29 +16,45 @@ import useThemeStore from "@/hooks/useTheme";
 
 function FormReset() {
   const [loading, setLoading] = useState(false);
+  const [validatePassword, setValidatePassword] = useState<boolean | null>(
+    null
+  );
+  const handlePasswordChange = (value: any) => {
+    const regrex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,32}$/;
+    if (!regrex.test(value)) {
+      setValidatePassword(false);
+    } else {
+      setValidatePassword(true);
+    }
+    console.log(validatePassword);
+  };
 
   async function onFinish(values: any): Promise<void> {
-    const data = {
-      oldPassword: values?.oldPassword!,
-      password: values?.newPassword!,
-      confirmPassword: values?.confirmPassword!,
-    };
-    setLoading(true);
+    if (validatePassword) {
+      const data = {
+        oldPassword: values?.oldPassword!,
+        password: values?.newPassword!,
+        confirmPassword: values?.confirmPassword!,
+      };
+      setLoading(true);
 
-    await patchRequest(userEndpoint.CHANGE_PASSWORD, {
-      data,
-      security: true,
-    })
-      .then(() => {
-        message.success("Thay đổi mật khẩu thành công");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
-        setLoading(false);
+      await patchRequest(userEndpoint.CHANGE_PASSWORD, {
+        data,
+        security: true,
       })
-      .catch(() => {
-        setLoading(false);
-      });
+        .then(() => {
+          message.success("Thay đổi mật khẩu thành công");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 3000);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      message.info("Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt.");
+    }
   }
 
   const darkMode = useThemeStore((state) => state.darkMode);
@@ -84,8 +100,11 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Nhập mật khẩu mới"
+              onChange={(e) => handlePasswordChange(e.target.value)}
             />
-          </FormItem>{" "}
+
+          </FormItem>
+
           <FormItem
             name="confirmPassword"
             rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
@@ -95,7 +114,7 @@ function FormReset() {
               prefix={<LockOutlined />}
               isRequired
               label="Nhập lại mật khẩu mới"
-              colorLabel={darkMode ? "#F7D600" : "#000"}  
+              colorLabel={darkMode ? "#F7D600" : "#000"}
             />
           </FormItem>
           <FormItem

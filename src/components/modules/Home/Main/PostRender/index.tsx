@@ -103,6 +103,14 @@ const PostsRender = () => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    const initialComment = listPosts?.reduce((acc: any, post: any) => {
+      acc[post?.post._id] = post?.post?.commentCount || 0;
+      return acc;
+    }, {});
+    setComments(initialComment);
+  }, [listPosts]);
+
   const commentModal = useMemo(
     () =>
       showCommentsModal ? (

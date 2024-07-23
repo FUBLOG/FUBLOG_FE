@@ -56,29 +56,33 @@ function ListFriend({ profileHash, friends, setFriend, setLoading }: any) {
         </S.ViewAllButton>
       </S.Title>
       <S.FriendContainer>
-        {friends?.slice(0, 9).map((friend: any) => (
-          <Link href={`/profile?pId=${friend?.profileHash}`} key={friend._id}>
-            <S.Friend>
-              <S.FriendImageContainer>
-                <Image
-                  alt={friend?.displayName}
-                  src={friend?.userInfo?.avatar}
-                  width={50}
-                  height={50}
-                  objectFit="cover"
-                />
-              </S.FriendImageContainer>
-              <S.FriendName variant="body-text-small-normal">
-                <Typography
-                  align="center"
-                  color={darkMode ? "white" : "#352F44"}
-                >
-                  {friend?.displayName}
-                </Typography>
-              </S.FriendName>
-            </S.Friend>
-          </Link>
-        ))}
+        {friends?.slice(0, 9).map((friend: any) =>
+          friend?.profileHash !== profileHash ? (
+            <Link href={`/profile?pId=${friend?.profileHash}`} key={friend._id}>
+              <S.Friend>
+                <S.FriendImageContainer>
+                  <Image
+                    alt={friend?.displayName}
+                    src={friend?.userInfo?.avatar}
+                    width={50}
+                    height={50}
+                    objectFit="cover"
+                  />
+                </S.FriendImageContainer>
+                <S.FriendName variant="body-text-small-normal">
+                  <Typography
+                    align="center"
+                    color={darkMode ? "white" : "#352F44"}
+                  >
+                    {friend?.displayName}
+                  </Typography>
+                </S.FriendName>
+              </S.Friend>
+            </Link>
+          ) : (
+            <></>
+          )
+        )}
       </S.FriendContainer>
 
       <TotalFriend

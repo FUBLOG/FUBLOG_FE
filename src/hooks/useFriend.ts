@@ -37,6 +37,9 @@ const useFriend = (profileHash: any) => {
     );
   };
   const handleRequest = (request: any) => {
+    console.log("request", request);
+    console.log("userInfo", userInfo);
+
     if (request?.sourceID === userInfo?._id) {
       setIsSendFriend(true);
     } else {

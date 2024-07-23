@@ -69,6 +69,8 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
     background-color: ${(props) =>
       props.$hoverBackgroundColor ||
       props?.theme?.colors?.primaryDark} !important;
+    color: ${(props) =>
+      props?.$color || props?.theme?.colors?.primary} !important;
   }
 
   &.ant-btn-primary:active,
@@ -131,6 +133,8 @@ export const ButtonCommon = styled(Button)<ButtonPropsInterface>`
       color: ${(props) =>
         props.$hoverColor || props?.theme?.colors?.primaryLighter} !important;
     }
+    color: ${(props) =>
+      props.$hoverColor || props?.theme?.colors?.primaryLighter} !important;
     border-color: ${(props) => props?.theme?.colors?.primaryLighter} !important;
     background-color: ${(props) =>
       props.$hoverBackgroundColor || props?.theme?.colors?.primary} !important;

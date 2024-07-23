@@ -42,6 +42,7 @@ interface PostProps {
 }
 
 const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
+  const [deleteWithSpin, setDeleteWithSpin] = useState(false);
   const [listIsLike, setListIsLike] = useState<Record<string, boolean>>({});
   const [showEditMyPost, setEditMyPost] = useState(false);
   const { userInfo } = useAuthContext();
@@ -80,7 +81,6 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
     if (profileSearch?.user?._id !== undefined) {
       const data = await getPostById(profileSearch?.user?._id);
       setPosts(data?.metadata || []);
-
       const initialLikes = data?.metadata.reduce((acc: any, post: any) => {
         acc[post._id] = post?.likes.includes(userInfo?._id);
         return acc;
@@ -119,6 +119,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
   };
   const handleOkDelete = async (id: string) => {
     try {
+      setDeleteWithSpin(true);
       await deletePost(id);
     } catch (error) {
       message.error("Xóa bài viết thất bại");
@@ -279,7 +280,13 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
         cancelText={"Hủy"}
         okText={"Tiếp tục"}
         onOk={() => {
+          setShowSpinnerUpdate(true);
           handleOkDelete(selectedPost?._id);
+          setTimeout(() => {
+            setShowSpinnerUpdate(false);
+            setDeleteWithSpin(false);
+            window.location.reload();
+          }, 3000);
         }}
       >
         Bài viết này sẽ xóa vĩnh viễn
@@ -350,7 +357,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       </S.CustomModal>
     );
   }, [showConfirmModal, isPostReport, selectedPost]);
-  const { showSpinnerUpdate } = useUpdatePost();
+  const { showSpinnerUpdate, setShowSpinnerUpdate } = useUpdatePost();
   function handleClickReportPost(newfeed: any): void {
     setIsPostReport(true);
     setShowReportModal(true);
@@ -365,7 +372,7 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
       {editDeleteModal}
       {deleteConfirmModal}
       {postEditModal}
-      {showSpinnerUpdate && (
+      {showSpinnerUpdate && !deleteWithSpin && (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Space>
             <Spin
@@ -377,6 +384,19 @@ const PostProfile = ({ profileHash, profileSearch }: PostProps) => {
             <h4 style={{ color: darkmode ? "#F7D600" : "#000" }}>
               Đang Chỉnh Sửa
             </h4>
+          </Space>
+        </div>
+      )}
+      {showSpinnerUpdate && deleteWithSpin && (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Space>
+            <Spin
+              className="custom-spin"
+              indicator={
+                <LoadingOutlined color="#000" style={{ fontSize: 30 }} spin />
+              }
+            />
+            <h4 style={{ color: darkmode ? "#F7D600" : "#000" }}>Đang Xóa</h4>
           </Space>
         </div>
       )}

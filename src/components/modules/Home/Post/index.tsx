@@ -72,7 +72,7 @@ const Post = ({
   moment.locale("vi");
   const darkMode = useThemeStore((state) => state.darkMode);
   const { userInfo } = useAuthContext();
-  const [likes, setLikes] = useState(newfeed?.post?.countLike);
+  const [likes, setLikes] = useState(newfeed?.post?.likes?.length);
   const [liked, setLiked] = useState(false);
   const [listLike, setListLike] = useState(newfeed?.post?.likes);
   const [showReportModal, setShowReportModal] = useState(false);

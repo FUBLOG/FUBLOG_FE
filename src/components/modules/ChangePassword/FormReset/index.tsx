@@ -53,7 +53,9 @@ function FormReset() {
           setLoading(false);
         });
     } else {
-      message.info("Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt.");
+      message.info(
+        "Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt."
+      );
     }
   }
 
@@ -102,7 +104,6 @@ function FormReset() {
               label="Nhập mật khẩu mới"
               onChange={(e) => handlePasswordChange(e.target.value)}
             />
-
           </FormItem>
 
           <FormItem
@@ -128,10 +129,11 @@ function FormReset() {
               htmlType="submit"
               className="ButtonWrapper"
               type="default"
-              $color={darkMode ? "#fff" : "#352f44"}
-              $hoverColor={darkMode ? "#000" : "#fff"}
               $borderColor={darkMode ? "#fff" : "#352f44"}
               $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $color={darkMode ? "#fff" : "#000"}
+              $backgroundColor={darkMode ? "#000" : "#fff"}
               $margin="30px 0 0 0"
               $width={"100px"}
             >

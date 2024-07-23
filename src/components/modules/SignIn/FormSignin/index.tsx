@@ -151,20 +151,17 @@ function FormSignIn(setShowModalGuest: any) {
             }}
           >
             <Button
-              className="ButtonWrapper"
-              type="default"
-              $backgroundColor="#FAF0E6"
-              $margin="30px 0 0 0"
-              $width={"100px"}
               htmlType="submit"
+              type="default"
+              children={"Đăng nhập"}
+              $width="100px"
               disabled={loading}
-                $color={darkMode ? "#000" : "#000"}
-                $hoverColor={darkMode ? "#000" : "#000"}
-                $borderColor={darkMode ? "#fff" : "#352f44"}
-                $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
-            >
-              ĐĂNG NHẬP
-            </Button>
+              $color={darkMode ? "#fff" : "#352f44"}
+              $hoverColor={darkMode ? "#000" : "#fff"}
+              $borderColor={darkMode ? "#fff" : "#352f44"}
+              $hoverBackgroundColor={darkMode ? "#F7D600" : "#000"}
+              $margin="30px 0 0 0"
+            />
           </FormItem>
           <S.Typography>
             <Typography

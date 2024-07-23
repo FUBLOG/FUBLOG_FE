@@ -39,7 +39,9 @@ function FormReset() {
         message.error("Đặt lại mật khẩu thất bại");
       }
     } else {
-      message.info("Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt.");
+      message.info(
+        "Mật khẩu phải bao gồm từ 8 đến 32 kí tự, 1 chữ viết hoa, 1 kí tự đặc biệt."
+      );
     }
   }
 
@@ -73,7 +75,7 @@ function FormReset() {
   };
 
   const showCountdownMessage = (seconds: number) => {
-    message.info(`Trang xác thực sẽ đóng trong ${seconds} giây.`);
+    message.info(`Trang đặt lại mật khẩu sẽ đóng trong ${seconds} giây.`);
   };
 
   const closeWindow = () => {
@@ -124,7 +126,14 @@ function FormReset() {
             onChange={(e) => handleValidatePassword(e.target.value)}
           />
           {signal && (
-            <span style={{ color: "red", fontSize: "12px", width:"280px", display: "block" }}>
+            <span
+              style={{
+                color: "red",
+                fontSize: "12px",
+                width: "280px",
+                display: "block",
+              }}
+            >
               * Mật khẩu phải bao gồm từ 8 đến 32 ký tự, chứa 1 chữ cái viết
               hoa, chứa 1 kí tự đặc biệt.*{" "}
             </span>

@@ -74,7 +74,7 @@ const PostsRender = () => {
       const res = !webStorageClient.get(constants.IS_AUTH)
         ? await getPostForGuest()
         : await getPostForUser();
-      const postNotNull = res?.metadata.filter(
+      const postNotNull = res?.metadata?.filter(
         (post: any) => post?.post !== null
       );
       setListPosts(postNotNull || []);
@@ -89,9 +89,12 @@ const PostsRender = () => {
 
     asyncGetPosts();
     if (post) {
-      setListPosts((prevPosts) => [
-        { ...post, userId: userInfo },
-        ...prevPosts,
+      setListPosts([
+        {
+          ...post,
+          userId: userInfo,
+        },
+        ...listPosts,
       ]);
       setPost(null);
     }
@@ -105,7 +108,7 @@ const PostsRender = () => {
 
   useEffect(() => {
     const initialComment = listPosts?.reduce((acc: any, post: any) => {
-      acc[post?.post._id] = post?.post?.commentCount || 0;
+      acc[post?.post?._id] = post?.post?.commentCount || 0;
       return acc;
     }, {});
     setComments(initialComment);
